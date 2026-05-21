@@ -83,13 +83,13 @@ function copyFontFiles() {
     console.log('Copied font files → dist/css/files/');
 }
 
-const indexPath = path.join(distDir, 'index.html');
-for (const htmlFile of ['index.html', 'docs.html']) {
-    const p = path.join(distDir, htmlFile);
-    if (!fs.existsSync(p)) continue;
-    let html = fs.readFileSync(p, 'utf8');
-    html = html.replace(/href="css\/styles\.css"/g, 'href="css/app.css"');
-    fs.writeFileSync(p, html);
+require('./patch-html').patchHtmlFiles(distDir);
+
+const appCss = path.join(distDir, 'css', 'app.css');
+const publicAppCss = path.join(publicDir, 'css', 'app.css');
+if (fs.existsSync(appCss)) {
+    fs.mkdirSync(path.dirname(publicAppCss), { recursive: true });
+    fs.copyFileSync(appCss, publicAppCss);
 }
 
 bumpSwCache();

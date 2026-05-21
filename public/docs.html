@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <meta name="description" content="How to use NexusCompress — free browser-based image compressor for JPEG, PNG, WebP, and AVIF.">
     <link rel="canonical" href="https://compress.funadventure.ae/docs.html">
     <meta property="og:image" content="https://compress.funadventure.ae/og-image.png">
     <meta name="robots" content="index, follow">
     <title>Image Compressor Guide | NexusCompress</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/app.css">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
 </head>
 <body class="app-body">
     <div class="ambient-bg" aria-hidden="true"></div>
-    <article class="docs-page glass-panel">
+    <div class="grid-overlay" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="./" class="site-logo">
+                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name">NexusCompress</span>
+                    <span class="site-logo-tag">Documentation</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <a href="./" class="chip chip-success">← Compressor</a>
+                <a href="guides/index.html" class="chip chip-muted">Guides</a>
+            </div>
+        </div>
+    </header>
+    <article class="guide-page docs-page max-width-wrap glass-panel">
         <p><a href="https://compress.funadventure.ae/">← Back to compressor</a></p>
         <h1>NexusCompress — Image Compressor Guide</h1>
         <p>Professional client-side image optimization. All compression runs in your browser — nothing is uploaded to a server.</p>
@@ -37,5 +56,9 @@
         <p><a href="guides/index.html">Browse compression guides</a> for JPEG, WebP, AVIF, and Instagram sizing.</p>
         <p><a href="privacy.html">Privacy Policy</a></p>
     </article>
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="./">Compressor</a> · <a href="guides/index.html">Guides</a> · <a href="privacy.html">Privacy Policy</a> · <a href="docs.html">Docs</a></p>
+    </footer>
+    <script src="js/guide-footer.js"></script>
 </body>
 </html>
