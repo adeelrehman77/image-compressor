@@ -15,7 +15,8 @@ app.use(
     })
 );
 
-app.get('*', (req, res, next) => {
+// Express 5 / path-to-regexp v8: bare '*' is invalid; use a named wildcard.
+app.get('/{*path}', (req, res, next) => {
     if (path.extname(req.path)) return next();
     res.sendFile(path.join(publicDir, 'index.html'));
 });

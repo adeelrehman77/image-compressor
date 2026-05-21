@@ -15,7 +15,7 @@ app.use(
     })
 );
 
-app.get('*', (req, res, next) => {
+app.get('/{*path}', (req, res, next) => {
     if (path.extname(req.path)) return next();
     res.sendFile(path.join(distDir, 'index.html'));
 });

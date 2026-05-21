@@ -1,5 +1,9 @@
 const SUPPORTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 
+const TARGET_QUALITY_STEP = 0.05;
+const TARGET_MIN_QUALITY = 0.25;
+const TARGET_DEFAULT_START = 0.85;
+
 function resolveOutputType(fileType, format, avifSupported) {
     if (format && format !== 'auto') {
         if (format === 'image/avif' && !avifSupported) return 'image/webp';
@@ -24,6 +28,10 @@ function computeDimensions(bitmap, maxWidth, maxHeight) {
     return { width, height };
 }
 
+function roundQuality(q) {
+    return Math.round(q * 100) / 100;
+}
+
 async function renderToBlob(bitmap, width, height, outputType, quality) {
     const offscreen = new OffscreenCanvas(width, height);
     const ctx = offscreen.getContext('2d');
@@ -37,39 +45,39 @@ async function renderToBlob(bitmap, width, height, outputType, quality) {
 }
 
 async function compressWithQuality(bitmap, width, height, outputType, quality) {
-    const blob = await renderToBlob(bitmap, width, height, outputType, quality);
-    return blob;
+    return renderToBlob(bitmap, width, height, outputType, quality);
 }
 
-async function compressToTargetSize(bitmap, width, height, outputType, targetBytes) {
-    const lossless = outputType === 'image/png';
-    if (lossless) {
+/**
+ * Step quality down by 5% from startQuality until blob fits targetBytes or min quality.
+ */
+async function compressToTargetSize(bitmap, width, height, outputType, targetBytes, startQuality) {
+    if (outputType === 'image/png') {
         const blob = await renderToBlob(bitmap, width, height, outputType, 1);
-        return { blob, quality: 1 };
+        return { blob, quality: 1, metTarget: blob.size <= targetBytes };
     }
 
-    let low = 0.1;
-    let high = 1;
-    let best = null;
-    let bestQ = 0.8;
+    const start = Math.min(1, Math.max(TARGET_MIN_QUALITY, startQuality ?? TARGET_DEFAULT_START));
+    let smallest = null;
+    let smallestQ = TARGET_MIN_QUALITY;
 
-    for (let i = 0; i < 12; i++) {
-        const mid = (low + high) / 2;
-        const blob = await compressWithQuality(bitmap, width, height, outputType, mid);
+    for (let q = start; q >= TARGET_MIN_QUALITY - 0.001; q -= TARGET_QUALITY_STEP) {
+        const rounded = roundQuality(q);
+        const blob = await compressWithQuality(bitmap, width, height, outputType, rounded);
+        if (!smallest || blob.size < smallest.size) {
+            smallest = blob;
+            smallestQ = rounded;
+        }
         if (blob.size <= targetBytes) {
-            best = blob;
-            bestQ = mid;
-            low = mid;
-        } else {
-            high = mid;
+            return { blob, quality: rounded, metTarget: true };
         }
     }
 
-    if (!best) {
-        best = await compressWithQuality(bitmap, width, height, outputType, 0.1);
-        bestQ = 0.1;
-    }
-    return { blob: best, quality: bestQ };
+    return {
+        blob: smallest,
+        quality: smallestQ,
+        metTarget: smallest ? smallest.size <= targetBytes : false,
+    };
 }
 
 self.onmessage = async function (e) {
@@ -95,12 +103,22 @@ self.onmessage = async function (e) {
 
         let blob;
         let usedQuality = quality;
+        let metTarget = true;
 
         if (targetSizeKb && targetSizeKb > 0) {
             const targetBytes = targetSizeKb * 1024;
-            const result = await compressToTargetSize(bitmap, width, height, outputType, targetBytes);
+            const startQ = typeof quality === 'number' && quality > 0 ? quality : TARGET_DEFAULT_START;
+            const result = await compressToTargetSize(
+                bitmap,
+                width,
+                height,
+                outputType,
+                targetBytes,
+                startQ
+            );
             blob = result.blob;
             usedQuality = result.quality;
+            metTarget = result.metTarget;
         } else {
             blob = await compressWithQuality(bitmap, width, height, outputType, quality);
         }
@@ -118,6 +136,8 @@ self.onmessage = async function (e) {
             originalWidth: origW,
             originalHeight: origH,
             usedQuality,
+            metTarget,
+            targetSizeKb: targetSizeKb || null,
         });
     } catch (error) {
         self.postMessage({

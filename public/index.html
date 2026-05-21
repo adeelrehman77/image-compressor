@@ -102,13 +102,13 @@
                 <span class="brand-icon" aria-hidden="true">NC</span>
                 <span class="site-logo-text">
                     <span class="site-logo-name">NexusCompress</span>
-                    <span class="site-logo-tag">Image optimization studio</span>
+                    <span class="site-logo-tag">Compress images in your browser</span>
                 </span>
             </a>
             <div class="site-header-meta">
                 <span class="chip chip-success">
-                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    Private · Local processing
+                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    Files stay on your device
                 </span>
                 <span class="version-chip" id="app-version" aria-label="Application version"></span>
                 <a href="privacy.html" class="chip chip-muted">Privacy Policy</a>
@@ -118,83 +118,94 @@
 
     <div class="app-layout">
         <aside class="app-sidebar glass-panel" aria-label="Compression settings">
-            <div class="sidebar-section-label">Settings</div>
-
-            <div class="privacy-badge" role="status">
-                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                <span>Files never leave your device. No cloud uploads.</span>
-            </div>
-
-            <nav class="sidebar-nav" aria-label="Sidebar panels">
-                <button type="button" class="nav-tab active" data-panel="compress">Compress</button>
-                <button type="button" class="nav-tab" data-panel="about">About</button>
-            </nav>
+            <p class="sidebar-intro">Pick a preset or dial things in. Processing happens on this device only.</p>
 
             <div id="panel-compress" class="sidebar-panel">
-                <label class="field-label" for="preset">Preset</label>
-                <select id="preset" class="field-input">
-                    <option value="custom">Custom</option>
-                    <option value="web">Web — WebP, 1920px, 85%</option>
-                    <option value="email">Email — JPEG, 1200px, 70%</option>
-                    <option value="social">Social — JPEG, 1080px, 80%</option>
-                    <option value="max">Archive — PNG, 95%</option>
-                </select>
+                <section class="settings-group">
+                    <h3 class="settings-group-title">General presets</h3>
+                    <label class="field-label" for="preset">Start from</label>
+                    <select id="preset" class="field-input">
+                        <option value="custom">Custom</option>
+                        <option value="web">Website — WebP, 1920px wide</option>
+                        <option value="email">Email — JPEG, 1200px wide</option>
+                        <option value="social">Social post — JPEG, 1080px</option>
+                        <option value="max">Full quality — PNG, no resize</option>
+                    </select>
+                </section>
 
-                <label class="field-label field-label-spaced" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
-                <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
+                <section class="settings-group">
+                    <h3 class="settings-group-title">UAE government sites</h3>
+                    <p class="settings-group-desc">Typical upload limits for portals and ID apps.</p>
+                    <label class="field-label" for="uae-preset">Portal preset</label>
+                    <select id="uae-preset" class="field-input">
+                        <option value="">None</option>
+                        <option value="emirates-id">Emirates ID / passport — 200 KB, JPEG</option>
+                        <option value="portal-reg">Portal registration — 500 KB, WebP</option>
+                    </select>
+                </section>
 
-                <label class="field-label field-label-spaced" for="format">Output format</label>
-                <select id="format" class="field-input">
-                    <option value="auto">Original format</option>
-                    <option value="image/webp">WebP (recommended)</option>
-                    <option value="image/avif" id="avif-option">AVIF (smallest files)</option>
-                    <option value="image/jpeg">JPEG</option>
-                    <option value="image/png">PNG (lossless resize)</option>
-                </select>
+                <section class="settings-group">
+                    <h3 class="settings-group-title">Output</h3>
+                    <label class="field-label" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
+                    <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
 
-                <div class="grid-2 field-label-spaced">
-                    <div>
-                        <label class="field-label" for="max-width">Max width</label>
-                        <input type="number" id="max-width" class="field-input" placeholder="px" min="1">
+                    <label class="field-label field-label-spaced-sm" for="format">Format</label>
+                    <select id="format" class="field-input">
+                        <option value="auto">Same as original</option>
+                        <option value="image/webp">WebP</option>
+                        <option value="image/avif" id="avif-option">AVIF</option>
+                        <option value="image/jpeg">JPEG</option>
+                        <option value="image/png">PNG</option>
+                    </select>
+
+                    <div class="grid-2 field-label-spaced-sm">
+                        <div>
+                            <label class="field-label" for="max-width">Max width</label>
+                            <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
+                        </div>
+                        <div>
+                            <label class="field-label" for="max-height">Max height</label>
+                            <input type="number" id="max-height" class="field-input" placeholder="Auto" min="1">
+                        </div>
                     </div>
-                    <div>
-                        <label class="field-label" for="max-height">Max height</label>
-                        <input type="number" id="max-height" class="field-input" placeholder="px" min="1">
-                    </div>
-                </div>
+                </section>
 
-                <details class="advanced-details field-label-spaced">
-                    <summary>Advanced options</summary>
+                <section class="settings-group">
+                    <h3 class="settings-group-title">Size cap</h3>
+                    <label class="field-label" for="target-size-kb">Max file size (KB)</label>
+                    <input type="number" id="target-size-kb" class="field-input" placeholder="No limit" min="1" step="1">
+                    <p class="field-hint">We'll lower quality in 5% steps until the file fits.</p>
+                </section>
+
+                <details class="advanced-details">
+                    <summary>More options</summary>
                     <div class="advanced-body">
-                        <label class="field-label" for="target-size-kb">Target max size (KB)</label>
-                        <input type="number" id="target-size-kb" class="field-input" placeholder="e.g. 200" min="1">
-
-                        <label class="field-label field-label-spaced-sm" for="rename-pattern">Output filename</label>
+                        <label class="field-label" for="rename-pattern">Download name</label>
                         <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
-                        <p class="field-hint">{name} · {ext} · {suffix}</p>
+                        <p class="field-hint">Variables: {name}, {ext}, {suffix}</p>
 
                         <label class="checkbox-row field-label-spaced-sm">
                             <input type="checkbox" id="fix-orientation" checked>
-                            <span>Fix EXIF orientation</span>
+                            <span>Fix phone photo rotation</span>
                         </label>
                         <label class="checkbox-row field-label-spaced-xs">
                             <input type="checkbox" id="strip-metadata" checked disabled>
-                            <span>Strip metadata (on re-encode)</span>
+                            <span>Remove metadata when saving</span>
                         </label>
                     </div>
                 </details>
-            </div>
 
-            <div id="panel-about" class="sidebar-panel is-hidden">
-                <p class="about-text">Enterprise-ready image optimization that runs entirely in your browser using Web Workers and OffscreenCanvas.</p>
-                <ul class="about-list">
-                    <li>Zero server uploads</li>
-                    <li>Batch & folder workflows</li>
-                    <li>AVIF, WebP, JPEG, PNG</li>
-                    <li>Target file size & presets</li>
-                </ul>
-                <a href="docs.html" class="about-link">Documentation →</a>
-                <a href="privacy.html" class="about-link">Privacy Policy →</a>
+                <details class="sidebar-about-details">
+                    <summary>How this works</summary>
+                    <div class="sidebar-about-body">
+                        <p>Images are resized and re-encoded in your browser. We don't receive your files.</p>
+                        <p class="sidebar-about-links">
+                            <a href="docs.html">Docs</a>
+                            <a href="guides/index.html">Guides</a>
+                            <a href="privacy.html">Privacy</a>
+                        </p>
+                    </div>
+                </details>
             </div>
 
             <div class="sidebar-footer">
@@ -207,8 +218,8 @@
         <main class="app-main glass-panel">
             <header class="workspace-header">
                 <div>
-                    <h2 class="workspace-title">Workspace</h2>
-                    <p class="workspace-sub">Drop images here or import an entire folder</p>
+                    <h2 class="workspace-title">Your images</h2>
+                    <p class="workspace-sub">Drop files here, or browse a folder</p>
                 </div>
                 <div class="header-actions">
                     <div class="view-toggle" role="group" aria-label="Results view">
@@ -241,15 +252,15 @@
                     <div class="drop-icon" aria-hidden="true">
                         <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                     </div>
-                    <p class="drop-title">Drag & drop images</p>
-                    <p class="drop-sub">JPEG · PNG · WebP · AVIF — batch and folder import supported</p>
+                    <p class="drop-title">Add images</p>
+                    <p class="drop-sub">JPEG, PNG, WebP, or AVIF · one file or hundreds</p>
                     <div class="drop-actions">
                         <label class="btn-primary is-clickable">
-                            Browse files
+                            Choose files
                             <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
                         </label>
                         <label class="btn-secondary is-clickable">
-                            Import folder
+                            Choose folder
                             <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
                         </label>
                     </div>
@@ -280,8 +291,8 @@
                 <div class="empty-icon" aria-hidden="true">
                     <svg class="icon-xl" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
-                <p class="empty-title">Ready to optimize</p>
-                <p class="empty-sub">Upload images to see before/after comparison and savings.</p>
+                <p class="empty-title">Nothing here yet</p>
+                <p class="empty-sub">After you compress a file, you'll see size savings and a before/after preview.</p>
             </section>
         </main>
     </div>
@@ -367,6 +378,42 @@
     <footer class="site-footer">
         <p>© <span id="footer-year"></span> NexusCompress · <a href="guides/index.html">Guides</a> · <a href="privacy.html">Privacy Policy</a> · <a href="docs.html">Docs</a></p>
     </footer>
+
+    <div id="compare-modal" class="compare-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title" hidden>
+        <div class="compare-modal-backdrop" data-compare-close tabindex="-1" aria-hidden="true"></div>
+        <div class="compare-modal-panel glass-panel">
+            <header class="compare-modal-header">
+                <div class="compare-modal-heading">
+                    <h2 id="compare-modal-title">Before & after</h2>
+                    <p id="compare-modal-meta" class="compare-modal-meta"></p>
+                </div>
+                <button type="button" id="compare-modal-close" class="btn-icon compare-modal-close" aria-label="Close compare view">×</button>
+            </header>
+            <div class="compare-modal-stage">
+                <div
+                    id="compare-modal-slider"
+                    class="compare-container compare-modal-container bg-checker"
+                    role="slider"
+                    aria-label="Drag to compare original and compressed images"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="50"
+                    tabindex="0"
+                >
+                    <img id="compare-modal-base" class="compare-img compare-modal-base" alt="Compressed preview" decoding="async">
+                    <div id="compare-modal-overlay" class="compare-overlay">
+                        <img id="compare-modal-top" class="compare-img compare-modal-top" alt="Original image" decoding="async">
+                    </div>
+                    <div id="compare-modal-handle" class="compare-handle compare-modal-handle" aria-hidden="true"></div>
+                </div>
+                <div class="compare-modal-labels" aria-hidden="true">
+                    <span class="compare-label compare-label-original">Original</span>
+                    <span class="compare-label compare-label-hint">Drag slider</span>
+                    <span class="compare-label compare-label-compressed">Compressed</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="vendor/jszip.min.js" defer></script>
     <script src="js/app.js" defer></script>

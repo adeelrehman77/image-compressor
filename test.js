@@ -75,6 +75,81 @@ createTestImage().then(() => {
             const summary = await page.$eval('#batch-count', (el) => el.textContent);
             console.log('Batch summary:', summary);
 
+            await page.evaluate(() => {
+                localStorage.removeItem('nexuscompress-settings');
+            });
+            await page.reload({ waitUntil: 'networkidle2' });
+
+            await page.select('#uae-preset', 'emirates-id');
+            const uaeSettings = await page.evaluate(() => ({
+                targetKb: document.getElementById('target-size-kb').value,
+                format: document.getElementById('format').value,
+                quality: document.getElementById('quality').value,
+            }));
+            if (uaeSettings.targetKb !== '200' || uaeSettings.format !== 'image/jpeg' || uaeSettings.quality !== '85') {
+                throw new Error(`UAE preset mismatch: ${JSON.stringify(uaeSettings)}`);
+            }
+            console.log('UAE Emirates ID preset applied:', uaeSettings);
+
+            const fileInput2 = await page.$('#file-input');
+            await fileInput2.uploadFile(TEST_IMAGE);
+            await page.waitForFunction(
+                () => {
+                    const el = document.querySelector('.result-card:last-of-type .compressed-size');
+                    return el && el.textContent && !el.textContent.includes('…');
+                },
+                { timeout: 15000 }
+            );
+
+            const targetBytes = 200 * 1024;
+            const compressedSize = await page.evaluate(() => {
+                const cards = document.querySelectorAll('.result-card');
+                const card = cards[cards.length - 1];
+                if (!card) return null;
+                const text = card.querySelector('.compressed-size')?.textContent || '';
+                const m = text.match(/([\d.]+)\s*(KB|MB|B)/i);
+                if (!m) return null;
+                const n = parseFloat(m[1]);
+                if (m[2].toUpperCase() === 'MB') return n * 1024 * 1024;
+                if (m[2].toUpperCase() === 'KB') return n * 1024;
+                return n;
+            });
+            if (compressedSize == null) {
+                throw new Error('Could not read compressed size from UI');
+            }
+            console.log('Compressed size (bytes):', compressedSize, 'target:', targetBytes);
+            if (compressedSize > targetBytes * 1.05) {
+                throw new Error(`Compressed file exceeds 200KB target: ${compressedSize} bytes`);
+            }
+            console.log('Target file size (200KB) test passed.');
+
+            await page.click('.compare-view-btn');
+            await page.waitForFunction(
+                () => {
+                    const modal = document.getElementById('compare-modal');
+                    return modal && !modal.classList.contains('is-hidden') && modal.getAttribute('aria-hidden') !== 'true';
+                },
+                { timeout: 5000 }
+            );
+            const modalOpen = await page.evaluate(() => {
+                const modal = document.getElementById('compare-modal');
+                const base = document.getElementById('compare-modal-base');
+                const top = document.getElementById('compare-modal-top');
+                return Boolean(
+                    modal &&
+                    !modal.classList.contains('is-hidden') &&
+                    base?.src &&
+                    top?.src
+                );
+            });
+            if (!modalOpen) throw new Error('Compare modal did not open with image URLs');
+            await page.click('#compare-modal-close');
+            await page.waitForFunction(
+                () => document.getElementById('compare-modal')?.classList.contains('is-hidden'),
+                { timeout: 3000 }
+            );
+            console.log('Compare View modal test passed.');
+
             const hasBuiltCss = fs.existsSync(path.join(DIST, 'css', 'app.css'));
             if (!hasBuiltCss) {
                 console.error('Missing dist/css/app.css');

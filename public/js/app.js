@@ -11,6 +11,23 @@
         max: { quality: 95, format: 'image/png', maxWidth: null, maxHeight: null, targetSizeKb: null },
     };
 
+    const UAE_PRESETS = {
+        'emirates-id': {
+            quality: 85,
+            format: 'image/jpeg',
+            maxWidth: 1600,
+            maxHeight: null,
+            targetSizeKb: 200,
+        },
+        'portal-reg': {
+            quality: 85,
+            format: 'image/webp',
+            maxWidth: 1920,
+            maxHeight: null,
+            targetSizeKb: 500,
+        },
+    };
+
     const state = {
         tasks: new Map(),
         compressedFiles: new Map(),
@@ -24,11 +41,14 @@
 
     const workers = [];
     const els = {};
+    let compareModalCleanup = null;
+    let compareModalEscapeHandler = null;
 
     document.addEventListener('DOMContentLoaded', init);
 
     function init() {
         cacheElements();
+        initCompareModal();
         detectAvif();
         initWorkers();
         loadSettings();
@@ -42,15 +62,38 @@
     }
 
     function initAds() {
+        const slot = document.querySelector('.ad-slot');
         const units = document.querySelectorAll('.adsbygoogle');
-        if (!units.length || typeof window.adsbygoogle === 'undefined') return;
+        const local =
+            location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+        if (local || !units.length) {
+            slot?.classList.add('ad-slot--collapsed');
+            return;
+        }
+
+        if (typeof window.adsbygoogle === 'undefined') {
+            slot?.classList.add('ad-slot--collapsed');
+            return;
+        }
+
         try {
             units.forEach(() => {
                 (window.adsbygoogle = window.adsbygoogle || []).push({});
             });
         } catch {
-            /* Ad blockers or CSP in local dev */
+            slot?.classList.add('ad-slot--collapsed');
+            return;
         }
+
+        window.setTimeout(() => {
+            const ins = slot?.querySelector('ins.adsbygoogle');
+            if (!ins || !slot) return;
+            const unfilled = ins.getAttribute('data-ad-status') === 'unfilled';
+            const noFrame = !ins.querySelector('iframe');
+            const short = ins.offsetHeight < 24;
+            if (unfilled || (noFrame && short)) slot.classList.add('ad-slot--collapsed');
+        }, 2500);
     }
 
     function registerServiceWorker() {
@@ -77,7 +120,7 @@
     function cacheElements() {
         [
             'drop-zone', 'file-input', 'folder-input', 'quality', 'quality-val', 'format',
-            'max-width', 'max-height', 'preset', 'target-size-kb', 'rename-pattern',
+            'max-width', 'max-height', 'preset', 'uae-preset', 'target-size-kb', 'rename-pattern',
             'fix-orientation', 'results-container', 'results-list', 'results-table-wrap',
             'results-table-body', 'download-all-btn', 'clear-all-btn', 'batch-summary',
             'batch-count', 'batch-saved', 'batch-avg', 'batch-progress-bar', 'batch-progress', 'empty-results',
@@ -85,8 +128,76 @@
         ].forEach((id) => {
             els[id] = document.getElementById(id);
         });
-        els.navTabs = document.querySelectorAll('.nav-tab');
-        els.panels = { compress: document.getElementById('panel-compress'), about: document.getElementById('panel-about') };
+    }
+
+    function initCompareModal() {
+        els['compare-modal'] = document.getElementById('compare-modal');
+        if (!els['compare-modal']) return;
+
+        els['compare-modal-close'] = document.getElementById('compare-modal-close');
+        els['compare-modal-title'] = document.getElementById('compare-modal-title');
+        els['compare-modal-meta'] = document.getElementById('compare-modal-meta');
+        els['compare-modal-slider'] = document.getElementById('compare-modal-slider');
+        els['compare-modal-overlay'] = document.getElementById('compare-modal-overlay');
+        els['compare-modal-handle'] = document.getElementById('compare-modal-handle');
+        els['compare-modal-base'] = document.getElementById('compare-modal-base');
+        els['compare-modal-top'] = document.getElementById('compare-modal-top');
+
+        els['compare-modal-close']?.addEventListener('click', closeCompareModal);
+        els['compare-modal']?.querySelector('[data-compare-close]')?.addEventListener('click', closeCompareModal);
+    }
+
+    function openCompareModal(taskId) {
+        const task = state.tasks.get(taskId);
+        if (!task?.compressedUrl || !task.originalUrl) {
+            toast('Comparison is available after compression finishes.', 'warn');
+            return;
+        }
+        if (!els['compare-modal']) return;
+
+        if (compareModalCleanup) compareModalCleanup();
+
+        els['compare-modal-title'].textContent = task.file.name;
+        els['compare-modal-meta'].textContent = `${formatBytes(task.originalSize)} original → ${formatBytes(task.compressedSize)} compressed · ${task.savedRatio.toFixed(1)}% saved`;
+
+        const baseImg = els['compare-modal-base'];
+        const topImg = els['compare-modal-top'];
+        baseImg.src = task.compressedUrl;
+        topImg.src = task.originalUrl;
+
+        compareModalCleanup = setupCompareSlider(
+            els['compare-modal-slider'],
+            els['compare-modal-overlay'],
+            els['compare-modal-handle'],
+            topImg
+        );
+
+        els['compare-modal'].classList.remove('is-hidden');
+        els['compare-modal'].removeAttribute('hidden');
+        document.body.classList.add('compare-modal-open');
+        els['compare-modal-close']?.focus();
+
+        compareModalEscapeHandler = (e) => {
+            if (e.key === 'Escape') closeCompareModal();
+        };
+        document.addEventListener('keydown', compareModalEscapeHandler);
+    }
+
+    function closeCompareModal() {
+        if (!els['compare-modal']) return;
+        if (compareModalCleanup) {
+            compareModalCleanup();
+            compareModalCleanup = null;
+        }
+        if (compareModalEscapeHandler) {
+            document.removeEventListener('keydown', compareModalEscapeHandler);
+            compareModalEscapeHandler = null;
+        }
+        els['compare-modal'].classList.add('is-hidden');
+        els['compare-modal'].setAttribute('hidden', '');
+        document.body.classList.remove('compare-modal-open');
+        els['compare-modal-base'].removeAttribute('src');
+        els['compare-modal-top'].removeAttribute('src');
     }
 
     async function detectAvif() {
@@ -117,17 +228,21 @@
     function bindEvents() {
         els.quality.addEventListener('input', (e) => {
             els['quality-val'].textContent = `${e.target.value}%`;
-            els.preset.value = 'custom';
+            markCustomPreset();
             saveSettings();
         });
 
         ['format', 'max-width', 'max-height', 'target-size-kb', 'rename-pattern', 'fix-orientation'].forEach((id) => {
             const el = els[id] || document.getElementById(id);
-            if (el) el.addEventListener('change', () => { els.preset.value = 'custom'; saveSettings(); });
-            if (el && el.tagName === 'INPUT') el.addEventListener('input', () => { els.preset.value = 'custom'; saveSettings(); });
+            if (el) el.addEventListener('change', () => { markCustomPreset(); saveSettings(); });
+            if (el && el.tagName === 'INPUT') el.addEventListener('input', () => { markCustomPreset(); saveSettings(); });
         });
 
-        els.preset.addEventListener('change', applyPreset);
+        els.preset.addEventListener('change', () => {
+            if (els['uae-preset']) els['uae-preset'].value = '';
+            applyPreset();
+        });
+        els['uae-preset'].addEventListener('change', applyUaePreset);
 
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
             els['drop-zone'].addEventListener(ev, preventDefaults);
@@ -152,29 +267,38 @@
         els['view-table'].addEventListener('click', () => setViewMode('table'));
         els['theme-toggle'].addEventListener('click', toggleTheme);
 
-        els.navTabs.forEach((tab) => {
-            tab.addEventListener('click', () => {
-                els.navTabs.forEach((t) => t.classList.remove('active'));
-                tab.classList.add('active');
-                const panel = tab.dataset.panel;
-                Object.entries(els.panels).forEach(([key, el]) => {
-                    el.classList.toggle('is-hidden', key !== panel);
-                });
-            });
-        });
+    }
+
+    function markCustomPreset() {
+        els.preset.value = 'custom';
+        if (els['uae-preset']) els['uae-preset'].value = '';
+    }
+
+    function applyCompressionValues(p) {
+        els.quality.value = p.quality;
+        els['quality-val'].textContent = `${p.quality}%`;
+        els.format.value = p.format;
+        els['max-width'].value = p.maxWidth ?? '';
+        els['max-height'].value = p.maxHeight ?? '';
+        els['target-size-kb'].value = p.targetSizeKb ?? '';
     }
 
     function applyPreset() {
         const key = els.preset.value;
         if (key === 'custom' || !PRESETS[key]) return;
-        const p = PRESETS[key];
-        els.quality.value = p.quality;
-        els['quality-val'].textContent = `${p.quality}%`;
-        els.format.value = p.format;
-        els['max-width'].value = p.maxWidth || '';
-        els['max-height'].value = p.maxHeight || '';
-        els['target-size-kb'].value = p.targetSizeKb || '';
+        applyCompressionValues(PRESETS[key]);
         saveSettings();
+    }
+
+    function applyUaePreset(opts = {}) {
+        const key = els['uae-preset'].value;
+        if (!key || !UAE_PRESETS[key]) return;
+        els.preset.value = 'custom';
+        applyCompressionValues(UAE_PRESETS[key]);
+        saveSettings();
+        if (!opts.silent) {
+            toast('Portal preset applied. Add your images when ready.', 'info');
+        }
     }
 
     function getSettings() {
@@ -195,6 +319,7 @@
         const s = getSettings();
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
             preset: els.preset.value,
+            uaePreset: els['uae-preset']?.value || '',
             qualityUi: els.quality.value,
             format: s.format,
             maxWidth: els['max-width'].value,
@@ -221,7 +346,10 @@
             if (s.targetSizeKb !== undefined) els['target-size-kb'].value = s.targetSizeKb;
             if (s.renamePattern) els['rename-pattern'].value = s.renamePattern;
             if (s.fixOrientation !== undefined) els['fix-orientation'].checked = s.fixOrientation;
-            if (s.preset) {
+            if (s.uaePreset && els['uae-preset'] && UAE_PRESETS[s.uaePreset]) {
+                els['uae-preset'].value = s.uaePreset;
+                applyUaePreset({ silent: true });
+            } else if (s.preset) {
                 els.preset.value = s.preset;
                 if (s.preset !== 'custom') applyPreset();
             }
@@ -322,7 +450,7 @@
     }
 
     function onTaskSuccess(task, data) {
-        const { blob, outputType, width, height, originalWidth, originalHeight } = data;
+        const { blob, outputType, width, height, originalWidth, originalHeight, metTarget, targetSizeKb, usedQuality } = data;
         const compressedUrl = URL.createObjectURL(blob);
         trackUrl(task.id, compressedUrl);
 
@@ -342,7 +470,18 @@
         state.compressedFiles.set(task.id, { name: newName, blob });
 
         updateTaskUI(task);
-        updateTaskStatus(task.id, `Saved ${savedRatio.toFixed(1)}%`, 'success');
+        let statusLabel = `Saved ${savedRatio.toFixed(1)}%`;
+        if (targetSizeKb && metTarget === false) {
+            const kb = (blob.size / 1024).toFixed(1);
+            statusLabel = `Over target (${kb} KB)`;
+            toast(
+                `${task.file.name}: could not reach ${targetSizeKb} KB (got ${kb} KB at ${Math.round((usedQuality || 0) * 100)}% quality). Try a smaller max width.`,
+                'error'
+            );
+        } else if (targetSizeKb && metTarget) {
+            statusLabel = `Under ${targetSizeKb} KB · saved ${savedRatio.toFixed(1)}%`;
+        }
+        updateTaskStatus(task.id, statusLabel, metTarget === false ? 'error' : 'success');
         pushHistory(task);
         saveSettings();
     }
@@ -384,9 +523,9 @@
                 </div>
             </div>
             <p class="result-meta">
-                <span>Original: <strong>${formatBytes(task.originalSize)}</strong></span>
-                <span class="dim-text">—</span>
-                <span>Output: <strong class="compressed-size">…</strong></span>
+                <span>Was <strong>${formatBytes(task.originalSize)}</strong></span>
+                <span class="sep-dot" aria-hidden="true">·</span>
+                <span>Now <strong class="compressed-size">…</strong></span>
             </p>
             <p class="dim-line dim-text">—</p>
             <p class="error-msg is-hidden" role="alert"></p>
@@ -397,9 +536,14 @@
                 <div class="compare-handle is-hidden" aria-hidden="true"></div>
             </div>
             <div class="result-actions is-hidden">
-                <button type="button" class="btn-secondary recompress-btn">Recompress</button>
-                <button type="button" class="btn-secondary copy-btn">Copy image</button>
-                <a class="btn-primary download-btn" download>Download</a>
+                <div class="result-actions-row result-actions-row--main">
+                    <button type="button" class="btn-secondary compare-view-btn" disabled>Compare</button>
+                    <a class="btn-primary download-btn" download>Download</a>
+                </div>
+                <div class="result-actions-row result-actions-row--sub">
+                    <button type="button" class="btn-ghost recompress-btn">Try again</button>
+                    <button type="button" class="btn-ghost copy-btn">Copy to clipboard</button>
+                </div>
             </div>
         `;
 
@@ -407,6 +551,7 @@
         renderTableRow(task);
 
         card.querySelector('.remove-btn').addEventListener('click', () => removeTask(task.id));
+        card.querySelector('.compare-view-btn')?.addEventListener('click', () => openCompareModal(task.id));
         card.querySelector('.recompress-btn')?.addEventListener('click', () => recompressTask(task.id));
         card.querySelector('.copy-btn')?.addEventListener('click', () => copyImage(task.id));
     }
@@ -422,13 +567,15 @@
             <td class="saved-cell">—</td>
             <td><span class="status-badge status-processing">Queued</span></td>
             <td class="table-actions">
-                <button type="button" class="btn-link recompress-row">Redo</button>
+                <button type="button" class="btn-link compare-row is-hidden" disabled>Compare</button>
+                <button type="button" class="btn-link recompress-row">Again</button>
                 <button type="button" class="btn-link remove-row">Remove</button>
                 <a class="btn-link download-row is-hidden" download>Save</a>
             </td>
         `;
         els['results-table-body'].prepend(tr);
         tr.querySelector('.remove-row').addEventListener('click', () => removeTask(task.id));
+        tr.querySelector('.compare-row')?.addEventListener('click', () => openCompareModal(task.id));
         tr.querySelector('.recompress-row').addEventListener('click', () => recompressTask(task.id));
     }
 
@@ -449,12 +596,16 @@
         compImg.src = task.compressedUrl;
         overlay.classList.remove('is-hidden');
         handle.classList.remove('is-hidden');
-        setupSlider(card.querySelector('.compare-container'), overlay, handle, compImg);
+        setupCompareSlider(card.querySelector('.compare-container'), overlay, handle, compImg);
 
         const dl = card.querySelector('.download-btn');
         dl.href = task.compressedUrl;
         dl.download = task.newName;
         card.querySelector('.result-actions').classList.remove('is-hidden');
+        const compareBtn = card.querySelector('.compare-view-btn');
+        if (compareBtn) {
+            compareBtn.disabled = false;
+        }
 
         if (row) {
             row.querySelector('.dim-cell').textContent = task.dimensions;
@@ -464,6 +615,11 @@
             dlRow.href = task.compressedUrl;
             dlRow.download = task.newName;
             dlRow.classList.remove('is-hidden');
+            const compareRow = row.querySelector('.compare-row');
+            if (compareRow) {
+                compareRow.classList.remove('is-hidden');
+                compareRow.disabled = false;
+            }
         }
 
         updateBatchDownloadBtn();
@@ -489,6 +645,8 @@
         if (card) {
             card.querySelector('.compressed-size').textContent = '…';
             card.querySelector('.result-actions').classList.add('is-hidden');
+            const compareBtn = card.querySelector('.compare-view-btn');
+            if (compareBtn) compareBtn.disabled = true;
             const overlay = card.querySelector('.loading-overlay');
             if (!overlay) {
                 const container = card.querySelector('.compare-container');
@@ -502,7 +660,7 @@
         }
         updateTaskStatus(id, 'Processing…', 'processing');
         drainQueue();
-        toast('Recompressing…', 'info');
+        toast('Running compression again…', 'info');
     }
 
     async function copyImage(id) {
@@ -519,6 +677,10 @@
     function removeTask(id) {
         const task = state.tasks.get(id);
         if (!task) return;
+        if (els['compare-modal'] && !els['compare-modal'].classList.contains('is-hidden')) {
+            const title = els['compare-modal-title']?.textContent;
+            if (title === task.file.name) closeCompareModal();
+        }
         task.status = 'removed';
         state.queue = state.queue.filter((q) => q !== id);
         state.compressedFiles.delete(id);
@@ -545,7 +707,7 @@
         updateBatchUI();
         updateBatchDownloadBtn();
         hideResultsIfEmpty();
-        toast('Cleared all results', 'info');
+        toast('Cleared the list', 'info');
     }
 
     function revokeTaskUrls(id) {
@@ -662,7 +824,9 @@
         els['theme-toggle'].setAttribute('aria-pressed', String(theme === 'light'));
     }
 
-    function setupSlider(container, overlay, handle, innerImg) {
+    function setupCompareSlider(container, overlay, handle, overlayImg) {
+        if (!container || !overlay || !handle || !overlayImg) return () => {};
+
         let pct = 50;
         const setPct = (p) => {
             pct = Math.max(0, Math.min(100, p));
@@ -672,9 +836,13 @@
         };
 
         const syncImageSize = () => {
-            innerImg.style.width = `${container.getBoundingClientRect().width}px`;
+            const w = container.getBoundingClientRect().width;
+            overlayImg.style.width = `${w}px`;
+            overlayImg.style.height = '100%';
         };
-        innerImg.onload = syncImageSize;
+
+        const onOverlayImgLoad = () => syncImageSize();
+        overlayImg.addEventListener('load', onOverlayImgLoad);
         window.addEventListener('resize', syncImageSize);
         syncImageSize();
         setPct(50);
@@ -688,6 +856,7 @@
         let sliding = false;
 
         const startSlide = (e) => {
+            if (e.button !== undefined && e.button !== 0) return;
             sliding = true;
             pointerX(e);
         };
@@ -696,28 +865,44 @@
             sliding = false;
         };
 
+        const onMouseMove = (e) => {
+            if (sliding) pointerX(e);
+        };
+
+        const onTouchMove = (e) => {
+            if (!sliding) return;
+            e.preventDefault();
+            pointerX(e);
+        };
+
+        const onKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); setPct(pct - 5); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); setPct(pct + 5); }
+            if (e.key === 'Home') { e.preventDefault(); setPct(0); }
+            if (e.key === 'End') { e.preventDefault(); setPct(100); }
+        };
+
         container.addEventListener('mousedown', startSlide);
         container.addEventListener('touchstart', startSlide, { passive: true });
         window.addEventListener('mouseup', endSlide);
         window.addEventListener('touchend', endSlide);
         window.addEventListener('touchcancel', endSlide);
-        window.addEventListener('mousemove', (e) => { if (sliding) pointerX(e); });
-        container.addEventListener(
-            'touchmove',
-            (e) => {
-                if (!sliding) return;
-                e.preventDefault();
-                pointerX(e);
-            },
-            { passive: false }
-        );
+        window.addEventListener('mousemove', onMouseMove);
+        container.addEventListener('touchmove', onTouchMove, { passive: false });
+        container.addEventListener('keydown', onKeyDown);
 
-        container.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') { e.preventDefault(); setPct(pct - 5); }
-            if (e.key === 'ArrowRight') { e.preventDefault(); setPct(pct + 5); }
-            if (e.key === 'Home') { e.preventDefault(); setPct(0); }
-            if (e.key === 'End') { e.preventDefault(); setPct(100); }
-        });
+        return () => {
+            overlayImg.removeEventListener('load', onOverlayImgLoad);
+            window.removeEventListener('resize', syncImageSize);
+            container.removeEventListener('mousedown', startSlide);
+            container.removeEventListener('touchstart', startSlide);
+            window.removeEventListener('mouseup', endSlide);
+            window.removeEventListener('touchend', endSlide);
+            window.removeEventListener('touchcancel', endSlide);
+            window.removeEventListener('mousemove', onMouseMove);
+            container.removeEventListener('touchmove', onTouchMove);
+            container.removeEventListener('keydown', onKeyDown);
+        };
     }
 
     function pushHistory(task) {
