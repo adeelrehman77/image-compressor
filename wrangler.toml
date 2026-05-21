@@ -1,0 +1,4 @@
+# Cloudflare Pages — connect repo in dashboard; this file is optional for Wrangler CLI deploys.
+name = "nexuscompress"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"

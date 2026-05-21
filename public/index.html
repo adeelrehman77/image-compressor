@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NexusCompress — professional client-side image optimization. Your files never leave your browser.">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <meta property="og:title" content="NexusCompress">
+    <meta property="og:description" content="Compress images locally — private, fast, no uploads.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <title>NexusCompress — Image Optimizer</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="app-body">
+
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div id="toast-root" class="toast-root" role="region" aria-live="polite" aria-label="Notifications"></div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="./" class="site-logo">
+                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name">NexusCompress</span>
+                    <span class="site-logo-tag">Image optimization studio</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <span class="chip chip-success">
+                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    Private · Local processing
+                </span>
+                <span class="version-chip" id="app-version" aria-label="Application version"></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <aside class="app-sidebar glass-panel" aria-label="Compression settings">
+            <div class="sidebar-section-label">Settings</div>
+
+            <div class="privacy-badge" role="status">
+                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span>Files never leave your device. No cloud uploads.</span>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Sidebar panels">
+                <button type="button" class="nav-tab active" data-panel="compress">Compress</button>
+                <button type="button" class="nav-tab" data-panel="about">About</button>
+            </nav>
+
+            <div id="panel-compress" class="sidebar-panel">
+                <label class="field-label" for="preset">Preset</label>
+                <select id="preset" class="field-input">
+                    <option value="custom">Custom</option>
+                    <option value="web">Web — WebP, 1920px, 85%</option>
+                    <option value="email">Email — JPEG, 1200px, 70%</option>
+                    <option value="social">Social — JPEG, 1080px, 80%</option>
+                    <option value="max">Archive — PNG, 95%</option>
+                </select>
+
+                <label class="field-label field-label-spaced" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
+                <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
+
+                <label class="field-label field-label-spaced" for="format">Output format</label>
+                <select id="format" class="field-input">
+                    <option value="auto">Original format</option>
+                    <option value="image/webp">WebP (recommended)</option>
+                    <option value="image/avif" id="avif-option">AVIF (smallest files)</option>
+                    <option value="image/jpeg">JPEG</option>
+                    <option value="image/png">PNG (lossless resize)</option>
+                </select>
+
+                <div class="grid-2 field-label-spaced">
+                    <div>
+                        <label class="field-label" for="max-width">Max width</label>
+                        <input type="number" id="max-width" class="field-input" placeholder="px" min="1">
+                    </div>
+                    <div>
+                        <label class="field-label" for="max-height">Max height</label>
+                        <input type="number" id="max-height" class="field-input" placeholder="px" min="1">
+                    </div>
+                </div>
+
+                <details class="advanced-details field-label-spaced">
+                    <summary>Advanced options</summary>
+                    <div class="advanced-body">
+                        <label class="field-label" for="target-size-kb">Target max size (KB)</label>
+                        <input type="number" id="target-size-kb" class="field-input" placeholder="e.g. 200" min="1">
+
+                        <label class="field-label field-label-spaced-sm" for="rename-pattern">Output filename</label>
+                        <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
+                        <p class="field-hint">{name} · {ext} · {suffix}</p>
+
+                        <label class="checkbox-row field-label-spaced-sm">
+                            <input type="checkbox" id="fix-orientation" checked>
+                            <span>Fix EXIF orientation</span>
+                        </label>
+                        <label class="checkbox-row field-label-spaced-xs">
+                            <input type="checkbox" id="strip-metadata" checked disabled>
+                            <span>Strip metadata (on re-encode)</span>
+                        </label>
+                    </div>
+                </details>
+            </div>
+
+            <div id="panel-about" class="sidebar-panel is-hidden">
+                <p class="about-text">Enterprise-ready image optimization that runs entirely in your browser using Web Workers and OffscreenCanvas.</p>
+                <ul class="about-list">
+                    <li>Zero server uploads</li>
+                    <li>Batch & folder workflows</li>
+                    <li>AVIF, WebP, JPEG, PNG</li>
+                    <li>Target file size & presets</li>
+                </ul>
+                <a href="docs.html" class="about-link">Documentation →</a>
+            </div>
+
+            <div class="sidebar-footer">
+                <button type="button" id="theme-toggle" class="btn-secondary btn-block" aria-pressed="true">
+                    <span class="theme-toggle-label">Light theme</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="app-main glass-panel">
+            <header class="workspace-header">
+                <div>
+                    <h2 class="workspace-title">Workspace</h2>
+                    <p class="workspace-sub">Drop images here or import an entire folder</p>
+                </div>
+                <div class="header-actions">
+                    <div class="view-toggle" role="group" aria-label="Results view">
+                        <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
+                        <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+                    </div>
+                    <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
+                    <button type="button" id="download-all-btn" class="btn-primary is-hidden">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Download ZIP
+                    </button>
+                </div>
+            </header>
+
+            <div id="batch-summary" class="batch-summary is-hidden" aria-live="polite">
+                <div class="batch-stats">
+                    <span id="batch-count" class="batch-stat">0 files</span>
+                    <span class="sep">·</span>
+                    <span id="batch-saved" class="batch-stat">0 saved</span>
+                    <span class="sep">·</span>
+                    <span id="batch-avg" class="batch-stat">0% avg</span>
+                </div>
+                <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="batch-progress" aria-label="Batch progress">
+                    <div id="batch-progress-bar" class="batch-progress-bar"></div>
+                </div>
+            </div>
+
+            <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
+                <div class="drop-zone-inner">
+                    <div class="drop-icon" aria-hidden="true">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                    </div>
+                    <p class="drop-title">Drag & drop images</p>
+                    <p class="drop-sub">JPEG · PNG · WebP · AVIF — batch and folder import supported</p>
+                    <div class="drop-actions">
+                        <label class="btn-primary is-clickable">
+                            Browse files
+                            <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
+                        </label>
+                        <label class="btn-secondary is-clickable">
+                            Import folder
+                            <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section id="results-container" class="results-section is-hidden">
+                <div id="results-table-wrap" class="results-table-wrap is-hidden">
+                    <table class="results-table" aria-label="Compression results">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Dimensions</th>
+                                <th>Original</th>
+                                <th>Output</th>
+                                <th>Saved</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table-body"></tbody>
+                    </table>
+                </div>
+                <div id="results-list" class="results-list"></div>
+            </section>
+
+            <section id="empty-results" class="empty-state">
+                <div class="empty-icon" aria-hidden="true">
+                    <svg class="icon-xl" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <p class="empty-title">Ready to optimize</p>
+                <p class="empty-sub">Upload images to see before/after comparison and savings.</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="docs.html">Docs</a></p>
+    </footer>
+
+    <script src="vendor/jszip.min.js" defer></script>
+    <script src="js/app.js" defer></script>
+</body>
+</html>

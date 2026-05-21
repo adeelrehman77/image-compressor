@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusCompress — Documentation</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="icons/icon-192.png" type="image/png">
+</head>
+<body class="app-body">
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <article class="docs-page glass-panel">
+        <p><a href="./">← Back to app</a></p>
+        <h1>NexusCompress</h1>
+        <p>Professional client-side image optimization. All compression runs in your browser — nothing is uploaded to a server.</p>
+
+        <h2>Features</h2>
+        <ul>
+            <li>Presets for web, email, social, and archive workflows</li>
+            <li>WebP, AVIF, JPEG, PNG output</li>
+            <li>Resize, quality control, and target file size</li>
+            <li>Batch processing, folder import, ZIP export</li>
+            <li>Before/after comparison slider</li>
+        </ul>
+
+        <h2>CLI</h2>
+        <pre><code>npm run compress -- ./photos --preset web --out ./optimized</code></pre>
+
+        <h2>Deploy</h2>
+        <p>Built for Cloudflare Pages. See <code>DEPLOY.md</code> in the repository.</p>
+
+        <h2>Privacy</h2>
+        <p>Images are processed locally using Web Workers and OffscreenCanvas. Metadata is stripped when images are re-encoded.</p>
+    </article>
+</body>
+</html>
