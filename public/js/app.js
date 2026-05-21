@@ -307,6 +307,17 @@
         });
         els['uae-preset'].addEventListener('change', applyUaePreset);
 
+        const guardPngTarget = () => {
+            if (parseTargetSizeKb() && els.format.value === 'image/png') {
+                els.format.value = 'image/jpeg';
+                toast('PNG cannot meet a size cap — switched format to JPEG.', 'info');
+                saveSettings();
+            }
+        };
+        els.format.addEventListener('change', guardPngTarget);
+        els['target-size-value']?.addEventListener('change', guardPngTarget);
+        els['target-size-unit']?.addEventListener('change', guardPngTarget);
+
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
             els['drop-zone'].addEventListener(ev, preventDefaults);
         });
@@ -561,8 +572,14 @@
 
     function getConfig() {
         const s = getSettings();
+        const targetSizeKb = s.targetSizeKb;
+        let format = s.format;
+        if (targetSizeKb && format === 'image/png') {
+            format = 'image/jpeg';
+        }
         return {
             ...s,
+            format,
             avifSupported: state.avifSupported,
         };
     }
@@ -570,6 +587,10 @@
     function handleFiles(files) {
         if (!files || files.length === 0) return;
         state.cancelled = false;
+        if (parseTargetSizeKb() && els.format.value === 'image/png') {
+            els.format.value = 'image/jpeg';
+            toast('Size cap active — using JPEG instead of PNG.', 'info');
+        }
         const config = getConfig();
         const valid = [...files].filter((f) => ACCEPTED_TYPES.test(f.type) || f.type.startsWith('image/'));
 
@@ -684,11 +705,15 @@
 
         updateTaskUI(task);
         let statusLabel = `Saved ${savedRatio.toFixed(1)}%`;
+        if (data.forcedLossy && els.format.value === 'image/png') {
+            toast('PNG cannot hit a size cap — used JPEG for this file.', 'info');
+        }
+
         if (targetSizeKb && metTarget === false) {
             const kb = (blob.size / 1024).toFixed(1);
             statusLabel = `Over target (${kb} KB)`;
             toast(
-                `${task.file.name}: could not reach ${targetSizeKb} KB (got ${kb} KB at ${Math.round((usedQuality || 0) * 100)}% quality). Try a smaller max width.`,
+                `${task.file.name}: still above ${targetSizeKb} KB at ${kb} KB. Try JPEG/WebP, lower quality, or a smaller max width.`,
                 'error'
             );
         } else if (targetSizeKb && metTarget) {
@@ -742,10 +767,10 @@
             </p>
             <p class="dim-line dim-text">—</p>
             <p class="error-msg is-hidden" role="alert"></p>
-            <div class="compare-container bg-checker" role="slider" aria-label="Compare original and compressed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
-                <img src="${task.originalUrl}" class="compare-img original-img is-dimmed" alt="Original">
+            <div class="compare-container bg-checker" role="slider" aria-label="Drag to compare original and compressed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+                <img src="" class="compare-img compare-base compressed-img is-dimmed" alt="Compressed preview">
                 <div class="loading-overlay"><div class="spinner"></div></div>
-                <div class="compare-overlay is-hidden"><img class="compare-img compressed-img" alt="Compressed"></div>
+                <div class="compare-overlay is-hidden"><img class="compare-img compare-top original-img" alt="Original"></div>
                 <div class="compare-handle is-hidden" aria-hidden="true"></div>
             </div>
             <div class="result-actions is-hidden">
@@ -798,18 +823,20 @@
         if (!card) return;
 
         card.querySelector('.loading-overlay')?.remove();
-        card.querySelector('.original-img')?.classList.remove('is-dimmed');
         card.querySelector('.compressed-size').textContent = formatBytes(task.compressedSize);
         card.querySelector('.dim-line').textContent = task.dimensions;
         card.querySelector('.dim-text')?.classList.remove('dim-text');
 
-        const compImg = card.querySelector('.compressed-img');
+        const baseImg = card.querySelector('.compare-base');
+        const topImg = card.querySelector('.compare-top');
         const overlay = card.querySelector('.compare-overlay');
         const handle = card.querySelector('.compare-handle');
-        compImg.src = task.compressedUrl;
+        baseImg.src = task.compressedUrl;
+        topImg.src = task.originalUrl;
+        baseImg.classList.remove('is-dimmed');
         overlay.classList.remove('is-hidden');
         handle.classList.remove('is-hidden');
-        setupCompareSlider(card.querySelector('.compare-container'), overlay, handle, compImg);
+        setupCompareSlider(card.querySelector('.compare-container'), overlay, handle, topImg);
 
         const dl = card.querySelector('.download-btn');
         dl.href = task.compressedUrl;

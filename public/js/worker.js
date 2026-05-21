@@ -1,16 +1,26 @@
 const SUPPORTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+const LOSSY_TYPES = ['image/jpeg', 'image/webp', 'image/avif'];
 
 const TARGET_QUALITY_STEP = 0.05;
 const TARGET_MIN_QUALITY = 0.25;
 const TARGET_DEFAULT_START = 0.85;
+const TARGET_MIN_DIMENSION = 320;
+const TARGET_DIMENSION_SCALE = 0.88;
 
-function resolveOutputType(fileType, format, avifSupported) {
+function resolveOutputType(fileType, format, avifSupported, targetSizeKb) {
+    let resolved;
     if (format && format !== 'auto') {
-        if (format === 'image/avif' && !avifSupported) return 'image/webp';
-        return format;
+        resolved = format === 'image/avif' && !avifSupported ? 'image/webp' : format;
+    } else if (SUPPORTED_TYPES.includes(fileType)) {
+        resolved = fileType;
+    } else {
+        resolved = 'image/jpeg';
     }
-    if (SUPPORTED_TYPES.includes(fileType)) return fileType;
-    return 'image/jpeg';
+
+    if (targetSizeKb && targetSizeKb > 0 && !LOSSY_TYPES.includes(resolved)) {
+        return 'image/jpeg';
+    }
+    return resolved;
 }
 
 function getCropRect(srcW, srcH, aspectRatio) {
@@ -70,7 +80,7 @@ async function renderToBlob(bitmap, crop, width, height, outputType, quality) {
     ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
 
     const opts = { type: outputType };
-    if (outputType === 'image/jpeg' || outputType === 'image/webp' || outputType === 'image/avif') {
+    if (LOSSY_TYPES.includes(outputType)) {
         opts.quality = quality;
     }
     return offscreen.convertToBlob(opts);
@@ -81,31 +91,53 @@ async function compressWithQuality(bitmap, crop, width, height, outputType, qual
 }
 
 async function compressToTargetSize(bitmap, crop, width, height, outputType, targetBytes, startQuality) {
-    if (outputType === 'image/png') {
-        const blob = await renderToBlob(bitmap, crop, width, height, outputType, 1);
-        return { blob, quality: 1, metTarget: blob.size <= targetBytes };
-    }
-
+    const type = LOSSY_TYPES.includes(outputType) ? outputType : 'image/jpeg';
     const start = Math.min(1, Math.max(TARGET_MIN_QUALITY, startQuality ?? TARGET_DEFAULT_START));
-    let smallest = null;
-    let smallestQ = TARGET_MIN_QUALITY;
 
-    for (let q = start; q >= TARGET_MIN_QUALITY - 0.001; q -= TARGET_QUALITY_STEP) {
-        const rounded = roundQuality(q);
-        const blob = await compressWithQuality(bitmap, crop, width, height, outputType, rounded);
-        if (!smallest || blob.size < smallest.size) {
-            smallest = blob;
-            smallestQ = rounded;
+    let best = null;
+    let bestQ = TARGET_MIN_QUALITY;
+    let bestW = width;
+    let bestH = height;
+    let w = width;
+    let h = height;
+
+    for (let attempt = 0; attempt < 24; attempt++) {
+        for (let q = start; q >= TARGET_MIN_QUALITY - 0.001; q -= TARGET_QUALITY_STEP) {
+            const rounded = roundQuality(q);
+            const blob = await compressWithQuality(bitmap, crop, w, h, type, rounded);
+            if (!best || blob.size < best.size) {
+                best = blob;
+                bestQ = rounded;
+                bestW = w;
+                bestH = h;
+            }
+            if (blob.size <= targetBytes) {
+                return {
+                    blob,
+                    quality: rounded,
+                    metTarget: true,
+                    width: w,
+                    height: h,
+                    outputType: type,
+                };
+            }
         }
-        if (blob.size <= targetBytes) {
-            return { blob, quality: rounded, metTarget: true };
-        }
+
+        if (Math.max(w, h) <= TARGET_MIN_DIMENSION) break;
+        const nextW = Math.max(1, Math.round(w * TARGET_DIMENSION_SCALE));
+        const nextH = Math.max(1, Math.round(h * TARGET_DIMENSION_SCALE));
+        if (nextW === w && nextH === h) break;
+        w = nextW;
+        h = nextH;
     }
 
     return {
-        blob: smallest,
-        quality: smallestQ,
-        metTarget: smallest ? smallest.size <= targetBytes : false,
+        blob: best,
+        quality: bestQ,
+        metTarget: best ? best.size <= targetBytes : false,
+        width: bestW,
+        height: bestH,
+        outputType: type,
     };
 }
 
@@ -135,11 +167,14 @@ self.onmessage = async function (e) {
             scalePercent,
             aspectRatio,
         });
-        const outputType = resolveOutputType(file.type, format, avifSupported);
+        const outputType = resolveOutputType(file.type, format, avifSupported, targetSizeKb);
 
         let blob;
         let usedQuality = quality;
         let metTarget = true;
+        let outW = width;
+        let outH = height;
+        let finalType = outputType;
 
         if (targetSizeKb && targetSizeKb > 0) {
             const targetBytes = targetSizeKb * 1024;
@@ -156,6 +191,9 @@ self.onmessage = async function (e) {
             blob = result.blob;
             usedQuality = result.quality;
             metTarget = result.metTarget;
+            outW = result.width;
+            outH = result.height;
+            finalType = result.outputType;
         } else {
             blob = await compressWithQuality(bitmap, crop, width, height, outputType, quality);
         }
@@ -167,14 +205,15 @@ self.onmessage = async function (e) {
             success: true,
             originalSize: file.size,
             blob,
-            outputType,
-            width,
-            height,
+            outputType: finalType,
+            width: outW,
+            height: outH,
             originalWidth: origW,
             originalHeight: origH,
             usedQuality,
             metTarget,
             targetSizeKb: targetSizeKb || null,
+            forcedLossy: targetSizeKb > 0 && format === 'image/png',
         });
     } catch (error) {
         self.postMessage({

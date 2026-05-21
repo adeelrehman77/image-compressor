@@ -202,7 +202,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="target-size-kb" value="">
-                    <p class="field-hint">Quality drops in 5% steps until the output fits (great for 200 KB portal limits).</p>
+                    <p class="field-hint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
                 </section>
 
                 <section class="settings-group">
@@ -480,10 +480,10 @@
                     </div>
                     <div id="compare-modal-handle" class="compare-handle compare-modal-handle" aria-hidden="true"></div>
                 </div>
-                <div class="compare-modal-labels" aria-hidden="true">
-                    <span class="compare-label compare-label-original">Original</span>
-                    <span class="compare-label compare-label-hint">Drag slider</span>
-                    <span class="compare-label compare-label-compressed">Compressed</span>
+                <div class="compare-modal-labels">
+                    <span class="compare-label compare-label-original">Original ←</span>
+                    <span class="compare-label compare-label-hint">Drag the divider</span>
+                    <span class="compare-label compare-label-compressed">→ Compressed</span>
                 </div>
             </div>
         </div>
