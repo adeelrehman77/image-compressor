@@ -29,13 +29,15 @@ function bumpSwCache() {
     const next = m ? Number(m[1]) + 1 : 3;
     sw = sw.replace(/nexuscompress-v\d+/, `nexuscompress-v${next}`);
     const assets = `const ASSETS = [
-    '/',
-    '/index.html',
-    '/css/app.css',
-    '/js/app.js',
-    '/js/worker.js',
-    '/vendor/jszip.min.js',
-    '/manifest.json',
+    './',
+    './index.html',
+    './css/app.css',
+    './js/app.js',
+    './js/worker.js',
+    './vendor/jszip.min.js',
+    './manifest.json',
+    './robots.txt',
+    './sitemap.xml',
 ];`;
     sw = sw.replace(/const ASSETS = \[[\s\S]*?\];/, assets);
     fs.writeFileSync(swPath, sw);

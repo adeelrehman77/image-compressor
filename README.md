@@ -46,6 +46,10 @@ npm run compress -- ./photos --preset web --out ./optimized
 
 See [DEPLOY.md](./DEPLOY.md) for full steps.
 
+## SEO
+
+Canonical site: **https://compress.funadventure.ae** — see [SEO.md](./SEO.md) for Google checklist and ranking notes.
+
 ## License
 
 ISC

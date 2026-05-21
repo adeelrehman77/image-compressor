@@ -43,6 +43,31 @@ If your UI also has **Build output directory**, set it to `dist`. Some flows onl
 
 After the first deploy: **Custom domains** → add your domain and follow DNS instructions.
 
+Production URL: **https://compress.funadventure.ae**
+
+## Redirect workers.dev to custom domain
+
+Avoid duplicate content in Google by redirecting the default Workers hostname to your custom domain.
+
+1. Cloudflare Dashboard → **Rules** → **Redirect Rules** → **Create rule**
+2. **Name:** `Workers to custom domain`
+3. **When:** Custom filter expression:
+   ```
+   (http.host eq "image-compressor.adeelrehman77.workers.dev")
+   ```
+4. **Then:** Dynamic redirect → **URL** `concat("https://compress.funadventure.ae", http.request.uri.path)` → **Status** `301`
+5. **Deploy**
+
+Or use **Single redirect:** `https://image-compressor.adeelrehman77.workers.dev/*` → `https://compress.funadventure.ae/$1` (301).
+
+## SEO & Google Search Console
+
+See [SEO.md](./SEO.md). After deploy:
+
+1. Add property `https://compress.funadventure.ae` in [Search Console](https://search.google.com/search-console)
+2. Submit sitemap: `https://compress.funadventure.ae/sitemap.xml`
+3. Request indexing for the homepage
+
 ## Local production preview
 
 ```bash
