@@ -41,7 +41,8 @@ npm run compress -- ./photos --preset web --out ./optimized
 1. Push repo to GitHub/GitLab.
 2. Cloudflare → Pages → Connect repo.
 3. **Build command:** `npm run build`
-4. **Output directory:** `dist`
+4. **Build output directory:** `dist`
+5. **Deploy command:** leave **empty** (do not use `wrangler deploy`)
 
 See [DEPLOY.md](./DEPLOY.md) for full steps.
 

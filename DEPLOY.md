@@ -7,24 +7,33 @@ This project builds a static site into `dist/`. Cloudflare Pages serves that fol
 - A [Cloudflare](https://dash.cloudflare.com) account
 - This repository pushed to GitHub, GitLab, or Bitbucket
 
-## One-time setup
+## One-time setup (Git integration)
 
 1. **Push the repo** to your Git provider.
 
-2. In Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
+2. Cloudflare Dashboard → **Workers & Pages** → your project → **Settings** → **Build**.
 
-3. Select this repository and configure:
+3. Configure **exactly** these values:
 
    | Setting | Value |
    |---------|--------|
-   | **Production branch** | `main` (or your default branch) |
+   | **Production branch** | `main` |
    | **Build command** | `npm run build` |
    | **Build output directory** | `dist` |
-   | **Root directory** | `/` (leave empty if repo root) |
+   | **Root directory** | *(leave empty)* |
+   | **Deploy command** | *(leave **empty**)* |
 
-4. **Environment variables** (optional): none required for the static app.
+4. **Save** and trigger a new deployment.
 
-5. Click **Save and Deploy**. The first build runs `npm install` (via Pages) then `npm run build`.
+### Important: leave Deploy command empty
+
+If you set **Deploy command** to `npx wrangler deploy`, the build will succeed but deploy will fail with:
+
+```text
+Missing entry-point to Worker script or to assets directory
+```
+
+That command is for **Cloudflare Workers**, not static Pages. Pages already uploads `dist/` after `npm run build` — no extra deploy step is needed.
 
 ## Custom domain
 
@@ -40,15 +49,23 @@ npm run preview
 
 Open the URL shown (default `http://localhost:3000`) — serves the `dist/` folder.
 
-## Wrangler CLI (optional)
+## Wrangler CLI (optional, manual deploy)
+
+Only if you deploy from your machine, not via Git:
 
 ```bash
-npm install -g wrangler
+npm install
+npm run pages:deploy
+```
+
+Or:
+
+```bash
 npm run build
 npx wrangler pages deploy dist --project-name=nexuscompress
 ```
 
-`wrangler.toml` already sets `pages_build_output_dir = "dist"`.
+Use `wrangler pages deploy`, **not** `wrangler deploy`.
 
 ## Security headers
 
@@ -58,12 +75,14 @@ npx wrangler pages deploy dist --project-name=nexuscompress
 
 - **No server runtime** — compression is 100% client-side.
 - **Service worker** caches the app shell for faster repeat visits.
-- **Node version**: use **18+** or **20** in Pages → Settings → Environment variables → `NODE_VERSION=20` if needed.
+- **Node version**: Pages uses Node 20 by default (`.node-version`); dev tools (Puppeteer) are devDependencies only.
 
 ## Troubleshooting
 
 | Issue | Fix |
 |-------|-----|
-| Build fails on `postcss` | Ensure `npm run build` works locally; commit `package-lock.json`. |
-| Blank page | Confirm **Build output directory** is `dist`, not `/`. |
+| `wrangler deploy` / Missing entry-point | **Clear the Deploy command** in Pages build settings. |
+| Build fails on `postcss` | Run `npm run build` locally; commit `package-lock.json`. |
+| Blank page | **Build output directory** must be `dist`, not `/`. |
 | Old assets after deploy | Hard refresh; service worker updates on next visit. |
+| `EBADENGINE` for Puppeteer | Harmless warning on Node 20; tests use Puppeteer locally only. |

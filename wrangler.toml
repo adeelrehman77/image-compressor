@@ -1,4 +1,13 @@
-# Cloudflare Pages — connect repo in dashboard; this file is optional for Wrangler CLI deploys.
+# Cloudflare Pages (static site)
+# ─────────────────────────────────────────────────────────────────────────────
+# Git-connected Pages: use dashboard settings ONLY (no custom deploy command):
+#   Build command:          npm run build
+#   Build output directory: dist
+#   Deploy command:         (leave EMPTY — do not use `wrangler deploy`)
+#
+# Cloudflare publishes `dist/` automatically after the build succeeds.
+# ─────────────────────────────────────────────────────────────────────────────
+
 name = "nexuscompress"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "dist"

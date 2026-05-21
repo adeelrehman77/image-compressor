@@ -14,25 +14,24 @@
     "start": "npm run preview",
     "test": "npm run build && node test.js",
     "compress": "node cli.js",
+    "pages:deploy": "npm run build && npx wrangler pages deploy dist --project-name=nexuscompress",
     "postinstall": "node scripts/vendor-jszip.js && node scripts/generate-icons.js"
   },
   "keywords": ["image", "compress", "webp", "avif", "optimizer"],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
-    "express": "^5.2.1",
-    "jszip": "^3.10.1",
-    "puppeteer": "^25.0.4",
-    "sharp": "^0.33.5"
-  },
   "devDependencies": {
     "@fontsource/inter": "^5.2.5",
     "@fontsource/outfit": "^5.2.5",
     "cssnano": "^7.0.6",
+    "express": "^5.2.1",
+    "jszip": "^3.10.1",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.1.0"
+    "postcss-import": "^16.1.0",
+    "puppeteer": "^25.0.4",
+    "sharp": "^0.33.5"
   },
   "engines": {
     "node": ">=18"
