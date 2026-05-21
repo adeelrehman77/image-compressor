@@ -21,19 +21,23 @@ This project builds a static site into `dist/`. Cloudflare Pages serves that fol
    | **Build command** | `npm run build` |
    | **Build output directory** | `dist` |
    | **Root directory** | *(leave empty)* |
-   | **Deploy command** | *(leave **empty**)* |
+   | **Deploy command** | `npx wrangler deploy` *(if the UI marks it required)* |
 
 4. **Save** and trigger a new deployment.
 
-### Important: leave Deploy command empty
+### Deploy command (required in newer Cloudflare UI)
 
-If you set **Deploy command** to `npx wrangler deploy`, the build will succeed but deploy will fail with:
+If the dashboard shows **Deploy command: Required**, use:
 
-```text
-Missing entry-point to Worker script or to assets directory
+```bash
+npx wrangler deploy
 ```
 
-That command is for **Cloudflare Workers**, not static Pages. Pages already uploads `dist/` after `npm run build` — no extra deploy step is needed.
+This project’s `wrangler.toml` points Wrangler at `./dist` via `[assets]`. The build step must run first (`npm run build`) so `dist/` exists before deploy.
+
+**Do not use** plain `wrangler deploy` without `wrangler.toml` assets config, or `npx wrangler versions upload` — those will fail.
+
+If your UI also has **Build output directory**, set it to `dist`. Some flows only use Build + Deploy commands.
 
 ## Custom domain
 
@@ -81,7 +85,8 @@ Use `wrangler pages deploy`, **not** `wrangler deploy`.
 
 | Issue | Fix |
 |-------|-----|
-| `wrangler deploy` / Missing entry-point | **Clear the Deploy command** in Pages build settings. |
+| `wrangler deploy` / Missing entry-point | Set deploy to `npx wrangler deploy` and ensure `wrangler.toml` has `[assets] directory = "./dist"`. |
+| Deploy command **Required** | Use `npx wrangler deploy` (not `wrangler versions upload`). |
 | Build fails on `postcss` | Run `npm run build` locally; commit `package-lock.json`. |
 | Blank page | **Build output directory** must be `dist`, not `/`. |
 | Old assets after deploy | Hard refresh; service worker updates on next visit. |

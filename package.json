@@ -14,7 +14,7 @@
     "start": "npm run preview",
     "test": "npm run build && node test.js",
     "compress": "node cli.js",
-    "pages:deploy": "npm run build && npx wrangler pages deploy dist --project-name=nexuscompress",
+    "pages:deploy": "npm run build && npx wrangler deploy",
     "postinstall": "node scripts/vendor-jszip.js && node scripts/generate-icons.js"
   },
   "keywords": ["image", "compress", "webp", "avif", "optimizer"],
