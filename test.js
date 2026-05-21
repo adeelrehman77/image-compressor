@@ -86,7 +86,7 @@ createTestImage().then(() => {
                 format: document.getElementById('format').value,
                 quality: document.getElementById('quality').value,
             }));
-            if (uaeSettings.targetKb !== '200' || uaeSettings.format !== 'image/jpeg' || uaeSettings.quality !== '85') {
+            if (uaeSettings.targetKb !== '200' || uaeSettings.format !== 'image/jpeg' || uaeSettings.quality !== '80') {
                 throw new Error(`UAE preset mismatch: ${JSON.stringify(uaeSettings)}`);
             }
             console.log('UAE Emirates ID preset applied:', uaeSettings);

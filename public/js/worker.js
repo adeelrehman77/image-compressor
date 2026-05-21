@@ -13,9 +13,40 @@ function resolveOutputType(fileType, format, avifSupported) {
     return 'image/jpeg';
 }
 
-function computeDimensions(bitmap, maxWidth, maxHeight) {
-    let width = bitmap.width;
-    let height = bitmap.height;
+function getCropRect(srcW, srcH, aspectRatio) {
+    if (!aspectRatio) {
+        return { sx: 0, sy: 0, sw: srcW, sh: srcH };
+    }
+    const parts = aspectRatio.split(':').map(Number);
+    if (parts.length !== 2 || !parts[0] || !parts[1]) {
+        return { sx: 0, sy: 0, sw: srcW, sh: srcH };
+    }
+    const target = parts[0] / parts[1];
+    let cropW = srcW;
+    let cropH = srcH;
+    if (srcW / srcH > target) {
+        cropW = Math.round(srcH * target);
+    } else {
+        cropH = Math.round(srcW / target);
+    }
+    return {
+        sx: Math.floor((srcW - cropW) / 2),
+        sy: Math.floor((srcH - cropH) / 2),
+        sw: cropW,
+        sh: cropH,
+    };
+}
+
+function computeOutputSize(bitmap, { maxWidth, maxHeight, scalePercent, aspectRatio }) {
+    const crop = getCropRect(bitmap.width, bitmap.height, aspectRatio);
+    let width = crop.sw;
+    let height = crop.sh;
+
+    const pct = scalePercent && scalePercent > 0 ? scalePercent : 100;
+    if (pct !== 100) {
+        width = Math.max(1, Math.round(width * (pct / 100)));
+        height = Math.max(1, Math.round(height * (pct / 100)));
+    }
 
     if (maxWidth && width > maxWidth) {
         height = Math.round((height * maxWidth) / width);
@@ -25,17 +56,18 @@ function computeDimensions(bitmap, maxWidth, maxHeight) {
         width = Math.round((width * maxHeight) / height);
         height = maxHeight;
     }
-    return { width, height };
+
+    return { crop, width, height };
 }
 
 function roundQuality(q) {
     return Math.round(q * 100) / 100;
 }
 
-async function renderToBlob(bitmap, width, height, outputType, quality) {
+async function renderToBlob(bitmap, crop, width, height, outputType, quality) {
     const offscreen = new OffscreenCanvas(width, height);
     const ctx = offscreen.getContext('2d');
-    ctx.drawImage(bitmap, 0, 0, width, height);
+    ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
 
     const opts = { type: outputType };
     if (outputType === 'image/jpeg' || outputType === 'image/webp' || outputType === 'image/avif') {
@@ -44,16 +76,13 @@ async function renderToBlob(bitmap, width, height, outputType, quality) {
     return offscreen.convertToBlob(opts);
 }
 
-async function compressWithQuality(bitmap, width, height, outputType, quality) {
-    return renderToBlob(bitmap, width, height, outputType, quality);
+async function compressWithQuality(bitmap, crop, width, height, outputType, quality) {
+    return renderToBlob(bitmap, crop, width, height, outputType, quality);
 }
 
-/**
- * Step quality down by 5% from startQuality until blob fits targetBytes or min quality.
- */
-async function compressToTargetSize(bitmap, width, height, outputType, targetBytes, startQuality) {
+async function compressToTargetSize(bitmap, crop, width, height, outputType, targetBytes, startQuality) {
     if (outputType === 'image/png') {
-        const blob = await renderToBlob(bitmap, width, height, outputType, 1);
+        const blob = await renderToBlob(bitmap, crop, width, height, outputType, 1);
         return { blob, quality: 1, metTarget: blob.size <= targetBytes };
     }
 
@@ -63,7 +92,7 @@ async function compressToTargetSize(bitmap, width, height, outputType, targetByt
 
     for (let q = start; q >= TARGET_MIN_QUALITY - 0.001; q -= TARGET_QUALITY_STEP) {
         const rounded = roundQuality(q);
-        const blob = await compressWithQuality(bitmap, width, height, outputType, rounded);
+        const blob = await compressWithQuality(bitmap, crop, width, height, outputType, rounded);
         if (!smallest || blob.size < smallest.size) {
             smallest = blob;
             smallestQ = rounded;
@@ -86,6 +115,8 @@ self.onmessage = async function (e) {
         quality,
         maxWidth,
         maxHeight,
+        scalePercent,
+        aspectRatio,
         format,
         targetSizeKb,
         fixOrientation,
@@ -98,7 +129,12 @@ self.onmessage = async function (e) {
 
         const origW = bitmap.width;
         const origH = bitmap.height;
-        const { width, height } = computeDimensions(bitmap, maxWidth, maxHeight);
+        const { crop, width, height } = computeOutputSize(bitmap, {
+            maxWidth,
+            maxHeight,
+            scalePercent,
+            aspectRatio,
+        });
         const outputType = resolveOutputType(file.type, format, avifSupported);
 
         let blob;
@@ -110,6 +146,7 @@ self.onmessage = async function (e) {
             const startQ = typeof quality === 'number' && quality > 0 ? quality : TARGET_DEFAULT_START;
             const result = await compressToTargetSize(
                 bitmap,
+                crop,
                 width,
                 height,
                 outputType,
@@ -120,7 +157,7 @@ self.onmessage = async function (e) {
             usedQuality = result.quality;
             metTarget = result.metTarget;
         } else {
-            blob = await compressWithQuality(bitmap, width, height, outputType, quality);
+            blob = await compressWithQuality(bitmap, crop, width, height, outputType, quality);
         }
 
         bitmap.close();

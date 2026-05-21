@@ -13,11 +13,40 @@
 
     const UAE_PRESETS = {
         'emirates-id': {
-            quality: 85,
+            quality: 80,
             format: 'image/jpeg',
             maxWidth: 1600,
             maxHeight: null,
             targetSizeKb: 200,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+        'ica-upload': {
+            quality: 80,
+            format: 'image/jpeg',
+            maxWidth: 1600,
+            maxHeight: null,
+            targetSizeKb: 200,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+        'mohre-portal': {
+            quality: 75,
+            format: 'image/jpeg',
+            maxWidth: 1920,
+            maxHeight: null,
+            targetSizeKb: 500,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+        'rta-docs': {
+            quality: 75,
+            format: 'image/jpeg',
+            maxWidth: 1920,
+            maxHeight: null,
+            targetSizeKb: 500,
+            scalePercent: 100,
+            aspectRatio: '',
         },
         'portal-reg': {
             quality: 85,
@@ -25,6 +54,8 @@
             maxWidth: 1920,
             maxHeight: null,
             targetSizeKb: 500,
+            scalePercent: 100,
+            aspectRatio: '',
         },
     };
 
@@ -37,6 +68,7 @@
         viewMode: 'cards',
         avifSupported: false,
         cancelled: false,
+        watermarkLogo: null,
     };
 
     const workers = [];
@@ -120,10 +152,14 @@
     function cacheElements() {
         [
             'drop-zone', 'file-input', 'folder-input', 'quality', 'quality-val', 'format',
-            'max-width', 'max-height', 'preset', 'uae-preset', 'target-size-kb', 'rename-pattern',
-            'fix-orientation', 'results-container', 'results-list', 'results-table-wrap',
+            'max-width', 'max-height', 'scale-percent', 'aspect-ratio', 'preset', 'uae-preset',
+            'target-size-value', 'target-size-unit', 'target-size-kb', 'rename-pattern', 'fix-orientation',
+            'watermark-enabled', 'watermark-type', 'watermark-text', 'watermark-logo', 'watermark-position',
+            'watermark-opacity', 'watermark-opacity-val', 'watermark-fields',
+            'results-container', 'results-list', 'results-table-wrap',
             'results-table-body', 'download-all-btn', 'clear-all-btn', 'batch-summary',
-            'batch-count', 'batch-saved', 'batch-avg', 'batch-progress-bar', 'batch-progress', 'empty-results',
+            'batch-count', 'batch-saved', 'batch-avg', 'batch-progress-bar', 'batch-progress',
+            'zip-progress-wrap', 'zip-progress-bar', 'zip-progress-label', 'zip-progress-pct', 'empty-results',
             'view-cards', 'view-table', 'theme-toggle', 'toast-root',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
@@ -232,10 +268,37 @@
             saveSettings();
         });
 
-        ['format', 'max-width', 'max-height', 'target-size-kb', 'rename-pattern', 'fix-orientation'].forEach((id) => {
+        [
+            'format', 'max-width', 'max-height', 'scale-percent', 'aspect-ratio',
+            'target-size-value', 'target-size-unit', 'rename-pattern', 'fix-orientation',
+            'watermark-enabled', 'watermark-type', 'watermark-text', 'watermark-position',
+        ].forEach((id) => {
             const el = els[id] || document.getElementById(id);
-            if (el) el.addEventListener('change', () => { markCustomPreset(); saveSettings(); });
-            if (el && el.tagName === 'INPUT') el.addEventListener('input', () => { markCustomPreset(); saveSettings(); });
+            if (el) el.addEventListener('change', () => { markCustomPreset(); syncTargetSizeKbField(); saveSettings(); });
+            if (el && el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'file') {
+                el.addEventListener('input', () => { markCustomPreset(); syncTargetSizeKbField(); saveSettings(); });
+            }
+        });
+
+        els['watermark-enabled']?.addEventListener('change', () => {
+            toggleWatermarkFields();
+            markCustomPreset();
+            saveSettings();
+        });
+        els['watermark-opacity']?.addEventListener('input', (e) => {
+            if (els['watermark-opacity-val']) {
+                els['watermark-opacity-val'].textContent = `${e.target.value}%`;
+            }
+            markCustomPreset();
+            saveSettings();
+        });
+        els['watermark-type']?.addEventListener('change', toggleWatermarkFields);
+        els['watermark-logo']?.addEventListener('change', async (e) => {
+            const file = e.target.files?.[0];
+            state.watermarkLogo = file || null;
+            markCustomPreset();
+            saveSettings();
+            if (file) toast('Logo loaded for this batch.', 'info');
         });
 
         els.preset.addEventListener('change', () => {
@@ -267,6 +330,99 @@
         els['view-table'].addEventListener('click', () => setViewMode('table'));
         els['theme-toggle'].addEventListener('click', toggleTheme);
 
+        syncTargetSizeKbField();
+        toggleWatermarkFields();
+    }
+
+    function syncTargetSizeKbField() {
+        const val = parseFloat(els['target-size-value']?.value);
+        const unit = els['target-size-unit']?.value || 'kb';
+        const hidden = els['target-size-kb'];
+        if (!hidden) return;
+        if (!val || val <= 0) {
+            hidden.value = '';
+            return;
+        }
+        hidden.value = String(unit === 'mb' ? Math.round(val * 1024) : Math.round(val));
+    }
+
+    function parseTargetSizeKb() {
+        syncTargetSizeKbField();
+        const kb = els['target-size-kb']?.value;
+        return kb ? parseInt(kb, 10) : null;
+    }
+
+    function toggleWatermarkFields() {
+        const on = els['watermark-enabled']?.checked;
+        els['watermark-fields']?.classList.toggle('is-hidden', !on);
+        const isLogo = els['watermark-type']?.value === 'logo';
+        document.getElementById('wm-text-group')?.classList.toggle('is-hidden', isLogo);
+        document.getElementById('wm-logo-group')?.classList.toggle('is-hidden', !isLogo);
+    }
+
+    function getWatermarkConfig() {
+        const enabled = Boolean(els['watermark-enabled']?.checked);
+        const type = els['watermark-type']?.value || 'text';
+        const text = (els['watermark-text']?.value || '').trim();
+        const opacity = parseInt(els['watermark-opacity']?.value || '70', 10) / 100;
+        const position = els['watermark-position']?.value || 'bottom-right';
+        const hasLogo = Boolean(state.watermarkLogo);
+        const active = enabled && (type === 'text' ? text.length > 0 : hasLogo);
+        return { enabled: active, type, text, opacity, position, logoFile: state.watermarkLogo };
+    }
+
+    async function applyWatermarkToBlob(blob, width, height, wm) {
+        const bitmap = await createImageBitmap(blob);
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bitmap, 0, 0, width, height);
+        bitmap.close();
+
+        const pad = Math.round(Math.min(width, height) * 0.03);
+        const fontSize = Math.max(14, Math.round(Math.min(width, height) * 0.04));
+        ctx.globalAlpha = wm.opacity;
+
+        if (wm.type === 'text' && wm.text) {
+            ctx.font = `600 ${fontSize}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+            ctx.lineWidth = Math.max(2, fontSize * 0.08);
+            const metrics = ctx.measureText(wm.text);
+            const tw = metrics.width;
+            const th = fontSize;
+            const pos = watermarkCoords(width, height, tw, th, pad, wm.position);
+            ctx.strokeText(wm.text, pos.x, pos.y);
+            ctx.fillText(wm.text, pos.x, pos.y);
+        } else if (wm.type === 'logo' && wm.logoFile) {
+            const logoBitmap = await createImageBitmap(wm.logoFile);
+            const maxLogoW = width * 0.28;
+            const scale = Math.min(1, maxLogoW / logoBitmap.width);
+            const lw = Math.round(logoBitmap.width * scale);
+            const lh = Math.round(logoBitmap.height * scale);
+            const pos = watermarkCoords(width, height, lw, lh, pad, wm.position);
+            ctx.drawImage(logoBitmap, pos.x, pos.y, lw, lh);
+            logoBitmap.close();
+        }
+
+        ctx.globalAlpha = 1;
+        const outType = blob.type || 'image/png';
+        const quality = outType === 'image/jpeg' || outType === 'image/webp' ? 0.92 : undefined;
+        return new Promise((resolve, reject) => {
+            canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Watermark failed'))), outType, quality);
+        });
+    }
+
+    function watermarkCoords(cw, ch, tw, th, pad, position) {
+        const positions = {
+            'bottom-right': { x: cw - tw - pad, y: ch - pad },
+            'bottom-left': { x: pad, y: ch - pad },
+            'top-right': { x: cw - tw - pad, y: th + pad },
+            'top-left': { x: pad, y: th + pad },
+            center: { x: (cw - tw) / 2, y: (ch + th) / 2 },
+        };
+        return positions[position] || positions['bottom-right'];
     }
 
     function markCustomPreset() {
@@ -280,7 +436,15 @@
         els.format.value = p.format;
         els['max-width'].value = p.maxWidth ?? '';
         els['max-height'].value = p.maxHeight ?? '';
-        els['target-size-kb'].value = p.targetSizeKb ?? '';
+        if (els['scale-percent']) els['scale-percent'].value = p.scalePercent ?? 100;
+        if (els['aspect-ratio']) els['aspect-ratio'].value = p.aspectRatio ?? '';
+        if (p.targetSizeKb) {
+            els['target-size-value'].value = p.targetSizeKb;
+            els['target-size-unit'].value = 'kb';
+        } else {
+            els['target-size-value'].value = '';
+        }
+        syncTargetSizeKbField();
     }
 
     function applyPreset() {
@@ -302,16 +466,20 @@
     }
 
     function getSettings() {
+        const scaleRaw = parseInt(els['scale-percent']?.value, 10);
         return {
             quality: parseInt(els.quality.value, 10) / 100,
             format: els.format.value,
             maxWidth: els['max-width'].value ? parseInt(els['max-width'].value, 10) : null,
             maxHeight: els['max-height'].value ? parseInt(els['max-height'].value, 10) : null,
-            targetSizeKb: els['target-size-kb'].value ? parseInt(els['target-size-kb'].value, 10) : null,
+            scalePercent: scaleRaw > 0 && scaleRaw <= 100 ? scaleRaw : 100,
+            aspectRatio: els['aspect-ratio']?.value || null,
+            targetSizeKb: parseTargetSizeKb(),
             fixOrientation: els['fix-orientation'].checked,
             renamePattern: els['rename-pattern'].value || '{name}-compressed.{ext}',
             preset: els.preset.value,
             qualityUi: els.quality.value,
+            watermark: getWatermarkConfig(),
         };
     }
 
@@ -324,9 +492,17 @@
             format: s.format,
             maxWidth: els['max-width'].value,
             maxHeight: els['max-height'].value,
-            targetSizeKb: els['target-size-kb'].value,
+            targetSizeValue: els['target-size-value'].value,
+            targetSizeUnit: els['target-size-unit'].value,
+            scalePercent: els['scale-percent']?.value,
+            aspectRatio: els['aspect-ratio']?.value,
             renamePattern: s.renamePattern,
             fixOrientation: s.fixOrientation,
+            watermarkEnabled: els['watermark-enabled']?.checked,
+            watermarkType: els['watermark-type']?.value,
+            watermarkText: els['watermark-text']?.value,
+            watermarkPosition: els['watermark-position']?.value,
+            watermarkOpacity: els['watermark-opacity']?.value,
             viewMode: state.viewMode,
         }));
     }
@@ -343,8 +519,29 @@
             if (s.format) els.format.value = s.format;
             if (s.maxWidth !== undefined) els['max-width'].value = s.maxWidth;
             if (s.maxHeight !== undefined) els['max-height'].value = s.maxHeight;
-            if (s.targetSizeKb !== undefined) els['target-size-kb'].value = s.targetSizeKb;
+            if (s.targetSizeValue !== undefined) els['target-size-value'].value = s.targetSizeValue;
+            else if (s.targetSizeKb !== undefined) {
+                els['target-size-value'].value = s.targetSizeKb;
+                els['target-size-unit'].value = 'kb';
+            }
+            if (s.targetSizeUnit) els['target-size-unit'].value = s.targetSizeUnit;
+            syncTargetSizeKbField();
+            if (s.scalePercent !== undefined && els['scale-percent']) els['scale-percent'].value = s.scalePercent;
+            if (s.aspectRatio !== undefined && els['aspect-ratio']) els['aspect-ratio'].value = s.aspectRatio;
             if (s.renamePattern) els['rename-pattern'].value = s.renamePattern;
+            if (s.watermarkEnabled !== undefined && els['watermark-enabled']) {
+                els['watermark-enabled'].checked = s.watermarkEnabled;
+            }
+            if (s.watermarkType) els['watermark-type'].value = s.watermarkType;
+            if (s.watermarkText) els['watermark-text'].value = s.watermarkText;
+            if (s.watermarkPosition) els['watermark-position'].value = s.watermarkPosition;
+            if (s.watermarkOpacity) {
+                els['watermark-opacity'].value = s.watermarkOpacity;
+                if (els['watermark-opacity-val']) {
+                    els['watermark-opacity-val'].textContent = `${s.watermarkOpacity}%`;
+                }
+            }
+            toggleWatermarkFields();
             if (s.fixOrientation !== undefined) els['fix-orientation'].checked = s.fixOrientation;
             if (s.uaePreset && els['uae-preset'] && UAE_PRESETS[s.uaePreset]) {
                 els['uae-preset'].value = s.uaePreset;
@@ -440,17 +637,33 @@
         }
 
         if (success) {
-            onTaskSuccess(task, data);
-        } else {
-            onTaskError(task, data.error);
+            Promise.resolve(onTaskSuccess(task, data))
+                .catch((err) => onTaskError(task, err?.message || String(err)))
+                .finally(() => {
+                    drainQueue();
+                    updateBatchUI();
+                });
+            return;
         }
 
+        onTaskError(task, data.error);
         drainQueue();
         updateBatchUI();
     }
 
-    function onTaskSuccess(task, data) {
-        const { blob, outputType, width, height, originalWidth, originalHeight, metTarget, targetSizeKb, usedQuality } = data;
+    async function onTaskSuccess(task, data) {
+        let { blob, outputType, width, height, originalWidth, originalHeight, metTarget, targetSizeKb, usedQuality } = data;
+
+        const wm = task.config?.watermark || getWatermarkConfig();
+        if (wm?.enabled) {
+            try {
+                blob = await applyWatermarkToBlob(blob, width, height, wm);
+                outputType = blob.type;
+            } catch (err) {
+                toast(`Watermark skipped for ${task.file.name}: ${err.message}`, 'warn');
+            }
+        }
+
         const compressedUrl = URL.createObjectURL(blob);
         trackUrl(task.id, compressedUrl);
 
@@ -769,12 +982,42 @@
             return;
         }
         const btn = els['download-all-btn'];
+        const zipWrap = els['zip-progress-wrap'];
+        const zipBar = els['zip-progress-bar'];
+        const zipLabel = els['zip-progress-label'];
+        const zipPct = els['zip-progress-pct'];
+
         btn.disabled = true;
         btn.textContent = 'Building ZIP…';
+        zipWrap?.classList.remove('is-hidden');
+        if (zipBar) zipBar.style.width = '0%';
+        if (zipPct) zipPct.textContent = '0%';
+        if (zipLabel) zipLabel.textContent = 'Adding files to ZIP…';
+
         try {
             const zip = new JSZip();
-            state.compressedFiles.forEach((f) => zip.file(f.name, f.blob));
-            const content = await zip.generateAsync({ type: 'blob' });
+            const entries = [...state.compressedFiles.entries()];
+            entries.forEach(([, f], i) => {
+                zip.file(f.name, f.blob);
+                const pct = Math.round(((i + 1) / entries.length) * 40);
+                if (zipBar) zipBar.style.width = `${pct}%`;
+                if (zipPct) zipPct.textContent = `${pct}%`;
+            });
+
+            if (zipLabel) zipLabel.textContent = 'Compressing archive…';
+            const content = await zip.generateAsync(
+                { type: 'blob', streamFiles: true },
+                (metadata) => {
+                    const pct = Math.round(40 + metadata.percent * 0.6);
+                    if (zipBar) zipBar.style.width = `${pct}%`;
+                    if (zipPct) zipPct.textContent = `${pct}%`;
+                }
+            );
+
+            if (zipBar) zipBar.style.width = '100%';
+            if (zipPct) zipPct.textContent = '100%';
+            if (zipLabel) zipLabel.textContent = 'Done — starting download';
+
             const url = URL.createObjectURL(content);
             triggerDownload(url, 'nexuscompress-batch.zip');
             URL.revokeObjectURL(url);
@@ -784,6 +1027,7 @@
         } finally {
             btn.disabled = false;
             btn.textContent = 'Download ZIP';
+            window.setTimeout(() => zipWrap?.classList.add('is-hidden'), 1200);
         }
     }
 

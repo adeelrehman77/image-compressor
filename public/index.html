@@ -133,14 +133,17 @@
                     </select>
                 </section>
 
-                <section class="settings-group">
-                    <h3 class="settings-group-title">UAE government sites</h3>
-                    <p class="settings-group-desc">Typical upload limits for portals and ID apps.</p>
-                    <label class="field-label" for="uae-preset">Portal preset</label>
+                <section class="settings-group settings-group-uae">
+                    <h3 class="settings-group-title">UAE Smart Services presets</h3>
+                    <p class="settings-group-desc">ICA, MOHRE, RTA, and municipality portals often cap file size at 200–500 KB.</p>
+                    <label class="field-label" for="uae-preset">Government portal</label>
                     <select id="uae-preset" class="field-input">
                         <option value="">None</option>
-                        <option value="emirates-id">Emirates ID / passport — 200 KB, JPEG</option>
-                        <option value="portal-reg">Portal registration — 500 KB, WebP</option>
+                        <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
+                        <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
+                        <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
+                        <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
+                        <option value="portal-reg">General portal (WebP) — 500 KB</option>
                     </select>
                 </section>
 
@@ -160,21 +163,79 @@
 
                     <div class="grid-2 field-label-spaced-sm">
                         <div>
-                            <label class="field-label" for="max-width">Max width</label>
+                            <label class="field-label" for="max-width">Max width (px)</label>
                             <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
                         </div>
                         <div>
-                            <label class="field-label" for="max-height">Max height</label>
+                            <label class="field-label" for="max-height">Max height (px)</label>
                             <input type="number" id="max-height" class="field-input" placeholder="Auto" min="1">
                         </div>
                     </div>
+
+                    <label class="field-label field-label-spaced-sm" for="scale-percent">Scale by %</label>
+                    <input type="number" id="scale-percent" class="field-input" placeholder="100" min="1" max="100" value="100" step="1">
+                    <p class="field-hint">e.g. 50 halves width and height. Applied before max dimensions.</p>
+
+                    <label class="field-label field-label-spaced-sm" for="aspect-ratio">Aspect ratio (center crop)</label>
+                    <select id="aspect-ratio" class="field-input">
+                        <option value="">Keep original</option>
+                        <option value="16:9">16:9 (widescreen)</option>
+                        <option value="4:3">4:3 (standard)</option>
+                        <option value="1:1">1:1 (square)</option>
+                        <option value="3:2">3:2 (photo)</option>
+                    </select>
                 </section>
 
                 <section class="settings-group">
-                    <h3 class="settings-group-title">Size cap</h3>
-                    <label class="field-label" for="target-size-kb">Max file size (KB)</label>
-                    <input type="number" id="target-size-kb" class="field-input" placeholder="No limit" min="1" step="1">
-                    <p class="field-hint">We'll lower quality in 5% steps until the file fits.</p>
+                    <h3 class="settings-group-title">Target file size</h3>
+                    <div class="grid-2 target-size-row">
+                        <div>
+                            <label class="field-label" for="target-size-value">Must be under</label>
+                            <input type="number" id="target-size-value" class="field-input" placeholder="No limit" min="1" step="any">
+                        </div>
+                        <div>
+                            <label class="field-label" for="target-size-unit">Unit</label>
+                            <select id="target-size-unit" class="field-input">
+                                <option value="kb">KB</option>
+                                <option value="mb">MB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="target-size-kb" value="">
+                    <p class="field-hint">Quality drops in 5% steps until the output fits (great for 200 KB portal limits).</p>
+                </section>
+
+                <section class="settings-group">
+                    <h3 class="settings-group-title">Watermark (batch)</h3>
+                    <label class="checkbox-row">
+                        <input type="checkbox" id="watermark-enabled">
+                        <span>Add watermark to every export</span>
+                    </label>
+                    <div id="watermark-fields" class="watermark-fields is-hidden">
+                        <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
+                        <select id="watermark-type" class="field-input">
+                            <option value="text">Text</option>
+                            <option value="logo">Logo image (PNG)</option>
+                        </select>
+                        <div id="wm-text-group">
+                            <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
+                            <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
+                        </div>
+                        <div id="wm-logo-group" class="is-hidden">
+                            <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
+                            <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
+                        </div>
+                        <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
+                        <select id="watermark-position" class="field-input">
+                            <option value="bottom-right">Bottom right</option>
+                            <option value="bottom-left">Bottom left</option>
+                            <option value="top-right">Top right</option>
+                            <option value="top-left">Top left</option>
+                            <option value="center">Center</option>
+                        </select>
+                        <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
+                        <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
+                    </div>
                 </section>
 
                 <details class="advanced-details">
@@ -244,6 +305,15 @@
                 </div>
                 <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="batch-progress" aria-label="Batch progress">
                     <div id="batch-progress-bar" class="batch-progress-bar"></div>
+                </div>
+                <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
+                    <div class="zip-progress-header">
+                        <span id="zip-progress-label">Building ZIP…</span>
+                        <span id="zip-progress-pct">0%</span>
+                    </div>
+                    <div class="zip-progress-track">
+                        <div id="zip-progress-bar" class="zip-progress-bar"></div>
+                    </div>
                 </div>
             </div>
 
@@ -318,6 +388,10 @@
                 <li><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
                 <li><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
             </ul>
+            <h2 class="seo-subheading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
+            <p>Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.</p>
+            <h2 class="seo-subheading">Batch resize, aspect ratio & watermark</h2>
+            <p>Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar. Handy for real estate listings, creators, and developers preparing assets locally.</p>
             <h2 class="seo-subheading">Compression guides</h2>
             <ul class="seo-list guide-links">
                 <li><a href="guides/compress-jpeg-without-losing-quality.html">Compress JPEG without losing quality</a></li>
