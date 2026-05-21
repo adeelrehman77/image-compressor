@@ -15,7 +15,7 @@
     "test": "npm run build && node test.js",
     "compress": "node cli.js",
     "pages:deploy": "npm run build && npx wrangler deploy",
-    "postinstall": "node scripts/vendor-jszip.js && node scripts/generate-icons.js"
+    "postinstall": "node scripts/vendor-jszip.js && node scripts/generate-icons.js && node scripts/generate-og.js"
   },
   "keywords": ["image", "compress", "webp", "avif", "optimizer"],
   "author": "",

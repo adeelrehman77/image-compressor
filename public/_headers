@@ -23,5 +23,17 @@
 /icons/*
   Cache-Control: public, max-age=31536000, immutable
 
+/og-image.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/guides/*
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+
 /vendor/*
   Cache-Control: public, max-age=31536000, immutable

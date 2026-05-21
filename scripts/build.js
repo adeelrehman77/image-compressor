@@ -38,12 +38,15 @@ function bumpSwCache() {
     './manifest.json',
     './robots.txt',
     './sitemap.xml',
+    './og-image.png',
 ];`;
     sw = sw.replace(/const ASSETS = \[[\s\S]*?\];/, assets);
     fs.writeFileSync(swPath, sw);
 }
 
 console.log('Building NexusCompress…');
+
+require('./generate-sitemap');
 
 rimraf(distDir);
 copyDir(publicDir, distDir);

@@ -8,15 +8,21 @@
     <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <link rel="canonical" href="https://compress.funadventure.ae/">
+    <link rel="preload" href="css/styles.css" as="style">
     <meta property="og:url" content="https://compress.funadventure.ae/">
     <meta property="og:title" content="Free Online Image Compressor | Reduce Image Size Instantly">
     <meta property="og:description" content="Compress images locally in your browser. No server uploads — fast, free, and private.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://compress.funadventure.ae/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free Online Image Compressor | Reduce Image Size Instantly">
     <meta name="twitter:description" content="Compress JPEG, PNG, WebP & AVIF in your browser. No uploads — 100% private.">
+    <meta name="twitter:image" content="https://compress.funadventure.ae/og-image.png">
     <meta name="robots" content="index, follow, max-image-preview:large">
+    <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | Reduce Image Size Instantly</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053756513182661" crossorigin="anonymous"></script>
     <script type="application/ld+json">
@@ -297,6 +303,14 @@
                 <li><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
                 <li><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
             </ul>
+            <h2 class="seo-subheading">Compression guides</h2>
+            <ul class="seo-list guide-links">
+                <li><a href="guides/compress-jpeg-without-losing-quality.html">Compress JPEG without losing quality</a></li>
+                <li><a href="guides/jpeg-vs-webp.html">JPEG vs WebP — which to use?</a></li>
+                <li><a href="guides/avif-vs-webp.html">AVIF vs WebP for smallest files</a></li>
+                <li><a href="guides/resize-images-for-instagram.html">Resize images for Instagram</a></li>
+                <li><a href="guides/">View all guides</a></li>
+            </ul>
         </section>
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
@@ -305,7 +319,7 @@
             <details class="faq-item" open>
                 <summary>How do I compress a JPEG without losing quality?</summary>
                 <div class="faq-answer">
-                    <p>Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. Resize to the maximum display size you need (for example 1920px wide for hero images) so you are not storing extra pixels. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
+                    <p>Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
                 </div>
             </details>
 
@@ -319,7 +333,7 @@
             <details class="faq-item">
                 <summary>What is the best format to reduce image file size?</summary>
                 <div class="faq-answer">
-                    <p>For most websites, <strong>WebP</strong> offers an excellent balance of quality and size. <strong>AVIF</strong> often achieves the smallest files where supported. Use <strong>JPEG</strong> for maximum compatibility with email and older systems. Use <strong>PNG</strong> when you need transparency or lossless resizing without re-compressing artifacts.</p>
+                    <p>For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
                 </div>
             </details>
 
@@ -347,7 +361,7 @@
     </div>
 
     <footer class="site-footer">
-        <p>© <span id="footer-year"></span> NexusCompress · <a href="docs.html">Docs</a></p>
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="guides/">Guides</a> · <a href="docs.html">Docs</a></p>
     </footer>
 
     <script src="vendor/jszip.min.js" defer></script>
