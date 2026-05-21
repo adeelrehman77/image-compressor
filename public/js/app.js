@@ -38,6 +38,19 @@
         loadVersion();
         const yearEl = document.getElementById('footer-year');
         if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+        initAds();
+    }
+
+    function initAds() {
+        const units = document.querySelectorAll('.adsbygoogle');
+        if (!units.length || typeof window.adsbygoogle === 'undefined') return;
+        try {
+            units.forEach(() => {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            });
+        } catch {
+            /* Ad blockers or CSP in local dev */
+        }
     }
 
     function registerServiceWorker() {
