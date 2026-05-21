@@ -1,6 +1,6 @@
-# Cloudflare — static site from dist/
-# Build (dashboard):  npm run build
-# Deploy (dashboard): npx wrangler deploy
+# Cloudflare Workers — static assets from dist/
+# Build:  npm run build
+# Deploy: npx wrangler deploy
 
 name = "image-compressor"
 compatibility_date = "2024-01-01"
@@ -8,3 +8,5 @@ pages_build_output_dir = "dist"
 
 [assets]
 directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"

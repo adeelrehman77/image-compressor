@@ -14,6 +14,13 @@
 - [x] HTTPS custom domain
 - [x] CSS preload on homepage
 
+## AdSense requirements
+
+- [x] **Privacy Policy** — https://compress.funadventure.ae/privacy.html (linked in footer)
+- [x] **ads.txt** — https://compress.funadventure.ae/ads.txt  
+  If AdSense uses root domain, also publish at https://funadventure.ae/ads.txt
+- [ ] **GA4** — Set `G-XXXXXXXXXX` in `public/js/ga-config.js`
+
 ## Your action items (Google & Cloudflare)
 
 1. **Google Search Console** — Add property `https://compress.funadventure.ae`

@@ -686,12 +686,31 @@
         };
 
         let sliding = false;
-        container.addEventListener('mousedown', (e) => { sliding = true; pointerX(e); });
-        container.addEventListener('touchstart', (e) => { sliding = true; pointerX(e); }, { passive: true });
-        window.addEventListener('mouseup', () => { sliding = false; });
-        window.addEventListener('touchend', () => { sliding = false; });
+
+        const startSlide = (e) => {
+            sliding = true;
+            pointerX(e);
+        };
+
+        const endSlide = () => {
+            sliding = false;
+        };
+
+        container.addEventListener('mousedown', startSlide);
+        container.addEventListener('touchstart', startSlide, { passive: true });
+        window.addEventListener('mouseup', endSlide);
+        window.addEventListener('touchend', endSlide);
+        window.addEventListener('touchcancel', endSlide);
         window.addEventListener('mousemove', (e) => { if (sliding) pointerX(e); });
-        window.addEventListener('touchmove', (e) => { if (sliding) pointerX(e); }, { passive: true });
+        container.addEventListener(
+            'touchmove',
+            (e) => {
+                if (!sliding) return;
+                e.preventDefault();
+                pointerX(e);
+            },
+            { passive: false }
+        );
 
         container.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') { e.preventDefault(); setPct(pct - 5); }

@@ -5,7 +5,8 @@ const { siteUrl } = require('./site-config');
 const pages = [
     { loc: '/', priority: '1.0', changefreq: 'weekly' },
     { loc: '/docs.html', priority: '0.6', changefreq: 'monthly' },
-    { loc: '/guides/', priority: '0.8', changefreq: 'weekly' },
+    { loc: '/privacy.html', priority: '0.5', changefreq: 'yearly' },
+    { loc: '/guides/index.html', priority: '0.8', changefreq: 'weekly' },
     { loc: '/guides/jpeg-vs-webp.html', priority: '0.75', changefreq: 'monthly' },
     { loc: '/guides/compress-jpeg-without-losing-quality.html', priority: '0.75', changefreq: 'monthly' },
     { loc: '/guides/resize-images-for-instagram.html', priority: '0.75', changefreq: 'monthly' },

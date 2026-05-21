@@ -142,6 +142,17 @@ body, .app-body {
     border-color: color-mix(in srgb, var(--success) 28%, transparent);
 }
 
+.chip-muted {
+    color: var(--text-muted);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.chip-muted:hover {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
 .version-chip {
     font-size: 0.65rem;
     color: var(--text-muted);
@@ -937,6 +948,9 @@ html:not(.dark) .ambient-bg {
     border-radius: 0.65rem;
     border: 1px solid var(--surface-border);
     cursor: col-resize;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .compare-container:focus-visible {
@@ -1035,4 +1049,86 @@ html:not(.dark) .ambient-bg {
 @keyframes toastIn {
     from { opacity: 0; transform: translateX(12px); }
     to { opacity: 1; transform: translateX(0); }
+}
+
+.legal-page h2 { margin-top: 1.25rem; }
+
+@media (max-width: 768px) {
+    .app-layout {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .app-sidebar {
+        position: static;
+        top: auto;
+    }
+
+    .app-main {
+        padding: 1rem;
+    }
+
+    .workspace-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-actions {
+        justify-content: flex-start;
+    }
+
+    .drop-zone-inner {
+        padding: 1.75rem 1rem;
+    }
+
+    .drop-title {
+        font-size: 1.05rem;
+    }
+
+    .drop-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .drop-actions .btn-primary,
+    .drop-actions .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .compare-container {
+        height: min(50vw, 240px);
+        min-height: 180px;
+    }
+
+    .compare-handle {
+        width: 44px;
+        height: 44px;
+    }
+
+    .result-name {
+        max-width: 55%;
+    }
+
+    .site-header-inner {
+        flex-wrap: wrap;
+    }
+
+    .site-header-meta {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .batch-summary {
+        font-size: 0.75rem;
+    }
+
+    .view-toggle {
+        width: 100%;
+    }
+
+    .view-btn {
+        flex: 1;
+    }
 }

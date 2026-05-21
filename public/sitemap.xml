@@ -13,7 +13,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://compress.funadventure.ae/guides/</loc>
+    <loc>https://compress.funadventure.ae/privacy.html</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://compress.funadventure.ae/guides/index.html</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

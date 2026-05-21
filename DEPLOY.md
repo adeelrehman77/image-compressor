@@ -45,6 +45,17 @@ After the first deploy: **Custom domains** → add your domain and follow DNS in
 
 Production URL: **https://compress.funadventure.ae**
 
+## AdSense: ads.txt & Privacy Policy
+
+| File | URL on this deploy |
+|------|---------------------|
+| `public/ads.txt` | https://compress.funadventure.ae/ads.txt |
+| `public/privacy.html` | https://compress.funadventure.ae/privacy.html |
+
+If Google AdSense is registered on the **root domain** `funadventure.ae`, you must also host the same `ads.txt` line at **https://funadventure.ae/ads.txt** (via your main site’s hosting — not automatic from this Worker).
+
+**Google Analytics:** Edit `public/js/ga-config.js` and set `window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'` before deploy.
+
 ## Redirect workers.dev to custom domain
 
 Avoid duplicate content in Google by redirecting the default Workers hostname to your custom domain.
