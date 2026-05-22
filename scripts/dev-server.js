@@ -1,5 +1,8 @@
 const express = require('express');
 const path = require('path');
+const { syncPublicAssets } = require('./sync-public-assets');
+
+syncPublicAssets();
 
 const app = express();
 const publicDir = path.join(__dirname, '../public');

@@ -67,28 +67,10 @@ execSync('npx postcss src/styles/main.css -o dist/css/app.css', {
     env: { ...process.env, NODE_ENV: 'production' },
 });
 
-copyFontFiles();
-
-function copyFontFiles() {
-    const dest = path.join(distDir, 'css', 'files');
-    fs.mkdirSync(dest, { recursive: true });
-    const needed = [
-        { pkg: 'inter', base: 'inter-latin-400-normal' },
-        { pkg: 'inter', base: 'inter-latin-500-normal' },
-        { pkg: 'inter', base: 'inter-latin-600-normal' },
-        { pkg: 'outfit', base: 'outfit-latin-500-normal' },
-        { pkg: 'outfit', base: 'outfit-latin-600-normal' },
-        { pkg: 'outfit', base: 'outfit-latin-700-normal' },
-    ];
-    for (const { pkg, base } of needed) {
-        for (const ext of ['.woff2', '.woff']) {
-            const file = base + ext;
-            const src = path.join(root, 'node_modules', '@fontsource', pkg, 'files', file);
-            if (fs.existsSync(src)) fs.copyFileSync(src, path.join(dest, file));
-        }
-    }
-    console.log('Copied font files → dist/css/files/');
-}
+const { syncDistAssets, syncPublicAssets } = require('./sync-public-assets');
+syncDistAssets(distDir);
+syncPublicAssets();
+console.log('Copied font files → dist/css/files/ and public/css/files/');
 
 require('./patch-html').patchHtmlFiles(distDir);
 
@@ -102,9 +84,4 @@ if (fs.existsSync(appCss)) {
 bumpSwCache();
 
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-fs.writeFileSync(
-    path.join(distDir, 'version.json'),
-    JSON.stringify({ version: pkg.version, builtAt: new Date().toISOString() }, null, 2)
-);
-
 console.log(`Done → dist/ (v${pkg.version})`);

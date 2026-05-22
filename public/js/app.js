@@ -143,6 +143,7 @@
             if (res.ok) {
                 const { version } = await res.json();
                 el.textContent = `v${version}`;
+                window.NexusSentry?.setAppVersion?.(version);
             }
         } catch {
             el.textContent = 'v2';

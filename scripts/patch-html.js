@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SENTRY_LOADER =
-    'https://js.sentry-cdn.com/92bde2e109b37e9c307e082b3a4d0250.min.js';
+const SENTRY_BUNDLE = 'https://browser.sentry-cdn.com/8.55.0/bundle.min.js';
 
 function sentryInitPath(htmlFile, publicRoot) {
     const rel = path.relative(path.dirname(htmlFile), path.join(publicRoot, 'js'));
@@ -13,22 +12,26 @@ function sentryInitPath(htmlFile, publicRoot) {
 function injectSentry(html, htmlFile, publicRoot) {
     const initSrc = sentryInitPath(htmlFile, publicRoot);
     const block =
-        `<script src="${initSrc}"></script>\n    ` +
-        `<script src="${SENTRY_LOADER}" crossorigin="anonymous"></script>`;
+        `<script src="${SENTRY_BUNDLE}" crossorigin="anonymous"></script>\n    ` +
+        `<script src="${initSrc}"></script>`;
 
-    if (html.includes('js.sentry-cdn.com') && html.includes('sentry-init.js')) {
-        return html
-            .replace(
-                /<script src="https:\/\/js\.sentry-cdn\.com\/[^"]+\.min\.js" crossorigin="anonymous"><\/script>\s*<script src="[^"]*sentry-init\.js"><\/script>/i,
-                block
-            )
-            .replace(
-                /<script src="[^"]*sentry-init\.js"><\/script>\s*<script src="https:\/\/js\.sentry-cdn\.com\/[^"]+\.min\.js" crossorigin="anonymous"><\/script>/i,
-                block
-            );
+    const legacyLoader =
+        /<script src="https:\/\/js\.sentry-cdn\.com\/[^"]+\.min\.js" crossorigin="anonymous"><\/script>\s*/gi;
+    const bundleFirst =
+        /<script src="https:\/\/browser\.sentry-cdn\.com\/[^"]+\/bundle\.min\.js" crossorigin="anonymous"><\/script>\s*<script src="[^"]*sentry-init\.js"><\/script>/i;
+    const initFirst =
+        /<script src="[^"]*sentry-init\.js"><\/script>\s*<script src="https:\/\/browser\.sentry-cdn\.com\/[^"]+\/bundle\.min\.js" crossorigin="anonymous"><\/script>/i;
+
+    if (html.includes('sentry-init.js')) {
+        html = html.replace(legacyLoader, '');
+        if (bundleFirst.test(html) || initFirst.test(html)) {
+            return html
+                .replace(bundleFirst, block)
+                .replace(initFirst, block);
+        }
     }
 
-    if (html.includes('js.sentry-cdn.com')) return html;
+    if (html.includes('browser.sentry-cdn.com')) return html;
 
     return html.replace(/<meta charset="UTF-8">\s*/i, `<meta charset="UTF-8">\n    ${block}\n    `);
 }

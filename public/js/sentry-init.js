@@ -1,6 +1,5 @@
 /**
- * NexusCompress — Sentry (loader + explicit init).
- * Loader must run after this file so window.sentryOnLoad is registered first.
+ * NexusCompress — Sentry Browser SDK init (requires bundle.min.js loaded first).
  */
 (function () {
     const DSN =
@@ -18,9 +17,9 @@
         return 'production';
     }
 
-    function attachHelpers(Sentry) {
+    function attachHelpers() {
+        const Sentry = window.Sentry;
         if (!Sentry || window.__nexusSentryConfigured) return;
-        window.__nexusSentryConfigured = true;
 
         const tool = (location.hash || '').replace(/^#/, '').trim() || 'compress';
         Sentry.setTag('app', 'nexuscompress');
@@ -28,7 +27,7 @@
 
         window.NexusSentry = {
             captureException(error, context) {
-                if (!window.Sentry) return;
+                if (!window.Sentry?.getClient?.()) return;
                 window.Sentry.withScope((scope) => {
                     if (context && typeof context === 'object') {
                         Object.entries(context).forEach(([key, value]) => {
@@ -40,28 +39,44 @@
                 });
             },
             captureMessage(message, level) {
-                if (!window.Sentry) return;
+                if (!window.Sentry?.getClient?.()) return;
                 window.Sentry.captureMessage(String(message), level || 'error');
             },
             setTool(toolId) {
-                if (!window.Sentry) return;
+                if (!window.Sentry?.getClient?.()) return;
                 window.Sentry.setTag('tool', toolId || 'compress');
             },
+            setAppVersion(version) {
+                if (!window.Sentry?.getClient?.() || !version) return;
+                window.Sentry.setTag('app_version', String(version));
+            },
         };
+
+        window.__nexusSentryConfigured = true;
     }
 
-    window.sentryOnLoad = function () {
+    function initSentry() {
+        const Sentry = window.Sentry;
+        if (!Sentry || typeof Sentry.init !== 'function') return false;
+        if (Sentry.getClient?.()) {
+            attachHelpers();
+            return true;
+        }
+
         Sentry.init({
             dsn: DSN,
             sendDefaultPii: true,
             release: releaseId(),
             environment: environment(),
         });
-        attachHelpers(Sentry);
-    };
 
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof Sentry === 'undefined' || !window.__nexusSentryConfigured) return;
-        Sentry.setRelease(releaseId());
-    });
+        attachHelpers();
+        return !!Sentry.getClient?.();
+    }
+
+    if (!initSentry()) {
+        window.addEventListener('load', () => initSentry());
+    }
+
+    document.addEventListener('DOMContentLoaded', () => initSentry());
 })();

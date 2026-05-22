@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "build:css": "postcss src/styles/main.css -o public/css/app.css && node scripts/patch-html.js",
+    "build:css": "postcss src/styles/main.css -o public/css/app.css && node scripts/patch-html.js && node scripts/sync-public-assets.js",
     "prebuild": "node scripts/patch-html.js",
     "dev": "npm run build:css && node scripts/dev-server.js",
     "preview": "npm run build && node scripts/preview-server.js",
