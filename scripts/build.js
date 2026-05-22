@@ -35,7 +35,6 @@ function bumpSwCache() {
     './js/sentry-init.js',
     './vendor/jszip.min.js',
     './vendor/sentry.bundle.min.js',
-    './vendor/pdf-lib.min.js',
     './manifest.json',
 ];`;
     sw = sw.replace(/const ASSETS = \[[\s\S]*?\];/, assets);

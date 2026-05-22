@@ -1,4 +1,4 @@
-const CACHE = 'nexuscompress-v4';
+const CACHE = 'nexuscompress-v5';
 const ASSETS = [
     './css/app.css',
     './js/app.js',
@@ -34,7 +34,12 @@ function isDocumentRequest(request) {
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') return;
 
-    if (isDocumentRequest(e.request) || e.request.url.includes('version.json')) {
+    const url = new URL(e.request.url);
+
+    // Never intercept third-party (analytics, ads, Sentry CDN, etc.)
+    if (url.origin !== self.location.origin) return;
+
+    if (isDocumentRequest(e.request) || url.pathname.endsWith('version.json')) {
         e.respondWith(fetch(e.request));
         return;
     }
@@ -43,7 +48,7 @@ self.addEventListener('fetch', (e) => {
         caches.match(e.request).then((cached) => {
             if (cached) return cached;
             return fetch(e.request).then((res) => {
-                if (res.ok && new URL(e.request.url).origin === self.location.origin) {
+                if (res.ok) {
                     const clone = res.clone();
                     caches.open(CACHE).then((c) => c.put(e.request, clone));
                 }
