@@ -24,4 +24,22 @@
         if (path.includes('/guides/')) return `../${file}`;
         return file;
     }
+
+    function jsPath(file) {
+        const path = location.pathname || '/';
+        if (path.includes('/guides/')) return `../js/${file}`;
+        return `js/${file}`;
+    }
+
+    function injectAnalytics() {
+        if (document.querySelector('script[src*="ga-config.js"]')) return;
+        ['ga-config.js', 'analytics.js'].forEach((file) => {
+            const s = document.createElement('script');
+            s.src = jsPath(file);
+            s.defer = true;
+            document.body.appendChild(s);
+        });
+    }
+
+    injectAnalytics();
 })();
