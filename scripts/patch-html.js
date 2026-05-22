@@ -1,6 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 
+function jsPrefix(htmlFile, publicRoot) {
+    const rel = path.relative(path.dirname(htmlFile), path.join(publicRoot, 'js'));
+    return rel ? rel.split(path.sep).join('/') : 'js';
+}
+
+function gtmHeadBlock(htmlFile, publicRoot) {
+    const p = jsPrefix(htmlFile, publicRoot);
+    return `<script src="${p}/ga-config.js" defer></script>\n    <script src="${p}/gtm.js" defer></script>`;
+}
+
+const GTM_NOSCRIPT =
+    '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>';
+
+function stripTrackingScripts(html) {
+    return html
+        .replace(/<script src="[^"]*analytics\.js"[^>]*><\/script>\s*/gi, '')
+        .replace(/<script src="[^"]*ga-config\.js"[^>]*><\/script>\s*/gi, '')
+        .replace(/<script src="[^"]*gtm\.js"[^>]*><\/script>\s*/gi, '');
+}
+
+function injectGtm(html, htmlFile, publicRoot) {
+    let next = stripTrackingScripts(html);
+    if (!next.includes('gtm.js')) {
+        const block = gtmHeadBlock(htmlFile, publicRoot);
+        next = next.replace(/\s*<\/head>/i, `\n    ${block}\n</head>`);
+    }
+    if (!next.includes('googletagmanager.com/ns.html')) {
+        next = next.replace(/<body([^>]*)>/i, (match, attrs) => `<body${attrs}>\n    ${GTM_NOSCRIPT}`);
+    }
+    return next;
+}
+
 function sentryInitPath(htmlFile, publicRoot) {
     const rel = path.relative(path.dirname(htmlFile), path.join(publicRoot, 'js'));
     const prefix = rel ? rel.split(path.sep).join('/') : 'js';
@@ -43,6 +75,7 @@ function patchHtmlFiles(dir, publicRoot = dir) {
 
         let html = fs.readFileSync(p, 'utf8');
         html = injectSentry(html, p, publicRoot);
+        html = injectGtm(html, p, publicRoot);
         html = html
             .replace(/href="\.\.\/css\/styles\.css"/g, 'href="../css/app.css"')
             .replace(/href="css\/styles\.css"/g, 'href="css/app.css"')

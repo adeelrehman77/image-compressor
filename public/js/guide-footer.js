@@ -31,9 +31,9 @@
         return `js/${file}`;
     }
 
-    function injectAnalytics() {
-        if (document.querySelector('script[src*="ga-config.js"]')) return;
-        ['ga-config.js', 'analytics.js'].forEach((file) => {
+    function injectGtm() {
+        if (document.querySelector('script[src*="gtm.js"]')) return;
+        ['ga-config.js', 'gtm.js'].forEach((file) => {
             const s = document.createElement('script');
             s.src = jsPath(file);
             s.defer = true;
@@ -41,5 +41,5 @@
         });
     }
 
-    injectAnalytics();
+    injectGtm();
 })();

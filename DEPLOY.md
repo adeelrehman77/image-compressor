@@ -54,7 +54,7 @@ Production URL: **https://compress.funadventure.ae**
 
 If Google AdSense is registered on the **root domain** `funadventure.ae`, you must also host the same `ads.txt` line at **https://funadventure.ae/ads.txt** (via your main site’s hosting — not automatic from this Worker).
 
-**Google Analytics:** Edit `public/js/ga-config.js` and set `window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'` before deploy.
+**Google tags (Analytics + Ads):** See **[GOOGLE_TAGS.md](./GOOGLE_TAGS.md)**. The site loads **Google Tag Manager** (`GTM-K59TSM95`) only. Configure GA4 (`G-C7MSE78KWN`) and Google Ads (`AW-668399104`) as tags inside GTM and **Publish** — do not paste extra gtag snippets into HTML.
 
 ## Redirect workers.dev to custom domain
 
