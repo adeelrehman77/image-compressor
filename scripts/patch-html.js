@@ -16,15 +16,15 @@ function sentryBundlePath(htmlFile, publicRoot) {
 function sentryScriptBlock(htmlFile, publicRoot) {
     const bundleSrc = sentryBundlePath(htmlFile, publicRoot);
     const initSrc = sentryInitPath(htmlFile, publicRoot);
-    return `<script src="${bundleSrc}"></script>\n    <script src="${initSrc}"></script>`;
+    return `<script src="${bundleSrc}" defer></script>\n    <script src="${initSrc}" defer></script>`;
 }
 
 function stripSentryScripts(html) {
     return html
         .replace(/<script src="https:\/\/js\.sentry-cdn\.com\/[^"]+\.min\.js" crossorigin="anonymous"><\/script>\s*/gi, '')
         .replace(/<script src="https:\/\/browser\.sentry-cdn\.com\/[^"]+\/bundle\.min\.js" crossorigin="anonymous"><\/script>\s*/gi, '')
-        .replace(/<script src="[^"]*sentry\.bundle\.min\.js"><\/script>\s*/gi, '')
-        .replace(/<script src="[^"]*sentry-init\.js"><\/script>\s*/gi, '');
+        .replace(/<script src="[^"]*sentry\.bundle\.min\.js"[^>]*><\/script>\s*/gi, '')
+        .replace(/<script src="[^"]*sentry-init\.js"[^>]*><\/script>\s*/gi, '');
 }
 
 function injectSentry(html, htmlFile, publicRoot) {
