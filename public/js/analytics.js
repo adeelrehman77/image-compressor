@@ -33,9 +33,5 @@
         });
     }
 
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(run, { timeout: 5000 });
-    } else {
-        window.addEventListener('load', () => setTimeout(run, 2000));
-    }
+    run();
 })();
