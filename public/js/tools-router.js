@@ -4,6 +4,7 @@
         'images-to-pdf': 'Images to PDF — UAE portal ready',
         'pdf-suite': 'PDF merge & split — local only',
         svg: 'SVG optimizer for the web',
+        'passport-studio': 'Passport & visa photos — ICAO ready',
     };
 
     const TITLES = {
@@ -11,6 +12,7 @@
         'images-to-pdf': 'Images to PDF — Free Online | NexusCompress',
         'pdf-suite': 'PDF Merge & Split — Free Online | NexusCompress',
         svg: 'SVG Optimizer — Free Online | NexusCompress',
+        'passport-studio': 'Passport & Visa Photo Studio — Free Online | NexusCompress',
     };
 
     const SEO = {
@@ -62,11 +64,25 @@
             intro3:
                 'Ship smaller icons, logos, and UI assets to production with a tool that fits right into your design-to-code workflow — no CLI required.',
         },
+        'passport-studio': {
+            h1: 'Create Official Passport and Visa Photos Online (Free & Private)',
+            title1: 'India & UAE government formats',
+            intro1:
+                'Format portrait photos for Passport Seva Digital (630×810 px), OCI and e-Visa VFS print sheets (2×2 in / 51×51 mm), and UAE Emirates ID and visa portals (35×45 mm) — without uploading your biometrics to a cloud server.',
+            title2: 'VFS, OCI, and smart-portal ready',
+            intro2:
+                'See ICAO and UAE-specific compliance tips as you pick a preset: white backgrounds, clothing contrast, file-size caps, and dimensions trusted for VFS Global appointments, OCI uploads, MOHRE, ICP, and Dubai Municipality turnstiles.',
+            title3: 'Private by design',
+            intro3:
+                'Your passport and visa photos stay on your device. Crop, check warnings, and export portal-ready JPEGs locally — free, with no account and no server-side storage of identity documents.',
+        },
     };
 
     function parseTool() {
         const hash = (location.hash || '').replace(/^#/, '').trim();
-        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg') return hash;
+        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'passport-studio') {
+            return hash;
+        }
         return 'compress';
     }
 

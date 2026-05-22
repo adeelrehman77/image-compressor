@@ -144,6 +144,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label">SVG Optimizer</span>
                     </a>
+                    <a href="#passport-studio" class="tool-tab tool-nav-link" data-tool="passport-studio" role="tab" aria-selected="false">
+                        <span class="tool-tab__icon" aria-hidden="true">📸</span>
+                        <span class="tool-tab__label">Passport Studio</span>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -501,6 +505,86 @@
         </div>
     </div>
 
+    <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio">
+        <div id="passport-studio-workspace" class="app-layout passport-studio-layout max-width-wrap">
+            <aside class="app-sidebar glass-panel" aria-label="Passport and visa presets">
+                <p class="sidebar-intro">International Passport &amp; Visa Studio — pick a government preset. Processing stays on this device only.</p>
+
+                <section class="settings-group settings-group-passport">
+                    <h3 class="settings-group-title">Preset</h3>
+                    <label class="field-label" for="passport-preset-select">Target format</label>
+                    <select id="passport-preset-select" class="field-input passport-preset-select">
+                        <option value="">Select Preset...</option>
+                        <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
+                        <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
+                        <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
+                    </select>
+
+                    <div id="passport-warnings" class="passport-warnings is-hidden" role="alert" aria-live="polite"></div>
+                </section>
+
+                <section class="settings-group">
+                    <h3 class="settings-group-title">How it works</h3>
+                    <p class="settings-group-desc">Choose a preset to see country-specific compliance notes. Photo crop and export tools for each format will appear in the workspace as this studio expands.</p>
+                </section>
+            </aside>
+
+            <main class="app-main glass-panel passport-studio-main" aria-label="Passport photo workspace">
+                <header class="workspace-header">
+                    <div>
+                        <h2 class="workspace-title">Passport &amp; Visa Photo Studio</h2>
+                        <p class="workspace-sub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads — free and private in your browser.</p>
+                    </div>
+                </header>
+
+                <section id="passport-drop-zone" class="passport-studio-placeholder tool-drop-zone" tabindex="0">
+                    <p class="drop-title">Add a portrait photo</p>
+                    <p class="drop-sub">Select a preset on the left, then choose a photo to crop and export to portal specs.</p>
+                    <div class="drop-actions">
+                        <label class="btn-primary is-clickable">
+                            Choose photo
+                            <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                        </label>
+                    </div>
+                </section>
+
+                <div id="passport-editor" class="passport-editor is-hidden">
+                    <div class="passport-preview-stage" id="passport-preview-stage" data-aspect="7-9">
+                        <div class="passport-preview-wrap" id="passport-preview-wrap">
+                            <canvas id="passport-preview-canvas" class="passport-preview-canvas" aria-label="Passport photo crop preview"></canvas>
+                            <div class="passport-biometric-overlay" id="passport-biometric-overlay" aria-hidden="true">
+                                <span class="passport-bio-label passport-bio-label--hair">Top of Hair</span>
+                                <div class="passport-bio-ring"></div>
+                                <span class="passport-bio-label passport-bio-label--chin">Bottom of Chin</span>
+                            </div>
+                        </div>
+                        <p class="passport-bio-hint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
+                    </div>
+
+                    <div class="passport-controls">
+                        <label class="field-label" for="passport-zoom">Zoom</label>
+                        <input type="range" id="passport-zoom" class="passport-zoom" min="1" max="3" step="0.01" value="1">
+                        <p class="passport-pan-hint">Drag the photo to reposition.</p>
+                        <div class="passport-photo-tools">
+                            <label class="btn-secondary is-clickable passport-change-photo">
+                                Change photo
+                                <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                            </label>
+                            <button type="button" id="passport-clear-photo" class="btn-ghost passport-clear-photo">Clear photo</button>
+                        </div>
+                    </div>
+
+                    <div class="passport-actions">
+                        <button type="button" id="passport-export-digital" class="btn-primary">Download Digital Photo</button>
+                        <button type="button" id="passport-print-sheet" class="btn-secondary">Generate 4×6 Print Sheet (Walgreens/CVS/Local Lab ready)</button>
+                    </div>
+                </div>
+
+                <p id="passport-studio-status" class="tool-status" aria-live="polite"></p>
+            </main>
+        </div>
+    </div>
+
     <div class="below-app max-width-wrap">
         <aside class="ad-slot glass-panel" aria-label="Advertisement">
             <ins class="adsbygoogle"
@@ -549,6 +633,7 @@
                 <a href="#images-to-pdf" class="seo-tool-chip">Images to PDF</a>
                 <a href="#pdf-suite" class="seo-tool-chip">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip">SVG optimizer</a>
+                <a href="#passport-studio" class="seo-tool-chip">Passport Studio</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -663,6 +748,7 @@
     </div>
 
     <script src="js/tools-shared.js" defer></script>
+    <script src="js/passport-studio.js" defer></script>
     <script src="js/tools-router.js" defer></script>
     <script src="js/app.js" defer></script>
 </body>

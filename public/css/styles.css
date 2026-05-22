@@ -502,6 +502,180 @@ html:not(.dark) .tool-nav-link.active {
 
 .memory-guard-notice__dismiss:hover { color: var(--text); }
 
+.passport-studio-layout {
+    max-width: 1400px;
+}
+
+.passport-preset-select {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+}
+
+.passport-warnings {
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--warning, #e6a817) 40%, transparent);
+    background: color-mix(in srgb, var(--warning, #e6a817) 11%, transparent);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--text);
+}
+
+.passport-warnings[data-region="uae"] {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    background: color-mix(in srgb, var(--accent-soft) 12%, transparent);
+}
+
+.settings-group-passport {
+    background: color-mix(in srgb, var(--accent-soft) 5%, transparent);
+    margin: 0 -0.25rem;
+    padding: 0.85rem 0.25rem;
+    border-radius: 0.5rem;
+}
+
+.passport-studio-main .passport-studio-placeholder {
+    margin-top: 0.25rem;
+}
+
+.passport-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.passport-preview-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.passport-preview-wrap {
+    position: relative;
+    width: min(100%, 22rem);
+    aspect-ratio: 7 / 9;
+    max-height: min(70vh, 28rem);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--text) 8%, var(--bg-elevated));
+    border: 1px solid var(--surface-border);
+    cursor: grab;
+    touch-action: none;
+}
+
+.passport-preview-wrap.is-dragging {
+    cursor: grabbing;
+}
+
+.passport-preview-wrap[data-aspect="1-1"] {
+    aspect-ratio: 1 / 1;
+    width: min(100%, 20rem);
+}
+
+.passport-preview-wrap[data-aspect="35-45"] {
+    aspect-ratio: 35 / 45;
+    width: min(100%, 19rem);
+}
+
+.passport-preview-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.passport-biometric-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.passport-bio-ring {
+    width: 72%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px dashed color-mix(in srgb, var(--accent-soft) 85%, #fff);
+    background: transparent;
+    box-shadow: 0 0 0 9999px color-mix(in srgb, var(--bg) 18%, transparent);
+    flex-shrink: 0;
+}
+
+.passport-bio-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent-soft) 90%, #fff);
+    text-shadow: 0 1px 3px color-mix(in srgb, var(--bg) 80%, transparent);
+    white-space: nowrap;
+}
+
+.passport-bio-label--hair {
+    top: 14%;
+}
+
+.passport-bio-label--chin {
+    bottom: 14%;
+}
+
+.passport-bio-hint {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 22rem;
+}
+
+.passport-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.passport-zoom {
+    width: 100%;
+    max-width: 22rem;
+}
+
+.passport-pan-hint {
+    margin: 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.passport-photo-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+}
+
+.passport-change-photo,
+.passport-clear-photo {
+    flex: 1 1 auto;
+    min-width: 8rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.passport-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.passport-actions .btn-primary,
+.passport-actions .btn-secondary {
+    flex: 1 1 14rem;
+}
+
 .ambient-bg {
     position: fixed;
     inset: 0;
