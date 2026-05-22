@@ -506,45 +506,72 @@
     </div>
 
     <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio">
-        <div id="passport-studio-workspace" class="app-layout passport-studio-layout max-width-wrap">
+        <div id="passport-studio-workspace" class="app-layout">
             <aside class="app-sidebar glass-panel" aria-label="Passport and visa presets">
-                <p class="sidebar-intro">International Passport &amp; Visa Studio — pick a government preset. Processing stays on this device only.</p>
+                <p class="sidebar-intro">Pick a government preset and export settings. Your portrait never leaves this device.</p>
 
-                <section class="settings-group settings-group-passport">
-                    <h3 class="settings-group-title">Preset</h3>
-                    <label class="field-label" for="passport-preset-select">Target format</label>
-                    <select id="passport-preset-select" class="field-input passport-preset-select">
-                        <option value="">Select Preset...</option>
-                        <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
-                        <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
-                        <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
-                    </select>
+                <div class="sidebar-panel">
+                    <section class="settings-group settings-group-passport">
+                        <h3 class="settings-group-title">Target format</h3>
+                        <label class="field-label" for="passport-preset-select">Preset</label>
+                        <select id="passport-preset-select" class="field-input passport-preset-select">
+                            <option value="">Select Preset...</option>
+                            <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
+                            <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
+                            <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
+                        </select>
+                        <div id="passport-warnings" class="passport-warnings is-hidden" role="alert" aria-live="polite"></div>
+                    </section>
 
-                    <div id="passport-warnings" class="passport-warnings is-hidden" role="alert" aria-live="polite"></div>
-                </section>
+                    <section id="passport-sidebar-crop" class="settings-group is-hidden">
+                        <h3 class="settings-group-title">Crop &amp; align</h3>
+                        <label class="field-label" for="passport-zoom">Zoom</label>
+                        <input type="range" id="passport-zoom" class="passport-zoom custom-slider" min="1" max="3" step="0.01" value="1">
+                        <p class="field-hint">Drag the preview on the right to reposition. Face should fill 70–85% of the circle.</p>
+                        <div class="passport-photo-tools">
+                            <label class="btn-secondary is-clickable passport-change-photo btn-block">
+                                Change photo
+                                <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                            </label>
+                            <button type="button" id="passport-clear-photo" class="btn-ghost passport-clear-photo btn-block">Clear photo</button>
+                        </div>
+                    </section>
 
-                <section class="settings-group">
-                    <h3 class="settings-group-title">How it works</h3>
-                    <p class="settings-group-desc">Choose a preset to see country-specific compliance notes. Photo crop and export tools for each format will appear in the workspace as this studio expands.</p>
-                </section>
+                    <section id="passport-sidebar-export" class="settings-group is-hidden">
+                        <h3 class="settings-group-title">Export</h3>
+                        <button type="button" id="passport-export-digital" class="btn-primary btn-block">Download Digital Photo</button>
+                        <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm">Generate 4×6 Print Sheet</button>
+                        <p class="field-hint">Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.</p>
+                    </section>
+
+                    <section class="settings-group">
+                        <h3 class="settings-group-title">How it works</h3>
+                        <p class="settings-group-desc">Choose a preset for compliance notes, upload a portrait, align your face in the biometric ring, then download a digital file or a 4×6 print sheet.</p>
+                    </section>
+                </div>
             </aside>
 
             <main class="app-main glass-panel passport-studio-main" aria-label="Passport photo workspace">
                 <header class="workspace-header">
                     <div>
                         <h2 class="workspace-title">Passport &amp; Visa Photo Studio</h2>
-                        <p class="workspace-sub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads — free and private in your browser.</p>
+                        <p class="workspace-sub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.</p>
                     </div>
                 </header>
 
-                <section id="passport-drop-zone" class="passport-studio-placeholder tool-drop-zone" tabindex="0">
-                    <p class="drop-title">Add a portrait photo</p>
-                    <p class="drop-sub">Select a preset on the left, then choose a photo to crop and export to portal specs.</p>
-                    <div class="drop-actions">
-                        <label class="btn-primary is-clickable">
-                            Choose photo
-                            <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
-                        </label>
+                <section id="passport-drop-zone" class="drop-zone passport-drop-zone" tabindex="0" aria-label="Upload passport portrait">
+                    <div class="drop-zone-inner">
+                        <div class="drop-icon" aria-hidden="true">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </div>
+                        <p class="drop-title">Add a portrait photo</p>
+                        <p class="drop-sub">Select a preset in the sidebar, then choose a photo to crop and export.</p>
+                        <div class="drop-actions">
+                            <label class="btn-primary is-clickable">
+                                Choose photo
+                                <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                            </label>
+                        </div>
                     </div>
                 </section>
 
@@ -559,24 +586,6 @@
                             </div>
                         </div>
                         <p class="passport-bio-hint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
-                    </div>
-
-                    <div class="passport-controls">
-                        <label class="field-label" for="passport-zoom">Zoom</label>
-                        <input type="range" id="passport-zoom" class="passport-zoom" min="1" max="3" step="0.01" value="1">
-                        <p class="passport-pan-hint">Drag the photo to reposition.</p>
-                        <div class="passport-photo-tools">
-                            <label class="btn-secondary is-clickable passport-change-photo">
-                                Change photo
-                                <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
-                            </label>
-                            <button type="button" id="passport-clear-photo" class="btn-ghost passport-clear-photo">Clear photo</button>
-                        </div>
-                    </div>
-
-                    <div class="passport-actions">
-                        <button type="button" id="passport-export-digital" class="btn-primary">Download Digital Photo</button>
-                        <button type="button" id="passport-print-sheet" class="btn-secondary">Generate 4×6 Print Sheet (Walgreens/CVS/Local Lab ready)</button>
                     </div>
                 </div>
 

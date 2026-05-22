@@ -262,6 +262,8 @@
     function showEditor(show) {
         els.dropZone?.classList.toggle('is-hidden', show);
         els.editor?.classList.toggle('is-hidden', !show);
+        document.getElementById('passport-sidebar-crop')?.classList.toggle('is-hidden', !show);
+        document.getElementById('passport-sidebar-export')?.classList.toggle('is-hidden', !show);
         if (show) {
             els.biometricOverlay?.classList.remove('is-hidden');
             requestAnimationFrame(renderPreview);
