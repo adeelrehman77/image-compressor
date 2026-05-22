@@ -1,13 +1,12 @@
-const CACHE = 'nexuscompress-v3';
+const CACHE = 'nexuscompress-v4';
 const ASSETS = [
-    './',
-    './index.html',
     './css/app.css',
     './js/app.js',
     './js/worker.js',
+    './js/sentry-init.js',
     './vendor/jszip.min.js',
+    './vendor/sentry.bundle.min.js',
     './manifest.json',
-    './docs.html',
 ];
 
 self.addEventListener('install', (e) => {
@@ -24,8 +23,22 @@ self.addEventListener('activate', (e) => {
     self.clients.claim();
 });
 
+function isDocumentRequest(request) {
+    return (
+        request.mode === 'navigate' ||
+        request.destination === 'document' ||
+        new URL(request.url).pathname.endsWith('.html')
+    );
+}
+
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') return;
+
+    if (isDocumentRequest(e.request) || e.request.url.includes('version.json')) {
+        e.respondWith(fetch(e.request));
+        return;
+    }
+
     e.respondWith(
         caches.match(e.request).then((cached) => {
             if (cached) return cached;
