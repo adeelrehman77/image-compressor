@@ -99,6 +99,7 @@ In ad copy use:
 | Problem | Fix |
 |---------|-----|
 | CSP errors for `googletagmanager.com` | Deploy latest `public/_headers`; hard refresh / unregister service worker |
+| GTM Preview debug badge CSS blocked | CSP `style-src` needs `googletagmanager.com` + `fonts.googleapis.com`; `font-src` needs `fonts.gstatic.com` |
 | Tag Assistant blocked | CSP `connect-src` must include `googletagmanager.com` (already in repo) |
 | Double page views | Remove any extra gtag/GTM snippets; use GTM only |
 | Realtime = 0 | Publish GTM container; check ad blocker; confirm tags have **All Pages** trigger |
