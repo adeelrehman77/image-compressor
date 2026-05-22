@@ -23,7 +23,7 @@
 
     let optimizedBlob = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    window.NexusTools.runWhenReady(() => {
         const input = document.getElementById('svg-input');
         const before = document.getElementById('svg-before');
         const after = document.getElementById('svg-after');

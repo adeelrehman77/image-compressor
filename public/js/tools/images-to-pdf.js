@@ -85,7 +85,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    window.NexusTools.runWhenReady(() => {
         document.getElementById('itp-input')?.addEventListener('change', (e) => {
             addFiles(e.target.files || []);
             e.target.value = '';

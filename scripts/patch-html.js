@@ -14,9 +14,8 @@ function sentryBundlePath(htmlFile, publicRoot) {
 }
 
 function sentryScriptBlock(htmlFile, publicRoot) {
-    const bundleSrc = sentryBundlePath(htmlFile, publicRoot);
     const initSrc = sentryInitPath(htmlFile, publicRoot);
-    return `<script src="${bundleSrc}" defer></script>\n    <script src="${initSrc}" defer></script>`;
+    return `<script src="${initSrc}" defer></script>`;
 }
 
 function stripSentryScripts(html) {

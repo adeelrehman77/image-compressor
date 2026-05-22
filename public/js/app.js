@@ -91,14 +91,40 @@
         loadSettings();
         bindEvents();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
-        registerServiceWorker();
+        scheduleIdle(registerServiceWorker, 6000);
         loadVersion();
         const yearEl = document.getElementById('footer-year');
         if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-        initAds();
+        scheduleIdle(initAds, 3500);
     }
 
-    function initAds() {
+    function scheduleIdle(fn, timeout = 3000) {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(fn, { timeout });
+        } else {
+            window.addEventListener('load', () => setTimeout(fn, 1500));
+        }
+    }
+
+    const ADSENSE_CLIENT = 'ca-pub-7053756513182661';
+    let adsensePromise = null;
+
+    function loadAdSense() {
+        if (window.adsbygoogle) return Promise.resolve();
+        if (adsensePromise) return adsensePromise;
+        adsensePromise = new Promise((resolve) => {
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+            s.crossOrigin = 'anonymous';
+            s.onload = () => resolve();
+            s.onerror = () => resolve();
+            document.head.appendChild(s);
+        });
+        return adsensePromise;
+    }
+
+    async function initAds() {
         const slot = document.querySelector('.ad-slot');
         const units = document.querySelectorAll('.adsbygoogle');
         const local =
@@ -109,6 +135,7 @@
             return;
         }
 
+        await loadAdSense();
         if (typeof window.adsbygoogle === 'undefined') {
             slot?.classList.add('ad-slot--collapsed');
             return;
@@ -128,8 +155,7 @@
             if (!ins || !slot) return;
             const unfilled = ins.getAttribute('data-ad-status') === 'unfilled';
             const noFrame = !ins.querySelector('iframe');
-            const short = ins.offsetHeight < 24;
-            if (unfilled || (noFrame && short)) slot.classList.add('ad-slot--collapsed');
+            if (unfilled || noFrame) slot.classList.add('ad-slot--collapsed');
         }, 2500);
     }
 
@@ -1080,7 +1106,9 @@
     }
 
     async function downloadAllZip() {
-        if (typeof JSZip === 'undefined') {
+        try {
+            await window.NexusTools?.loadJsZip?.();
+        } catch {
             toast('JSZip failed to load', 'error');
             return;
         }

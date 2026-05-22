@@ -66,11 +66,7 @@
                 return;
             }
 
-            if (typeof JSZip === 'undefined') {
-                toast('ZIP library missing — download pages one at a time from merge tool or refresh.', 'error');
-                return;
-            }
-
+            await window.NexusTools.loadJsZip();
             const zip = new JSZip();
             for (let i = 0; i < count; i++) {
                 const out = await PDFDocument.create();
@@ -91,7 +87,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    window.NexusTools.runWhenReady(() => {
         document.querySelectorAll('.pdf-tab').forEach((tab) => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.pdf-tab').forEach((t) => {

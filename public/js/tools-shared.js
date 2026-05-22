@@ -30,6 +30,65 @@ window.NexusTools = (function () {
         URL.revokeObjectURL(url);
     }
 
+    const TOOL_SCRIPTS = {
+        'images-to-pdf': 'js/tools/images-to-pdf.js',
+        'pdf-suite': 'js/tools/pdf-suite.js',
+        svg: 'js/tools/svg-optimizer.js',
+    };
+    const loadedTools = new Set();
+    const scriptPromises = {};
+
+    function runWhenReady(fn) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn);
+        } else {
+            fn();
+        }
+    }
+
+    function loadScript(src) {
+        if (scriptPromises[src]) return scriptPromises[src];
+        const existing = document.querySelector(`script[data-nexus-src="${src}"]`);
+        if (existing?.dataset.ready === '1') return Promise.resolve();
+
+        scriptPromises[src] = new Promise((resolve, reject) => {
+            const done = () => resolve();
+            const fail = () => reject(new Error(`Failed to load ${src}`));
+            if (existing) {
+                existing.addEventListener('load', done, { once: true });
+                existing.addEventListener('error', fail, { once: true });
+                return;
+            }
+            const s = document.createElement('script');
+            s.src = src;
+            s.defer = true;
+            s.dataset.nexusSrc = src;
+            s.onload = () => {
+                s.dataset.ready = '1';
+                resolve();
+            };
+            s.onerror = fail;
+            document.body.appendChild(s);
+        });
+        return scriptPromises[src];
+    }
+
+    async function ensureTool(toolId) {
+        const src = TOOL_SCRIPTS[toolId];
+        if (!src || loadedTools.has(toolId)) return;
+        await loadScript(src);
+        loadedTools.add(toolId);
+    }
+
+    let jsZipPromise = null;
+
+    function loadJsZip() {
+        if (typeof JSZip !== 'undefined') return Promise.resolve(JSZip);
+        if (jsZipPromise) return jsZipPromise;
+        jsZipPromise = loadScript('vendor/jszip.min.js').then(() => JSZip);
+        return jsZipPromise;
+    }
+
     let pdfLibPromise = null;
 
     function loadPdfLib() {
@@ -54,5 +113,16 @@ window.NexusTools = (function () {
         window.NexusSentry?.captureException(err, context);
     }
 
-    return { toast, formatBytes, downloadBlob, requirePdfLib, loadPdfLib, reportError };
+    return {
+        toast,
+        formatBytes,
+        downloadBlob,
+        requirePdfLib,
+        loadPdfLib,
+        loadJsZip,
+        loadScript,
+        runWhenReady,
+        ensureTool,
+        reportError,
+    };
 })();
