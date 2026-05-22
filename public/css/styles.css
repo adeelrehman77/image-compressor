@@ -333,6 +333,12 @@ html:not(.dark) .tool-nav-link.active {
     letter-spacing: -0.02em;
 }
 
+.site-logo-name--brand {
+    font-size: clamp(0.72rem, 2.2vw, 0.95rem);
+    line-height: 1.2;
+    max-width: min(14rem, 42vw);
+}
+
 .site-logo-tag {
     font-size: 0.7rem;
     color: var(--text-muted);
@@ -428,6 +434,64 @@ html:not(.dark) .tool-nav-link.active {
 
 .site-footer a { color: var(--accent); text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
+
+.site-compliance-footer {
+    position: relative;
+    z-index: 10;
+    padding: 0.75rem 1.25rem 1.25rem;
+    text-align: center;
+    border-top: 1px solid color-mix(in srgb, var(--surface-border) 70%, transparent);
+    background: color-mix(in srgb, var(--surface) 35%, transparent);
+}
+
+.site-compliance-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.72rem;
+}
+
+.site-compliance-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.site-compliance-nav a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.memory-guard-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--warning, #e6a817) 35%, transparent);
+    background: color-mix(in srgb, var(--warning, #e6a817) 12%, transparent);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text);
+}
+
+.memory-guard-notice__text { margin: 0; flex: 1; }
+
+.memory-guard-notice__dismiss {
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0.15rem;
+}
+
+.memory-guard-notice__dismiss:hover { color: var(--text); }
 
 .ambient-bg {
     position: fixed;
@@ -1062,9 +1126,34 @@ html:not(.dark) .ambient-bg {
 .zip-progress-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-bottom: 0.35rem;
+}
+
+.zip-progress-label-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.zip-cancel-link {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.zip-cancel-link:hover {
+    text-decoration: underline;
+}
+
+.zip-cancel-link:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 .zip-progress-track {

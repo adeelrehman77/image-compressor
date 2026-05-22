@@ -76,14 +76,19 @@ function roundQuality(q) {
 
 async function renderToBlob(bitmap, crop, width, height, outputType, quality) {
     const offscreen = new OffscreenCanvas(width, height);
-    const ctx = offscreen.getContext('2d');
-    ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
+    try {
+        const ctx = offscreen.getContext('2d');
+        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
 
-    const opts = { type: outputType };
-    if (LOSSY_TYPES.includes(outputType)) {
-        opts.quality = quality;
+        const opts = { type: outputType };
+        if (LOSSY_TYPES.includes(outputType)) {
+            opts.quality = quality;
+        }
+        return await offscreen.convertToBlob(opts);
+    } finally {
+        offscreen.width = 0;
+        offscreen.height = 0;
     }
-    return offscreen.convertToBlob(opts);
 }
 
 async function compressWithQuality(bitmap, crop, width, height, outputType, quality) {

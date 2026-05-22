@@ -5,4 +5,23 @@
     const theme = localStorage.getItem('nexus-theme') || 'dark';
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.documentElement.dataset.theme = theme;
+
+    if (!document.getElementById('site-compliance-footer')) {
+        const footer = document.createElement('footer');
+        footer.id = 'site-compliance-footer';
+        footer.className = 'site-compliance-footer max-width-wrap';
+        footer.innerHTML = `
+            <nav class="site-compliance-nav" aria-label="Legal and support">
+                <a href="${resolvePath('privacy.html')}">Privacy Policy</a>
+                <a href="${resolvePath('terms.html')}">Terms of Service</a>
+                <a href="mailto:info@funadventure.ae">Contact Support</a>
+            </nav>`;
+        document.body.appendChild(footer);
+    }
+
+    function resolvePath(file) {
+        const path = location.pathname || '/';
+        if (path.includes('/guides/')) return `../${file}`;
+        return file;
+    }
 })();

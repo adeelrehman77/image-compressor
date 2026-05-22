@@ -2,6 +2,8 @@
     const STORAGE_KEY = 'nexuscompress-settings';
     const HISTORY_KEY = 'nexuscompress-history';
     const WORKER_POOL_SIZE = 3;
+    const MAX_FILE_BYTES = 25 * 1024 * 1024;
+    const MAX_BATCH_FILES = 20;
     const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif)$/i;
 
     const PRESETS = {
@@ -68,6 +70,9 @@
         viewMode: 'cards',
         avifSupported: false,
         cancelled: false,
+        sequentialMode: false,
+        zipAbort: false,
+        zipGeneration: 0,
         watermarkLogo: null,
     };
 
@@ -160,7 +165,8 @@
             'results-container', 'results-list', 'results-table-wrap',
             'results-table-body', 'download-all-btn', 'clear-all-btn', 'batch-summary',
             'batch-count', 'batch-saved', 'batch-avg', 'batch-progress-bar', 'batch-progress',
-            'zip-progress-wrap', 'zip-progress-bar', 'zip-progress-label', 'zip-progress-pct', 'empty-results',
+            'zip-progress-wrap', 'zip-progress-bar', 'zip-progress-label', 'zip-progress-pct', 'zip-cancel',
+            'memory-guard-notice', 'memory-guard-dismiss', 'empty-results',
             'view-cards', 'view-table', 'theme-toggle', 'toast-root',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
@@ -337,6 +343,13 @@
         els['folder-input'].addEventListener('change', (e) => handleFiles(e.target.files));
 
         els['download-all-btn'].addEventListener('click', downloadAllZip);
+        els['zip-cancel']?.addEventListener('click', (e) => {
+            e.preventDefault();
+            cancelZipBuild();
+        });
+        els['memory-guard-dismiss']?.addEventListener('click', () => {
+            els['memory-guard-notice']?.classList.add('is-hidden');
+        });
         els['clear-all-btn'].addEventListener('click', clearAll);
         els['view-cards'].addEventListener('click', () => setViewMode('cards'));
         els['view-table'].addEventListener('click', () => setViewMode('table'));
@@ -388,42 +401,47 @@
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(bitmap, 0, 0, width, height);
-        bitmap.close();
+        try {
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(bitmap, 0, 0, width, height);
+            bitmap.close();
 
-        const pad = Math.round(Math.min(width, height) * 0.03);
-        const fontSize = Math.max(14, Math.round(Math.min(width, height) * 0.04));
-        ctx.globalAlpha = wm.opacity;
+            const pad = Math.round(Math.min(width, height) * 0.03);
+            const fontSize = Math.max(14, Math.round(Math.min(width, height) * 0.04));
+            ctx.globalAlpha = wm.opacity;
 
-        if (wm.type === 'text' && wm.text) {
-            ctx.font = `600 ${fontSize}px Inter, system-ui, sans-serif`;
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = 'rgba(0,0,0,0.35)';
-            ctx.lineWidth = Math.max(2, fontSize * 0.08);
-            const metrics = ctx.measureText(wm.text);
-            const tw = metrics.width;
-            const th = fontSize;
-            const pos = watermarkCoords(width, height, tw, th, pad, wm.position);
-            ctx.strokeText(wm.text, pos.x, pos.y);
-            ctx.fillText(wm.text, pos.x, pos.y);
-        } else if (wm.type === 'logo' && wm.logoFile) {
-            const logoBitmap = await createImageBitmap(wm.logoFile);
-            const maxLogoW = width * 0.28;
-            const scale = Math.min(1, maxLogoW / logoBitmap.width);
-            const lw = Math.round(logoBitmap.width * scale);
-            const lh = Math.round(logoBitmap.height * scale);
-            const pos = watermarkCoords(width, height, lw, lh, pad, wm.position);
-            ctx.drawImage(logoBitmap, pos.x, pos.y, lw, lh);
-            logoBitmap.close();
+            if (wm.type === 'text' && wm.text) {
+                ctx.font = `600 ${fontSize}px Inter, system-ui, sans-serif`;
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+                ctx.lineWidth = Math.max(2, fontSize * 0.08);
+                const metrics = ctx.measureText(wm.text);
+                const tw = metrics.width;
+                const th = fontSize;
+                const pos = watermarkCoords(width, height, tw, th, pad, wm.position);
+                ctx.strokeText(wm.text, pos.x, pos.y);
+                ctx.fillText(wm.text, pos.x, pos.y);
+            } else if (wm.type === 'logo' && wm.logoFile) {
+                const logoBitmap = await createImageBitmap(wm.logoFile);
+                const maxLogoW = width * 0.28;
+                const scale = Math.min(1, maxLogoW / logoBitmap.width);
+                const lw = Math.round(logoBitmap.width * scale);
+                const lh = Math.round(logoBitmap.height * scale);
+                const pos = watermarkCoords(width, height, lw, lh, pad, wm.position);
+                ctx.drawImage(logoBitmap, pos.x, pos.y, lw, lh);
+                logoBitmap.close();
+            }
+
+            ctx.globalAlpha = 1;
+            const outType = blob.type || 'image/png';
+            const quality = outType === 'image/jpeg' || outType === 'image/webp' ? 0.92 : undefined;
+            return new Promise((resolve, reject) => {
+                canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Watermark failed'))), outType, quality);
+            });
+        } finally {
+            canvas.width = 0;
+            canvas.height = 0;
         }
-
-        ctx.globalAlpha = 1;
-        const outType = blob.type || 'image/png';
-        const quality = outType === 'image/jpeg' || outType === 'image/webp' ? 0.92 : undefined;
-        return new Promise((resolve, reject) => {
-            canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Watermark failed'))), outType, quality);
-        });
     }
 
     function watermarkCoords(cw, ch, tw, th, pad, position) {
@@ -604,6 +622,11 @@
             toast(`Skipped ${files.length - valid.length} unsupported file(s).`, 'warn');
         }
 
+        const hasOversized = valid.some((f) => f.size > MAX_FILE_BYTES);
+        const isLargeBatch = valid.length > MAX_BATCH_FILES;
+        state.sequentialMode = hasOversized || isLargeBatch;
+        updateMemoryGuardNotice(hasOversized, isLargeBatch);
+
         showResultsArea();
         valid.forEach((file) => enqueueFile(file, config));
         els['file-input'].value = '';
@@ -631,8 +654,27 @@
         updateBatchUI();
     }
 
+    function updateMemoryGuardNotice(hasOversized, isLargeBatch) {
+        const notice = els['memory-guard-notice'];
+        if (!notice) return;
+        if (!hasOversized && !isLargeBatch) {
+            notice.classList.add('is-hidden');
+            return;
+        }
+        const textEl = notice.querySelector('.memory-guard-notice__text');
+        if (textEl) {
+            const parts = [];
+            if (hasOversized) parts.push('one or more files exceed 25&nbsp;MB');
+            if (isLargeBatch) parts.push(`you added more than ${MAX_BATCH_FILES} images`);
+            const reason = parts.join(' and ');
+            textEl.innerHTML = `<strong>Large batch detected.</strong> ${reason.charAt(0).toUpperCase() + reason.slice(1)} — processing will run <strong>one file at a time</strong> to keep your browser stable.`;
+        }
+        notice.classList.remove('is-hidden');
+    }
+
     function drainQueue() {
         if (state.cancelled) return;
+        if (state.sequentialMode && workers.some((w) => w.busy)) return;
         const idle = workers.find((w) => !w.busy);
         if (!idle || state.queue.length === 0) return;
 
@@ -1009,6 +1051,34 @@
         els['download-all-btn'].classList.toggle('is-hidden', n < 2);
     }
 
+    function resetZipUi() {
+        const btn = els['download-all-btn'];
+        const zipWrap = els['zip-progress-wrap'];
+        const zipBar = els['zip-progress-bar'];
+        const zipLabel = els['zip-progress-label'];
+        const zipPct = els['zip-progress-pct'];
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Download ZIP';
+        }
+        els['zip-cancel']?.classList.add('is-hidden');
+        zipWrap?.classList.add('is-hidden');
+        if (zipBar) zipBar.style.width = '0%';
+        if (zipPct) zipPct.textContent = '0%';
+        if (zipLabel) zipLabel.textContent = 'Building ZIP…';
+    }
+
+    function cancelZipBuild() {
+        state.zipAbort = true;
+        state.zipGeneration += 1;
+        resetZipUi();
+        toast('ZIP build cancelled', 'warn');
+    }
+
+    function isZipRunStale(gen) {
+        return state.zipAbort || gen !== state.zipGeneration;
+    }
+
     async function downloadAllZip() {
         if (typeof JSZip === 'undefined') {
             toast('JSZip failed to load', 'error');
@@ -1019,10 +1089,14 @@
         const zipBar = els['zip-progress-bar'];
         const zipLabel = els['zip-progress-label'];
         const zipPct = els['zip-progress-pct'];
+        const zipCancel = els['zip-cancel'];
+        const gen = ++state.zipGeneration;
+        state.zipAbort = false;
 
         btn.disabled = true;
         btn.textContent = 'Building ZIP…';
         zipWrap?.classList.remove('is-hidden');
+        zipCancel?.classList.remove('is-hidden');
         if (zipBar) zipBar.style.width = '0%';
         if (zipPct) zipPct.textContent = '0%';
         if (zipLabel) zipLabel.textContent = 'Adding files to ZIP…';
@@ -1030,37 +1104,48 @@
         try {
             const zip = new JSZip();
             const entries = [...state.compressedFiles.entries()];
-            entries.forEach(([, f], i) => {
+            for (let i = 0; i < entries.length; i++) {
+                if (isZipRunStale(gen)) return;
+                const [, f] = entries[i];
                 zip.file(f.name, f.blob);
                 const pct = Math.round(((i + 1) / entries.length) * 40);
                 if (zipBar) zipBar.style.width = `${pct}%`;
                 if (zipPct) zipPct.textContent = `${pct}%`;
-            });
+            }
 
+            if (isZipRunStale(gen)) return;
             if (zipLabel) zipLabel.textContent = 'Compressing archive…';
             const content = await zip.generateAsync(
                 { type: 'blob', streamFiles: true },
                 (metadata) => {
+                    if (isZipRunStale(gen)) return;
                     const pct = Math.round(40 + metadata.percent * 0.6);
                     if (zipBar) zipBar.style.width = `${pct}%`;
                     if (zipPct) zipPct.textContent = `${pct}%`;
                 }
             );
 
+            if (isZipRunStale(gen)) return;
+
             if (zipBar) zipBar.style.width = '100%';
             if (zipPct) zipPct.textContent = '100%';
             if (zipLabel) zipLabel.textContent = 'Done — starting download';
 
             const url = URL.createObjectURL(content);
-            triggerDownload(url, 'nexuscompress-batch.zip');
+            triggerDownload(url, 'funadventure-batch.zip');
             URL.revokeObjectURL(url);
             toast('ZIP downloaded', 'success');
         } catch (err) {
-            toast(`ZIP failed: ${err.message}`, 'error');
+            if (!isZipRunStale(gen)) toast(`ZIP failed: ${err.message}`, 'error');
         } finally {
-            btn.disabled = false;
-            btn.textContent = 'Download ZIP';
-            window.setTimeout(() => zipWrap?.classList.add('is-hidden'), 1200);
+            if (isZipRunStale(gen)) {
+                resetZipUi();
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Download ZIP';
+                zipCancel?.classList.add('is-hidden');
+                window.setTimeout(() => zipWrap?.classList.add('is-hidden'), 1200);
+            }
         }
     }
 

@@ -101,9 +101,9 @@
     <header class="site-header">
         <div class="site-header-brand max-width-wrap">
             <a href="./" class="site-logo" data-tool-home>
-                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="brand-icon" aria-hidden="true">FA</span>
                 <span class="site-logo-text">
-                    <span class="site-logo-name">NexusCompress</span>
+                    <span class="site-logo-name site-logo-name--brand">Fun Adventure Media Studio</span>
                     <span class="site-logo-tag" id="site-logo-tag">Compress images in your browser</span>
                 </span>
             </a>
@@ -337,7 +337,10 @@
                 </div>
                 <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
                     <div class="zip-progress-header">
-                        <span id="zip-progress-label">Building ZIP…</span>
+                        <div class="zip-progress-label-group">
+                            <span id="zip-progress-label">Building ZIP…</span>
+                            <a href="#" id="zip-cancel" class="zip-cancel-link is-hidden" role="button">Cancel</a>
+                        </div>
                         <span id="zip-progress-pct">0%</span>
                     </div>
                     <div class="zip-progress-track">
@@ -365,6 +368,13 @@
                     </div>
                 </div>
             </section>
+
+            <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
+                <p class="memory-guard-notice__text">
+                    <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
+                </p>
+                <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
+            </div>
 
             <section id="results-container" class="results-section is-hidden">
                 <div id="results-table-wrap" class="results-table-wrap is-hidden">
@@ -605,7 +615,15 @@
     </div>
 
     <footer class="site-footer">
-        <p>© <span id="footer-year"></span> NexusCompress · <a href="guides/index.html">Guides</a> · <a href="privacy.html">Privacy Policy</a> · <a href="docs.html">Docs</a></p>
+        <p>© <span id="footer-year"></span> Fun Adventure Media Studio · <a href="guides/index.html">Guides</a> · <a href="docs.html">Docs</a></p>
+    </footer>
+
+    <footer class="site-compliance-footer max-width-wrap" id="site-compliance-footer">
+        <nav class="site-compliance-nav" aria-label="Legal and support">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="mailto:info@funadventure.ae">Contact Support</a>
+        </nav>
     </footer>
 
     <div id="compare-modal" class="compare-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title" hidden>
