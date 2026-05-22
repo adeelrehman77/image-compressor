@@ -112,6 +112,15 @@
                 </span>
                 <span class="version-chip" id="app-version" aria-label="Application version"></span>
                 <a href="privacy.html" class="chip chip-muted">Privacy Policy</a>
+                <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme">
+                    <svg class="theme-icon theme-icon-sun icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                        <path stroke-linecap="round" stroke-width="2" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                    </svg>
+                    <svg class="theme-icon theme-icon-moon icon-sm is-hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
             </div>
         </div>
         <div class="site-header-tools-wrap max-width-wrap">
@@ -292,11 +301,6 @@
                 </details>
             </div>
 
-            <div class="sidebar-footer">
-                <button type="button" id="theme-toggle" class="btn-secondary btn-block" aria-pressed="true">
-                    <span class="theme-toggle-label">Light theme</span>
-                </button>
-            </div>
         </aside>
 
         <main class="app-main glass-panel">

@@ -1088,11 +1088,17 @@
         document.documentElement.classList.toggle('dark', theme === 'dark');
         document.documentElement.dataset.theme = theme;
         localStorage.setItem('nexus-theme', theme);
-        const label = els['theme-toggle'].querySelector('.theme-toggle-label');
-        const text = theme === 'dark' ? 'Light theme' : 'Dark theme';
-        if (label) label.textContent = text;
-        else els['theme-toggle'].textContent = text;
-        els['theme-toggle'].setAttribute('aria-pressed', String(theme === 'light'));
+        const btn = els['theme-toggle'];
+        if (!btn) return;
+        const sun = btn.querySelector('.theme-icon-sun');
+        const moon = btn.querySelector('.theme-icon-moon');
+        const toLight = theme === 'dark';
+        sun?.classList.toggle('is-hidden', !toLight);
+        moon?.classList.toggle('is-hidden', toLight);
+        const label = toLight ? 'Switch to light theme' : 'Switch to dark theme';
+        btn.setAttribute('aria-label', label);
+        btn.setAttribute('title', label);
+        btn.setAttribute('aria-pressed', String(theme === 'light'));
     }
 
     function setupCompareSlider(container, overlay, handle, overlayImg) {
