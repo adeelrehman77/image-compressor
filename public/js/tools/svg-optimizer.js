@@ -46,6 +46,7 @@
                 dl.disabled = false;
                 toast('SVG optimized.', 'success');
             } catch (err) {
+                NexusTools.reportError(err, { tool: 'svg' });
                 toast(err.message || 'Could not read SVG', 'error');
             }
             e.target.value = '';

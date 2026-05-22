@@ -104,6 +104,7 @@
         if (tag) tag.textContent = TAGLINES[tool];
         if (TITLES[tool]) document.title = TITLES[tool];
         updateSeoContent(tool);
+        window.NexusSentry?.setTool(tool);
         if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
             window.NexusTools?.loadPdfLib?.().catch(() => {});
         }

@@ -32,6 +32,7 @@ function bumpSwCache() {
     './',
     './index.html',
     './css/app.css',
+    './js/sentry-init.js',
     './js/app.js',
     './js/worker.js',
     './vendor/jszip.min.js',

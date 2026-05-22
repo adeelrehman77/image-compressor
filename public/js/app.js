@@ -727,6 +727,11 @@
     function onTaskError(task, error) {
         task.status = 'error';
         task.error = error;
+        window.NexusSentry?.captureException(error, {
+            taskId: task.id,
+            fileName: task.file?.name,
+            tool: 'compress',
+        });
         updateTaskStatus(task.id, 'Failed', 'error');
         const errEl = document.querySelector(`#${task.id} .error-msg`);
         if (errEl) {

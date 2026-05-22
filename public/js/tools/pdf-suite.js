@@ -35,6 +35,7 @@
             downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
             toast('Merged PDF downloaded.', 'success');
         } catch (err) {
+            NexusTools.reportError(err, { tool: 'pdf-suite', action: 'merge' });
             toast(err.message || 'Merge failed', 'error');
         } finally {
             btn.textContent = 'Download merged PDF';
@@ -82,6 +83,7 @@
             downloadBlob(zipBlob, 'pdf-pages.zip');
             toast(`${count} pages in ZIP.`, 'success');
         } catch (err) {
+            NexusTools.reportError(err, { tool: 'pdf-suite', action: 'split' });
             toast(err.message || 'Split failed', 'error');
         } finally {
             btn.textContent = 'Download pages';

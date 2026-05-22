@@ -50,5 +50,9 @@ window.NexusTools = (function () {
         return loadPdfLib();
     }
 
-    return { toast, formatBytes, downloadBlob, requirePdfLib, loadPdfLib };
+    function reportError(err, context) {
+        window.NexusSentry?.captureException(err, context);
+    }
+
+    return { toast, formatBytes, downloadBlob, requirePdfLib, loadPdfLib, reportError };
 })();

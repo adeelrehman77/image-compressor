@@ -77,6 +77,7 @@
             downloadBlob(new Blob([out], { type: 'application/pdf' }), 'combined-documents.pdf');
             toast('PDF ready.', 'success');
         } catch (err) {
+            NexusTools.reportError(err, { tool: 'images-to-pdf' });
             toast(err.message || 'PDF build failed', 'error');
         } finally {
             btn.disabled = files.length === 0;
