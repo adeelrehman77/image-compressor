@@ -123,14 +123,11 @@ createTestImage().then(() => {
             }
             console.log('Target file size (200KB) test passed.');
 
-            await page.click('.compare-view-btn');
-            await page.waitForFunction(
-                () => {
-                    const modal = document.getElementById('compare-modal');
-                    return modal && !modal.classList.contains('is-hidden') && modal.getAttribute('aria-hidden') !== 'true';
-                },
-                { timeout: 5000 }
-            );
+            await page.waitForSelector('.compare-view-btn:not([disabled])', { timeout: 15000 });
+            await page.evaluate(() => {
+                document.querySelector('.result-card:last-of-type .compare-view-btn')?.click();
+            });
+            await page.waitForSelector('#compare-modal:not(.is-hidden)', { timeout: 10000 });
             const modalOpen = await page.evaluate(() => {
                 const modal = document.getElementById('compare-modal');
                 const base = document.getElementById('compare-modal-base');

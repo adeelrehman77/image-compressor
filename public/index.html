@@ -97,12 +97,12 @@
     <div id="toast-root" class="toast-root" role="region" aria-live="polite" aria-label="Notifications"></div>
 
     <header class="site-header">
-        <div class="site-header-inner">
-            <a href="./" class="site-logo">
+        <div class="site-header-brand max-width-wrap">
+            <a href="./" class="site-logo" data-tool-home>
                 <span class="brand-icon" aria-hidden="true">NC</span>
                 <span class="site-logo-text">
                     <span class="site-logo-name">NexusCompress</span>
-                    <span class="site-logo-tag">Compress images in your browser</span>
+                    <span class="site-logo-tag" id="site-logo-tag">Compress images in your browser</span>
                 </span>
             </a>
             <div class="site-header-meta">
@@ -114,8 +114,31 @@
                 <a href="privacy.html" class="chip chip-muted">Privacy Policy</a>
             </div>
         </div>
+        <div class="site-header-tools-wrap max-width-wrap">
+            <nav class="site-header-tools" aria-label="Studio tools">
+                <div class="tool-tabs" role="tablist">
+                    <a href="./" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true">
+                        <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
+                        <span class="tool-tab__label">Image Compressor</span>
+                    </a>
+                    <a href="#images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false">
+                        <span class="tool-tab__icon" aria-hidden="true">📄</span>
+                        <span class="tool-tab__label">Images to PDF</span>
+                    </a>
+                    <a href="#pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false">
+                        <span class="tool-tab__icon" aria-hidden="true">🔗</span>
+                        <span class="tool-tab__label">PDF Merge</span>
+                    </a>
+                    <a href="#svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false">
+                        <span class="tool-tab__icon" aria-hidden="true">📐</span>
+                        <span class="tool-tab__label">SVG Optimizer</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
     </header>
 
+    <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress">
     <div class="app-layout">
         <aside class="app-sidebar glass-panel" aria-label="Compression settings">
             <p class="sidebar-intro">Pick a preset or dial things in. Processing happens on this device only.</p>
@@ -366,6 +389,101 @@
             </section>
         </main>
     </div>
+    </div>
+
+    <div id="tool-panel-images-to-pdf" class="tool-panel is-hidden" data-tool-panel="images-to-pdf">
+        <div class="tool-layout max-width-wrap">
+            <main class="app-main glass-panel tool-main">
+                <header class="workspace-header">
+                    <div>
+                        <h2 class="workspace-title">Images to PDF</h2>
+                        <p class="workspace-sub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally.</p>
+                    </div>
+                </header>
+                <section class="tool-drop-zone" id="itp-drop" tabindex="0">
+                    <p class="drop-title">Add images (ID front/back, contracts, etc.)</p>
+                    <p class="drop-sub">Order is top to bottom. Each image becomes a page.</p>
+                    <div class="drop-actions">
+                        <label class="btn-primary is-clickable">Choose images<input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
+                    </div>
+                </section>
+                <ul id="itp-list" class="tool-file-list"></ul>
+                <div class="tool-actions">
+                    <label class="field-label" for="itp-page-size">Page size</label>
+                    <select id="itp-page-size" class="field-input tool-inline-select">
+                        <option value="a4">A4 (portals)</option>
+                        <option value="fit">Fit to image</option>
+                    </select>
+                    <button type="button" id="itp-build" class="btn-primary" disabled>Download PDF</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="tool-panel-pdf-suite" class="tool-panel is-hidden" data-tool-panel="pdf-suite">
+        <div class="tool-layout max-width-wrap">
+            <main class="app-main glass-panel tool-main">
+                <header class="workspace-header">
+                    <div>
+                        <h2 class="workspace-title">PDF merge &amp; split</h2>
+                        <p class="workspace-sub">Combine PDFs or extract pages — private, in your browser.</p>
+                    </div>
+                </header>
+                <div class="pdf-suite-tabs" role="tablist">
+                    <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true">Merge</button>
+                    <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false">Split</button>
+                </div>
+                <div id="pdf-panel-merge" class="pdf-tab-panel">
+                    <section class="tool-drop-zone" tabindex="0">
+                        <p class="drop-title">Merge PDFs</p>
+                        <p class="drop-sub">Select two or more PDF files in the order you want.</p>
+                        <label class="btn-primary is-clickable">Choose PDFs<input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
+                    </section>
+                    <ul id="pdf-merge-list" class="tool-file-list"></ul>
+                    <button type="button" id="pdf-merge-btn" class="btn-primary" disabled>Download merged PDF</button>
+                </div>
+                <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
+                    <section class="tool-drop-zone" tabindex="0">
+                        <p class="drop-title">Split a PDF</p>
+                        <p class="drop-sub">Extract every page as its own file (ZIP if more than one).</p>
+                        <label class="btn-primary is-clickable">Choose PDF<input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
+                    </section>
+                    <p id="pdf-split-info" class="tool-status"></p>
+                    <button type="button" id="pdf-split-btn" class="btn-primary" disabled>Download pages</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="tool-panel-svg" class="tool-panel is-hidden" data-tool-panel="svg">
+        <div class="tool-layout max-width-wrap">
+            <main class="app-main glass-panel tool-main">
+                <header class="workspace-header">
+                    <div>
+                        <h2 class="workspace-title">SVG optimizer</h2>
+                        <p class="workspace-sub">Strip metadata and bloat from vector files before you ship them.</p>
+                    </div>
+                </header>
+                <section class="tool-drop-zone" tabindex="0">
+                    <p class="drop-title">Drop an SVG file</p>
+                    <label class="btn-primary is-clickable">Choose SVG<input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
+                </section>
+                <div class="svg-editor grid-2">
+                    <div>
+                        <label class="field-label">Original</label>
+                        <textarea id="svg-before" class="svg-textarea" readonly placeholder="Upload an SVG…"></textarea>
+                        <p id="svg-before-size" class="tool-status"></p>
+                    </div>
+                    <div>
+                        <label class="field-label">Optimized</label>
+                        <textarea id="svg-after" class="svg-textarea" readonly placeholder="Optimized output…"></textarea>
+                        <p id="svg-after-size" class="tool-status"></p>
+                    </div>
+                </div>
+                <button type="button" id="svg-download" class="btn-primary" disabled>Download optimized SVG</button>
+            </main>
+        </div>
+    </div>
 
     <div class="below-app max-width-wrap">
         <aside class="ad-slot glass-panel" aria-label="Advertisement">
@@ -377,10 +495,29 @@
                  data-full-width-responsive="true"></ins>
         </aside>
 
-        <section class="seo-content glass-panel" aria-labelledby="seo-heading">
-            <h1 id="seo-heading" class="seo-heading">Free Online Image Compressor — Reduce Image Size Instantly</h1>
-            <p>NexusCompress is a free online image compressor that shrinks JPEG, PNG, WebP, and AVIF files without sending them to a cloud server. Drag and drop photos, adjust quality and dimensions, then download optimized images in seconds — perfect for websites, email attachments, and social media.</p>
-            <p>Unlike traditional compressors that upload your files, everything runs locally in your browser thread. That means faster processing, stronger privacy, and no risk of personal or client images sitting on a third-party server.</p>
+        <footer class="marketing-footer" role="contentinfo">
+        <section class="seo-marketing" aria-labelledby="seo-heading">
+            <header class="marketing-footer__hero">
+                <h1 id="seo-heading" class="seo-heading">Free Online Image Compressor — Reduce Image Size Instantly</h1>
+            </header>
+            <div class="seo-intro-grid">
+                <article class="seo-intro-card glass-panel">
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-1">Shrink files in seconds</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-1">NexusCompress is a free online image compressor that shrinks JPEG, PNG, WebP, and AVIF files without sending them to a cloud server. Drag and drop photos, adjust quality and dimensions, then download optimized images in seconds — perfect for websites, email attachments, and social media.</p>
+                </article>
+                <article class="seo-intro-card glass-panel">
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-2">Nothing leaves your device</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-2">Unlike traditional compressors that upload your files, everything runs locally in your browser thread. That means faster processing, stronger privacy, and no risk of personal or client images sitting on a third-party server.</p>
+                </article>
+                <article class="seo-intro-card glass-panel">
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-3">Ready for real workflows</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-3">Batch compress, set UAE portal size targets, compare before/after, and export as ZIP — all without creating an account or installing software.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="seo-secondary glass-panel" aria-label="More about NexusCompress">
+            <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading">Why use a browser-based image compressor?</h2>
             <ul class="seo-list">
                 <li><strong>No uploads required</strong> — images never leave your device</li>
@@ -388,6 +525,16 @@
                 <li><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
                 <li><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
             </ul>
+            </div>
+            <h2 class="seo-subheading">Free media tools (same site, no upload)</h2>
+            <p class="seo-tool-lead">Use the studio tabs above, or jump directly:</p>
+            <nav class="seo-tool-chips" aria-label="Media tools">
+                <a href="./" class="seo-tool-chip">Image compressor</a>
+                <a href="#images-to-pdf" class="seo-tool-chip">Images to PDF</a>
+                <a href="#pdf-suite" class="seo-tool-chip">PDF merge &amp; split</a>
+                <a href="#svg" class="seo-tool-chip">SVG optimizer</a>
+            </nav>
+            <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
             <p>Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.</p>
             <h2 class="seo-subheading">Batch resize, aspect ratio & watermark</h2>
@@ -400,7 +547,9 @@
                 <li><a href="guides/resize-images-for-instagram.html">Resize images for Instagram</a></li>
                 <li><a href="guides/index.html">View all guides</a></li>
             </ul>
+            </div>
         </section>
+        </footer>
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
             <h2 id="faq-heading" class="faq-title">Frequently Asked Questions</h2>
@@ -490,6 +639,11 @@
     </div>
 
     <script src="vendor/jszip.min.js" defer></script>
+    <script src="js/tools-shared.js" defer></script>
+    <script src="js/tools/images-to-pdf.js" defer></script>
+    <script src="js/tools/pdf-suite.js" defer></script>
+    <script src="js/tools/svg-optimizer.js" defer></script>
+    <script src="js/tools-router.js" defer></script>
     <script src="js/app.js" defer></script>
 </body>
 </html>

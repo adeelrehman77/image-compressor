@@ -16,9 +16,15 @@
     "test": "npm run build && node test.js",
     "compress": "node cli.js",
     "pages:deploy": "npm run build && npx wrangler deploy",
-    "postinstall": "node scripts/vendor-jszip.js && node scripts/generate-icons.js && node scripts/generate-og.js"
+    "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/generate-icons.js && node scripts/generate-og.js"
   },
-  "keywords": ["image", "compress", "webp", "avif", "optimizer"],
+  "keywords": [
+    "image",
+    "compress",
+    "webp",
+    "avif",
+    "optimizer"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -28,6 +34,7 @@
     "cssnano": "^7.0.6",
     "express": "^5.2.1",
     "jszip": "^3.10.1",
+    "pdf-lib": "^1.17.1",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.0",
     "postcss-import": "^16.1.0",
