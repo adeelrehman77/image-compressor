@@ -189,6 +189,7 @@
                     <h3 class="settings-group-title">Output</h3>
                     <label class="field-label" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
                     <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
+                    <p class="field-hint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
 
                     <label class="field-label field-label-spaced-sm" for="format">Format</label>
                     <select id="format" class="field-input">
@@ -776,19 +777,8 @@
         function syncFromHash() {
             applyTool(parseTool());
         }
-        document.querySelector('.site-header-tools')?.addEventListener('click', function (e) {
-            var link = e.target.closest('.tool-nav-link');
-            if (!link) return;
-            e.preventDefault();
-            var tool = link.dataset.tool || 'compress';
-            if (tool === 'compress') {
-                if (location.hash) history.replaceState(null, '', location.pathname + location.search);
-            } else {
-                location.hash = tool;
-            }
-            applyTool(tool);
-        });
         window.addEventListener('hashchange', syncFromHash);
+        window.__nexusShellHashSync = syncFromHash;
         syncFromHash();
     })();
     </script>

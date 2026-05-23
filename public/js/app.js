@@ -758,7 +758,6 @@
         trackUrl(task.id, compressedUrl);
 
         let savedRatio = ((task.originalSize - blob.size) / task.originalSize) * 100;
-        if (savedRatio < 0) savedRatio = 0;
 
         const newName = buildFilename(task.file.name, outputType);
         task.status = 'done';
@@ -773,7 +772,20 @@
         state.compressedFiles.set(task.id, { name: newName, blob });
 
         updateTaskUI(task);
-        let statusLabel = `Saved ${savedRatio.toFixed(1)}%`;
+        let statusLabel;
+        let statusKind = 'success';
+        if (savedRatio < 0) {
+            statusLabel = `${Math.abs(savedRatio).toFixed(1)}% larger`;
+            statusKind = 'warn';
+            if (outputType === 'image/png' || task.file.type === 'image/png') {
+                toast(
+                    `${task.file.name}: PNG stays lossless — quality slider does not apply. Choose WebP or JPEG to shrink further.`,
+                    'warn'
+                );
+            }
+        } else {
+            statusLabel = `Saved ${savedRatio.toFixed(1)}%`;
+        }
         if (data.forcedLossy && els.format.value === 'image/png') {
             toast('PNG cannot hit a size cap — used JPEG for this file.', 'info');
         }
@@ -781,14 +793,16 @@
         if (targetSizeKb && metTarget === false) {
             const kb = (blob.size / 1024).toFixed(1);
             statusLabel = `Over target (${kb} KB)`;
+            statusKind = 'error';
             toast(
                 `${task.file.name}: still above ${targetSizeKb} KB at ${kb} KB. Try JPEG/WebP, lower quality, or a smaller max width.`,
                 'error'
             );
         } else if (targetSizeKb && metTarget) {
             statusLabel = `Under ${targetSizeKb} KB · saved ${savedRatio.toFixed(1)}%`;
+            statusKind = 'success';
         }
-        updateTaskStatus(task.id, statusLabel, metTarget === false ? 'error' : 'success');
+        updateTaskStatus(task.id, statusLabel, statusKind);
         pushHistory(task);
         saveSettings();
     }
@@ -924,7 +938,10 @@
         if (row) {
             row.querySelector('.dim-cell').textContent = task.dimensions;
             row.querySelector('.out-cell').textContent = formatBytes(task.compressedSize);
-            row.querySelector('.saved-cell').textContent = `${task.savedRatio.toFixed(1)}%`;
+            row.querySelector('.saved-cell').textContent =
+                task.savedRatio < 0
+                    ? `+${Math.abs(task.savedRatio).toFixed(1)}%`
+                    : `${task.savedRatio.toFixed(1)}%`;
             const dlRow = row.querySelector('.download-row');
             dlRow.href = task.compressedUrl;
             dlRow.download = task.newName;

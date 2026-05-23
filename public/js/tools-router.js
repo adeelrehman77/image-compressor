@@ -86,6 +86,27 @@
         return 'compress';
     }
 
+    async function prepareTool(tool) {
+        if (tool === 'compress') return;
+        await window.NexusTools?.ensureTool?.(tool);
+        if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
+            await window.NexusTools?.loadPdfLib?.();
+        }
+    }
+
+    function preloadToolsIdle() {
+        const run = () => {
+            ['images-to-pdf', 'pdf-suite', 'svg'].forEach((tool) => {
+                window.NexusTools?.ensureTool?.(tool).catch(() => {});
+            });
+        };
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(run, { timeout: 5000 });
+        } else {
+            setTimeout(run, 2000);
+        }
+    }
+
     function updateSeoContent(tool) {
         const copy = SEO[tool] || SEO.compress;
         const set = (id, text) => {
@@ -121,31 +142,33 @@
         if (TITLES[tool]) document.title = TITLES[tool];
         updateSeoContent(tool);
         window.NexusSentry?.setTool(tool);
-        if (tool !== 'compress') {
-            window.NexusTools?.ensureTool?.(tool).catch(() => {});
-        }
-        if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
-            window.NexusTools?.loadPdfLib?.().catch(() => {});
-        }
         if (tool === 'compress' && !location.hash) {
             history.replaceState(null, '', location.pathname + location.search);
         }
     }
 
-    function onNavClick(e) {
+    async function activateTool(tool) {
+        await prepareTool(tool);
+        setTool(tool);
+    }
+
+    async function onNavClick(e) {
         const link = e.target.closest('.tool-nav-link');
         if (!link) return;
         e.preventDefault();
         const tool = link.dataset.tool || 'compress';
+        document.querySelector('.app-main')?.classList.add('tool-switching');
         try {
             if (tool === 'compress') {
                 location.hash = '';
             } else {
                 location.hash = tool;
             }
-            setTool(tool);
+            await activateTool(tool);
         } catch (err) {
             window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'nav-click' });
+        } finally {
+            document.querySelector('.app-main')?.classList.remove('tool-switching');
         }
     }
 
@@ -153,41 +176,70 @@
         if (window.__nexusToolRouterBound) return;
         window.__nexusToolRouterBound = true;
 
-        // Inline shell in index.html handles first paint; replace nav to drop shell listeners.
+        if (window.__nexusShellHashSync) {
+            window.removeEventListener('hashchange', window.__nexusShellHashSync);
+        }
+
         const nav = document.querySelector('.site-header-tools');
         if (nav) {
             const fresh = nav.cloneNode(true);
             nav.replaceWith(fresh);
             fresh.addEventListener('click', onNavClick);
         }
-        document.querySelector('.seo-tool-chips')?.addEventListener('click', (e) => {
+        document.querySelector('.seo-tool-chips')?.addEventListener('click', async (e) => {
             const chip = e.target.closest('a[href^="#"]');
             if (!chip) return;
             const hash = chip.getAttribute('href')?.replace(/^#/, '').trim();
             if (hash && TAGLINES[hash]) {
                 e.preventDefault();
+                document.querySelector('.app-main')?.classList.add('tool-switching');
                 location.hash = hash;
-                setTool(hash);
+                try {
+                    await activateTool(hash);
+                } catch (err) {
+                    window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'chip-nav' });
+                } finally {
+                    document.querySelector('.app-main')?.classList.remove('tool-switching');
+                }
             }
         });
-        document.querySelector('[data-tool-home]')?.addEventListener('click', (e) => {
+        document.querySelector('[data-tool-home]')?.addEventListener('click', async (e) => {
             if (location.pathname.endsWith('index.html') || location.pathname.endsWith('/')) {
                 e.preventDefault();
+                document.querySelector('.app-main')?.classList.add('tool-switching');
                 location.hash = '';
-                setTool('compress');
+                try {
+                    await activateTool('compress');
+                } catch (err) {
+                    window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'home-nav' });
+                } finally {
+                    document.querySelector('.app-main')?.classList.remove('tool-switching');
+                }
             }
         });
-        window.addEventListener('hashchange', () => setTool(parseTool()));
+        window.addEventListener('hashchange', () => {
+            activateTool(parseTool()).catch((err) => {
+                window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'hashchange' });
+            });
+        });
     }
 
-    function boot() {
-        bindRouter();
-        setTool(parseTool());
+    async function boot() {
+        await activateTool(parseTool());
+        preloadToolsIdle();
     }
+
+    bindRouter();
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
+        document.addEventListener('DOMContentLoaded', () => {
+            boot().catch((err) => {
+                window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'boot' });
+            });
+        });
     } else {
-        boot();
+        boot().catch((err) => {
+            window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'boot' });
+        });
     }
 })();

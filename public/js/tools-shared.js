@@ -69,7 +69,6 @@ window.NexusTools = (function () {
             }
             const s = document.createElement('script');
             s.src = src;
-            s.defer = true;
             s.dataset.nexusSrc = src;
             s.onload = () => {
                 s.dataset.ready = '1';

@@ -192,6 +192,11 @@ html:not(.dark) .tool-nav-link.active {
     display: none !important;
 }
 
+.app-main.tool-switching {
+    pointer-events: none;
+    opacity: 0.72;
+}
+
 .tool-panel {
     margin-bottom: 0;
 }
@@ -1206,6 +1211,12 @@ html:not(.dark) .ambient-bg {
     background: color-mix(in srgb, var(--success) 18%, transparent);
     color: var(--success);
     border: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
+}
+
+.status-warn {
+    background: color-mix(in srgb, var(--warning, #e6a817) 18%, transparent);
+    color: var(--warning, #e6a817);
+    border: 1px solid color-mix(in srgb, var(--warning, #e6a817) 30%, transparent);
 }
 
 .status-error {
