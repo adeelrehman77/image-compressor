@@ -113,6 +113,39 @@ window.NexusTools = (function () {
         window.NexusSentry?.captureException(err, context);
     }
 
+    function bindDropZone(dropZone, fileInput, onFiles) {
+        if (!dropZone || typeof onFiles !== 'function') return;
+
+        const prevent = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
+            dropZone.addEventListener(ev, prevent);
+        });
+        ['dragenter', 'dragover'].forEach((ev) => {
+            dropZone.addEventListener(ev, () => dropZone.classList.add('drag-active'));
+        });
+        ['dragleave', 'drop'].forEach((ev) => {
+            dropZone.addEventListener(ev, () => dropZone.classList.remove('drag-active'));
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer?.files;
+            if (files?.length) onFiles(files);
+        });
+
+        if (fileInput) {
+            dropZone.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+        }
+    }
+
     return {
         toast,
         formatBytes,
@@ -124,5 +157,6 @@ window.NexusTools = (function () {
         runWhenReady,
         ensureTool,
         reportError,
+        bindDropZone,
     };
 })();

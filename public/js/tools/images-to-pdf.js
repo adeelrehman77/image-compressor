@@ -23,10 +23,13 @@
     }
 
     function addFiles(fileList) {
+        let added = 0;
         for (const f of fileList) {
             if (!/^image\/(jpeg|png|webp)$/i.test(f.type)) continue;
             files.push(f);
+            added++;
         }
+        if (fileList.length && !added) toast('Add JPEG, PNG, or WebP images.', 'warn');
         renderList();
     }
 
@@ -86,10 +89,16 @@
     }
 
     window.NexusTools.runWhenReady(() => {
-        document.getElementById('itp-input')?.addEventListener('change', (e) => {
+        const input = document.getElementById('itp-input');
+        input?.addEventListener('change', (e) => {
             addFiles(e.target.files || []);
             e.target.value = '';
         });
+        window.NexusTools.bindDropZone?.(
+            document.getElementById('itp-drop'),
+            input,
+            (files) => addFiles(files)
+        );
         document.getElementById('itp-list')?.addEventListener('click', (e) => {
             const up = e.target.dataset.up;
             const down = e.target.dataset.down;

@@ -1,5 +1,5 @@
 (function () {
-    const { toast, formatBytes, downloadBlob } = window.NexusTools;
+    const { toast, formatBytes, downloadBlob, bindDropZone } = window.NexusTools;
 
     function optimizeSvg(source) {
         let s = source.trim();
@@ -23,6 +23,10 @@
 
     let optimizedBlob = null;
 
+    function isSvgFile(file) {
+        return file.type === 'image/svg+xml' || /\.svg$/i.test(file.name || '');
+    }
+
     window.NexusTools.runWhenReady(() => {
         const input = document.getElementById('svg-input');
         const before = document.getElementById('svg-before');
@@ -31,9 +35,12 @@
         const afterSize = document.getElementById('svg-after-size');
         const dl = document.getElementById('svg-download');
 
-        input?.addEventListener('change', async (e) => {
-            const file = e.target.files?.[0];
+        async function processSvgFile(file) {
             if (!file) return;
+            if (!isSvgFile(file)) {
+                toast('Choose an SVG file.', 'warn');
+                return;
+            }
             try {
                 const text = await file.text();
                 before.value = text.slice(0, 120000);
@@ -49,7 +56,16 @@
                 NexusTools.reportError(err, { tool: 'svg' });
                 toast(err.message || 'Could not read SVG', 'error');
             }
+        }
+
+        input?.addEventListener('change', async (e) => {
+            const file = e.target.files?.[0];
+            await processSvgFile(file);
             e.target.value = '';
+        });
+
+        bindDropZone?.(document.getElementById('svg-drop'), input, (files) => {
+            processSvgFile(files[0]);
         });
 
         dl?.addEventListener('click', () => {

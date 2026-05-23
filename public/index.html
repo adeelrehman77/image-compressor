@@ -420,7 +420,7 @@
                         <p class="workspace-sub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally.</p>
                     </div>
                 </header>
-                <section class="tool-drop-zone" id="itp-drop" tabindex="0">
+                <section class="tool-drop-zone" id="itp-drop" tabindex="0" aria-label="Drop images here or choose files">
                     <p class="drop-title">Add images (ID front/back, contracts, etc.)</p>
                     <p class="drop-sub">Order is top to bottom. Each image becomes a page.</p>
                     <div class="drop-actions">
@@ -454,7 +454,7 @@
                     <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false">Split</button>
                 </div>
                 <div id="pdf-panel-merge" class="pdf-tab-panel">
-                    <section class="tool-drop-zone" tabindex="0">
+                    <section class="tool-drop-zone" id="pdf-merge-drop" tabindex="0" aria-label="Drop PDF files to merge">
                         <p class="drop-title">Merge PDFs</p>
                         <p class="drop-sub">Select two or more PDF files in the order you want.</p>
                         <label class="btn-primary is-clickable">Choose PDFs<input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
@@ -463,7 +463,7 @@
                     <button type="button" id="pdf-merge-btn" class="btn-primary" disabled>Download merged PDF</button>
                 </div>
                 <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
-                    <section class="tool-drop-zone" tabindex="0">
+                    <section class="tool-drop-zone" id="pdf-split-drop" tabindex="0" aria-label="Drop a PDF to split">
                         <p class="drop-title">Split a PDF</p>
                         <p class="drop-sub">Extract every page as its own file (ZIP if more than one).</p>
                         <label class="btn-primary is-clickable">Choose PDF<input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
@@ -484,7 +484,7 @@
                         <p class="workspace-sub">Strip metadata and bloat from vector files before you ship them.</p>
                     </div>
                 </header>
-                <section class="tool-drop-zone" tabindex="0">
+                <section class="tool-drop-zone" id="svg-drop" tabindex="0" aria-label="Drop an SVG file here or choose one">
                     <p class="drop-title">Drop an SVG file</p>
                     <label class="btn-primary is-clickable">Choose SVG<input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
                 </section>

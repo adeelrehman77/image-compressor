@@ -214,6 +214,16 @@ html:not(.dark) .tool-nav-link.active {
     background: color-mix(in srgb, var(--bg) 50%, var(--bg-elevated));
 }
 
+.tool-drop-zone:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.tool-drop-zone.drag-active {
+    border-color: var(--accent-soft);
+    background: color-mix(in srgb, var(--accent-soft) 8%, var(--bg-elevated));
+}
+
 .tool-file-list {
     list-style: none;
     margin: 0 0 1rem;

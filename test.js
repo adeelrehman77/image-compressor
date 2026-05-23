@@ -2,27 +2,14 @@ const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { writeTestImage } = require('./scripts/test-fixtures');
 
 const PORT = process.env.TEST_PORT || 3099;
 const DIST = path.join(__dirname, 'dist');
 const TEST_IMAGE = path.join(__dirname, 'test-image.jpg');
 
 function createTestImage() {
-    try {
-        const sharp = require('sharp');
-        return sharp({
-            create: { width: 200, height: 150, channels: 3, background: { r: 79, g: 70, b: 229 } },
-        })
-            .jpeg()
-            .toFile(TEST_IMAGE);
-    } catch {
-        const minimalJpeg = Buffer.from(
-            '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=',
-            'base64'
-        );
-        fs.writeFileSync(TEST_IMAGE, minimalJpeg);
-        return Promise.resolve();
-    }
+    return writeTestImage(TEST_IMAGE);
 }
 
 if (!fs.existsSync(DIST)) {

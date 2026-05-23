@@ -18,6 +18,31 @@
         if (btn) btn.disabled = mergeFiles.length < 2;
     }
 
+    function addMergeFiles(fileList) {
+        let added = 0;
+        for (const f of fileList) {
+            if (f.type === 'application/pdf') {
+                mergeFiles.push(f);
+                added++;
+            }
+        }
+        if (fileList.length && !added) toast('Drop PDF files only.', 'warn');
+        renderMergeList();
+    }
+
+    function setSplitFile(file) {
+        splitFile = file || null;
+        const btn = document.getElementById('pdf-split-btn');
+        const info = document.getElementById('pdf-split-info');
+        if (splitFile) {
+            info.textContent = splitFile.name;
+            btn.disabled = false;
+        } else {
+            info.textContent = '';
+            btn.disabled = true;
+        }
+    }
+
     async function mergePdfs() {
         const btn = document.getElementById('pdf-merge-btn');
         btn.disabled = true;
@@ -101,12 +126,15 @@
         });
 
         document.getElementById('pdf-merge-input')?.addEventListener('change', (e) => {
-            for (const f of e.target.files || []) {
-                if (f.type === 'application/pdf') mergeFiles.push(f);
-            }
+            addMergeFiles(e.target.files || []);
             e.target.value = '';
-            renderMergeList();
         });
+
+        window.NexusTools.bindDropZone?.(
+            document.getElementById('pdf-merge-drop'),
+            document.getElementById('pdf-merge-input'),
+            (files) => addMergeFiles(files)
+        );
 
         document.getElementById('pdf-merge-list')?.addEventListener('click', (e) => {
             if (e.target.dataset.rm !== undefined) {
@@ -118,17 +146,19 @@
         document.getElementById('pdf-merge-btn')?.addEventListener('click', mergePdfs);
 
         document.getElementById('pdf-split-input')?.addEventListener('change', (e) => {
-            splitFile = e.target.files?.[0] || null;
-            const btn = document.getElementById('pdf-split-btn');
-            const info = document.getElementById('pdf-split-info');
-            if (splitFile) {
-                info.textContent = splitFile.name;
-                btn.disabled = false;
-            } else {
-                info.textContent = '';
-                btn.disabled = true;
-            }
+            setSplitFile(e.target.files?.[0] || null);
+            e.target.value = '';
         });
+
+        window.NexusTools.bindDropZone?.(
+            document.getElementById('pdf-split-drop'),
+            document.getElementById('pdf-split-input'),
+            (files) => {
+                const pdf = [...files].find((f) => f.type === 'application/pdf');
+                if (pdf) setSplitFile(pdf);
+                else if (files.length) toast('Drop a PDF file.', 'warn');
+            }
+        );
 
         document.getElementById('pdf-split-btn')?.addEventListener('click', splitPdf);
     });

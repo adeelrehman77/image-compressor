@@ -365,6 +365,12 @@
 
         els.clearBtn?.addEventListener('click', clearPassportPhoto);
 
+        window.NexusTools?.bindDropZone?.(els.dropZone, els.input, (files) => {
+            const file = [...files].find((f) => /^image\/(jpeg|png|webp)$/i.test(f.type));
+            if (file) onPhotoSelected(file);
+            else if (files.length) setStatus('Drop a JPEG, PNG, or WebP portrait photo.');
+        });
+
         els.zoom?.addEventListener('input', (e) => {
             state.zoom = parseFloat(e.target.value) || 1;
             renderPreview();
