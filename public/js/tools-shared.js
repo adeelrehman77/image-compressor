@@ -20,6 +20,14 @@ window.NexusTools = (function () {
     }
 
     function downloadBlob(blob, filename) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'tool_conversion',
+            event_category: 'engagement',
+            event_label: 'file_downloaded',
+            file_name: filename,
+        });
+
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
