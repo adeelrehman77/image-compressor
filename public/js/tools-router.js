@@ -137,16 +137,29 @@
         if (!link) return;
         e.preventDefault();
         const tool = link.dataset.tool || 'compress';
-        if (tool === 'compress') {
-            location.hash = '';
-        } else {
-            location.hash = tool;
+        try {
+            if (tool === 'compress') {
+                location.hash = '';
+            } else {
+                location.hash = tool;
+            }
+            setTool(tool);
+        } catch (err) {
+            window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'nav-click' });
         }
-        setTool(tool);
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.site-header-tools')?.addEventListener('click', onNavClick);
+    function bindRouter() {
+        if (window.__nexusToolRouterBound) return;
+        window.__nexusToolRouterBound = true;
+
+        // Inline shell in index.html handles first paint; replace nav to drop shell listeners.
+        const nav = document.querySelector('.site-header-tools');
+        if (nav) {
+            const fresh = nav.cloneNode(true);
+            nav.replaceWith(fresh);
+            fresh.addEventListener('click', onNavClick);
+        }
         document.querySelector('.seo-tool-chips')?.addEventListener('click', (e) => {
             const chip = e.target.closest('a[href^="#"]');
             if (!chip) return;
@@ -164,8 +177,17 @@
                 setTool('compress');
             }
         });
-        setTool(parseTool());
-    });
+        window.addEventListener('hashchange', () => setTool(parseTool()));
+    }
 
-    window.addEventListener('hashchange', () => setTool(parseTool()));
+    function boot() {
+        bindRouter();
+        setTool(parseTool());
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
 })();

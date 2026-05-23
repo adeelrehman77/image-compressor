@@ -756,9 +756,45 @@
         </div>
     </div>
 
+    <script>
+    (function () {
+        var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1 };
+        function parseTool() {
+            var h = (location.hash || '').replace(/^#/, '').trim();
+            return VALID[h] ? h : 'compress';
+        }
+        function applyTool(tool) {
+            document.querySelectorAll('[data-tool-panel]').forEach(function (panel) {
+                panel.classList.toggle('is-hidden', panel.dataset.toolPanel !== tool);
+            });
+            document.querySelectorAll('.tool-nav-link').forEach(function (link) {
+                var active = link.dataset.tool === tool;
+                link.classList.toggle('active', active);
+                link.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+        }
+        function syncFromHash() {
+            applyTool(parseTool());
+        }
+        document.querySelector('.site-header-tools')?.addEventListener('click', function (e) {
+            var link = e.target.closest('.tool-nav-link');
+            if (!link) return;
+            e.preventDefault();
+            var tool = link.dataset.tool || 'compress';
+            if (tool === 'compress') {
+                if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+            } else {
+                location.hash = tool;
+            }
+            applyTool(tool);
+        });
+        window.addEventListener('hashchange', syncFromHash);
+        syncFromHash();
+    })();
+    </script>
     <script src="js/tools-shared.js" defer></script>
-    <script src="js/passport-studio.js" defer></script>
     <script src="js/tools-router.js" defer></script>
+    <script src="js/passport-studio.js" defer></script>
     <script src="js/app.js" defer></script>
 </body>
 </html>

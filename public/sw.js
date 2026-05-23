@@ -1,9 +1,14 @@
-const CACHE = 'nexuscompress-v5';
+const CACHE = 'nexuscompress-v6';
 const ASSETS = [
     './css/app.css',
     './js/app.js',
+    './js/tools-router.js',
+    './js/tools-shared.js',
+    './js/passport-studio.js',
     './js/worker.js',
     './js/sentry-init.js',
+    './js/ga-config.js',
+    './js/gtm.js',
     './vendor/jszip.min.js',
     './vendor/sentry.bundle.min.js',
     './manifest.json',
@@ -31,6 +36,10 @@ function isDocumentRequest(request) {
     );
 }
 
+function isScriptRequest(url) {
+    return url.pathname.endsWith('.js');
+}
+
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') return;
 
@@ -41,6 +50,22 @@ self.addEventListener('fetch', (e) => {
 
     if (isDocumentRequest(e.request) || url.pathname.endsWith('version.json')) {
         e.respondWith(fetch(e.request));
+        return;
+    }
+
+    // Network-first for JS so deploys never serve stale routers after HTML updates.
+    if (isScriptRequest(url)) {
+        e.respondWith(
+            fetch(e.request)
+                .then((res) => {
+                    if (res.ok) {
+                        const clone = res.clone();
+                        caches.open(CACHE).then((c) => c.put(e.request, clone));
+                    }
+                    return res;
+                })
+                .catch(() => caches.match(e.request))
+        );
         return;
     }
 

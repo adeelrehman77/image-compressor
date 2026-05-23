@@ -31,8 +31,13 @@ function bumpSwCache() {
     const assets = `const ASSETS = [
     './css/app.css',
     './js/app.js',
+    './js/tools-router.js',
+    './js/tools-shared.js',
+    './js/passport-studio.js',
     './js/worker.js',
     './js/sentry-init.js',
+    './js/ga-config.js',
+    './js/gtm.js',
     './vendor/jszip.min.js',
     './vendor/sentry.bundle.min.js',
     './manifest.json',
