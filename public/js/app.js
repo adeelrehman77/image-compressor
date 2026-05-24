@@ -285,9 +285,16 @@
         }
     }
 
+    function getAppVersion() {
+        const el = document.getElementById('app-version');
+        const m = el?.textContent?.match(/v([\d.]+)/);
+        return m ? m[1] : '2.1.0';
+    }
+
     function initWorkers() {
+        const workerUrl = `js/worker.js?v=${getAppVersion()}`;
         for (let i = 0; i < WORKER_POOL_SIZE; i++) {
-            const w = new Worker('js/worker.js');
+            const w = new Worker(workerUrl);
             w.busy = false;
             w.onmessage = (e) => handleWorkerMessage(w, e);
             workers.push(w);
@@ -340,16 +347,9 @@
         });
         els['uae-preset'].addEventListener('change', applyUaePreset);
 
-        const guardPngTarget = () => {
-            if (parseTargetSizeKb() && els.format.value === 'image/png') {
-                els.format.value = 'image/jpeg';
-                toast('PNG cannot meet a size cap — switched format to JPEG.', 'info');
-                saveSettings();
-            }
-        };
-        els.format.addEventListener('change', guardPngTarget);
-        els['target-size-value']?.addEventListener('change', guardPngTarget);
-        els['target-size-unit']?.addEventListener('change', guardPngTarget);
+        els.format.addEventListener('change', () => updateFormatForTargetSize());
+        els['target-size-value']?.addEventListener('change', () => updateFormatForTargetSize());
+        els['target-size-unit']?.addEventListener('change', () => updateFormatForTargetSize());
 
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
             els['drop-zone'].addEventListener(ev, preventDefaults);
@@ -382,7 +382,25 @@
         els['theme-toggle'].addEventListener('click', toggleTheme);
 
         syncTargetSizeKbField();
+        updateFormatForTargetSize({ silent: true });
         toggleWatermarkFields();
+    }
+
+    function updateFormatForTargetSize(opts = {}) {
+        const hasTarget = Boolean(parseTargetSizeKb());
+        const pngOpt = els.format?.querySelector('option[value="image/png"]');
+        if (pngOpt) pngOpt.disabled = hasTarget;
+
+        const hint = document.getElementById('format-target-hint');
+        hint?.classList.toggle('is-hidden', !hasTarget);
+
+        if (hasTarget && els.format.value === 'image/png') {
+            els.format.value = 'image/jpeg';
+            if (!opts.silent) {
+                toast('PNG cannot meet a file-size cap — switched format to JPEG.', 'info');
+            }
+            saveSettings();
+        }
     }
 
     function syncTargetSizeKbField() {
@@ -392,9 +410,11 @@
         if (!hidden) return;
         if (!val || val <= 0) {
             hidden.value = '';
+            updateFormatForTargetSize({ silent: true });
             return;
         }
         hidden.value = String(unit === 'mb' ? Math.round(val * 1024) : Math.round(val));
+        updateFormatForTargetSize({ silent: true });
     }
 
     function parseTargetSizeKb() {
@@ -501,6 +521,7 @@
             els['target-size-value'].value = '';
         }
         syncTargetSizeKbField();
+        updateFormatForTargetSize({ silent: true });
     }
 
     function applyPreset() {
@@ -607,6 +628,7 @@
                 if (s.preset !== 'custom') applyPreset();
             }
             if (s.viewMode) setViewMode(s.viewMode);
+            updateFormatForTargetSize({ silent: true });
         } catch { /* ignore */ }
     }
 
@@ -616,6 +638,7 @@
     }
 
     function getConfig() {
+        updateFormatForTargetSize({ silent: true });
         const s = getSettings();
         const targetSizeKb = s.targetSizeKb;
         let format = s.format;
@@ -632,10 +655,7 @@
     function handleFiles(files) {
         if (!files || files.length === 0) return;
         state.cancelled = false;
-        if (parseTargetSizeKb() && els.format.value === 'image/png') {
-            els.format.value = 'image/jpeg';
-            toast('Size cap active — using JPEG instead of PNG.', 'info');
-        }
+        updateFormatForTargetSize();
         const config = getConfig();
         const valid = [...files].filter((f) => ACCEPTED_TYPES.test(f.type) || f.type.startsWith('image/'));
 
@@ -792,10 +812,11 @@
 
         if (targetSizeKb && metTarget === false) {
             const kb = (blob.size / 1024).toFixed(1);
+            const pct = Math.round((usedQuality || 0) * 100);
             statusLabel = `Over target (${kb} KB)`;
             statusKind = 'error';
             toast(
-                `${task.file.name}: still above ${targetSizeKb} KB at ${kb} KB. Try JPEG/WebP, lower quality, or a smaller max width.`,
+                `${task.file.name}: could not reach ${targetSizeKb} KB (got ${kb} KB at ${pct}% quality). Try a smaller max width or lower the starting quality.`,
                 'error'
             );
         } else if (targetSizeKb && metTarget) {
@@ -968,6 +989,7 @@
         if (!task) return;
         revokeTaskUrls(id);
         state.compressedFiles.delete(id);
+        updateFormatForTargetSize();
         task.config = getConfig();
         task.status = 'queued';
         state.queue.push(id);

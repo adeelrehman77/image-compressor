@@ -110,6 +110,16 @@ createTestImage().then(() => {
             }
             console.log('Target file size (200KB) test passed.');
 
+            await page.select('#format', 'image/png');
+            const pngBlocked = await page.evaluate(() => ({
+                format: document.getElementById('format').value,
+                pngDisabled: document.querySelector('#format option[value="image/png"]')?.disabled,
+            }));
+            if (!pngBlocked.pngDisabled || pngBlocked.format !== 'image/jpeg') {
+                throw new Error(`PNG should be blocked with size cap: ${JSON.stringify(pngBlocked)}`);
+            }
+            console.log('PNG blocked when 200 KB target active — passed.');
+
             await page.waitForSelector('.compare-view-btn:not([disabled])', { timeout: 15000 });
             await page.evaluate(() => {
                 document.querySelector('.result-card:last-of-type .compare-view-btn')?.click();
