@@ -40,9 +40,24 @@ async function writeTestImage(destPath) {
     }
 }
 
+async function writeTestWebp(destPath) {
+    try {
+        const sharp = require('sharp');
+        await sharp({
+            create: { width: 120, height: 120, channels: 3, background: { r: 40, g: 120, b: 200 } },
+        })
+            .webp()
+            .toFile(destPath);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 function createQaFixtures() {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'nexuscompress-qa-'));
     const image = path.join(dir, 'test.jpg');
+    const webp = path.join(dir, 'test.webp');
     const svg = path.join(dir, 'test.svg');
     const pdf1 = path.join(dir, 'page1.pdf');
     const pdf2 = path.join(dir, 'page2.pdf');
@@ -54,11 +69,14 @@ function createQaFixtures() {
     return {
         dir,
         image,
+        webp,
         svg,
         pdf1,
         pdf2,
         async ready() {
             await writeTestImage(image);
+            const ok = await writeTestWebp(webp);
+            if (!ok) this.webp = null;
         },
         cleanup() {
             fs.rmSync(dir, { recursive: true, force: true });

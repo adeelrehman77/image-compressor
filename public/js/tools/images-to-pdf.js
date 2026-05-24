@@ -33,12 +33,31 @@
         renderList();
     }
 
-    async function embedImage(pdfDoc, bytes, mime) {
-        if (mime === 'image/png' || mime === 'image/webp') {
+    async function embedImage(pdfDoc, file) {
+        let bytes;
+        let mime = file.type;
+
+        if (mime === 'image/jpeg' || mime === 'image/png') {
+            bytes = await file.arrayBuffer();
+        } else {
+            const bitmap = await createImageBitmap(file);
+            try {
+                const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(bitmap, 0, 0);
+                const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 });
+                bytes = await blob.arrayBuffer();
+                mime = 'image/jpeg';
+            } finally {
+                bitmap.close();
+            }
+        }
+
+        if (mime === 'image/png') {
             try {
                 return await pdfDoc.embedPng(bytes);
             } catch {
-                return await pdfDoc.embedJpg(bytes);
+                /* fall through to JPEG embed */
             }
         }
         return await pdfDoc.embedJpg(bytes);
@@ -57,8 +76,7 @@
             const A4 = [595.28, 841.89];
 
             for (const file of files) {
-                const bytes = await file.arrayBuffer();
-                const image = await embedImage(pdfDoc, bytes, file.type);
+                const image = await embedImage(pdfDoc, file);
                 if (pageSize === 'fit') {
                     const dims = image.scale(1);
                     const page = pdfDoc.addPage([dims.width, dims.height]);
@@ -77,7 +95,7 @@
             }
 
             const out = await pdfDoc.save();
-            downloadBlob(new Blob([out], { type: 'application/pdf' }), 'combined-documents.pdf');
+            downloadBlob(new Blob([out], { type: 'application/pdf' }), 'combined-documents.pdf', 'images-to-pdf');
             toast('PDF ready.', 'success');
         } catch (err) {
             NexusTools.reportError(err, { tool: 'images-to-pdf' });

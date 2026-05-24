@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
+function readAppVersion() {
+    const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
+    return pkg.version || '2.1.0';
+}
+
 function jsPrefix(htmlFile, publicRoot) {
     const rel = path.relative(path.dirname(htmlFile), path.join(publicRoot, 'js'));
     return rel ? rel.split(path.sep).join('/') : 'js';
@@ -55,16 +60,44 @@ function stripSentryScripts(html) {
         .replace(/<script src="https:\/\/js\.sentry-cdn\.com\/[^"]+\.min\.js" crossorigin="anonymous"><\/script>\s*/gi, '')
         .replace(/<script src="https:\/\/browser\.sentry-cdn\.com\/[^"]+\/bundle\.min\.js" crossorigin="anonymous"><\/script>\s*/gi, '')
         .replace(/<script src="[^"]*sentry\.bundle\.min\.js"[^>]*><\/script>\s*/gi, '')
-        .replace(/<script src="[^"]*sentry-init\.js"[^>]*><\/script>\s*/gi, '');
+        .replace(/<script src="[^"]*sentry-init\.js[^"]*"[^>]*><\/script>\s*/gi, '');
+}
+
+function hasSentryInit(html) {
+    return /<script src="[^"]*sentry-init\.js/i.test(html);
 }
 
 function injectSentry(html, htmlFile, publicRoot) {
     const block = sentryScriptBlock(htmlFile, publicRoot);
-    const next = stripSentryScripts(html);
-    return next.replace(/<meta charset="UTF-8">\s*/i, `<meta charset="UTF-8">\n    ${block}\n    `);
+    let next = stripSentryScripts(html);
+    if (!hasSentryInit(next)) {
+        next = next.replace(/<meta charset="UTF-8">\s*/i, `<meta charset="UTF-8">\n    ${block}\n    `);
+    }
+    return next;
+}
+
+function injectAppVersion(html, version) {
+    return html.replace(/<html([^>]*)>/i, (match, attrs) => {
+        const cleaned = attrs.replace(/\s*data-app-version="[^"]*"/, '');
+        return `<html${cleaned} data-app-version="${version}">`;
+    });
+}
+
+function versionAssetUrls(html, version) {
+    const q = `?v=${version}`;
+    let next = html.replace(/(<script src=")([^"?]+\.js)(")/gi, (_, pre, src, post) => {
+        if (src.includes('?v=')) return `${pre}${src}${post}`;
+        return `${pre}${src}${q}${post}`;
+    });
+    next = next.replace(/(<link[^>]+href=")([^"?]+\.css)(")/gi, (_, pre, href, post) => {
+        if (href.includes('?v=')) return `${pre}${href}${post}`;
+        return `${pre}${href}${q}${post}`;
+    });
+    return next;
 }
 
 function patchHtmlFiles(dir, publicRoot = dir) {
+    const version = readAppVersion();
     for (const name of fs.readdirSync(dir)) {
         const p = path.join(dir, name);
         if (fs.statSync(p).isDirectory()) {
@@ -76,6 +109,8 @@ function patchHtmlFiles(dir, publicRoot = dir) {
         let html = fs.readFileSync(p, 'utf8');
         html = injectSentry(html, p, publicRoot);
         html = injectGtm(html, p, publicRoot);
+        html = injectAppVersion(html, version);
+        html = versionAssetUrls(html, version);
         html = html
             .replace(/href="\.\.\/css\/styles\.css"/g, 'href="../css/app.css"')
             .replace(/href="css\/styles\.css"/g, 'href="css/app.css"')
@@ -95,7 +130,7 @@ function patchHtmlFiles(dir, publicRoot = dir) {
     }
 }
 
-module.exports = { patchHtmlFiles };
+module.exports = { patchHtmlFiles, readAppVersion, injectAppVersion, versionAssetUrls };
 
 if (require.main === module) {
     patchHtmlFiles(path.join(__dirname, '../public'));

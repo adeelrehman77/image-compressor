@@ -19,14 +19,32 @@ window.NexusTools = (function () {
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
     }
 
-    function downloadBlob(blob, filename) {
+    function appVersion() {
+        return (
+            document.documentElement.dataset.appVersion ||
+            document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
+            '2.1.0'
+        );
+    }
+
+    function assetUrl(src) {
+        if (!src || src.includes('?')) return src;
+        return `${src}?v=${appVersion()}`;
+    }
+
+    function trackDownload(filename, toolName = 'unknown') {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
             event: 'tool_conversion',
             event_category: 'engagement',
             event_label: 'file_downloaded',
             file_name: filename,
+            tool_name: toolName,
         });
+    }
+
+    function downloadBlob(blob, filename, toolName = 'unknown') {
+        trackDownload(filename, toolName);
 
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -68,7 +86,7 @@ window.NexusTools = (function () {
                 return;
             }
             const s = document.createElement('script');
-            s.src = src;
+            s.src = assetUrl(src);
             s.dataset.nexusSrc = src;
             s.onload = () => {
                 s.dataset.ready = '1';
@@ -103,7 +121,7 @@ window.NexusTools = (function () {
         if (pdfLibPromise) return pdfLibPromise;
         pdfLibPromise = new Promise((resolve, reject) => {
             const s = document.createElement('script');
-            s.src = 'vendor/pdf-lib.min.js';
+            s.src = assetUrl('vendor/pdf-lib.min.js');
             s.async = true;
             s.onload = () => resolve(window.PDFLib);
             s.onerror = () => reject(new Error('Could not load PDF library'));
@@ -156,7 +174,10 @@ window.NexusTools = (function () {
     return {
         toast,
         formatBytes,
+        trackDownload,
         downloadBlob,
+        appVersion,
+        assetUrl,
         requirePdfLib,
         loadPdfLib,
         loadJsZip,

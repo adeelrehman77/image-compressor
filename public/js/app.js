@@ -286,13 +286,11 @@
     }
 
     function getAppVersion() {
-        const el = document.getElementById('app-version');
-        const m = el?.textContent?.match(/v([\d.]+)/);
-        return m ? m[1] : '2.1.0';
+        return window.NexusTools?.appVersion?.() || '2.1.0';
     }
 
     function initWorkers() {
-        const workerUrl = `js/worker.js?v=${getAppVersion()}`;
+        const workerUrl = window.NexusTools?.assetUrl?.('js/worker.js') || `js/worker.js?v=${getAppVersion()}`;
         for (let i = 0; i < WORKER_POOL_SIZE; i++) {
             const w = new Worker(workerUrl);
             w.busy = false;
@@ -380,6 +378,13 @@
         els['view-cards'].addEventListener('click', () => setViewMode('cards'));
         els['view-table'].addEventListener('click', () => setViewMode('table'));
         els['theme-toggle'].addEventListener('click', toggleTheme);
+
+        document.getElementById('results-container')?.addEventListener('click', (e) => {
+            const link = e.target.closest('.download-btn, .download-row');
+            if (link?.download) {
+                window.NexusTools?.trackDownload?.(link.download, 'compress');
+            }
+        });
 
         syncTargetSizeKbField();
         toggleWatermarkFields();
@@ -1205,7 +1210,7 @@
             if (zipLabel) zipLabel.textContent = 'Done — starting download';
 
             const url = URL.createObjectURL(content);
-            triggerDownload(url, 'funadventure-batch.zip');
+            triggerDownload(url, 'funadventure-batch.zip', 'compress');
             URL.revokeObjectURL(url);
             toast('ZIP downloaded', 'success');
         } catch (err) {
@@ -1222,7 +1227,8 @@
         }
     }
 
-    function triggerDownload(url, name) {
+    function triggerDownload(url, name, toolName = 'compress') {
+        window.NexusTools?.trackDownload?.(name, toolName);
         const a = document.createElement('a');
         a.href = url;
         a.download = name;

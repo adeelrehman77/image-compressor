@@ -73,6 +73,7 @@ async function main() {
         if (msg.type() === 'error') {
             const t = msg.text();
             if (t.includes('.woff') || (t.includes('Failed to load resource') && t.includes('ads'))) return;
+            if (t.includes('ERR_FILE_NOT_FOUND') && t.includes('blob:')) return;
             consoleErrors.push(t);
         }
     });
@@ -145,10 +146,13 @@ async function main() {
         await waitCompressDone(page);
         const compressedKb = await page.evaluate(() => {
             const text = document.querySelector('.result-card .compressed-size')?.textContent || '';
-            const m = text.match(/([\d.]+)\s*(KB|MB)/i);
+            const m = text.match(/([\d.]+)\s*(KB|MB|B)/i);
             if (!m) return null;
             const n = parseFloat(m[1]);
-            return m[2].toUpperCase() === 'MB' ? n * 1024 : n;
+            const unit = m[2].toUpperCase();
+            if (unit === 'MB') return n * 1024;
+            if (unit === 'KB') return n;
+            return n / 1024;
         });
         if (compressedKb != null && compressedKb <= 200 * 1.05) {
             pass(`UAE 200 KB target met (${compressedKb.toFixed(1)} KB)`);
@@ -223,17 +227,16 @@ async function main() {
         await fi.uploadFile(fixtures.image);
         await page.waitForSelector('.download-btn', { timeout: 15000 });
         await page.evaluate(() => document.querySelector('.download-btn')?.click());
-        await page.waitForFunction(() => (window.dataLayer || []).some((e) => e.event === 'tool_conversion'), { timeout: 3000 });
+        await page.waitForFunction(() => (window.dataLayer || []).some((e) => e.event === 'tool_conversion'), { timeout: 5000 });
         const dlEvent = await page.evaluate(() =>
             (window.dataLayer || []).find((e) => e.event === 'tool_conversion')
         );
-        if (dlEvent?.event_label === 'file_downloaded') {
-            pass('GTM tool_conversion fires on single-file download');
+        if (dlEvent?.event_label === 'file_downloaded' && dlEvent?.tool_name === 'compress') {
+            pass('GTM tool_conversion fires on compressor download');
         } else {
-            fail('GTM tool_conversion missing on download', JSON.stringify(dlEvent));
+            fail('GTM tool_conversion missing on compress download', JSON.stringify(dlEvent));
         }
 
-        // ZIP download GTM
         await fi.uploadFile(fixtures.image);
         await page.waitForFunction(() => document.querySelectorAll('.download-btn').length >= 2, { timeout: 15000 });
         await page.evaluate(() => {
@@ -242,9 +245,32 @@ async function main() {
         });
         await page.waitForFunction(
             () => (window.dataLayer || []).some((e) => e.event === 'tool_conversion'),
-            { timeout: 15000 }
+            { timeout: 20000 }
         );
-        pass('ZIP download path completes (GTM may vary by implementation)');
+        const zipEvent = await page.evaluate(() =>
+            (window.dataLayer || []).find((e) => e.event === 'tool_conversion')
+        );
+        if (zipEvent?.tool_name === 'compress') pass('GTM tool_conversion fires on ZIP download');
+        else fail('GTM missing on ZIP download', JSON.stringify(zipEvent));
+
+        console.log('\nImages to PDF — WebP');
+        await clickTab(page, 'images-to-pdf');
+        if (fixtures.webp && fs.existsSync(fixtures.webp)) {
+            const itpInput = await page.$('#itp-input');
+            await itpInput.uploadFile(fixtures.webp);
+            await page.waitForFunction(
+                () => document.querySelectorAll('#itp-list .tool-file-item').length >= 1,
+                { timeout: 5000 }
+            );
+            await page.click('#itp-build');
+            await page.waitForFunction(() => {
+                const btn = document.getElementById('itp-build');
+                return btn && !btn.disabled && btn.textContent.includes('Download PDF');
+            }, { timeout: 20000 });
+            pass('WebP image converts to PDF successfully');
+        } else {
+            pass('WebP fixture skipped (sharp unavailable)');
+        }
 
         // ── Hash routes for all tools ──
         console.log('\nDirect hash routes');

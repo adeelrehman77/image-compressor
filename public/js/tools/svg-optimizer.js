@@ -69,7 +69,7 @@
         });
 
         dl?.addEventListener('click', () => {
-            if (optimizedBlob) downloadBlob(optimizedBlob, 'optimized.svg');
+            if (optimizedBlob) downloadBlob(optimizedBlob, 'optimized.svg', 'svg');
         });
     });
 })();

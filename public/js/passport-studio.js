@@ -195,14 +195,7 @@
     }
 
     function downloadBlob(blob, filename) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+        window.NexusTools.downloadBlob(blob, filename, 'passport-studio');
     }
 
     async function generatePrintSheet() {

@@ -1,4 +1,4 @@
-const CACHE = 'nexuscompress-v8';
+const CACHE = 'nexuscompress-v9';
 const ASSETS = [
     './css/app.css',
     './js/app.js',
@@ -36,8 +36,8 @@ function isDocumentRequest(request) {
     );
 }
 
-function isScriptRequest(url) {
-    return url.pathname.endsWith('.js');
+function isVersionedAssetRequest(url) {
+    return url.pathname.endsWith('.js') || url.pathname.endsWith('.css');
 }
 
 self.addEventListener('fetch', (e) => {
@@ -53,8 +53,8 @@ self.addEventListener('fetch', (e) => {
         return;
     }
 
-    // Network-first for JS so deploys never serve stale routers after HTML updates.
-    if (isScriptRequest(url)) {
+    // Network-first for JS/CSS so deploys never serve stale bundles after HTML updates.
+    if (isVersionedAssetRequest(url)) {
         e.respondWith(
             fetch(e.request)
                 .then((res) => {

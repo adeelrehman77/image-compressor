@@ -21,6 +21,12 @@ function copyDir(src, dest) {
     }
 }
 
+function writeVersionJson(targetDir) {
+    const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+    const payload = { version: pkg.version, builtAt: new Date().toISOString() };
+    fs.writeFileSync(path.join(targetDir, 'version.json'), `${JSON.stringify(payload, null, 2)}\n`);
+}
+
 function bumpSwCache() {
     const swPath = path.join(distDir, 'sw.js');
     if (!fs.existsSync(swPath)) return;
@@ -52,6 +58,8 @@ require('./generate-sitemap');
 
 rimraf(distDir);
 copyDir(publicDir, distDir);
+writeVersionJson(publicDir);
+writeVersionJson(distDir);
 fs.mkdirSync(path.join(distDir, 'css'), { recursive: true });
 const legacyCss = path.join(distDir, 'css', 'styles.css');
 if (fs.existsSync(legacyCss)) fs.unlinkSync(legacyCss);

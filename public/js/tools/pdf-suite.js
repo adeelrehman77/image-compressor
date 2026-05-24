@@ -57,7 +57,7 @@
                 pages.forEach((p) => merged.addPage(p));
             }
             const bytes = await merged.save();
-            downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
+            downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf', 'pdf-suite');
             toast('Merged PDF downloaded.', 'success');
         } catch (err) {
             NexusTools.reportError(err, { tool: 'pdf-suite', action: 'merge' });
@@ -86,7 +86,7 @@
                 const [page] = await out.copyPages(src, [0]);
                 out.addPage(page);
                 const bytes = await out.save();
-                downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'page-1.pdf');
+                downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'page-1.pdf', 'pdf-suite');
                 toast('Page downloaded.', 'success');
                 return;
             }
@@ -101,7 +101,7 @@
                 zip.file(`page-${i + 1}.pdf`, bytes);
             }
             const zipBlob = await zip.generateAsync({ type: 'blob' });
-            downloadBlob(zipBlob, 'pdf-pages.zip');
+            downloadBlob(zipBlob, 'pdf-pages.zip', 'pdf-suite');
             toast(`${count} pages in ZIP.`, 'success');
         } catch (err) {
             NexusTools.reportError(err, { tool: 'pdf-suite', action: 'split' });
