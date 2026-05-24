@@ -382,12 +382,29 @@
         els['theme-toggle'].addEventListener('click', toggleTheme);
 
         syncTargetSizeKbField();
-        updateFormatForTargetSize({ silent: true });
         toggleWatermarkFields();
     }
 
+    function syncTargetSizeKbFieldOnly() {
+        const val = parseFloat(els['target-size-value']?.value);
+        const unit = els['target-size-unit']?.value || 'kb';
+        const hidden = els['target-size-kb'];
+        if (!hidden) return;
+        if (!val || val <= 0) {
+            hidden.value = '';
+            return;
+        }
+        hidden.value = String(unit === 'mb' ? Math.round(val * 1024) : Math.round(val));
+    }
+
+    function readTargetSizeKb() {
+        const kb = els['target-size-kb']?.value;
+        return kb ? parseInt(kb, 10) : null;
+    }
+
     function updateFormatForTargetSize(opts = {}) {
-        const hasTarget = Boolean(parseTargetSizeKb());
+        syncTargetSizeKbFieldOnly();
+        const hasTarget = Boolean(readTargetSizeKb());
         const pngOpt = els.format?.querySelector('option[value="image/png"]');
         if (pngOpt) pngOpt.disabled = hasTarget;
 
@@ -404,23 +421,13 @@
     }
 
     function syncTargetSizeKbField() {
-        const val = parseFloat(els['target-size-value']?.value);
-        const unit = els['target-size-unit']?.value || 'kb';
-        const hidden = els['target-size-kb'];
-        if (!hidden) return;
-        if (!val || val <= 0) {
-            hidden.value = '';
-            updateFormatForTargetSize({ silent: true });
-            return;
-        }
-        hidden.value = String(unit === 'mb' ? Math.round(val * 1024) : Math.round(val));
+        syncTargetSizeKbFieldOnly();
         updateFormatForTargetSize({ silent: true });
     }
 
     function parseTargetSizeKb() {
-        syncTargetSizeKbField();
-        const kb = els['target-size-kb']?.value;
-        return kb ? parseInt(kb, 10) : null;
+        syncTargetSizeKbFieldOnly();
+        return readTargetSizeKb();
     }
 
     function toggleWatermarkFields() {
@@ -521,7 +528,6 @@
             els['target-size-value'].value = '';
         }
         syncTargetSizeKbField();
-        updateFormatForTargetSize({ silent: true });
     }
 
     function applyPreset() {
@@ -628,7 +634,7 @@
                 if (s.preset !== 'custom') applyPreset();
             }
             if (s.viewMode) setViewMode(s.viewMode);
-            updateFormatForTargetSize({ silent: true });
+            syncTargetSizeKbField();
         } catch { /* ignore */ }
     }
 
