@@ -146,22 +146,37 @@ window.NexusTools = (function () {
             e.stopPropagation();
         };
 
+        let dragDepth = 0;
+
+        const setDragActive = (active) => {
+            dropZone.classList.toggle('drag-active', active);
+        };
+
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
             dropZone.addEventListener(ev, prevent);
         });
-        ['dragenter', 'dragover'].forEach((ev) => {
-            dropZone.addEventListener(ev, () => dropZone.classList.add('drag-active'));
-        });
-        ['dragleave', 'drop'].forEach((ev) => {
-            dropZone.addEventListener(ev, () => dropZone.classList.remove('drag-active'));
-        });
 
+        dropZone.addEventListener('dragenter', () => {
+            dragDepth += 1;
+            setDragActive(true);
+        });
+        dropZone.addEventListener('dragover', () => setDragActive(true));
+        dropZone.addEventListener('dragleave', () => {
+            dragDepth = Math.max(0, dragDepth - 1);
+            if (dragDepth === 0) setDragActive(false);
+        });
         dropZone.addEventListener('drop', (e) => {
+            dragDepth = 0;
+            setDragActive(false);
             const files = e.dataTransfer?.files;
             if (files?.length) onFiles(files);
         });
 
         if (fileInput) {
+            dropZone.addEventListener('click', (e) => {
+                if (e.target.closest('label, button, a, input')) return;
+                fileInput.click();
+            });
             dropZone.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();

@@ -5,6 +5,7 @@
     const MAX_FILE_BYTES = 25 * 1024 * 1024;
     const MAX_BATCH_FILES = 20;
     const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif)$/i;
+    const ACCEPTED_EXT = /\.(jpe?g|png|webp|avif)$/i;
 
     const PRESETS = {
         web: { quality: 85, format: 'image/webp', maxWidth: 1920, maxHeight: null, targetSizeKb: null },
@@ -352,16 +353,35 @@
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((ev) => {
             els['drop-zone'].addEventListener(ev, preventDefaults);
         });
-        ['dragenter', 'dragover'].forEach((ev) => {
-            els['drop-zone'].addEventListener(ev, () => els['drop-zone'].classList.add('drag-active'));
+
+        let compressDragDepth = 0;
+        const setCompressDrag = (active) => {
+            els['drop-zone'].classList.toggle('drag-active', active);
+        };
+        els['drop-zone'].addEventListener('dragenter', () => {
+            compressDragDepth += 1;
+            setCompressDrag(true);
         });
-        ['dragleave', 'drop'].forEach((ev) => {
-            els['drop-zone'].addEventListener(ev, () => els['drop-zone'].classList.remove('drag-active'));
+        els['drop-zone'].addEventListener('dragover', () => setCompressDrag(true));
+        els['drop-zone'].addEventListener('dragleave', () => {
+            compressDragDepth = Math.max(0, compressDragDepth - 1);
+            if (compressDragDepth === 0) setCompressDrag(false);
         });
 
-        els['drop-zone'].addEventListener('drop', (e) => handleFiles(e.dataTransfer.files));
+        els['drop-zone'].addEventListener('drop', (e) => {
+            compressDragDepth = 0;
+            setCompressDrag(false);
+            handleFiles(e.dataTransfer.files);
+        });
+        els['drop-zone'].addEventListener('click', (e) => {
+            if (e.target.closest('label, button, a, input')) return;
+            els['file-input'].click();
+        });
         els['drop-zone'].addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') els['file-input'].click();
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                els['file-input'].click();
+            }
         });
         els['file-input'].addEventListener('change', (e) => handleFiles(e.target.files));
         els['folder-input'].addEventListener('change', (e) => handleFiles(e.target.files));
@@ -663,20 +683,27 @@
         };
     }
 
+    function isAcceptedImage(file) {
+        if (ACCEPTED_TYPES.test(file.type)) return true;
+        if (!file.type && ACCEPTED_EXT.test(file.name || '')) return true;
+        return false;
+    }
+
     function handleFiles(files) {
         if (!files || files.length === 0) return;
         state.cancelled = false;
         updateFormatForTargetSize();
         const config = getConfig();
-        const valid = [...files].filter((f) => ACCEPTED_TYPES.test(f.type) || f.type.startsWith('image/'));
+        const valid = [...files].filter(isAcceptedImage);
+        const skipped = files.length - valid.length;
 
         if (valid.length === 0) {
-            toast('No supported image files found.', 'error');
+            toast('No supported image files found. Use JPEG, PNG, WebP, or AVIF.', 'error');
             return;
         }
 
-        if (valid.length < files.length) {
-            toast(`Skipped ${files.length - valid.length} unsupported file(s).`, 'warn');
+        if (skipped > 0) {
+            toast(`Skipped ${skipped} unsupported file(s). Only JPEG, PNG, WebP, and AVIF are supported.`, 'warn');
         }
 
         const hasOversized = valid.some((f) => f.size > MAX_FILE_BYTES);
@@ -1006,6 +1033,7 @@
         state.queue.push(id);
 
         const card = document.getElementById(id);
+        const row = document.getElementById(`row-${id}`);
         if (card) {
             card.querySelector('.compressed-size').textContent = '…';
             card.querySelector('.result-actions').classList.add('is-hidden');
@@ -1018,9 +1046,19 @@
                 div.className = 'loading-overlay';
                 div.innerHTML = '<div class="spinner"></div>';
                 container.appendChild(div);
+            } else {
+                overlay.classList.remove('is-hidden');
             }
             card.querySelector('.compare-overlay')?.classList.add('is-hidden');
             card.querySelector('.compare-handle')?.classList.add('is-hidden');
+        }
+        if (row) {
+            row.querySelector('.out-cell').textContent = '…';
+            row.querySelector('.saved-cell').textContent = '—';
+            row.querySelector('.dim-cell').textContent = '…';
+            row.querySelector('.download-row')?.classList.add('is-hidden');
+            const compareRow = row.querySelector('.compare-row');
+            if (compareRow) compareRow.disabled = true;
         }
         updateTaskStatus(id, 'Processing…', 'processing');
         drainQueue();

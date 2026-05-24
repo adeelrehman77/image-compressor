@@ -78,6 +78,9 @@
         },
     };
 
+    let internalNav = false;
+    let activateGen = 0;
+
     function parseTool() {
         const hash = (location.hash || '').replace(/^#/, '').trim();
         if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'passport-studio') {
@@ -86,11 +89,34 @@
         return 'compress';
     }
 
+    function syncHash(tool) {
+        internalNav = true;
+        try {
+            if (tool === 'compress') {
+                if (location.hash) {
+                    history.replaceState(null, '', location.pathname + location.search);
+                }
+            } else if (location.hash !== `#${tool}`) {
+                location.hash = tool;
+            }
+        } finally {
+            internalNav = false;
+        }
+    }
+
     async function prepareTool(tool) {
         if (tool === 'compress') return;
-        await window.NexusTools?.ensureTool?.(tool);
-        if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
-            await window.NexusTools?.loadPdfLib?.();
+        try {
+            await window.NexusTools?.ensureTool?.(tool);
+            if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
+                await window.NexusTools?.loadPdfLib?.();
+            }
+        } catch (err) {
+            window.NexusTools?.toast?.(
+                'This tool failed to load. Check your connection and refresh the page.',
+                'error'
+            );
+            throw err;
         }
     }
 
@@ -142,34 +168,32 @@
         if (TITLES[tool]) document.title = TITLES[tool];
         updateSeoContent(tool);
         window.NexusSentry?.setTool(tool);
-        if (tool === 'compress' && !location.hash) {
-            history.replaceState(null, '', location.pathname + location.search);
-        }
     }
 
     async function activateTool(tool) {
+        const gen = ++activateGen;
         await prepareTool(tool);
+        if (gen !== activateGen) return;
         setTool(tool);
+        syncHash(tool);
+    }
+
+    async function navigateToTool(tool) {
+        document.querySelector('.app-main')?.classList.add('tool-switching');
+        try {
+            await activateTool(tool);
+        } catch (err) {
+            window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'navigate', target: tool });
+        } finally {
+            document.querySelector('.app-main')?.classList.remove('tool-switching');
+        }
     }
 
     async function onNavClick(e) {
         const link = e.target.closest('.tool-nav-link');
         if (!link) return;
         e.preventDefault();
-        const tool = link.dataset.tool || 'compress';
-        document.querySelector('.app-main')?.classList.add('tool-switching');
-        try {
-            if (tool === 'compress') {
-                location.hash = '';
-            } else {
-                location.hash = tool;
-            }
-            await activateTool(tool);
-        } catch (err) {
-            window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'nav-click' });
-        } finally {
-            document.querySelector('.app-main')?.classList.remove('tool-switching');
-        }
+        await navigateToTool(link.dataset.tool || 'compress');
     }
 
     function bindRouter() {
@@ -192,40 +216,23 @@
             const hash = chip.getAttribute('href')?.replace(/^#/, '').trim();
             if (hash && TAGLINES[hash]) {
                 e.preventDefault();
-                document.querySelector('.app-main')?.classList.add('tool-switching');
-                location.hash = hash;
-                try {
-                    await activateTool(hash);
-                } catch (err) {
-                    window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'chip-nav' });
-                } finally {
-                    document.querySelector('.app-main')?.classList.remove('tool-switching');
-                }
+                await navigateToTool(hash);
             }
         });
         document.querySelector('[data-tool-home]')?.addEventListener('click', async (e) => {
             if (location.pathname.endsWith('index.html') || location.pathname.endsWith('/')) {
                 e.preventDefault();
-                document.querySelector('.app-main')?.classList.add('tool-switching');
-                location.hash = '';
-                try {
-                    await activateTool('compress');
-                } catch (err) {
-                    window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'home-nav' });
-                } finally {
-                    document.querySelector('.app-main')?.classList.remove('tool-switching');
-                }
+                await navigateToTool('compress');
             }
         });
         window.addEventListener('hashchange', () => {
-            activateTool(parseTool()).catch((err) => {
-                window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'hashchange' });
-            });
+            if (internalNav) return;
+            navigateToTool(parseTool());
         });
     }
 
     async function boot() {
-        await activateTool(parseTool());
+        await navigateToTool(parseTool());
         preloadToolsIdle();
     }
 
