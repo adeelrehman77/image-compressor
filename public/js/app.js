@@ -988,6 +988,9 @@
         const dl = card.querySelector('.download-btn');
         dl.href = task.compressedUrl;
         dl.download = task.newName;
+        dl.onclick = () => {
+            window.NexusTools?.trackDownload?.(task.newName, 'compress');
+        };
         card.querySelector('.result-actions').classList.remove('is-hidden');
         const compareBtn = card.querySelector('.compare-view-btn');
         if (compareBtn) {
@@ -1004,6 +1007,9 @@
             const dlRow = row.querySelector('.download-row');
             dlRow.href = task.compressedUrl;
             dlRow.download = task.newName;
+            dlRow.onclick = () => {
+                window.NexusTools?.trackDownload?.(task.newName, 'compress');
+            };
             dlRow.classList.remove('is-hidden');
             const compareRow = row.querySelector('.compare-row');
             if (compareRow) {
@@ -1056,7 +1062,12 @@
             row.querySelector('.out-cell').textContent = '…';
             row.querySelector('.saved-cell').textContent = '—';
             row.querySelector('.dim-cell').textContent = '…';
-            row.querySelector('.download-row')?.classList.add('is-hidden');
+            const dlRow = row.querySelector('.download-row');
+            if (dlRow) {
+                dlRow.classList.add('is-hidden');
+                dlRow.removeAttribute('href');
+                dlRow.onclick = null;
+            }
             const compareRow = row.querySelector('.compare-row');
             if (compareRow) compareRow.disabled = true;
         }

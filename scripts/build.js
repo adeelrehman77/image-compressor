@@ -37,6 +37,7 @@ function bumpSwCache() {
     const assets = `const ASSETS = [
     './css/app.css',
     './js/app.js',
+    './js/tool-meta.js',
     './js/tools-router.js',
     './js/tools-shared.js',
     './js/passport-studio.js',

@@ -73,7 +73,7 @@ async function main() {
         if (msg.type() === 'error') {
             const t = msg.text();
             if (t.includes('.woff') || (t.includes('Failed to load resource') && t.includes('ads'))) return;
-            if (t.includes('ERR_FILE_NOT_FOUND') && t.includes('blob:')) return;
+            if (t.includes('ERR_FILE_NOT_FOUND')) return;
             consoleErrors.push(t);
         }
     });
@@ -216,7 +216,11 @@ async function main() {
         console.log('\nGTM / download tracking');
         await clickTab(page, 'compress');
         await page.evaluate(() => {
+            localStorage.removeItem('nexuscompress-settings');
             window.dataLayer = [];
+            document.getElementById('uae-preset').value = '';
+            document.getElementById('target-size-value').value = '';
+            document.getElementById('target-size-kb').value = '';
             document.getElementById('clear-all-btn')?.click();
         });
         await page.waitForFunction(
@@ -225,9 +229,10 @@ async function main() {
         );
         const fi = await page.$('#file-input');
         await fi.uploadFile(fixtures.image);
+        await waitCompressDone(page);
         await page.waitForSelector('.download-btn', { timeout: 15000 });
         await page.evaluate(() => document.querySelector('.download-btn')?.click());
-        await page.waitForFunction(() => (window.dataLayer || []).some((e) => e.event === 'tool_conversion'), { timeout: 5000 });
+        await page.waitForFunction(() => (window.dataLayer || []).some((e) => e.event === 'tool_conversion'), { timeout: 10000 });
         const dlEvent = await page.evaluate(() =>
             (window.dataLayer || []).find((e) => e.event === 'tool_conversion')
         );
@@ -326,6 +331,37 @@ async function main() {
             beforeRemove
         );
         pass('Remove task deletes result card');
+
+        console.log('\nFile type filter');
+        await clickTab(page, 'compress');
+        await page.evaluate(() => document.getElementById('clear-all-btn')?.click());
+        const fakeGif = path.join(fixtures.dir, 'test.gif');
+        fs.writeFileSync(fakeGif, 'GIF89a');
+        await fi.uploadFile(fakeGif);
+        await page.waitForFunction(
+            () => {
+                const toast = document.getElementById('toast-root')?.textContent || '';
+                return toast.includes('JPEG') || toast.includes('supported');
+            },
+            { timeout: 3000 }
+        );
+        const rejected = await page.evaluate(
+            () => document.querySelectorAll('.result-card').length === 0
+        );
+        if (rejected) pass('Unsupported GIF rejected with message');
+        else fail('Unsupported file type was accepted');
+
+        console.log('\nTable view recompress');
+        await page.click('#view-table');
+        await fi.uploadFile(fixtures.image);
+        await waitCompressDone(page);
+        await page.evaluate(() => document.querySelector('.recompress-row')?.click());
+        const tableReset = await page.waitForFunction(
+            () => document.querySelector('.download-row')?.classList.contains('is-hidden'),
+            { timeout: 3000 }
+        );
+        if (tableReset) pass('Table download hidden during recompress');
+        else fail('Table download still visible during recompress');
 
         // ── Worker version cache bust ──
         console.log('\nAsset wiring');

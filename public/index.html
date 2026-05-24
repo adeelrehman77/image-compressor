@@ -25,6 +25,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | Reduce Image Size Instantly</title>
+    <script src="js/tool-meta.js?v=2.1.0"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -127,24 +128,24 @@
         </div>
         <div class="site-header-tools-wrap max-width-wrap">
             <nav class="site-header-tools" aria-label="Studio tools">
-                <div class="tool-tabs" role="tablist">
-                    <a href="./" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true">
+                <div class="tool-tabs" role="tablist" aria-label="Studio tools">
+                    <a href="./" id="tab-compress" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true" aria-controls="tool-panel-compress" tabindex="0">
                         <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
                         <span class="tool-tab__label">Image Compressor</span>
                     </a>
-                    <a href="#images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false">
+                    <a href="#images-to-pdf" id="tab-images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false" aria-controls="tool-panel-images-to-pdf" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📄</span>
                         <span class="tool-tab__label">Images to PDF</span>
                     </a>
-                    <a href="#pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false">
+                    <a href="#pdf-suite" id="tab-pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false" aria-controls="tool-panel-pdf-suite" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔗</span>
                         <span class="tool-tab__label">PDF Merge</span>
                     </a>
-                    <a href="#svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false">
+                    <a href="#svg" id="tab-svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false" aria-controls="tool-panel-svg" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label">SVG Optimizer</span>
                     </a>
-                    <a href="#passport-studio" class="tool-tab tool-nav-link" data-tool="passport-studio" role="tab" aria-selected="false">
+                    <a href="#passport-studio" id="tab-passport-studio" class="tool-tab tool-nav-link" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
                         <span class="tool-tab__label">Passport Studio</span>
                     </a>
@@ -153,7 +154,7 @@
         </div>
     </header>
 
-    <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress">
+    <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress" role="tabpanel" aria-labelledby="tab-compress" tabindex="0">
     <div class="app-layout">
         <aside class="app-sidebar glass-panel" aria-label="Compression settings">
             <p class="sidebar-intro">Pick a preset or dial things in. Processing happens on this device only.</p>
@@ -413,7 +414,7 @@
     </div>
     </div>
 
-    <div id="tool-panel-images-to-pdf" class="tool-panel is-hidden" data-tool-panel="images-to-pdf">
+    <div id="tool-panel-images-to-pdf" class="tool-panel is-hidden" data-tool-panel="images-to-pdf" role="tabpanel" aria-labelledby="tab-images-to-pdf" aria-hidden="true" tabindex="-1">
         <div class="tool-layout max-width-wrap">
             <main class="app-main glass-panel tool-main">
                 <header class="workspace-header">
@@ -442,7 +443,7 @@
         </div>
     </div>
 
-    <div id="tool-panel-pdf-suite" class="tool-panel is-hidden" data-tool-panel="pdf-suite">
+    <div id="tool-panel-pdf-suite" class="tool-panel is-hidden" data-tool-panel="pdf-suite" role="tabpanel" aria-labelledby="tab-pdf-suite" aria-hidden="true" tabindex="-1">
         <div class="tool-layout max-width-wrap">
             <main class="app-main glass-panel tool-main">
                 <header class="workspace-header">
@@ -477,7 +478,7 @@
         </div>
     </div>
 
-    <div id="tool-panel-svg" class="tool-panel is-hidden" data-tool-panel="svg">
+    <div id="tool-panel-svg" class="tool-panel is-hidden" data-tool-panel="svg" role="tabpanel" aria-labelledby="tab-svg" aria-hidden="true" tabindex="-1">
         <div class="tool-layout max-width-wrap">
             <main class="app-main glass-panel tool-main">
                 <header class="workspace-header">
@@ -507,7 +508,7 @@
         </div>
     </div>
 
-    <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio">
+    <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio" role="tabpanel" aria-labelledby="tab-passport-studio" aria-hidden="true" tabindex="-1">
         <div id="passport-studio-workspace" class="app-layout">
             <aside class="app-sidebar glass-panel" aria-label="Passport and visa presets">
                 <p class="sidebar-intro">Pick a government preset and export settings. Your portrait never leaves this device.</p>
@@ -760,23 +761,10 @@
 
     <script>
     (function () {
-        var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1 };
-        function parseTool() {
-            var h = (location.hash || '').replace(/^#/, '').trim();
-            return VALID[h] ? h : 'compress';
-        }
-        function applyTool(tool) {
-            document.querySelectorAll('[data-tool-panel]').forEach(function (panel) {
-                panel.classList.toggle('is-hidden', panel.dataset.toolPanel !== tool);
-            });
-            document.querySelectorAll('.tool-nav-link').forEach(function (link) {
-                var active = link.dataset.tool === tool;
-                link.classList.toggle('active', active);
-                link.setAttribute('aria-selected', active ? 'true' : 'false');
-            });
-        }
+        var shell = window.__NEXUS_TOOL_SHELL;
+        if (!shell) return;
         function syncFromHash() {
-            applyTool(parseTool());
+            shell.applyToolState(shell.parseTool());
         }
         window.addEventListener('hashchange', syncFromHash);
         window.__nexusShellHashSync = syncFromHash;

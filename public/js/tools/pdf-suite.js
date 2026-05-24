@@ -11,8 +11,16 @@
         mergeFiles.forEach((file, i) => {
             const li = document.createElement('li');
             li.className = 'tool-file-item';
-            li.innerHTML = `<span class="tool-file-name">${file.name}</span>
-                <button type="button" class="btn-ghost" data-rm="${i}">Remove</button>`;
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'tool-file-name';
+            nameSpan.textContent = file.name;
+            const rmBtn = document.createElement('button');
+            rmBtn.type = 'button';
+            rmBtn.className = 'btn-ghost';
+            rmBtn.dataset.rm = String(i);
+            rmBtn.textContent = 'Remove';
+            li.appendChild(nameSpan);
+            li.appendChild(rmBtn);
             list.appendChild(li);
         });
         if (btn) btn.disabled = mergeFiles.length < 2;

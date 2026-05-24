@@ -10,13 +10,20 @@
         files.forEach((file, i) => {
             const li = document.createElement('li');
             li.className = 'tool-file-item';
-            li.innerHTML = `
-                <span class="tool-file-name">${file.name}</span>
-                <span class="tool-file-actions">
-                    <button type="button" class="btn-ghost" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
-                    <button type="button" class="btn-ghost" data-down="${i}" ${i === files.length - 1 ? 'disabled' : ''}>↓</button>
-                    <button type="button" class="btn-ghost" data-rm="${i}">Remove</button>
-                </span>`;
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'tool-file-name';
+            nameSpan.textContent = file.name;
+
+            const actions = document.createElement('span');
+            actions.className = 'tool-file-actions';
+            actions.innerHTML = `
+                <button type="button" class="btn-ghost" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
+                <button type="button" class="btn-ghost" data-down="${i}" ${i === files.length - 1 ? 'disabled' : ''}>↓</button>
+                <button type="button" class="btn-ghost" data-rm="${i}">Remove</button>`;
+
+            li.appendChild(nameSpan);
+            li.appendChild(actions);
             list.appendChild(li);
         });
         if (btn) btn.disabled = files.length === 0;

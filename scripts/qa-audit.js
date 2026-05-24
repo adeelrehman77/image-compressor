@@ -282,6 +282,24 @@ async function main() {
 
         // ── Direct hash load ──
         console.log('\nDirect hash URLs');
+        await page.goto(`http://localhost:${PORT}/#passport-studio`, { waitUntil: 'domcontentloaded' });
+        const hashTitle = await page.title();
+        const hashSeo = await page.evaluate(() => document.getElementById('seo-heading')?.textContent || '');
+        const hashAria = await page.evaluate(() => ({
+            panelHidden: document.getElementById('tool-panel-passport-studio')?.getAttribute('aria-hidden'),
+            tabSelected: document.getElementById('tab-passport-studio')?.getAttribute('aria-selected'),
+            tabControls: document.getElementById('tab-passport-studio')?.getAttribute('aria-controls'),
+        }));
+        if (hashTitle.includes('Passport')) pass('Direct #passport-studio sets document title immediately');
+        else fail('Hash URL title flash', hashTitle);
+        if (hashSeo.includes('Passport')) pass('Direct hash sets SEO heading before router');
+        else fail('Hash URL SEO heading flash', hashSeo.slice(0, 60));
+        if (hashAria.panelHidden === 'false' && hashAria.tabSelected === 'true' && hashAria.tabControls === 'tool-panel-passport-studio') {
+            pass('Direct hash ARIA tab/panel wiring correct');
+        } else {
+            fail('Hash URL ARIA state', JSON.stringify(hashAria));
+        }
+
         await page.goto(`http://localhost:${PORT}/#svg`, { waitUntil: 'networkidle2' });
         const svgPanel = await page.evaluate(
             () => !document.getElementById('tool-panel-svg')?.classList.contains('is-hidden')
