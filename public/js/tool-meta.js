@@ -16,18 +16,18 @@ window.__NEXUS_TOOL_META = {
     },
     descriptions: {
         compress:
-            'Free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.',
+            'NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.',
         'images-to-pdf':
-            'Combine JPEG and PNG scans into one PDF for UAE portal uploads. Runs locally in your browser — private, free, no account.',
+            'NexusCompress — combine JPEG and PNG scans into one PDF for UAE portal uploads. Runs locally in your browser — private, free, no account.',
         'pdf-suite':
-            'Merge multiple PDFs or split pages to ZIP in your browser. Free, private PDF tools — no uploads, no account.',
-        svg: 'Optimize SVG vector files online. Strip metadata and bloat client-side — free, private, no install.',
+            'NexusCompress — merge multiple PDFs or split pages to ZIP in your browser. Free, private PDF tools — no uploads, no account.',
+        svg: 'NexusCompress — optimize SVG vector files online. Strip metadata and bloat client-side — free, private, no install.',
         'passport-studio':
-            'Create passport and visa photos for India Passport Seva, VFS, and UAE Emirates ID. Free, private, ICAO-ready exports.',
+            'NexusCompress — create passport and visa photos for India Passport Seva, VFS, and UAE Emirates ID. Free, private, ICAO-ready exports.',
     },
     seo: {
         compress: {
-            h1: 'Free Online Image Compressor — Reduce Image Size Instantly',
+            h1: 'NexusCompress — Free Online Image Compressor',
             title1: 'Shrink files in seconds',
             intro1:
                 'NexusCompress is a free online image compressor that shrinks JPEG, PNG, WebP, and AVIF files without sending them to a cloud server. Drag and drop photos, adjust quality and dimensions, then download optimized images in seconds — perfect for websites, email attachments, and social media.',
@@ -39,7 +39,7 @@ window.__NEXUS_TOOL_META = {
                 'Batch compress, set UAE portal size targets, compare before/after, and export as ZIP — all without creating an account or installing software.',
         },
         'images-to-pdf': {
-            h1: 'Convert JPEGs and PNGs to PDF Online (Free & Private)',
+            h1: 'NexusCompress — Convert JPEGs and PNGs to PDF Online',
             title1: 'One PDF from many scans',
             intro1:
                 'Combine Emirates ID scans, tenancy contracts, passport copies, and other JPEG or PNG files into one clean PDF for MOHRE, ICA, RTA, and Dubai Municipality uploads — without sending documents to a cloud server.',
@@ -51,7 +51,7 @@ window.__NEXUS_TOOL_META = {
                 'Ideal when a government form asks for one combined file instead of separate photos — fast, free, and private for visa, labour, and municipality submissions.',
         },
         'pdf-suite': {
-            h1: 'Merge or Split PDF Files Instantly in Your Browser',
+            h1: 'NexusCompress — Merge or Split PDF Files in Your Browser',
             title1: 'Merge without uploads',
             intro1:
                 'Join multiple PDF bank statements, contracts, or visa packets into one file, or split a large PDF into separate pages — free, fast, and private with no account required.',
@@ -63,7 +63,7 @@ window.__NEXUS_TOOL_META = {
                 'Clean up statements, contracts, and application packs in minutes — no desktop app, no subscription, and no files stored on our servers.',
         },
         svg: {
-            h1: 'Slightly Compress and Optimize SVG Vector Files Online',
+            h1: 'NexusCompress — Optimize SVG Vector Files Online',
             title1: 'Leaner vector files',
             intro1:
                 'Strip editor metadata, hidden layers, and redundant markup from SVG icons and illustrations so your site loads faster — without installing desktop software.',
@@ -75,7 +75,7 @@ window.__NEXUS_TOOL_META = {
                 'Ship smaller icons, logos, and UI assets to production with a tool that fits right into your design-to-code workflow — no CLI required.',
         },
         'passport-studio': {
-            h1: 'Create Official Passport and Visa Photos Online (Free & Private)',
+            h1: 'NexusCompress — Passport and Visa Photo Studio',
             title1: 'India & UAE government formats',
             intro1:
                 'Format portrait photos for Passport Seva Digital (630×810 px), OCI and e-Visa VFS print sheets (2×2 in / 51×51 mm), and UAE Emirates ID and visa portals (35×45 mm) — without uploading your biometrics to a cloud server.',
@@ -115,6 +115,8 @@ window.__NEXUS_TOOL_META = {
             if (ogTitle) ogTitle.setAttribute('content', title);
             var twTitle = document.querySelector('meta[name="twitter:title"]');
             if (twTitle) twTitle.setAttribute('content', title);
+            var ogSite = document.querySelector('meta[property="og:site_name"]');
+            if (ogSite) ogSite.setAttribute('content', 'NexusCompress');
         }
     }
 

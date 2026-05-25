@@ -10,14 +10,14 @@ const themeMeta = `    <meta name="theme-color" content="#0B0C10" media="(prefer
 const guideHeader = `    <header class="site-header">
         <div class="site-header-inner">
             <a href="../" class="site-logo">
-                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="logo-dot" aria-hidden="true"></span>
                 <span class="site-logo-text">
-                    <span class="site-logo-name">NexusCompress</span>
-                    <span class="site-logo-tag">Compression guides</span>
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
+                    <span class="site-logo-tag">Guides</span>
                 </span>
             </a>
             <div class="site-header-meta">
-                <a href="../" class="chip chip-success">← Compressor</a>
+                <a href="../" class="chip chip-success">← NexusCompress</a>
                 <a href="../privacy.html" class="chip chip-muted">Privacy Policy</a>
             </div>
         </div>
@@ -30,14 +30,14 @@ const guideFooter = `    <footer class="site-footer">
 const rootHeader = (tag) => `    <header class="site-header">
         <div class="site-header-inner">
             <a href="./" class="site-logo">
-                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="logo-dot" aria-hidden="true"></span>
                 <span class="site-logo-text">
-                    <span class="site-logo-name">NexusCompress</span>
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
                     <span class="site-logo-tag">${tag}</span>
                 </span>
             </a>
             <div class="site-header-meta">
-                <a href="./" class="chip chip-success">← Compressor</a>
+                <a href="./" class="chip chip-success">← NexusCompress</a>
                 <a href="guides/index.html" class="chip chip-muted">Guides</a>
             </div>
         </div>
@@ -117,7 +117,6 @@ for (const name of fs.readdirSync(guidesDir)) {
     if (name.endsWith('.html')) patchGuide(path.join(guidesDir, name));
 }
 
-patchRootSubpage(path.join(publicDir, 'privacy.html'), 'Privacy Policy');
 patchRootSubpage(path.join(publicDir, 'docs.html'), 'Documentation', true);
 
-console.log('Normalized guide, privacy, and docs pages');
+console.log('Normalized guide and docs pages');

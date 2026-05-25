@@ -47,6 +47,7 @@ function bumpSwCache() {
     './js/gtm.js',
     './js/ads-config.js',
     './js/ads.js',
+    './js/brand-config.js',
     './js/guide-footer.js',
     './vendor/jszip.min.js',
     './vendor/sentry.bundle.min.js',
