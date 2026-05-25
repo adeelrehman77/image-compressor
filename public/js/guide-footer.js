@@ -6,13 +6,25 @@
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.documentElement.dataset.theme = theme;
 
+    function injectExtrasCSS() {
+        if (document.querySelector('link[data-nexus-extras]')) return;
+        const path = location.pathname || '/';
+        const prefix = path.includes('/guides/') || path.includes('/ar/') ? '../' : '';
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = `${prefix}css/nexus-extras.css?v=2.1.0`;
+        link.dataset.nexusExtras = '1';
+        document.head.appendChild(link);
+    }
+    injectExtrasCSS();
+
     function injectThemeToggle() {
         const meta = document.querySelector('.site-header-meta');
         if (!meta || meta.querySelector('.guide-theme-toggle')) return;
         const isDark = document.documentElement.classList.contains('dark');
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'guide-theme-toggle theme-toggle-btn';
+        btn.className = 'guide-theme-toggle';
         btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
         btn.setAttribute('aria-pressed', String(isDark));
         btn.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';

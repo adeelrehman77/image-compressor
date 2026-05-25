@@ -1,5 +1,20 @@
 /* NexusCompress Extras — Tasks 1-5 styles */
 
+/* ===== Button text visibility fix =====
+   The lime-green dark theme sets btn-primary background to #3dff8f.
+   Explicitly lock the text color so simultaneous background+color transitions
+   never produce invisible text. */
+.btn-primary {
+    color: #0a0d0b !important;
+}
+html:not(.dark) .btn-primary {
+    color: #fff !important;
+}
+/* Prevent background and color from transitioning together — snap color instantly */
+.btn-primary, .btn-secondary {
+    transition: background 0.15s ease, filter 0.15s ease !important;
+}
+
 /* ===== Dark mode smooth transitions ===== */
 html, html *, html *::before, html *::after {
     transition:
