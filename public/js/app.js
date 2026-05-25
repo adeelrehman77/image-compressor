@@ -133,12 +133,12 @@
                 const { version } = await res.json();
                 const label = `v${version}`;
                 if (el) el.textContent = label;
-                if (heroBadge) heroBadge.textContent = `${label} — Free`;
+                if (heroBadge) heroBadge.textContent = `${label} — ${tf('badgeFree', null, 'Free')}`;
                 window.NexusSentry?.setAppVersion?.(version);
             }
         } catch {
             if (el) el.textContent = 'v2';
-            if (heroBadge) heroBadge.textContent = 'v2 — Free';
+            if (heroBadge) heroBadge.textContent = `v2 — ${tf('badgeFree', null, 'Free')}`;
         }
     }
 
@@ -1656,7 +1656,9 @@
         const toLight = theme === 'dark';
         sun?.classList.toggle('is-hidden', !toLight);
         moon?.classList.toggle('is-hidden', toLight);
-        const label = toLight ? 'Switch to light theme' : 'Switch to dark theme';
+        const label = toLight
+            ? tf('themeToggleLight', null, 'Switch to light theme')
+            : tf('themeToggleDark', null, 'Switch to dark theme');
         btn.setAttribute('aria-label', label);
         btn.setAttribute('title', label);
         btn.setAttribute('aria-pressed', String(theme === 'light'));

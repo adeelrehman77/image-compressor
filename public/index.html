@@ -133,7 +133,7 @@
                     <span data-i18n="filesPrivate">Files stay on your device</span>
                 </span>
                 <a href="privacy.html" class="chip chip-muted" data-i18n="privacyPolicy">Privacy Policy</a>
-                <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme">
+                <button type="button" id="theme-toggle" class="theme-toggle-btn" data-i18n="themeToggleLight" data-i18n-attr="aria-label" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme">
                     <svg class="theme-icon theme-icon-sun icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="12" cy="12" r="4" stroke-width="2"/>
                         <path stroke-linecap="round" stroke-width="2" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
@@ -191,7 +191,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge" id="compress-version-badge">v2.1.0 — Free</span>
+            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.1.0 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -199,7 +199,7 @@
             <div class="hero-callout__actions">
                 <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPassportStudio">Open Passport Studio</a>
                 <a href="guides/uae-portal-compression.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
-                <button type="button" class="hero-callout__dismiss" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
+                <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
             </div>
         </aside>
 
@@ -251,7 +251,7 @@
                 </section>
 
                 <div id="compress-workflow-bar" class="compress-workflow-bar is-hidden" role="status" aria-live="polite">
-                    <p id="compress-workflow-status" class="compress-workflow-bar__status">Add files to begin</p>
+                    <p id="compress-workflow-status" class="compress-workflow-bar__status" data-i18n="statusAddFiles">Add files to begin</p>
                     <button type="button" id="start-compress-btn" class="btn-primary compress-workflow-bar__cta" data-i18n="startCompression">Start compression</button>
                 </div>
 
@@ -379,18 +379,18 @@
                     </button>
                     <div class="settings-card__body">
                         <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                            <option value="">None</option>
-                            <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
-                            <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
-                            <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
-                            <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
-                            <option value="portal-reg">General portal (WebP) — 500 KB</option>
+                            <option value="" data-i18n="uaePresetNone">None</option>
+                            <option value="emirates-id" data-i18n="uaeOptionEmiratesId">Emirates ID / passport copy — 200 KB JPEG</option>
+                            <option value="ica-upload" data-i18n="uaeOptionIca">ICA / visa upload — 200 KB JPEG</option>
+                            <option value="mohre-portal" data-i18n="uaeOptionMohre">MOHRE / labour portal — 500 KB JPEG</option>
+                            <option value="rta-docs" data-i18n="uaeOptionRta">RTA document upload — 500 KB JPEG</option>
+                            <option value="portal-reg" data-i18n="uaeOptionPortalReg">General portal (WebP) — 500 KB</option>
                         </select>
                         <div class="preset-grid" role="group" aria-label="UAE portal presets">
                             <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span data-i18n="uaePresetEmiratesId">Emirates ID / passport copy</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
                             <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span data-i18n="uaePresetIca">ICA / visa upload</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span data-i18n="uaePresetMohre">MOHRE / labour portal</span><span class="preset-size">500 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span data-i18n="uaePresetRta">RTA document upload</span><span class="preset-size">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span data-i18n="uaePresetMohre">MOHRE / labour portal</span><span class="preset-size" data-i18n="uaePresetMohreSize">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span data-i18n="uaePresetRta">RTA document upload</span><span class="preset-size" data-i18n="uaePresetRtaSize">500 KB JPEG</span></button>
                             <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span data-i18n="uaePresetGeneral">General portal</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 KB WebP</span></button>
                         </div>
                         <div class="uae-info-card">
@@ -410,11 +410,11 @@
                     </button>
                     <div class="settings-card__body is-collapsed">
                         <select id="preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                            <option value="custom">Custom</option>
-                            <option value="web">Website — WebP, 1920px wide</option>
-                            <option value="email">Email — JPEG, 1200px wide</option>
-                            <option value="social">Social post — JPEG, 1080px</option>
-                            <option value="max">Full quality — PNG, no resize</option>
+                            <option value="custom" data-i18n="presetCustom">Custom</option>
+                            <option value="web" data-i18n="presetWebOption">Website — WebP, 1920px wide</option>
+                            <option value="email" data-i18n="presetEmailOption">Email — JPEG, 1200px wide</option>
+                            <option value="social" data-i18n="presetSocialOption">Social post — JPEG, 1080px</option>
+                            <option value="max" data-i18n="presetMaxOption">Full quality — PNG, no resize</option>
                         </select>
                         <div class="form-row">
                             <p class="field-label" data-i18n="quickPresets">Quick presets</p>

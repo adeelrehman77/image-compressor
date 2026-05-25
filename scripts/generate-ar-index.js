@@ -1,15 +1,28 @@
 #!/usr/bin/env node
 /**
- * Generates public/ar/index.html from public/index.html with corrected asset paths.
+ * Generates public/ar/index.html from public/index.html:
+ * - Asset path rewrites for /ar/
+ * - Arabic meta / title / FAQ schema
+ * - Baked Arabic fallback text for all data-i18n* attributes (SEO + no-JS)
+ * - Default guide hrefs → Arabic guide URLs where available
  */
 const fs = require('fs');
 const path = require('path');
 const { siteUrl } = require('./site-config');
+const { loadI18n } = require('./load-i18n');
+const {
+    applyStaticI18n,
+    patchArGuideHrefs,
+    applySeoIntro,
+    patchArSchema,
+} = require('./apply-static-i18n');
 
 const root = path.join(__dirname, '../public');
 const src = path.join(root, 'index.html');
 const outDir = path.join(root, 'ar');
 const out = path.join(outDir, 'index.html');
+
+const { ar, seoAr } = loadI18n(root);
 
 let html = fs.readFileSync(src, 'utf8');
 
@@ -26,7 +39,6 @@ function up(ref) {
 }
 
 html = up(html);
-
 html = html.replace(/data-locale-href-en="guides\//g, 'data-locale-href-en="../guides/');
 
 html = html.replace(
@@ -46,27 +58,29 @@ html = html.replace(
 
 const arTitle = 'ضاغط صور مجاني | NexusCompress';
 const arDesc =
+    ar.descriptions?.compress ||
     'NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.';
+
 html = html.replace(/<title>[^<]+<\/title>/, `<title>${arTitle}</title>`);
 html = html.replace(
     /<meta name="description" content="[^"]*">/,
-    `<meta name="description" content="${arDesc}">`
+    `<meta name="description" content="${arDesc.replace(/"/g, '&quot;')}">`
 );
 html = html.replace(
     /<meta property="og:title" content="[^"]*">/,
-    `<meta property="og:title" content="${arTitle}">`
+    `<meta property="og:title" content="${arTitle.replace(/"/g, '&quot;')}">`
 );
 html = html.replace(
     /<meta property="og:description" content="[^"]*">/,
-    `<meta property="og:description" content="${arDesc}">`
+    `<meta property="og:description" content="${arDesc.replace(/"/g, '&quot;')}">`
 );
 html = html.replace(
     /<meta name="twitter:title" content="[^"]*">/,
-    `<meta name="twitter:title" content="${arTitle}">`
+    `<meta name="twitter:title" content="${arTitle.replace(/"/g, '&quot;')}">`
 );
 html = html.replace(
     /<meta name="twitter:description" content="[^"]*">/,
-    `<meta name="twitter:description" content="${arDesc}">`
+    `<meta name="twitter:description" content="${arDesc.replace(/"/g, '&quot;')}">`
 );
 html = html.replace(
     /<meta name="keywords" content="[^"]*">/,
@@ -125,6 +139,11 @@ html = html.replace(
     `"@type": "FAQPage",\n          "inLanguage": "ar",\n          "mainEntity": [\n${arFaqEntities}\n          ]\n        }`
 );
 
+html = patchArSchema(html);
+html = applyStaticI18n(html, ar);
+html = applySeoIntro(html, seoAr.compress);
+html = patchArGuideHrefs(html);
+
 fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(out, html);
-console.log('Generated public/ar/index.html');
+console.log('Generated public/ar/index.html (Arabic static fallbacks baked)');
