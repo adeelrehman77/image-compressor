@@ -14,12 +14,17 @@
 - [x] HTTPS custom domain
 - [x] CSS preload on homepage
 
-## AdSense requirements
+## AdSense monetization
 
-- [x] **Privacy Policy** — https://compress.funadventure.ae/privacy.html (linked in footer)
-- [x] **ads.txt** — https://compress.funadventure.ae/ads.txt  
-  If AdSense uses root domain, also publish at https://funadventure.ae/ads.txt
+- [x] **ads.txt** — https://compress.funadventure.ae/ads.txt
+- [x] **Privacy Policy** — AdSense disclosure in `privacy.html`
+- [x] **Shared loader** — `public/js/ads-config.js` + `public/js/ads.js`
+- [x] **Homepage** — ad below all studio tools (every tab) + optional in-content slot before FAQ
+- [x] **Guides & docs** — ad injected via `guide-footer.js`
+- [ ] **Second homepage unit** — create a display ad unit in AdSense, set `units.inContent` in `ads-config.js`
 - [ ] **GA4** — Set `G-XXXXXXXXXX` in `public/js/ga-config.js`
+
+## AdSense requirements (legacy checklist)
 
 ## Your action items (Google & Cloudflare)
 

@@ -99,7 +99,6 @@
         loadVersion();
         const yearEl = document.getElementById('footer-year');
         if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-        scheduleIdle(initAds, 3500);
     }
 
     function scheduleIdle(fn, timeout = 3000) {
@@ -108,59 +107,6 @@
         } else {
             window.addEventListener('load', () => setTimeout(fn, 1500));
         }
-    }
-
-    const ADSENSE_CLIENT = 'ca-pub-7053756513182661';
-    let adsensePromise = null;
-
-    function loadAdSense() {
-        if (window.adsbygoogle) return Promise.resolve();
-        if (adsensePromise) return adsensePromise;
-        adsensePromise = new Promise((resolve) => {
-            const s = document.createElement('script');
-            s.async = true;
-            s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
-            s.crossOrigin = 'anonymous';
-            s.onload = () => resolve();
-            s.onerror = () => resolve();
-            document.head.appendChild(s);
-        });
-        return adsensePromise;
-    }
-
-    async function initAds() {
-        const slot = document.querySelector('.ad-slot');
-        const units = document.querySelectorAll('.adsbygoogle');
-        const local =
-            location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-
-        if (local || !units.length) {
-            slot?.classList.add('ad-slot--collapsed');
-            return;
-        }
-
-        await loadAdSense();
-        if (typeof window.adsbygoogle === 'undefined') {
-            slot?.classList.add('ad-slot--collapsed');
-            return;
-        }
-
-        try {
-            units.forEach(() => {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            });
-        } catch {
-            slot?.classList.add('ad-slot--collapsed');
-            return;
-        }
-
-        window.setTimeout(() => {
-            const ins = slot?.querySelector('ins.adsbygoogle');
-            if (!ins || !slot) return;
-            const unfilled = ins.getAttribute('data-ad-status') === 'unfilled';
-            const noFrame = !ins.querySelector('iframe');
-            if (unfilled || noFrame) slot.classList.add('ad-slot--collapsed');
-        }, 2500);
     }
 
     function registerServiceWorker() {

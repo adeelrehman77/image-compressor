@@ -1574,8 +1574,22 @@ html:not(.dark) .ambient-bg {
     overflow: hidden;
 }
 
+.ad-slot--in-content {
+    margin-top: 0.25rem;
+}
+
+.ad-slot--primary {
+    min-height: 100px;
+}
+
 .ad-slot.ad-slot--collapsed {
     display: none;
+}
+
+.content-ad-wrap {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.25rem;
 }
 
 .target-size-row {
@@ -1655,7 +1669,7 @@ html:not(.dark) .ambient-bg {
 }
 
 .below-app {
-    margin-top: 5rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;

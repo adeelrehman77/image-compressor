@@ -41,5 +41,38 @@
         });
     }
 
+    function injectContentAd() {
+        if (document.querySelector('[data-nexus-ad]')) return;
+
+        const article = document.querySelector('.guide-page, .docs-page');
+        if (!article) return;
+
+        const ad = document.createElement('aside');
+        ad.className = 'ad-slot ad-slot--primary glass-panel max-width-wrap';
+        ad.dataset.nexusAd = 'primary';
+        ad.setAttribute('aria-label', 'Advertisement');
+
+        const footer = document.querySelector('.site-footer');
+        if (footer) footer.before(ad);
+        else article.after(ad);
+    }
+
+    function loadAds() {
+        if (document.querySelector('script[src*="ads.js"]')) return;
+
+        const config = document.createElement('script');
+        config.src = jsPath('ads-config.js');
+        document.body.appendChild(config);
+
+        config.addEventListener('load', () => {
+            const ads = document.createElement('script');
+            ads.src = jsPath('ads.js');
+            ads.defer = true;
+            document.body.appendChild(ads);
+        });
+    }
+
     injectGtm();
+    injectContentAd();
+    loadAds();
 })();
