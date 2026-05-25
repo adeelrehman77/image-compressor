@@ -36,10 +36,10 @@
                 await window.NexusTools?.loadPdfLib?.();
             }
         } catch (err) {
-            window.NexusTools?.toast?.(
-                'This tool failed to load. Check your connection and refresh the page.',
-                'error'
-            );
+            const msg =
+                window.__NEXUS_T?.('toolLoadFailed') ||
+                'This tool failed to load. Check your connection and refresh the page.';
+            window.NexusTools?.toast?.(msg, 'error');
             throw err;
         }
     }

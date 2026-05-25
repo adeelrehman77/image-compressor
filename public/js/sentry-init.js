@@ -8,6 +8,11 @@
     const BUNDLE_SRC = 'vendor/sentry.bundle.min.js';
     const queue = [];
 
+    function bundleUrl() {
+        const prefix = window.__NEXUS_ASSET_PREFIX || '';
+        return prefix + BUNDLE_SRC;
+    }
+
     function releaseId() {
         const ver = document.getElementById('app-version')?.textContent?.trim();
         return ver ? `nexuscompress@${ver}` : DEFAULT_RELEASE;
@@ -105,7 +110,7 @@
                 return;
             }
             const s = document.createElement('script');
-            s.src = BUNDLE_SRC;
+            s.src = bundleUrl();
             s.defer = true;
             s.dataset.nexusSrc = BUNDLE_SRC;
             s.onload = () => resolve();

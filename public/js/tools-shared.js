@@ -27,9 +27,22 @@ window.NexusTools = (function () {
         );
     }
 
+    function assetPrefix() {
+        if (window.__NEXUS_ASSET_PREFIX != null) return window.__NEXUS_ASSET_PREFIX;
+        var path = location.pathname || '/';
+        if (path === '/ar' || path === '/ar/' || path.indexOf('/ar/') === 0) return '../';
+        return '';
+    }
+
+    function resolveAsset(src) {
+        if (!src || /^(https?:|\/)/.test(src)) return src;
+        return `${assetPrefix()}${src.replace(/^\.\//, '')}`;
+    }
+
     function assetUrl(src) {
-        if (!src || src.includes('?')) return src;
-        return `${src}?v=${appVersion()}`;
+        const resolved = resolveAsset(src);
+        if (!resolved || resolved.includes('?')) return resolved;
+        return `${resolved}?v=${appVersion()}`;
     }
 
     function trackDownload(filename, toolName = 'unknown') {
@@ -223,6 +236,8 @@ window.NexusTools = (function () {
         downloadBlob,
         appVersion,
         assetUrl,
+        resolveAsset,
+        assetPrefix,
         requirePdfLib,
         loadPdfLib,
         loadJsZip,

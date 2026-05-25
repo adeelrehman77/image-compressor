@@ -8,6 +8,8 @@
     window.__NEXUS_LOCALE = isAr ? 'ar' : 'en';
     window.__NEXUS_LOCALE_BASE = isAr ? '/ar' : '';
     window.__NEXUS_SITE_ROOT = isAr ? '/ar/' : '/';
+    /** Prefix for js/, vendor/, css/ relative URLs (e.g. ../ on /ar/). */
+    window.__NEXUS_ASSET_PREFIX = isAr ? '../' : '';
 
     var root = document.documentElement;
     root.lang = isAr ? 'ar' : 'en';
