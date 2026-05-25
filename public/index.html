@@ -157,6 +157,12 @@
     <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress" role="tabpanel" aria-labelledby="tab-compress" tabindex="0">
     <div class="app-layout">
         <aside class="app-sidebar glass-panel" aria-label="Compression settings">
+            <details class="sidebar-mobile-fold">
+                <summary class="sidebar-mobile-fold__summary">
+                    <span class="sidebar-mobile-fold__title">Compression settings</span>
+                    <span class="sidebar-mobile-fold__hint">Optional — defaults work fine</span>
+                </summary>
+                <div class="sidebar-mobile-fold__body">
             <p class="sidebar-intro">Pick a preset or dial things in. Processing happens on this device only.</p>
 
             <div id="panel-compress" class="sidebar-panel">
@@ -309,12 +315,13 @@
                     </div>
                 </details>
             </div>
-
+                </div>
+            </details>
         </aside>
 
         <main class="app-main glass-panel">
             <header class="workspace-header">
-                <div>
+                <div class="workspace-heading">
                     <h2 class="workspace-title">Your images</h2>
                     <p class="workspace-sub">Drop files here, or browse a folder</p>
                 </div>
@@ -511,6 +518,12 @@
     <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio" role="tabpanel" aria-labelledby="tab-passport-studio" aria-hidden="true" tabindex="-1">
         <div id="passport-studio-workspace" class="app-layout">
             <aside class="app-sidebar glass-panel" aria-label="Passport and visa presets">
+                <details class="sidebar-mobile-fold" open>
+                    <summary class="sidebar-mobile-fold__summary">
+                        <span class="sidebar-mobile-fold__title">Preset &amp; export settings</span>
+                        <span class="sidebar-mobile-fold__hint">Tap to expand</span>
+                    </summary>
+                    <div class="sidebar-mobile-fold__body">
                 <p class="sidebar-intro">Pick a government preset and export settings. Your portrait never leaves this device.</p>
 
                 <div class="sidebar-panel">
@@ -552,6 +565,8 @@
                         <p class="settings-group-desc">Choose a preset for compliance notes, upload a portrait, align your face in the biometric ring, then download a digital file or a 4×6 print sheet.</p>
                     </section>
                 </div>
+                    </div>
+                </details>
             </aside>
 
             <main class="app-main glass-panel passport-studio-main" aria-label="Passport photo workspace">
