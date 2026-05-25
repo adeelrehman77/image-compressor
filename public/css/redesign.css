@@ -130,6 +130,25 @@ html:not(.dark) .btn-primary {
     filter: none;
 }
 
+/* Guide/legal CTAs are <a> tags — .guide-page a { color: accent } hides text on green buttons */
+.guide-page a.btn-primary,
+.guide-page a.btn-primary:hover,
+.docs-page a.btn-primary,
+.docs-page a.btn-primary:hover,
+.legal-page a.btn-primary,
+.legal-page a.btn-primary:hover {
+    color: #0a0d0b;
+}
+
+html:not(.dark) .guide-page a.btn-primary,
+html:not(.dark) .guide-page a.btn-primary:hover,
+html:not(.dark) .docs-page a.btn-primary,
+html:not(.dark) .docs-page a.btn-primary:hover,
+html:not(.dark) .legal-page a.btn-primary,
+html:not(.dark) .legal-page a.btn-primary:hover {
+    color: #fff;
+}
+
 .btn-secondary {
     border-color: color-mix(in srgb, var(--surface-border) 100%, transparent);
     color: var(--text-muted);

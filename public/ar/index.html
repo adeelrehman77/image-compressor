@@ -172,11 +172,11 @@
                     </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
-                        <span class="tool-tab__label">محول HEIC</span>
+                        <span class="tool-tab__label">HEIC Converter</span>
                     </a>
                     <a href="#format-converter" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔄</span>
-                        <span class="tool-tab__label">محول الصيغ</span>
+                        <span class="tool-tab__label">Format Converter</span>
                     </a>
                 </div>
             </nav>
@@ -188,10 +188,10 @@
         <header class="compress-hero">
             <div class="compress-hero__text">
                 <h1 class="compress-hero__title">
-                    <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix"> — اضغط صورك.</span></span>
-                    <span class="compress-hero__line" data-i18n="heroCompressL2">فوراً. بخصوصية تامة.</span>
+                    <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix"> — compress images.</span></span>
+                    <span class="compress-hero__line" data-i18n="heroCompressL2">Instantly. Privately.</span>
                 </h1>
-                <p class="compress-hero__sub" data-i18n="heroSubCompress">اضغط JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
+                <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
             <span class="compress-hero__badge" id="compress-version-badge">v2.1.0 — Free</span>
         </header>
@@ -200,7 +200,7 @@
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 UAE portal uploads? Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
             <div class="hero-callout__actions">
                 <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPassportStudio">Open Passport Studio</a>
-                <a href="../guides/best-image-format-uae-government-portals.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
+                <a href="../guides/uae-portal-compression.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
                 <button type="button" class="hero-callout__dismiss" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
             </div>
         </aside>
@@ -853,33 +853,33 @@
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
                 <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line">📱 <span class="compress-hero__accent">محول HEIC</span></span></h1>
-                    <p class="compress-hero__sub">حوّل صور HEIC وHEIF من آيفون إلى JPEG أو PNG أو WebP — في متصفحك، بدون رفع أي ملف.</p>
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">📱 <span class="compress-hero__accent">HEIC Converter</span></span></h1>
+                    <p class="compress-hero__sub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
                 </div>
-                <span class="compress-hero__badge">مجاني · خاص</span>
+                <span class="compress-hero__badge">Free · Private</span>
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
-                    <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="أفلت ملفات HEIC هنا أو تصفح">
+                    <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
                         <div class="drop-zone-inner">
                             <div class="drop-icon" aria-hidden="true">
                                 <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                             </div>
-                            <p class="drop-title">أفلت ملفات HEIC / HEIF هنا</p>
-                            <p class="drop-sub">أضف ملفات من آيفون أو آيباد — يدعم التحويل الجماعي</p>
+                            <p class="drop-title">Drop HEIC / HEIF files here</p>
+                            <p class="drop-sub">Add files from your iPhone or iPad — batch conversion supported</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">HEIC</span>
                                 <span class="fmt-tag">HEIF</span>
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span>اختر ملفات</span>
+                                    <span>Choose files</span>
                                     <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
                                 </label>
                             </div>
                         </div>
                     </section>
-                    <div id="heic-file-list" class="heic-file-list is-hidden" aria-label="ملفات HEIC للتحويل" aria-live="polite"></div>
+                    <div id="heic-file-list" class="heic-file-list is-hidden" aria-label="HEIC files to convert" aria-live="polite"></div>
                     <div id="heic-status" class="tool-status" aria-live="polite"></div>
                 </div>
                 <aside class="compress-sidebar sidebar">
@@ -887,20 +887,32 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                <span>إعدادات الإخراج</span>
+                                <span>Output settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="heic-output-format">صيغة الإخراج</label>
+                            <label class="field-label" for="heic-output-format">Output format</label>
                             <select id="heic-output-format" class="field-select">
                                 <option value="image/jpeg">JPEG</option>
                                 <option value="image/png">PNG</option>
                                 <option value="image/webp">WebP</option>
                             </select>
-                            <p class="field-hint">JPEG مناسب للصور؛ PNG يحفظ الشفافية؛ WebP يعطي أصغر الملفات.</p>
-                            <button type="button" id="heic-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>تحويل الكل</button>
-                            <button type="button" id="heic-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">تنزيل ZIP</button>
+                            <p class="field-hint">JPEG is best for photos; PNG keeps transparency; WebP gives the smallest files.</p>
+                            <button type="button" id="heic-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
+                            <button type="button" id="heic-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">ℹ️</span>
+                                <span>How it works</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Uses the <strong>heic2any</strong> library to decode Apple HEIC/HEIF files directly in your browser. Files are never uploaded — conversion is 100% local and private.</p>
                         </div>
                     </div>
                 </aside>
@@ -912,20 +924,20 @@
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
                 <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line">🔄 <span class="compress-hero__accent">محول الصيغ</span></span></h1>
-                    <p class="compress-hero__sub">حوّل JPEG وPNG وWebP وAVIF وGIF إلى أي صيغة حديثة — جماعياً، في المتصفح، بدون رفع أي شيء.</p>
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">🔄 <span class="compress-hero__accent">Format Converter</span></span></h1>
+                    <p class="compress-hero__sub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
                 </div>
-                <span class="compress-hero__badge">مجاني · خاص</span>
+                <span class="compress-hero__badge">Free · Private</span>
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
-                    <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="أفلت الصور هنا للتحويل">
+                    <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
                         <div class="drop-zone-inner">
                             <div class="drop-icon" aria-hidden="true">
                                 <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                             </div>
-                            <p class="drop-title">أفلت الصور هنا للتحويل</p>
-                            <p class="drop-sub">يدعم JPEG وPNG وWebP وAVIF وGIF — تحويل جماعي بنقرة واحدة</p>
+                            <p class="drop-title">Drop images here to convert</p>
+                            <p class="drop-sub">Supports JPEG, PNG, WebP, AVIF, and GIF — batch conversion in one click</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">JPEG</span>
                                 <span class="fmt-tag">PNG</span>
@@ -935,13 +947,13 @@
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span>اختر ملفات</span>
+                                    <span>Choose files</span>
                                     <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
                                 </label>
                             </div>
                         </div>
                     </section>
-                    <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="صور للتحويل" aria-live="polite"></div>
+                    <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="Images to convert" aria-live="polite"></div>
                     <div id="fmt-status" class="tool-status" aria-live="polite"></div>
                 </div>
                 <aside class="compress-sidebar sidebar">
@@ -949,21 +961,33 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                <span>إعدادات الإخراج</span>
+                                <span>Output settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="fmt-output-format">التحويل إلى</label>
+                            <label class="field-label" for="fmt-output-format">Convert to</label>
                             <select id="fmt-output-format" class="field-select">
-                                <option value="image/webp">WebP — الأفضل للويب</option>
-                                <option value="image/avif">AVIF — أصغر الملفات</option>
-                                <option value="image/jpeg">JPEG — الأكثر توافقاً</option>
-                                <option value="image/png">PNG — بدون فقدان</option>
+                                <option value="image/webp">WebP — best for web</option>
+                                <option value="image/avif">AVIF — smallest files</option>
+                                <option value="image/jpeg">JPEG — universal</option>
+                                <option value="image/png">PNG — lossless</option>
                             </select>
-                            <p class="field-hint">WebP وAVIF ينتجان ملفات أصغر من JPEG. PNG يحفظ الشفافية الكاملة. جودة التحويل 92%.</p>
-                            <button type="button" id="fmt-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>تحويل الكل</button>
-                            <button type="button" id="fmt-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">تنزيل ZIP</button>
+                            <p class="field-hint">WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%.</p>
+                            <button type="button" id="fmt-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
+                            <button type="button" id="fmt-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">ℹ️</span>
+                                <span>How it works</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Uses the browser's built-in <strong>OffscreenCanvas API</strong> to re-encode images client-side. No server involved, no account required — files are converted and downloaded directly in your browser.</p>
                         </div>
                     </div>
                 </aside>
@@ -977,20 +1001,20 @@
         <footer class="marketing-footer" role="contentinfo">
         <section class="seo-marketing" aria-labelledby="seo-heading">
             <header class="marketing-footer__hero">
-                <h2 id="seo-heading" class="seo-heading">NexusCompress — ضاغط صور مجاني على الإنترنت</h2>
+                <h2 id="seo-heading" class="seo-heading">NexusCompress — Free Online Image Compressor</h2>
             </header>
             <div class="seo-intro-grid">
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-1">تصغير الملفات في ثوانٍ</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-1">NexusCompress هو ضاغط صور مجاني عبر الإنترنت يُصغّر ملفات JPEG وPNG وWebP وAVIF دون إرسالها إلى خادم سحابي. اسحب الصور وأفلتها، اضبط الجودة والأبعاد، ثم نزّل الصور المحسّنة في ثوانٍ — مثالي للمواقع الإلكترونية ومرفقات البريد الإلكتروني ووسائل التواصل الاجتماعي.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-1">Shrink files in seconds</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-1">NexusCompress is a free online image compressor that shrinks JPEG, PNG, WebP, and AVIF files without sending them to a cloud server. Drag and drop photos, adjust quality and dimensions, then download optimized images in seconds — perfect for websites, email attachments, and social media.</p>
                 </article>
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-2">لا شيء يغادر جهازك</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-2">على عكس برامج الضغط التقليدية التي ترفع ملفاتك، يعمل كل شيء محلياً في خيط متصفحك. هذا يعني معالجة أسرع وخصوصية أقوى وعدم وجود خطر من بقاء صورك الشخصية أو صور العملاء على خادم طرف ثالث.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-2">Nothing leaves your device</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-2">Unlike traditional compressors that upload your files, everything runs locally in your browser thread. That means faster processing, stronger privacy, and no risk of personal or client images sitting on a third-party server.</p>
                 </article>
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-3">جاهز لسير العمل الحقيقية</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-3">اضغط دفعات، حدد أهداف حجم بوابات الإمارات، قارن قبل/بعد، وصدّر كملف ZIP — كل ذلك دون إنشاء حساب أو تثبيت برنامج.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-3">Ready for real workflows</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-3">Batch compress, set UAE portal size targets, compare before/after, and export as ZIP — all without creating an account or installing software.</p>
                 </article>
             </div>
         </section>
@@ -1014,6 +1038,8 @@
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
                 <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">Passport Studio</a>
+                <a href="#heic-converter" class="seo-tool-chip">HEIC Converter</a>
+                <a href="#format-converter" class="seo-tool-chip">Format Converter</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -1022,11 +1048,17 @@
             <p data-i18n-html="seoBatchBody">Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">Compression guides</h2>
             <ul class="seo-list guide-links">
-                <li><a href="../guides/compress-jpeg-without-losing-quality.html">Compress JPEG without losing quality</a></li>
-                <li><a href="../guides/jpeg-vs-webp.html">JPEG vs WebP — which to use?</a></li>
-                <li><a href="../guides/avif-vs-webp.html">AVIF vs WebP for smallest files</a></li>
-                <li><a href="../guides/resize-images-for-instagram.html">Resize images for Instagram</a></li>
-                <li><a href="../guides/best-image-format-uae-government-portals.html" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="../guides/uae-portal-compression.html" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="../guides/best-image-format-uae-government-portals.html" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar.html" data-i18n="seoGuideUaeFormat">Best image format for UAE government portals</a></li>
+                <li><a href="../guides/resize-photo-uae-visa-application.html" data-locale-href-en="../guides/resize-photo-uae-visa-application.html" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar.html" data-i18n="seoGuideUaeVisa">Resize photo for UAE visa application (ICA)</a></li>
+                <li><a href="../guides/compress-image-for-mohre-portal.html" data-locale-href-en="../guides/compress-image-for-mohre-portal.html" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar.html" data-i18n="seoGuideMohre">Compress image for MOHRE / labour portal</a></li>
+                <li><a href="../guides/compress-image-for-whatsapp.html" data-i18n="seoGuideWhatsapp">Compress image for WhatsApp</a></li>
+                <li><a href="../guides/reduce-image-size-email-attachments.html" data-i18n="seoGuideEmail">Reduce image size for email attachments</a></li>
+                <li><a href="../guides/compress-images-real-estate-listings.html" data-i18n="seoGuideRealEstate">Real estate listing photos (Bayut, Dubizzle)</a></li>
+                <li><a href="../guides/reduce-image-size-for-wordpress.html" data-i18n="seoGuideWordpress">Reduce image size for WordPress</a></li>
+                <li><a href="../guides/compress-jpeg-without-losing-quality.html" data-i18n="seoGuideJpeg">Compress JPEG without losing quality</a></li>
+                <li><a href="../guides/jpeg-vs-webp.html" data-i18n="seoGuideJpegWebp">JPEG vs WebP — which to use?</a></li>
+                <li><a href="../guides/resize-images-for-instagram.html" data-i18n="seoGuideInstagram">Resize images for Instagram</a></li>
                 <li><a href="../guides/index.html" data-i18n="seoGuideViewAll">View all guides</a></li>
             </ul>
             </div>
@@ -1040,44 +1072,44 @@
             <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">Frequently Asked Questions</h2>
 
             <details class="faq-item" open>
-                <summary data-i18n="faq1Summary">كيف أضغط صورة JPEG دون فقدان الجودة؟</summary>
+                <summary data-i18n="faq1Summary">How do I compress a JPEG without losing quality?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq1Answer">استخدم إعداد جودة بين 75% و85% للصور الفوتوغرافية. إذا كانت الصورة للويب فقط، حوّلها إلى WebP أو AVIF — فهما غالباً ما ينتجان ملفات أصغر من JPEG بنفس الجودة البصرية. راجع <a href="../guides/compress-jpeg-without-losing-quality.html">دليل ضغط JPEG</a> للإعدادات خطوة بخطوة. استخدم شريط قبل/بعد في NexusCompress للتأكد من قبول التفاصيل قبل التنزيل.</p>
+                    <p data-i18n-html="faq1Answer">Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="../guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary data-i18n="faq2Summary">هل من الآمن رفع صوري هنا؟</summary>
+                <summary data-i18n="faq2Summary">Is it safe to upload my photos here?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq2Answer"><strong>صورك لا تُرفع أبداً.</strong> يعالج NexusCompress الصور بالكامل داخل متصفحك باستخدام Web Workers وواجهة OffscreenCanvas API. تبقى الملفات على جهاز الكمبيوتر أو الهاتف الخاص بك؛ لا يُنقل أي شيء إلى خوادمنا للضغط. هذا يجعله آمناً للصور الحساسة وأعمال العملاء والألبومات الشخصية — طالما تثق بجهازك، تبقى صورك محلية.</p>
+                    <p data-i18n-html="faq2Answer"><strong>Your photos are never uploaded.</strong> NexusCompress processes images entirely inside your browser using Web Workers and the OffscreenCanvas API. Files stay on your computer or phone; nothing is transmitted to our servers for compression. That makes it safe for sensitive screenshots, client work, and personal albums — as long as you trust your own device, your images remain local.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary data-i18n="faq3Summary">ما أفضل صيغة لتقليل حجم ملف الصورة؟</summary>
+                <summary data-i18n="faq3Summary">What is the best format to reduce image file size?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq3Answer">لمعظم المواقع الإلكترونية، يوفر <strong>WebP</strong> توازناً ممتازاً بين الجودة والحجم (<a href="../guides/jpeg-vs-webp.html">مقارنة JPEG مقابل WebP</a>). غالباً ما يحقق <strong>AVIF</strong> أصغر الملفات حيث مدعوم (<a href="../guides/avif-vs-webp.html">AVIF مقابل WebP</a>). استخدم <strong>JPEG</strong> للبريد الإلكتروني؛ <strong>PNG</strong> للشفافية.</p>
+                    <p data-i18n-html="faq3Answer">For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="../guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="../guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary data-i18n="faq4Summary">هل يمكنني ضغط صور متعددة دفعة واحدة؟</summary>
+                <summary data-i18n="faq4Summary">Can I compress multiple images at once?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq4Answer">نعم. أفلت ملفات متعددة أو استورد مجلداً كاملاً. يضع NexusCompress كل صورة في قائمة الانتظار، ويُظهر التقدم والتوفير لكل ملف، ويتيح لك تنزيل كل شيء كملف ZIP واحد عند الانتهاء.</p>
+                    <p data-i18n-html="faq4Answer">Yes. Drop multiple files or import an entire folder. NexusCompress queues each image, shows progress and savings per file, and lets you download everything as a single ZIP when you are done.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary data-i18n="faq5Summary">هل يزيل الضغط بيانات EXIF أو الموقع؟</summary>
+                <summary data-i18n="faq5Summary">Does compressing remove EXIF or location data?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq5Answer">إعادة ترميز الصورة تُزيل البيانات الوصفية مثل موقع GPS وطراز الكاميرا والطوابع الزمنية. يصحح NexusCompress أيضاً توجه EXIF حتى تظهر صور الهواتف بشكل صحيح. هذا مثالي للخصوصية عند مشاركة الصور عبر الإنترنت.</p>
+                    <p data-i18n-html="faq5Answer">Re-encoding an image strips metadata such as GPS location, camera model, and timestamps. NexusCompress also corrects EXIF orientation so photos from phones display right-side up. This is ideal for privacy when sharing images online.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary data-i18n="faq6Summary">هل هذه الأداة مجانية فعلاً؟</summary>
+                <summary data-i18n="faq6Summary">Is this tool really free?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq6Answer">نعم. الضغط الأساسي مجاني دون الحاجة إلى حساب. تعمل الأداة في متصفحك، لذا لا توجد رسوم API لكل صورة — فقط الإعلانات الاختيارية تساعد في دعم الاستضافة.</p>
+                    <p data-i18n-html="faq6Answer">Yes. Core compression is free with no account required. The tool runs in your browser, so there are no per-image API fees — only optional ads help support hosting.</p>
                 </div>
             </details>
         </section>
@@ -1142,17 +1174,17 @@
         syncFromHash();
     })();
     </script>
-    <div id="pwa-install-banner" class="pwa-install-banner is-hidden" role="complementary" aria-label="تثبيت NexusCompress">
+    <div id="pwa-install-banner" class="pwa-install-banner is-hidden" role="complementary" aria-label="Install NexusCompress">
         <div class="pwa-install-banner__content">
             <span class="pwa-install-banner__icon" aria-hidden="true">📲</span>
             <div class="pwa-install-banner__text">
-                <strong>تثبيت NexusCompress</strong>
-                <span>أضفه إلى شاشتك الرئيسية للوصول الفوري</span>
+                <strong>Install NexusCompress</strong>
+                <span>Add to your home screen for instant access</span>
             </div>
         </div>
         <div class="pwa-install-banner__actions">
-            <button type="button" id="pwa-install-btn" class="btn-primary pwa-install-banner__install">تثبيت</button>
-            <button type="button" id="pwa-dismiss-btn" class="pwa-install-banner__dismiss" aria-label="إغلاق">✕</button>
+            <button type="button" id="pwa-install-btn" class="btn-primary pwa-install-banner__install">Install</button>
+            <button type="button" id="pwa-dismiss-btn" class="pwa-install-banner__dismiss" aria-label="Dismiss install prompt">✕</button>
         </div>
     </div>
 
@@ -1160,8 +1192,8 @@
         <div class="exif-modal-backdrop" data-exif-close tabindex="-1" aria-hidden="true"></div>
         <div class="exif-modal-panel glass-panel">
             <header class="exif-modal-header">
-                <h2 id="exif-modal-title" class="exif-modal-title">بيانات الصورة</h2>
-                <button type="button" id="exif-modal-close" class="btn-icon exif-modal-close" aria-label="إغلاق عارض البيانات">×</button>
+                <h2 id="exif-modal-title" class="exif-modal-title">Image metadata</h2>
+                <button type="button" id="exif-modal-close" class="btn-icon exif-modal-close" aria-label="Close metadata viewer">×</button>
             </header>
             <div id="exif-modal-body" class="exif-modal-body"></div>
         </div>

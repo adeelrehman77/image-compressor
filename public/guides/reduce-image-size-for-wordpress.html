@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.1.0">
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/sentry-init.js?v=2.1.0" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <meta name="description" content="How to compress and resize images for WordPress websites. Improve page speed, Core Web Vitals, and SEO by uploading optimised images.">
+    <meta name="application-name" content="NexusCompress">
+    <link rel="canonical" href="https://compress.funadventure.ae/guides/reduce-image-size-for-wordpress.html">
+    <meta property="og:title" content="Reduce Image Size for WordPress &amp; Websites | NexusCompress">
+    <meta property="og:description" content="Compress images before uploading to WordPress. Improve page speed and Core Web Vitals without relying on plugins alone.">
+    <meta property="og:image" content="https://compress.funadventure.ae/og-image.png">
+    <meta name="robots" content="index, follow">
+    <title>Reduce Image Size for WordPress &amp; Websites | NexusCompress</title>
+    <link rel="stylesheet" href="../css/app.css?v=2.1.0">
+    <link rel="icon" href="../icons/icon-192.png" type="image/png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"What image format should I use for WordPress?","acceptedAnswer":{"@type":"Answer","text":"WebP is the best format for WordPress — 25–35% smaller than JPEG at similar quality. WordPress has supported WebP uploads since version 5.8."}},
+      {"@type":"Question","name":"What image size should I upload to WordPress?","acceptedAnswer":{"@type":"Answer","text":"Upload at the largest display size needed — usually 1920px for hero images or 1200px for blog content. WordPress generates smaller sizes automatically."}}
+    ]}
+    </script>
+    <script src="../js/ga-config.js?v=2.1.0" defer></script>
+    <script src="../js/gtm.js?v=2.1.0" defer></script>
+</head>
+<body class="app-body">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="../" class="site-logo">
+                <span class="logo-dot" aria-hidden="true"></span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
+                    <span class="site-logo-tag">Guides</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <a href="../" class="chip chip-success">← NexusCompress</a>
+                <a href="../privacy.html" class="chip chip-muted">Privacy Policy</a>
+            </div>
+        </div>
+    </header>
+    <article class="guide-page max-width-wrap glass-panel">
+        <nav class="guide-breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> · <a href="index.html">Guides</a> · WordPress optimisation</nav>
+        <h1>NexusCompress · Reduce image size for WordPress &amp; websites</h1>
+        <p class="guide-lead">Images are the biggest contributor to slow page loads. Compressing before upload improves Core Web Vitals and search rankings — even if you use a WordPress plugin.</p>
+
+        <h2>Why pre-compression matters with plugins</h2>
+        <p>Plugins like Smush or ShortPixel compress after upload. If you upload a 6 MB JPEG, the plugin starts from a bloated file. Pre-compress to 400 KB first and the result is much better.</p>
+
+        <h2>Recommended settings by use case</h2>
+        <table>
+            <thead>
+                <tr><th>Use case</th><th>Format</th><th>Max width</th><th>Quality</th><th>Target size</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Hero / full-width banner</td><td>WebP</td><td>1920 px</td><td>82%</td><td>150–400 KB</td></tr>
+                <tr><td>Blog post images</td><td>WebP</td><td>1200 px</td><td>82%</td><td>80–200 KB</td></tr>
+                <tr><td>Product photos</td><td>WebP</td><td>1200 px</td><td>85%</td><td>100–300 KB</td></tr>
+                <tr><td>Thumbnails</td><td>WebP</td><td>600 px</td><td>80%</td><td>30–80 KB</td></tr>
+                <tr><td>Logo (transparency)</td><td>WebP / PNG</td><td>300–600 px</td><td>90%</td><td>10–50 KB</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Why WebP for WordPress?</h2>
+        <p>WordPress accepts WebP since version 5.8. WebP is 25–35% smaller than JPEG at similar quality — one of the fastest ways to improve PageSpeed Insights scores.</p>
+
+        <p class="guide-tip"><strong>Core Web Vitals:</strong> Keep hero images under 200 KB in WebP to improve LCP (Largest Contentful Paint).</p>
+
+        <h2>How to compress WordPress images</h2>
+        <ol>
+            <li>Open <a href="../">NexusCompress</a>.</li>
+            <li>Select <strong>Website — WebP, 1920px wide</strong> for hero images.</li>
+            <li>For blog content: Custom WebP, 82% quality, max 1200 px.</li>
+            <li>Batch process a folder and download as ZIP.</li>
+            <li>Upload to WordPress Media Library.</li>
+        </ol>
+
+        <h2>Existing Media Library images</h2>
+        <p>For retroactive bulk compression, use ShortPixel or Imagify. For new uploads, pre-compress with NexusCompress first.</p>
+
+        <h2>Does compression affect SEO?</h2>
+        <p>Yes — positively. Faster loads improve Core Web Vitals (a ranking factor) and reduce mobile bounce rate. Always add descriptive <code>alt</code> text in WordPress separately.</p>
+
+        <p><a href="../" class="btn-primary guide-cta">Compress for WordPress →</a></p>
+
+        <h2>Frequently asked questions</h2>
+        <div class="guide-faq">
+            <div class="guide-faq-item">
+                <h3>What format should I use for WordPress?</h3>
+                <p>WebP — smaller than JPEG, supported by all modern browsers and WordPress 5.8+.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>What size should I upload?</h3>
+                <p>1920 px for heroes, 1200 px for blog content. WordPress auto-generates smaller sizes.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>Do I still need a plugin if I pre-compress?</h3>
+                <p>Pre-compressing is the most important step. Plugins add a second pass with smaller gains.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>How large should a hero image be in KB?</h3>
+                <p>Under 200 KB in WebP for fast LCP scores.</p>
+            </div>
+        </div>
+
+        <p class="guide-related">
+            Related:
+            <a href="jpeg-vs-webp.html">JPEG vs WebP</a> ·
+            <a href="avif-vs-webp.html">AVIF vs WebP</a> ·
+            <a href="compress-png-without-losing-transparency.html">Compress PNG without losing transparency</a>
+        </p>
+    </article>
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="../">Compressor</a> · <a href="index.html">Guides</a> · <a href="../privacy.html">Privacy Policy</a></p>
+    </footer>
+    <script src="../js/guide-footer.js?v=2.1.0"></script>
+</body>
+</html>
