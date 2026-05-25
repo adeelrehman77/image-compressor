@@ -87,6 +87,7 @@
         document.querySelector('.app-main')?.classList.add('tool-switching');
         try {
             await activateTool(tool);
+            window.scrollTo(0, 0);
         } catch (err) {
             window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'navigate', target: tool });
         } finally {
@@ -130,6 +131,7 @@
                 await navigateToTool('compress');
             }
         });
+        document.querySelector('.hero-callout')?.addEventListener('click', onNavClick);
         window.addEventListener('hashchange', () => {
             if (internalNav) return;
             navigateToTool(parseTool());

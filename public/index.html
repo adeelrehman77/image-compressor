@@ -145,9 +145,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label">SVG Optimizer</span>
                     </a>
-                    <a href="#passport-studio" id="tab-passport-studio" class="tool-tab tool-nav-link" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
+                    <a href="#passport-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
                         <span class="tool-tab__label">Passport Studio</span>
+                        <span class="tool-tab__badge">UAE</span>
                     </a>
                 </div>
             </nav>
@@ -155,190 +156,221 @@
     </header>
 
     <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress" role="tabpanel" aria-labelledby="tab-compress" tabindex="0">
-    <div class="app-layout">
-        <aside class="app-sidebar glass-panel" aria-label="Compression settings">
-            <details class="sidebar-mobile-fold">
-                <summary class="sidebar-mobile-fold__summary">
-                    <span class="sidebar-mobile-fold__title">Compression settings</span>
-                    <span class="sidebar-mobile-fold__hint">Optional — defaults work fine</span>
-                </summary>
-                <div class="sidebar-mobile-fold__body">
-            <p class="sidebar-intro">Pick a preset or dial things in. Processing happens on this device only.</p>
+    <div class="compress-workspace max-width-wrap">
+        <main class="app-main glass-panel compress-main">
 
-            <div id="panel-compress" class="sidebar-panel">
-                <section class="settings-group">
-                    <h3 class="settings-group-title">General presets</h3>
-                    <label class="field-label" for="preset">Start from</label>
-                    <select id="preset" class="field-input">
-                        <option value="custom">Custom</option>
-                        <option value="web">Website — WebP, 1920px wide</option>
-                        <option value="email">Email — JPEG, 1200px wide</option>
-                        <option value="social">Social post — JPEG, 1080px</option>
-                        <option value="max">Full quality — PNG, no resize</option>
-                    </select>
-                </section>
+            <aside class="hero-callout" aria-label="Featured tool for UAE users">
+                <p class="hero-callout__text"><strong>🇦🇪 UAE portal uploads?</strong> Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
+                <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio">Open Passport Studio</a>
+            </aside>
 
-                <section class="settings-group settings-group-uae">
-                    <h3 class="settings-group-title">UAE Smart Services presets</h3>
-                    <p class="settings-group-desc">ICA, MOHRE, RTA, and municipality portals often cap file size at 200–500 KB.</p>
-                    <label class="field-label" for="uae-preset">Government portal</label>
-                    <select id="uae-preset" class="field-input">
-                        <option value="">None</option>
-                        <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
-                        <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
-                        <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
-                        <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
-                        <option value="portal-reg">General portal (WebP) — 500 KB</option>
-                    </select>
-                </section>
+            <nav class="workflow-steps" aria-label="How it works">
+                <ol class="workflow-steps__list">
+                    <li class="workflow-steps__item is-active" data-step="upload">
+                        <span class="workflow-steps__num" aria-hidden="true">1</span>
+                        <span class="workflow-steps__label">Drop files</span>
+                    </li>
+                    <li class="workflow-steps__item" data-step="settings">
+                        <span class="workflow-steps__num" aria-hidden="true">2</span>
+                        <span class="workflow-steps__label">Choose settings</span>
+                    </li>
+                    <li class="workflow-steps__item" data-step="download">
+                        <span class="workflow-steps__num" aria-hidden="true">3</span>
+                        <span class="workflow-steps__label">Download</span>
+                    </li>
+                </ol>
+            </nav>
 
-                <section class="settings-group">
-                    <h3 class="settings-group-title">Output</h3>
-                    <label class="field-label" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
-                    <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
-                    <p class="field-hint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
-
-                    <label class="field-label field-label-spaced-sm" for="format">Format</label>
-                    <select id="format" class="field-input">
-                        <option value="auto">Same as original</option>
-                        <option value="image/webp">WebP</option>
-                        <option value="image/avif" id="avif-option">AVIF</option>
-                        <option value="image/jpeg">JPEG</option>
-                        <option value="image/png">PNG</option>
-                    </select>
-                    <p id="format-target-hint" class="field-hint is-hidden">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
-
-                    <div class="grid-2 field-label-spaced-sm">
-                        <div>
-                            <label class="field-label" for="max-width">Max width (px)</label>
-                            <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
-                        </div>
-                        <div>
-                            <label class="field-label" for="max-height">Max height (px)</label>
-                            <input type="number" id="max-height" class="field-input" placeholder="Auto" min="1">
-                        </div>
+            <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
+                <div class="drop-zone-inner">
+                    <div class="drop-icon" aria-hidden="true">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                     </div>
+                    <p class="drop-title">Add images</p>
+                    <p class="drop-sub">JPEG, PNG, WebP, or AVIF · one file or hundreds · no account needed</p>
+                    <div class="drop-actions">
+                        <label class="btn-primary is-clickable">
+                            Choose files
+                            <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
+                        </label>
+                        <label class="btn-secondary is-clickable">
+                            Choose folder
+                            <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
+                        </label>
+                    </div>
+                </div>
+            </section>
 
-                    <label class="field-label field-label-spaced-sm" for="scale-percent">Scale by %</label>
-                    <input type="number" id="scale-percent" class="field-input" placeholder="100" min="1" max="100" value="100" step="1">
-                    <p class="field-hint">e.g. 50 halves width and height. Applied before max dimensions.</p>
+            <details class="settings-customize glass-panel" id="compress-settings">
+                <summary class="settings-customize__summary">⚙ Customize</summary>
+                <div class="settings-customize__body">
+                    <p class="sidebar-intro">Defaults work for most files. Expand only if you need UAE portal limits, resizing, or watermarks.</p>
 
-                    <label class="field-label field-label-spaced-sm" for="aspect-ratio">Aspect ratio (center crop)</label>
-                    <select id="aspect-ratio" class="field-input">
-                        <option value="">Keep original</option>
-                        <option value="16:9">16:9 (widescreen)</option>
-                        <option value="4:3">4:3 (standard)</option>
-                        <option value="1:1">1:1 (square)</option>
-                        <option value="3:2">3:2 (photo)</option>
-                    </select>
-                </section>
-
-                <section class="settings-group">
-                    <h3 class="settings-group-title">Target file size</h3>
-                    <div class="grid-2 target-size-row">
-                        <div>
-                            <label class="field-label" for="target-size-value">Must be under</label>
-                            <input type="number" id="target-size-value" class="field-input" placeholder="No limit" min="1" step="any">
-                        </div>
-                        <div>
-                            <label class="field-label" for="target-size-unit">Unit</label>
-                            <select id="target-size-unit" class="field-input">
-                                <option value="kb">KB</option>
-                                <option value="mb">MB</option>
+                    <div id="panel-compress" class="sidebar-panel">
+                        <section class="settings-group settings-group-uae">
+                            <h3 class="settings-group-title">UAE Smart Services presets</h3>
+                            <p class="settings-group-desc">ICA, MOHRE, RTA, and municipality portals often cap file size at 200–500 KB.</p>
+                            <label class="field-label" for="uae-preset">Government portal</label>
+                            <select id="uae-preset" class="field-input">
+                                <option value="">None</option>
+                                <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
+                                <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
+                                <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
+                                <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
+                                <option value="portal-reg">General portal (WebP) — 500 KB</option>
                             </select>
-                        </div>
-                    </div>
-                    <input type="hidden" id="target-size-kb" value="">
-                    <p class="field-hint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
-                </section>
+                        </section>
 
-                <section class="settings-group">
-                    <h3 class="settings-group-title">Watermark (batch)</h3>
-                    <label class="checkbox-row">
-                        <input type="checkbox" id="watermark-enabled">
-                        <span>Add watermark to every export</span>
-                    </label>
-                    <div id="watermark-fields" class="watermark-fields is-hidden">
-                        <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
-                        <select id="watermark-type" class="field-input">
-                            <option value="text">Text</option>
-                            <option value="logo">Logo image (PNG)</option>
-                        </select>
-                        <div id="wm-text-group">
-                            <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
-                            <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
-                        </div>
-                        <div id="wm-logo-group" class="is-hidden">
-                            <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
-                            <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
-                        </div>
-                        <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
-                        <select id="watermark-position" class="field-input">
-                            <option value="bottom-right">Bottom right</option>
-                            <option value="bottom-left">Bottom left</option>
-                            <option value="top-right">Top right</option>
-                            <option value="top-left">Top left</option>
-                            <option value="center">Center</option>
-                        </select>
-                        <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
-                        <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
-                    </div>
-                </section>
+                        <section class="settings-group">
+                            <h3 class="settings-group-title">General presets</h3>
+                            <label class="field-label" for="preset">Start from</label>
+                            <select id="preset" class="field-input">
+                                <option value="custom">Custom</option>
+                                <option value="web">Website — WebP, 1920px wide</option>
+                                <option value="email">Email — JPEG, 1200px wide</option>
+                                <option value="social">Social post — JPEG, 1080px</option>
+                                <option value="max">Full quality — PNG, no resize</option>
+                            </select>
+                        </section>
 
-                <details class="advanced-details">
-                    <summary>More options</summary>
-                    <div class="advanced-body">
-                        <label class="field-label" for="rename-pattern">Download name</label>
-                        <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
-                        <p class="field-hint">Variables: {name}, {ext}, {suffix}</p>
+                        <section class="settings-group settings-group-essential">
+                            <h3 class="settings-group-title">Essential</h3>
+                            <label class="field-label" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
+                            <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
 
-                        <label class="checkbox-row field-label-spaced-sm">
-                            <input type="checkbox" id="fix-orientation" checked>
-                            <span>Fix phone photo rotation</span>
-                        </label>
-                        <label class="checkbox-row field-label-spaced-xs">
-                            <input type="checkbox" id="strip-metadata" checked disabled>
-                            <span>Remove metadata when saving</span>
-                        </label>
-                    </div>
-                </details>
+                            <label class="field-label field-label-spaced-sm" for="format">Format</label>
+                            <select id="format" class="field-input">
+                                <option value="auto">Same as original</option>
+                                <option value="image/webp">WebP</option>
+                                <option value="image/avif" id="avif-option">AVIF</option>
+                                <option value="image/jpeg">JPEG</option>
+                                <option value="image/png">PNG</option>
+                            </select>
+                            <p id="format-target-hint" class="field-hint is-hidden">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
 
-                <details class="sidebar-about-details">
-                    <summary>How this works</summary>
-                    <div class="sidebar-about-body">
-                        <p>Images are resized and re-encoded in your browser. We don't receive your files.</p>
-                        <p class="sidebar-about-links">
-                            <a href="docs.html">Docs</a>
-                            <a href="guides/index.html">Guides</a>
-                            <a href="privacy.html">Privacy</a>
-                        </p>
+                            <label class="field-label field-label-spaced-sm" for="max-width">Max width (px)</label>
+                            <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
+                        </section>
+
+                        <details class="settings-advanced">
+                            <summary>Advanced options</summary>
+                            <div class="settings-advanced__body">
+                                <p class="field-hint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
+
+                                <div class="grid-2 field-label-spaced-sm">
+                                    <div>
+                                        <label class="field-label" for="max-height">Max height (px)</label>
+                                        <input type="number" id="max-height" class="field-input" placeholder="Auto" min="1">
+                                    </div>
+                                    <div>
+                                        <label class="field-label" for="scale-percent">Scale by %</label>
+                                        <input type="number" id="scale-percent" class="field-input" placeholder="100" min="1" max="100" value="100" step="1">
+                                    </div>
+                                </div>
+                                <p class="field-hint">e.g. 50 halves width and height. Applied before max dimensions.</p>
+
+                                <label class="field-label field-label-spaced-sm" for="aspect-ratio">Aspect ratio (center crop)</label>
+                                <select id="aspect-ratio" class="field-input">
+                                    <option value="">Keep original</option>
+                                    <option value="16:9">16:9 (widescreen)</option>
+                                    <option value="4:3">4:3 (standard)</option>
+                                    <option value="1:1">1:1 (square)</option>
+                                    <option value="3:2">3:2 (photo)</option>
+                                </select>
+
+                                <h3 class="settings-group-title field-label-spaced-sm">Target file size</h3>
+                                <div class="grid-2 target-size-row">
+                                    <div>
+                                        <label class="field-label" for="target-size-value">Must be under</label>
+                                        <input type="number" id="target-size-value" class="field-input" placeholder="No limit" min="1" step="any">
+                                    </div>
+                                    <div>
+                                        <label class="field-label" for="target-size-unit">Unit</label>
+                                        <select id="target-size-unit" class="field-input">
+                                            <option value="kb">KB</option>
+                                            <option value="mb">MB</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="target-size-kb" value="">
+                                <p class="field-hint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
+
+                                <h3 class="settings-group-title field-label-spaced-sm">Watermark (batch)</h3>
+                                <label class="checkbox-row">
+                                    <input type="checkbox" id="watermark-enabled">
+                                    <span>Add watermark to every export</span>
+                                </label>
+                                <div id="watermark-fields" class="watermark-fields is-hidden">
+                                    <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
+                                    <select id="watermark-type" class="field-input">
+                                        <option value="text">Text</option>
+                                        <option value="logo">Logo image (PNG)</option>
+                                    </select>
+                                    <div id="wm-text-group">
+                                        <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
+                                        <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
+                                    </div>
+                                    <div id="wm-logo-group" class="is-hidden">
+                                        <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
+                                        <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
+                                    </div>
+                                    <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
+                                    <select id="watermark-position" class="field-input">
+                                        <option value="bottom-right">Bottom right</option>
+                                        <option value="bottom-left">Bottom left</option>
+                                        <option value="top-right">Top right</option>
+                                        <option value="top-left">Top left</option>
+                                        <option value="center">Center</option>
+                                    </select>
+                                    <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
+                                    <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
+                                </div>
+
+                                <label class="field-label field-label-spaced-sm" for="rename-pattern">Download name</label>
+                                <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
+                                <p class="field-hint">Variables: {name}, {ext}, {suffix}</p>
+
+                                <label class="checkbox-row field-label-spaced-sm">
+                                    <input type="checkbox" id="fix-orientation" checked>
+                                    <span>Fix phone photo rotation</span>
+                                </label>
+                                <label class="checkbox-row field-label-spaced-xs">
+                                    <input type="checkbox" id="strip-metadata" checked disabled>
+                                    <span>Remove metadata when saving</span>
+                                </label>
+                            </div>
+                        </details>
                     </div>
-                </details>
-            </div>
                 </div>
             </details>
-        </aside>
 
-        <main class="app-main glass-panel">
-            <header class="workspace-header">
-                <div class="workspace-heading">
-                    <h2 class="workspace-title">Your images</h2>
-                    <p class="workspace-sub">Drop files here, or browse a folder</p>
-                </div>
-                <div class="header-actions">
-                    <div class="view-toggle" role="group" aria-label="Results view">
-                        <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
-                        <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+            <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
+                <p class="memory-guard-notice__text">
+                    <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
+                </p>
+                <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
+            </div>
+
+            <section id="results-container" class="results-section is-hidden">
+                <header class="results-header">
+                    <div class="results-header__heading">
+                        <h2 class="workspace-title">Your images</h2>
+                        <p class="results-header__hint">Use the slider on each card or tap <strong>Compare</strong> for a full before/after view.</p>
                     </div>
-                    <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
-                    <button type="button" id="download-all-btn" class="btn-primary is-hidden">
-                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Download ZIP
-                    </button>
-                </div>
-            </header>
+                    <div class="header-actions">
+                        <div id="view-toggle-wrap" class="view-toggle is-hidden" role="group" aria-label="Results view">
+                            <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
+                            <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+                        </div>
+                        <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
+                        <button type="button" id="download-all-btn" class="btn-primary is-hidden">
+                            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Download ZIP
+                        </button>
+                    </div>
+                </header>
 
-            <div id="batch-summary" class="batch-summary is-hidden" aria-live="polite">
+                <div id="batch-summary" class="batch-summary is-hidden" aria-live="polite">
                 <div class="batch-stats">
                     <span id="batch-count" class="batch-stat">0 files</span>
                     <span class="sep">·</span>
@@ -361,36 +393,8 @@
                         <div id="zip-progress-bar" class="zip-progress-bar"></div>
                     </div>
                 </div>
-            </div>
-
-            <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
-                <div class="drop-zone-inner">
-                    <div class="drop-icon" aria-hidden="true">
-                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                    </div>
-                    <p class="drop-title">Add images</p>
-                    <p class="drop-sub">JPEG, PNG, WebP, or AVIF · one file or hundreds</p>
-                    <div class="drop-actions">
-                        <label class="btn-primary is-clickable">
-                            Choose files
-                            <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
-                        </label>
-                        <label class="btn-secondary is-clickable">
-                            Choose folder
-                            <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
-                        </label>
-                    </div>
                 </div>
-            </section>
 
-            <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
-                <p class="memory-guard-notice__text">
-                    <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
-                </p>
-                <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
-            </div>
-
-            <section id="results-container" class="results-section is-hidden">
                 <div id="results-table-wrap" class="results-table-wrap is-hidden">
                     <table class="results-table" aria-label="Compression results">
                         <thead>
@@ -408,14 +412,6 @@
                     </table>
                 </div>
                 <div id="results-list" class="results-list"></div>
-            </section>
-
-            <section id="empty-results" class="empty-state">
-                <div class="empty-icon" aria-hidden="true">
-                    <svg class="icon-xl" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <p class="empty-title">Nothing here yet</p>
-                <p class="empty-sub">After you compress a file, you'll see size savings and a before/after preview.</p>
             </section>
         </main>
     </div>

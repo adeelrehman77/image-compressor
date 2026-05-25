@@ -193,7 +193,7 @@
             'results-table-body', 'download-all-btn', 'clear-all-btn', 'batch-summary',
             'batch-count', 'batch-saved', 'batch-avg', 'batch-progress-bar', 'batch-progress',
             'zip-progress-wrap', 'zip-progress-bar', 'zip-progress-label', 'zip-progress-pct', 'zip-cancel',
-            'memory-guard-notice', 'memory-guard-dismiss', 'empty-results',
+            'memory-guard-notice', 'memory-guard-dismiss', 'view-toggle-wrap',
             'view-cards', 'view-table', 'theme-toggle', 'toast-root',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
@@ -712,6 +712,7 @@
         updateMemoryGuardNotice(hasOversized, isLargeBatch);
 
         showResultsArea();
+        updateWorkflowStep('settings');
         valid.forEach((file) => enqueueFile(file, config));
         els['file-input'].value = '';
         els['folder-input'].value = '';
@@ -922,7 +923,7 @@
             </div>
             <div class="result-actions is-hidden">
                 <div class="result-actions-row result-actions-row--main">
-                    <button type="button" class="btn-secondary compare-view-btn" disabled>Compare</button>
+                    <button type="button" class="btn-secondary compare-view-btn compare-view-btn--prominent" disabled>👁 Compare</button>
                     <a class="btn-primary download-btn" download>Download</a>
                 </div>
                 <div class="result-actions-row result-actions-row--sub">
@@ -936,7 +937,10 @@
         renderTableRow(task);
 
         card.querySelector('.remove-btn').addEventListener('click', () => removeTask(task.id));
-        card.querySelector('.compare-view-btn')?.addEventListener('click', () => openCompareModal(task.id));
+        card.querySelector('.compare-view-btn')?.addEventListener('click', () => {
+            card.querySelector('.compare-view-btn')?.classList.remove('compare-view-btn--pulse');
+            openCompareModal(task.id);
+        });
         card.querySelector('.recompress-btn')?.addEventListener('click', () => recompressTask(task.id));
         card.querySelector('.copy-btn')?.addEventListener('click', () => copyImage(task.id));
     }
@@ -952,7 +956,7 @@
             <td class="saved-cell">—</td>
             <td><span class="status-badge status-processing">Queued</span></td>
             <td class="table-actions">
-                <button type="button" class="btn-link compare-row is-hidden" disabled>Compare</button>
+                <button type="button" class="btn-link compare-row is-hidden" disabled>👁 Compare</button>
                 <button type="button" class="btn-link recompress-row">Again</button>
                 <button type="button" class="btn-link remove-row">Remove</button>
                 <a class="btn-link download-row is-hidden" download>Save</a>
@@ -989,9 +993,11 @@
         dl.href = task.compressedUrl;
         dl.download = task.newName;
         card.querySelector('.result-actions').classList.remove('is-hidden');
+        card.classList.add('result-card--ready');
         const compareBtn = card.querySelector('.compare-view-btn');
         if (compareBtn) {
             compareBtn.disabled = false;
+            compareBtn.classList.add('compare-view-btn--pulse');
         }
 
         if (row) {
@@ -1013,6 +1019,7 @@
         }
 
         updateBatchDownloadBtn();
+        updateWorkflowStep('download');
     }
 
     function updateTaskStatus(id, text, type) {
@@ -1035,6 +1042,8 @@
         const card = document.getElementById(id);
         const row = document.getElementById(`row-${id}`);
         if (card) {
+            card.classList.remove('result-card--ready');
+            card.querySelector('.compare-view-btn')?.classList.remove('compare-view-btn--pulse');
             card.querySelector('.compressed-size').textContent = '…';
             card.querySelector('.result-actions').classList.add('is-hidden');
             const compareBtn = card.querySelector('.compare-view-btn');
@@ -1128,19 +1137,26 @@
         state.objectUrls.get(id).push(url);
     }
 
+    function updateWorkflowStep(step) {
+        document.querySelectorAll('.workflow-steps__item').forEach((el) => {
+            el.classList.toggle('is-active', el.dataset.step === step);
+        });
+    }
+
     function showResultsArea() {
         els['results-container'].classList.remove('is-hidden');
-        els['empty-results'].classList.add('is-hidden');
         els['batch-summary'].classList.remove('is-hidden');
         els['clear-all-btn'].classList.remove('is-hidden');
+        els['view-toggle-wrap']?.classList.remove('is-hidden');
     }
 
     function hideResultsIfEmpty() {
         els['results-container'].classList.add('is-hidden');
-        els['empty-results'].classList.remove('is-hidden');
         els['batch-summary'].classList.add('is-hidden');
         els['clear-all-btn'].classList.add('is-hidden');
         els['download-all-btn'].classList.add('is-hidden');
+        els['view-toggle-wrap']?.classList.add('is-hidden');
+        updateWorkflowStep('upload');
     }
 
     function updateBatchUI() {

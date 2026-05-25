@@ -352,9 +352,9 @@ async function main() {
         else fail('Unsupported file type was accepted');
 
         console.log('\nTable view recompress');
-        await page.click('#view-table');
         await fi.uploadFile(fixtures.image);
         await waitCompressDone(page);
+        await page.click('#view-table');
         await page.evaluate(() => document.querySelector('.recompress-row')?.click());
         const tableReset = await page.waitForFunction(
             () => document.querySelector('.download-row')?.classList.contains('is-hidden'),

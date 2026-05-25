@@ -160,6 +160,8 @@ window.__NEXUS_TOOL_META = {
                 el.classList.toggle('is-hidden', resolved !== 'compress');
             });
         }
+        var belowApp = document.querySelector('.below-app');
+        if (belowApp) belowApp.classList.toggle('is-hidden', resolved !== 'compress');
     }
 
     window.__NEXUS_TOOL_SHELL = {
