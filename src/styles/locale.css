@@ -1,0 +1,63 @@
+/* RTL layout tweaks for Arabic (/ar/) */
+html[dir="rtl"] .site-header-brand,
+html[dir="rtl"] .site-header-meta,
+html[dir="rtl"] .tool-tabs,
+html[dir="rtl"] .compress-hero,
+html[dir="rtl"] .workflow-steps__item,
+html[dir="rtl"] .settings-card__header-left,
+html[dir="rtl"] .file-meta,
+html[dir="rtl"] .compress-preview-stage__header {
+    direction: rtl;
+}
+
+html[dir="rtl"] .site-logo {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .lang-switch {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .workflow-steps__arrow {
+    transform: scaleX(-1);
+}
+
+html[dir="rtl"] .chip-success svg,
+html[dir="rtl"] .tool-tab__icon {
+    margin-inline: 0;
+}
+
+.lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.lang-switch__link {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.2rem 0.35rem;
+    border-radius: 0.35rem;
+}
+
+.lang-switch__link:hover {
+    color: var(--text);
+}
+
+.lang-switch__link.is-active {
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.lang-switch__sep {
+    color: var(--text3);
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .lang-switch__sep {
+        display: none;
+    }
+}

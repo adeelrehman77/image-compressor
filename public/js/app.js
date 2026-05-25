@@ -1265,7 +1265,8 @@
             if (btn) {
                 btn.classList.remove('is-hidden');
                 btn.disabled = false;
-                btn.textContent = `Start compression (${pending.length})`;
+                const startBase = window.__NEXUS_T?.('startCompression') || 'Start compression';
+                btn.textContent = `${startBase} (${pending.length})`;
             }
         } else if (active.length) {
             updateWorkflowStep('settings');

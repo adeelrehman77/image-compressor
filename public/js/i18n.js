@@ -1,0 +1,146 @@
+/** UI copy — English + Arabic (UAE). Keys match data-i18n attributes and meta overrides. */
+window.__NEXUS_I18N = {
+    en: {
+        siteLogoTag: 'Compress images in your browser',
+        filesPrivate: 'Files stay on your device',
+        privacyPolicy: 'Privacy Policy',
+        langSwitchLabel: 'Language',
+        langEn: 'EN',
+        langAr: 'العربية',
+        tabCompress: 'Image Compressor',
+        tabImagesToPdf: 'Images to PDF',
+        tabPdfSuite: 'PDF Merge',
+        tabSvg: 'SVG Optimizer',
+        tabPassport: 'Passport Studio',
+        tabPassportBadge: 'UAE',
+        heroCompressL1Suffix: ' — compress images.',
+        heroCompressL2: 'Instantly. Privately.',
+        heroSubCompress:
+            'Shrink JPEG, PNG, WebP & AVIF in your browser — nothing ever leaves your device.',
+        heroItp: 'NexusCompress — Images to <span class="compress-hero__accent">PDF</span>',
+        heroItpSub:
+            'Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally in your browser.',
+        heroPdf: 'NexusCompress — PDF <span class="compress-hero__accent">merge &amp; split</span>',
+        heroPdfSub: 'Combine PDFs or extract pages — private, runs entirely in your browser.',
+        heroSvg: 'NexusCompress — SVG <span class="compress-hero__accent">optimizer</span>',
+        heroSvgSub: 'Strip metadata and bloat from vector files before you ship them.',
+        heroPassport: 'NexusCompress — Passport &amp; <span class="compress-hero__accent">visa photos</span>',
+        heroPassportSub:
+            'Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.',
+        stepAdd: 'Add files',
+        stepConfigure: 'Configure',
+        stepReview: 'Review & export',
+        dropTitle: 'Drop your images here',
+        dropSub: 'Add files to the queue · configure settings in the sidebar · then start compression when ready',
+        chooseFiles: 'Choose files',
+        chooseFolder: 'Choose folder',
+        startCompression: 'Start compression',
+        uaeCallout:
+            '🇦🇪 UAE portal uploads? Emirates ID, ICA & passport photos with size presets — no upload required.',
+        openPassportStudio: 'Open Passport Studio',
+        uaePresets: 'UAE Portal Presets',
+        popular: 'POPULAR',
+        compressionSettings: 'Compression Settings',
+        seoH1: 'NexusCompress — Free Online Image Compressor',
+    },
+    ar: {
+        siteLogoTag: 'ضغط الصور في متصفحك — بدون رفع',
+        filesPrivate: 'ملفاتك تبقى على جهازك',
+        privacyPolicy: 'سياسة الخصوصية',
+        langSwitchLabel: 'اللغة',
+        langEn: 'EN',
+        langAr: 'العربية',
+        tabCompress: 'ضاغط الصور',
+        tabImagesToPdf: 'صور إلى PDF',
+        tabPdfSuite: 'دمج PDF',
+        tabSvg: 'تحسين SVG',
+        tabPassport: 'استوديو الجواز',
+        tabPassportBadge: 'الإمارات',
+        heroCompressL1Suffix: ' — ضغط الصور.',
+        heroCompressL2: 'فوراً. بخصوصية تامة.',
+        heroSubCompress:
+            'تصغير JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم.',
+        heroItp: 'NexusCompress — صور إلى <span class="compress-hero__accent">PDF</span>',
+        heroItpSub:
+            'دمج مسوح JPEG/PNG في ملف PDF واحد لبوابات الإمارات — يعمل محلياً في متصفحك.',
+        heroPdf: 'NexusCompress — <span class="compress-hero__accent">دمج وتقسيم</span> PDF',
+        heroPdfSub: 'دمج ملفات PDF أو استخراج الصفحات — خاص بالكامل في متصفحك.',
+        heroSvg: 'NexusCompress — <span class="compress-hero__accent">تحسين</span> SVG',
+        heroSvgSub: 'إزالة البيانات الوصفية والزوائد من ملفات SVG قبل النشر.',
+        heroPassport: 'NexusCompress — <span class="compress-hero__accent">صور الجواز والتأشيرة</span>',
+        heroPassportSub:
+            'مقاسات رسمية لجواز الهند، OCI، VFS، وبوابات الهوية والتأشيرة في الإمارات.',
+        stepAdd: 'إضافة ملفات',
+        stepConfigure: 'الإعدادات',
+        stepReview: 'مراجعة وتصدير',
+        dropTitle: 'اسحب صورك هنا',
+        dropSub: 'أضف الملفات · اضبط الإعدادات من الشريط الجانبي · ثم ابدأ الضغط',
+        chooseFiles: 'اختيار ملفات',
+        chooseFolder: 'اختيار مجلد',
+        startCompression: 'بدء الضغط',
+        uaeCallout:
+            '🇦🇪 رفع على بوابات الإمارات؟ هوية إماراتية، ICA، وصور جواز — مع حدود 200/500 ك.ب — بدون رفع للسحابة.',
+        openPassportStudio: 'فتح استوديو الجواز',
+        uaePresets: 'إعدادات بوابات الإمارات',
+        popular: 'الأكثر استخداماً',
+        compressionSettings: 'إعدادات الضغط',
+        seoH1: 'NexusCompress — ضاغط صور مجاني على الإنترنت',
+    },
+};
+
+window.__NEXUS_I18N_META = {
+    en: {
+        titles: {
+            compress: 'Free Online Image Compressor | NexusCompress',
+            'images-to-pdf': 'Images to PDF — Free Online | NexusCompress',
+            'pdf-suite': 'PDF Merge & Split — Free Online | NexusCompress',
+            svg: 'SVG Optimizer — Free Online | NexusCompress',
+            'passport-studio': 'Passport & Visa Photo Studio — Free Online | NexusCompress',
+        },
+        descriptions: {
+            compress:
+                'NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private.',
+            'images-to-pdf':
+                'NexusCompress — combine JPEG and PNG scans into one PDF for UAE portal uploads. Runs locally in your browser.',
+            'pdf-suite':
+                'NexusCompress — merge multiple PDFs or split pages to ZIP in your browser. Free and private.',
+            svg: 'NexusCompress — optimize SVG vector files online. Strip metadata client-side.',
+            'passport-studio':
+                'NexusCompress — passport and visa photos for UAE Emirates ID and government portals. Free and private.',
+        },
+        taglines: {
+            compress: 'Compress images in your browser',
+            'images-to-pdf': 'Images to PDF — UAE portal ready',
+            'pdf-suite': 'PDF merge & split — local only',
+            svg: 'SVG optimizer for the web',
+            'passport-studio': 'Passport & visa photos — ICAO ready',
+        },
+    },
+    ar: {
+        titles: {
+            compress: 'ضاغط صور مجاني | NexusCompress',
+            'images-to-pdf': 'تحويل صور إلى PDF | NexusCompress',
+            'pdf-suite': 'دمج وتقسيم PDF | NexusCompress',
+            svg: 'تحسين SVG | NexusCompress',
+            'passport-studio': 'صور جواز وتأشيرة الإمارات | NexusCompress',
+        },
+        descriptions: {
+            compress:
+                'NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.',
+            'images-to-pdf':
+                'NexusCompress — دمج مسوح JPEG/PNG في PDF واحد لبوابات حكومة الإمارات. يعمل محلياً في متصفحك.',
+            'pdf-suite':
+                'NexusCompress — دمج PDF أو استخراج الصفحات كـ ZIP في متصفحك. مجاني وخاص.',
+            svg: 'NexusCompress — تحسين ملفات SVG وإزالة البيانات الوصفية في متصفحك.',
+            'passport-studio':
+                'NexusCompress — صور جواز وهوية إماراتية بمقاسات البوابات الحكومية. مجاني وخاص.',
+        },
+        taglines: {
+            compress: 'ضغط الصور في متصفحك',
+            'images-to-pdf': 'صور إلى PDF — جاهز لبوابات الإمارات',
+            'pdf-suite': 'دمج PDF — محلي فقط',
+            svg: 'تحسين SVG للويب',
+            'passport-studio': 'صور جواز وتأشيرة — ICAO',
+        },
+    },
+};

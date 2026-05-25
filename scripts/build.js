@@ -48,6 +48,9 @@ function bumpSwCache() {
     './js/ads-config.js',
     './js/ads.js',
     './js/brand-config.js',
+    './js/locale.js',
+    './js/i18n.js',
+    './js/locale-ui.js',
     './js/guide-footer.js',
     './vendor/jszip.min.js',
     './vendor/sentry.bundle.min.js',
@@ -60,6 +63,7 @@ function bumpSwCache() {
 console.log('Building NexusCompress…');
 
 require('./generate-sitemap');
+require('./generate-ar-index');
 
 rimraf(distDir);
 copyDir(publicDir, distDir);

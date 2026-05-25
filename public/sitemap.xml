@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://compress.funadventure.ae/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/" />
+    <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/ar/" />
     <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://compress.funadventure.ae/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/ar/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/" />
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://compress.funadventure.ae/docs.html</loc>
@@ -23,6 +34,14 @@
     <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://compress.funadventure.ae/guides/uae-portal-compression-ar.html</loc>
+    <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/guides/uae-portal-compression-ar.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/" />
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://compress.funadventure.ae/guides/jpeg-vs-webp.html</loc>

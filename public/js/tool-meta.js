@@ -97,12 +97,18 @@ window.__NEXUS_TOOL_META = {
         return VALID[h] ? h : 'compress';
     }
 
+    function localePack() {
+        var loc = window.__NEXUS_LOCALE || 'en';
+        return window.__NEXUS_I18N_META?.[loc] || window.__NEXUS_I18N_META?.en || null;
+    }
+
     function applyHeadMeta(tool) {
         var m = window.__NEXUS_TOOL_META;
         if (!m) return;
-        var title = m.titles[tool];
+        var pack = localePack();
+        var title = (pack && pack.titles && pack.titles[tool]) || m.titles[tool];
         if (title) document.title = title;
-        var desc = m.descriptions[tool];
+        var desc = (pack && pack.descriptions && pack.descriptions[tool]) || m.descriptions[tool];
         if (!desc) return;
         var metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', desc);
@@ -141,17 +147,19 @@ window.__NEXUS_TOOL_META = {
         });
 
         var tag = document.getElementById('site-logo-tag');
-        if (tag && m.taglines[resolved]) tag.textContent = m.taglines[resolved];
+        var taglines = (localePack() && localePack().taglines) || m.taglines;
+        if (tag && taglines[resolved]) tag.textContent = taglines[resolved];
 
         applyHeadMeta(resolved);
 
         var copy = m.seo[resolved] || m.seo.compress;
-        if (copy) {
+        if (copy && window.__NEXUS_LOCALE !== 'ar') {
             var set = function (id, text) {
                 var el = document.getElementById(id);
                 if (el && text != null) el.textContent = text;
             };
-            set('seo-heading', copy.h1);
+            var seoH1 = copy.h1;
+            if (seoH1) set('seo-heading', seoH1);
             set('seo-intro-title-1', copy.title1);
             set('seo-intro-1', copy.intro1);
             set('seo-intro-title-2', copy.title2);
@@ -162,6 +170,7 @@ window.__NEXUS_TOOL_META = {
                 el.classList.toggle('is-hidden', resolved !== 'compress');
             });
         }
+        if (window.__NEXUS_APPLY_I18N) window.__NEXUS_APPLY_I18N();
     }
 
     window.__NEXUS_TOOL_SHELL = {
