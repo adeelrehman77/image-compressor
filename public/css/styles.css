@@ -1972,6 +1972,93 @@ html:not(.dark) .ambient-bg {
     text-decoration: none;
 }
 
+.guide-page ol {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.guide-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.25rem;
+    font-size: 0.85rem;
+}
+
+.guide-page th,
+.guide-page td {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--surface-border);
+    text-align: start;
+}
+
+.guide-page th {
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    color: var(--text);
+    font-weight: 600;
+}
+
+.guide-page tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+}
+
+.guide-tip,
+.guide-warn {
+    padding: 0.85rem 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0 1.25rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    border-inline-start: 4px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.guide-warn {
+    border-inline-start-color: var(--uae, #d4a017);
+    background: color-mix(in srgb, var(--uae, #d4a017) 10%, var(--surface));
+}
+
+.guide-faq {
+    margin-top: 1.5rem;
+}
+
+.guide-faq-item {
+    border-top: 1px solid var(--surface-border);
+    padding: 1rem 0;
+}
+
+.guide-faq-item:last-child {
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.guide-faq-item h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+    color: var(--text);
+}
+
+.guide-related {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.guide-section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 2rem 0 0.75rem;
+}
+
+.guide-section-title:first-of-type {
+    margin-top: 0.5rem;
+}
+
 /* Docs page */
 .docs-page {
     max-width: 720px;
