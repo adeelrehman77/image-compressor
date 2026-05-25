@@ -4,29 +4,47 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
 
-const FONT_FILES = [
-    { pkg: 'inter', base: 'inter-latin-400-normal' },
-    { pkg: 'inter', base: 'inter-latin-500-normal' },
-    { pkg: 'inter', base: 'inter-latin-600-normal' },
-    { pkg: 'outfit', base: 'outfit-latin-500-normal' },
-    { pkg: 'outfit', base: 'outfit-latin-600-normal' },
-    { pkg: 'outfit', base: 'outfit-latin-700-normal' },
-];
+function extractFontFilesFromCss(cssPath) {
+    if (!fs.existsSync(cssPath)) return [];
+    const css = fs.readFileSync(cssPath, 'utf8');
+    const re = /url\(\.\/files\/([^)]+\.(?:woff2|woff))\)/g;
+    const files = new Set();
+    let match;
+    while ((match = re.exec(css)) !== null) files.add(match[1]);
+    return [...files];
+}
 
-function copyFontFiles(destDir) {
+function findFontInNodeModules(filename) {
+    const fontsourceDir = path.join(root, 'node_modules', '@fontsource');
+    if (!fs.existsSync(fontsourceDir)) return null;
+    for (const pkg of fs.readdirSync(fontsourceDir)) {
+        const src = path.join(fontsourceDir, pkg, 'files', filename);
+        if (fs.existsSync(src)) return src;
+    }
+    return null;
+}
+
+function copyFontFiles(destDir, cssPath) {
     fs.mkdirSync(destDir, { recursive: true });
+    const needed = extractFontFilesFromCss(cssPath);
     let copied = 0;
-    for (const { pkg, base } of FONT_FILES) {
-        for (const ext of ['.woff2', '.woff']) {
-            const file = base + ext;
-            const src = path.join(root, 'node_modules', '@fontsource', pkg, 'files', file);
-            const dest = path.join(destDir, file);
-            if (fs.existsSync(src)) {
-                fs.copyFileSync(src, dest);
-                copied++;
-            }
+    const missing = [];
+
+    for (const file of needed) {
+        const src = findFontInNodeModules(file);
+        const dest = path.join(destDir, file);
+        if (src) {
+            fs.copyFileSync(src, dest);
+            copied++;
+        } else {
+            missing.push(file);
         }
     }
+
+    if (missing.length) {
+        console.warn(`Warning: ${missing.length} font file(s) not found in @fontsource:`, missing.join(', '));
+    }
+
     return copied;
 }
 
@@ -40,19 +58,21 @@ function writeVersionJson(destPath) {
 }
 
 function syncPublicAssets() {
+    const cssPath = path.join(publicDir, 'css', 'app.css');
     const fontsDest = path.join(publicDir, 'css', 'files');
-    const fontsCopied = copyFontFiles(fontsDest);
+    const fontsCopied = copyFontFiles(fontsDest, cssPath);
     const version = writeVersionJson(path.join(publicDir, 'version.json'));
     return { fontsCopied, version };
 }
 
 function syncDistAssets(distDir) {
-    const fontsCopied = copyFontFiles(path.join(distDir, 'css', 'files'));
+    const cssPath = path.join(distDir, 'css', 'app.css');
+    const fontsCopied = copyFontFiles(path.join(distDir, 'css', 'files'), cssPath);
     const version = writeVersionJson(path.join(distDir, 'version.json'));
     return { fontsCopied, version };
 }
 
-module.exports = { syncPublicAssets, syncDistAssets, copyFontFiles, writeVersionJson };
+module.exports = { syncPublicAssets, syncDistAssets, copyFontFiles, writeVersionJson, extractFontFilesFromCss };
 
 if (require.main === module) {
     const { fontsCopied, version } = syncPublicAssets();

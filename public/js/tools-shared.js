@@ -186,6 +186,36 @@ window.NexusTools = (function () {
         }
     }
 
+    function expandSettingsCard(target) {
+        const card = typeof target === 'string'
+            ? (document.getElementById(target)?.closest('[data-settings-card]') || document.getElementById(target))
+            : (target?.closest?.('[data-settings-card]') || target);
+        if (!card) return;
+        const btn = card.querySelector('[data-settings-toggle]');
+        const body = card.querySelector('.settings-card__body');
+        btn?.setAttribute('aria-expanded', 'true');
+        body?.classList.remove('is-collapsed');
+        btn?.querySelector('.settings-chevron')?.classList.add('is-open');
+    }
+
+    function initSettingsCards() {
+        document.querySelectorAll('[data-settings-toggle]').forEach((btn) => {
+            if (btn.dataset.settingsBound === '1') return;
+            btn.dataset.settingsBound = '1';
+            btn.addEventListener('click', () => {
+                const card = btn.closest('[data-settings-card]');
+                if (!card) return;
+                const body = card.querySelector('.settings-card__body');
+                const expanded = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!expanded));
+                body?.classList.toggle('is-collapsed', expanded);
+                btn.querySelector('.settings-chevron')?.classList.toggle('is-open', !expanded);
+            });
+        });
+    }
+
+    runWhenReady(initSettingsCards);
+
     return {
         toast,
         formatBytes,
@@ -201,5 +231,7 @@ window.NexusTools = (function () {
         ensureTool,
         reportError,
         bindDropZone,
+        initSettingsCards,
+        expandSettingsCard,
     };
 })();

@@ -39,7 +39,10 @@ html.dark {
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-font-smoothing: antialiased; }
+html {
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+}
 
 body, .app-body {
     margin: 0;
@@ -135,11 +138,11 @@ body, .app-body {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.48rem 0.85rem;
+    padding: 0.55rem 0.85rem;
     border-radius: 0.55rem;
     font-size: 0.8125rem;
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.55;
     color: color-mix(in srgb, var(--text) 82%, var(--text-muted));
     text-decoration: none;
     white-space: nowrap;
@@ -327,7 +330,7 @@ html:not(.dark) .tool-nav-link.active {
 
     .tool-tab__label {
         max-width: 9.5rem;
-        overflow: hidden;
+        overflow: visible;
         text-overflow: ellipsis;
     }
 
@@ -355,7 +358,7 @@ html:not(.dark) .tool-nav-link.active {
 
 .site-logo-name--brand {
     font-size: clamp(0.72rem, 2.2vw, 0.95rem);
-    line-height: 1.2;
+    line-height: 1.45;
     max-width: min(14rem, 42vw);
 }
 
@@ -1125,6 +1128,8 @@ html:not(.dark) .ambient-bg {
     font-size: 0.65rem;
     color: var(--text-muted);
     margin-top: 0.25rem;
+    line-height: 1.6;
+    padding-bottom: 0.08em;
 }
 
 .accent-text { color: var(--accent); font-weight: 600; }
@@ -1471,6 +1476,12 @@ html:not(.dark) .ambient-bg {
     white-space: nowrap;
 }
 
+.status-ready {
+    background: color-mix(in srgb, var(--text-muted) 15%, transparent);
+    color: var(--text-muted);
+    border: 1px solid var(--surface-border);
+}
+
 .status-processing {
     background: color-mix(in srgb, var(--accent) 20%, transparent);
     color: var(--accent);
@@ -1720,11 +1731,11 @@ html:not(.dark) .ambient-bg {
     margin: 0;
 }
 
-.seo-secondary {
-    padding: 1.5rem 1.75rem;
+.seo-secondary-details {
+    margin-top: 1rem;
 }
 
-.seo-secondary .seo-subheading:first-child {
+.seo-secondary__body .seo-subheading:first-child {
     margin-top: 0;
 }
 
@@ -1735,7 +1746,8 @@ html:not(.dark) .ambient-bg {
     margin: 1.25rem 0 0.75rem;
 }
 
-.seo-secondary > p {
+.seo-secondary__body > p,
+.seo-secondary__body .seo-block-compress > p {
     font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.65;
@@ -2207,6 +2219,7 @@ body.compare-modal-open {
     flex-direction: column;
     gap: 0.5rem;
     max-width: 360px;
+    pointer-events: none;
 }
 
 .toast {
@@ -2224,7 +2237,7 @@ body.compare-modal-open {
 .toast-warn { border-left: 3px solid var(--warn); }
 .toast-info { border-left: 3px solid var(--accent); }
 
-.toast-out { opacity: 0; transform: translateX(12px); transition: 0.3s ease; }
+.toast-out { opacity: 0; transform: translateX(12px); transition: 0.3s ease; pointer-events: none; }
 
 @keyframes toastIn {
     from { opacity: 0; transform: translateX(12px); }

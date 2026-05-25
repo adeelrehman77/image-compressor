@@ -255,11 +255,18 @@
     function showEditor(show) {
         els.dropZone?.classList.toggle('is-hidden', show);
         els.editor?.classList.toggle('is-hidden', !show);
-        document.getElementById('passport-sidebar-crop')?.classList.toggle('is-hidden', !show);
-        document.getElementById('passport-sidebar-export')?.classList.toggle('is-hidden', !show);
+        const cropCard = document.getElementById('passport-sidebar-crop');
+        const exportCard = document.getElementById('passport-sidebar-export');
+        cropCard?.classList.toggle('is-hidden', !show);
+        exportCard?.classList.toggle('is-hidden', !show);
         if (show) {
+            window.NexusTools?.expandSettingsCard?.(cropCard);
+            window.NexusTools?.expandSettingsCard?.(exportCard);
             els.biometricOverlay?.classList.remove('is-hidden');
             requestAnimationFrame(renderPreview);
+            requestAnimationFrame(() => {
+                els.previewStage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
         }
     }
 
@@ -300,12 +307,29 @@
         }
     }
 
-    function onPresetChange() {
+    function syncPassportPresetButtons() {
+        const val = els.presetSelect?.value || '';
+        document.querySelectorAll('[data-passport-preset]').forEach((btn) => {
+            btn.classList.toggle('is-active', btn.dataset.passportPreset === val);
+        });
+    }
+
+    function onPresetChange(opts = {}) {
         state.presetId = els.presetSelect?.value || '';
         updatePassportWarnings();
+        syncPassportPresetButtons();
         const preset = getPreset();
         applyAspectUI(preset);
         setDropZoneLocked(!state.presetId);
+
+        if (state.presetId && !opts.silent) {
+            const labels = {
+                'india-passport-seva': 'India Passport Seva',
+                'india-oci-vfs': 'India OCI / VFS',
+                'uae-emirates': 'UAE Emirates ID',
+            };
+            window.NexusTools?.toast?.(`${labels[state.presetId] || 'Preset'} ready — upload your portrait.`, 'info');
+        }
 
         if (state.presetId === 'india-passport-seva' && preset) {
             const ratio = preset.export.w / preset.export.h;
@@ -360,6 +384,21 @@
         setDropZoneLocked(true);
 
         els.presetSelect?.addEventListener('change', onPresetChange);
+
+        document.querySelectorAll('[data-passport-preset]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (!els.presetSelect) return;
+                const val = btn.dataset.passportPreset;
+                if (els.presetSelect.value === val) {
+                    els.presetSelect.value = '';
+                    onPresetChange({ silent: true });
+                    window.NexusTools?.toast?.('Preset cleared.', 'info');
+                    return;
+                }
+                els.presetSelect.value = val;
+                els.presetSelect.dispatchEvent(new Event('change'));
+            });
+        });
 
         els.input?.addEventListener('change', (e) => {
             const file = e.target.files?.[0];

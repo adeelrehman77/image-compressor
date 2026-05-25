@@ -24,6 +24,7 @@
             list.appendChild(li);
         });
         if (btn) btn.disabled = mergeFiles.length < 2;
+        document.getElementById('pdf-merge-empty')?.classList.toggle('is-hidden', mergeFiles.length > 0);
     }
 
     function addMergeFiles(fileList) {
@@ -130,6 +131,9 @@
                 const id = tab.dataset.pdfTab;
                 document.getElementById('pdf-panel-merge')?.classList.toggle('is-hidden', id !== 'merge');
                 document.getElementById('pdf-panel-split')?.classList.toggle('is-hidden', id !== 'split');
+                document.getElementById('pdf-sidebar-merge')?.classList.toggle('is-hidden', id !== 'merge');
+                document.getElementById('pdf-sidebar-split')?.classList.toggle('is-hidden', id !== 'split');
+                document.getElementById('pdf-merge-empty')?.classList.toggle('is-hidden', id !== 'merge');
             });
         });
 

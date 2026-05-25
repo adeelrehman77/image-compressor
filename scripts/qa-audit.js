@@ -121,7 +121,8 @@ async function main() {
 
         const fileInput = await page.$('#file-input');
         await fileInput.uploadFile(TEST_IMAGE);
-        await page.waitForSelector('.download-btn', { timeout: 15000 });
+        await page.click('#start-compress-btn');
+        await page.waitForSelector('.download-btn:not(.is-hidden)', { timeout: 15000 });
         pass('Single image compress + download button appears');
 
         const cardCount = await page.$$eval('.result-card', (els) => els.length);
@@ -144,7 +145,8 @@ async function main() {
 
         await page.evaluate(() => document.getElementById('view-cards')?.click());
         await fileInput.uploadFile(TEST_IMAGE);
-        await page.waitForFunction(() => document.querySelectorAll('.download-btn').length >= 2, { timeout: 15000 });
+        await page.click('#start-compress-btn');
+        await page.waitForFunction(() => document.querySelectorAll('.download-btn:not(.is-hidden)').length >= 2, { timeout: 15000 });
         await page.waitForSelector('#download-all-btn:not(.is-hidden)', { timeout: 5000 });
         pass('Download ZIP button visible with 2+ files');
 
@@ -263,6 +265,9 @@ async function main() {
         }, { timeout: 15000 });
         pass('Passport digital export succeeds');
 
+        await page.evaluate(() => {
+            document.getElementById('passport-clear-photo')?.scrollIntoView({ block: 'center' });
+        });
         await page.click('#passport-clear-photo');
         await page.waitForFunction(() => {
             const dz = document.getElementById('passport-drop-zone');

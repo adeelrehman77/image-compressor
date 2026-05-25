@@ -29,8 +29,10 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@fontsource/dm-sans": "^5.2.8",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/outfit": "^5.2.5",
+    "@fontsource/syne": "^5.2.7",
     "cssnano": "^7.0.6",
     "express": "^5.2.1",
     "jszip": "^3.10.1",

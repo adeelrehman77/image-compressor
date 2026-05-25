@@ -57,6 +57,8 @@ createTestImage().then(() => {
             const fileInput = await page.$('#file-input');
             await fileInput.uploadFile(TEST_IMAGE);
 
+            await page.waitForSelector('#start-compress-btn:not([disabled])', { timeout: 10000 });
+            await page.click('#start-compress-btn');
             await page.waitForSelector('.download-btn', { timeout: 15000 });
 
             const summary = await page.$eval('#batch-count', (el) => el.textContent);
@@ -80,6 +82,7 @@ createTestImage().then(() => {
 
             const fileInput2 = await page.$('#file-input');
             await fileInput2.uploadFile(TEST_IMAGE);
+            await page.click('#start-compress-btn');
             await page.waitForFunction(
                 () => {
                     const el = document.querySelector('.result-card:last-of-type .compressed-size');

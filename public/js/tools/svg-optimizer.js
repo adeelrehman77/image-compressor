@@ -51,6 +51,8 @@
                 afterSize.textContent = `Optimized: ${formatBytes(out.length)} (${saved.toFixed(0)}% smaller)`;
                 optimizedBlob = new Blob([out], { type: 'image/svg+xml' });
                 dl.disabled = false;
+                document.getElementById('svg-empty')?.classList.add('is-hidden');
+                document.querySelector('.svg-editor')?.classList.remove('is-hidden');
                 toast('SVG optimized.', 'success');
             } catch (err) {
                 NexusTools.reportError(err, { tool: 'svg' });

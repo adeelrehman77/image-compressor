@@ -75,12 +75,14 @@
         zipAbort: false,
         zipGeneration: 0,
         watermarkLogo: null,
+        selectedTaskId: null,
     };
 
     const workers = [];
     const els = {};
     let compareModalCleanup = null;
     let compareModalEscapeHandler = null;
+    let previewCompareCleanup = null;
 
     document.addEventListener('DOMContentLoaded', init);
 
@@ -91,7 +93,7 @@
         initWorkers();
         loadSettings();
         bindEvents();
-        syncCompressSettingsPanel();
+        syncPresetButtons();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
         scheduleIdle(registerServiceWorker, 6000);
         loadVersion();
@@ -170,16 +172,20 @@
 
     async function loadVersion() {
         const el = document.getElementById('app-version');
-        if (!el) return;
+        const heroBadge = document.getElementById('compress-version-badge');
+        if (!el && !heroBadge) return;
         try {
             const res = await fetch('version.json');
             if (res.ok) {
                 const { version } = await res.json();
-                el.textContent = `v${version}`;
+                const label = `v${version}`;
+                if (el) el.textContent = label;
+                if (heroBadge) heroBadge.textContent = `${label} — Free`;
                 window.NexusSentry?.setAppVersion?.(version);
             }
         } catch {
-            el.textContent = 'v2';
+            if (el) el.textContent = 'v2';
+            if (heroBadge) heroBadge.textContent = 'v2 — Free';
         }
     }
 
@@ -196,6 +202,13 @@
             'zip-progress-wrap', 'zip-progress-bar', 'zip-progress-label', 'zip-progress-pct', 'zip-cancel',
             'memory-guard-notice', 'memory-guard-dismiss', 'view-toggle-wrap',
             'view-cards', 'view-table', 'theme-toggle', 'toast-root',
+            'start-compress-btn', 'compress-workflow-bar', 'compress-workflow-status',
+            'compress-preview-stage', 'compress-preview-title', 'compress-preview-meta',
+            'compress-preview-empty', 'compress-preview-body', 'compress-preview-pending',
+            'compress-preview-original-only', 'compress-inline-compare',
+            'compress-preview-base', 'compress-preview-overlay', 'compress-preview-handle',
+            'compress-preview-top', 'compress-preview-stats', 'compress-preview-actions',
+            'compress-preview-rerun', 'compress-preview-download',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
         });
@@ -301,13 +314,16 @@
         }
     }
 
-    function syncCompressSettingsPanel() {
-        const panel = document.getElementById('compress-settings');
-        if (!panel) return;
-        const desktop = window.matchMedia('(min-width: 901px)').matches;
-        panel.classList.toggle('settings-customize--desktop', desktop);
-        if (desktop) panel.setAttribute('open', '');
-        else panel.removeAttribute('open');
+
+    function syncPresetButtons() {
+        const uaeVal = els['uae-preset']?.value || '';
+        document.querySelectorAll('[data-uae-preset]').forEach((btn) => {
+            btn.classList.toggle('is-active', btn.dataset.uaePreset === uaeVal);
+        });
+        const presetVal = els.preset?.value || 'custom';
+        document.querySelectorAll('[data-preset]').forEach((btn) => {
+            btn.classList.toggle('is-active', presetVal !== 'custom' && btn.dataset.preset === presetVal);
+        });
     }
 
     function bindEvents() {
@@ -353,8 +369,43 @@
         els.preset.addEventListener('change', () => {
             if (els['uae-preset']) els['uae-preset'].value = '';
             applyPreset();
+            syncPresetButtons();
         });
-        els['uae-preset'].addEventListener('change', applyUaePreset);
+        els['uae-preset'].addEventListener('change', () => {
+            applyUaePreset();
+            syncPresetButtons();
+        });
+
+        document.querySelectorAll('[data-uae-preset]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const val = btn.dataset.uaePreset;
+                if (els['uae-preset'].value === val) {
+                    els['uae-preset'].value = '';
+                    markCustomPreset();
+                    toast('Portal preset cleared.', 'info');
+                    return;
+                }
+                els['uae-preset'].value = val;
+                applyUaePreset();
+                syncPresetButtons();
+            });
+        });
+        document.querySelectorAll('[data-preset]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const val = btn.dataset.preset;
+                if (els.preset.value === val) {
+                    els.preset.value = 'custom';
+                    if (els['uae-preset']) els['uae-preset'].value = '';
+                    syncPresetButtons();
+                    toast('Preset cleared.', 'info');
+                    return;
+                }
+                els.preset.value = val;
+                if (els['uae-preset']) els['uae-preset'].value = '';
+                applyPreset();
+                syncPresetButtons();
+            });
+        });
 
         els.format.addEventListener('change', () => updateFormatForTargetSize());
         els['target-size-value']?.addEventListener('change', () => updateFormatForTargetSize());
@@ -405,6 +456,14 @@
             els['memory-guard-notice']?.classList.add('is-hidden');
         });
         els['clear-all-btn'].addEventListener('click', clearAll);
+        els['start-compress-btn']?.addEventListener('click', startCompression);
+        els['compress-preview-rerun']?.addEventListener('click', () => {
+            if (state.selectedTaskId) recompressTask(state.selectedTaskId);
+        });
+        els['compress-preview-download']?.addEventListener('click', () => {
+            const dl = els['compress-preview-download'];
+            if (dl?.download) window.NexusTools?.trackDownload?.(dl.download, 'compress');
+        });
         els['view-cards'].addEventListener('click', () => setViewMode('cards'));
         els['view-table'].addEventListener('click', () => setViewMode('table'));
         els['theme-toggle'].addEventListener('click', toggleTheme);
@@ -418,11 +477,6 @@
 
         syncTargetSizeKbField();
         toggleWatermarkFields();
-
-        const settingsMq = window.matchMedia('(min-width: 901px)');
-        const onSettingsMq = () => syncCompressSettingsPanel();
-        if (settingsMq.addEventListener) settingsMq.addEventListener('change', onSettingsMq);
-        else settingsMq.addListener(onSettingsMq);
     }
 
     function syncTargetSizeKbFieldOnly() {
@@ -551,6 +605,7 @@
     function markCustomPreset() {
         els.preset.value = 'custom';
         if (els['uae-preset']) els['uae-preset'].value = '';
+        syncPresetButtons();
     }
 
     function applyCompressionValues(p) {
@@ -570,11 +625,16 @@
         syncTargetSizeKbField();
     }
 
-    function applyPreset() {
+    function applyPreset(opts = {}) {
         const key = els.preset.value;
         if (key === 'custom' || !PRESETS[key]) return;
         applyCompressionValues(PRESETS[key]);
         saveSettings();
+        syncPresetButtons();
+        if (!opts.silent) {
+            const labels = { web: 'Website', email: 'Email', social: 'Social post', max: 'Full quality' };
+            toast(`${labels[key] || key} preset applied.`, 'info');
+        }
     }
 
     function applyUaePreset(opts = {}) {
@@ -583,6 +643,7 @@
         els.preset.value = 'custom';
         applyCompressionValues(UAE_PRESETS[key]);
         saveSettings();
+        syncPresetButtons();
         if (!opts.silent) {
             toast('Portal preset applied. Add your images when ready.', 'info');
         }
@@ -671,10 +732,11 @@
                 applyUaePreset({ silent: true });
             } else if (s.preset) {
                 els.preset.value = s.preset;
-                if (s.preset !== 'custom') applyPreset();
+                if (s.preset !== 'custom') applyPreset({ silent: true });
             }
             if (s.viewMode) setViewMode(s.viewMode);
             syncTargetSizeKbField();
+            syncPresetButtons();
         } catch { /* ignore */ }
     }
 
@@ -708,7 +770,7 @@
         if (!files || files.length === 0) return;
         state.cancelled = false;
         updateFormatForTargetSize();
-        const config = getConfig();
+
         const valid = [...files].filter(isAcceptedImage);
         const skipped = files.length - valid.length;
 
@@ -727,14 +789,41 @@
         updateMemoryGuardNotice(hasOversized, isLargeBatch);
 
         showResultsArea();
-        updateWorkflowStep('settings');
-        valid.forEach((file) => enqueueFile(file, config));
+        valid.forEach((file) => enqueueFile(file));
         els['file-input'].value = '';
         els['folder-input'].value = '';
-        drainQueue();
+        syncWorkflowUI();
+        if (!state.selectedTaskId && valid.length) {
+            const lastTask = [...state.tasks.values()].filter((t) => t.status === 'pending').pop();
+            if (lastTask) selectTask(lastTask.id);
+        }
+        toast(`${valid.length} file(s) added — configure settings, then start compression.`, 'info');
     }
 
-    function enqueueFile(file, config) {
+    function startCompression() {
+        updateFormatForTargetSize();
+        const config = getConfig();
+        const pending = [...state.tasks.values()].filter((t) => t.status === 'pending');
+        if (!pending.length) return;
+
+        pending.forEach((task) => {
+            task.config = { ...config };
+            task.status = 'queued';
+            state.queue.push(task.id);
+            updateTaskStatus(task.id, 'Queued', 'processing');
+        });
+
+        const btn = els['start-compress-btn'];
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = 'Compressing…';
+        }
+        syncWorkflowUI();
+        drainQueue();
+        toast(`Compressing ${pending.length} file(s) with your current settings…`, 'info');
+    }
+
+    function enqueueFile(file) {
         const id = `task-${crypto.randomUUID().slice(0, 9)}`;
         const originalUrl = URL.createObjectURL(file);
         trackUrl(id, originalUrl);
@@ -742,13 +831,12 @@
         const task = {
             id,
             file,
-            config: { ...config },
+            config: null,
             originalUrl,
             originalSize: file.size,
-            status: 'queued',
+            status: 'pending',
         };
         state.tasks.set(id, task);
-        state.queue.push(id);
 
         renderTaskUI(task);
         updateBatchUI();
@@ -806,6 +894,7 @@
                 .finally(() => {
                     drainQueue();
                     updateBatchUI();
+                    syncWorkflowUI();
                 });
             return;
         }
@@ -813,6 +902,7 @@
         onTaskError(task, data.error);
         drainQueue();
         updateBatchUI();
+        syncWorkflowUI();
     }
 
     async function onTaskSuccess(task, data) {
@@ -897,6 +987,7 @@
             errEl.classList.remove('is-hidden');
         }
         toast(`${task.file.name}: ${error}`, 'error');
+        syncWorkflowUI();
     }
 
     function buildFilename(originalName, mime) {
@@ -912,52 +1003,55 @@
     function renderTaskUI(task) {
         const card = document.createElement('article');
         card.id = task.id;
-        card.className = 'result-card';
+        card.className = 'result-card file-card result-card--processing';
         card.dataset.taskId = task.id;
 
         card.innerHTML = `
-            <div class="result-card-header">
-                <h3 class="result-name" title="${escapeHtml(task.file.name)}">${escapeHtml(task.file.name)}</h3>
-                <div class="result-badges">
-                    <span class="status-badge status-processing">Queued</span>
-                    <button type="button" class="btn-icon remove-btn" aria-label="Remove ${escapeHtml(task.file.name)}">×</button>
-                </div>
+            <div class="file-thumb">
+                <img class="file-thumb-img" alt="" decoding="async">
             </div>
-            <p class="result-meta">
-                <span>Was <strong>${formatBytes(task.originalSize)}</strong></span>
-                <span class="sep-dot" aria-hidden="true">·</span>
-                <span>Now <strong class="compressed-size">…</strong></span>
-            </p>
-            <p class="dim-line dim-text">—</p>
-            <p class="error-msg is-hidden" role="alert"></p>
-            <div class="compare-container bg-checker" role="slider" aria-label="Drag to compare original and compressed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
-                <img src="" class="compare-img compare-base compressed-img is-dimmed" alt="Compressed preview">
-                <div class="loading-overlay"><div class="spinner"></div></div>
-                <div class="compare-overlay is-hidden"><img class="compare-img compare-top original-img" alt="Original"></div>
-                <div class="compare-handle is-hidden" aria-hidden="true"></div>
+            <div class="file-info">
+                <div class="file-name result-name" title="${escapeHtml(task.file.name)}">${escapeHtml(task.file.name)}</div>
+                <div class="file-meta">
+                    <span class="status-badge status-ready">Ready</span>
+                    <span class="file-meta-sizes is-hidden">${formatBytes(task.originalSize)} → <strong class="compressed-size">…</strong></span>
+                </div>
+                <div class="file-progress" aria-hidden="true"><div class="file-progress-fill file-progress-fill--active"></div></div>
+                <p class="dim-line dim-text visually-hidden" aria-hidden="true">—</p>
+                <p class="error-msg is-hidden" role="alert"></p>
             </div>
-            <div class="result-actions is-hidden">
-                <div class="result-actions-row result-actions-row--main">
-                    <button type="button" class="btn-secondary compare-view-btn compare-view-btn--prominent" disabled>👁 Compare</button>
-                    <a class="btn-primary download-btn" download>Download</a>
-                </div>
-                <div class="result-actions-row result-actions-row--sub">
-                    <button type="button" class="btn-ghost recompress-btn">Try again</button>
-                    <button type="button" class="btn-ghost copy-btn">Copy to clipboard</button>
-                </div>
+            <div class="file-actions result-actions">
+                <button type="button" class="icon-btn compare-view-btn is-hidden" disabled aria-label="Compare ${escapeHtml(task.file.name)}">👁</button>
+                <button type="button" class="icon-btn rerun-btn is-hidden" disabled aria-label="Re-run ${escapeHtml(task.file.name)}">↻</button>
+                <a class="icon-btn download-btn is-hidden" download aria-label="Download ${escapeHtml(task.file.name)}">⬇</a>
+                <button type="button" class="icon-btn remove-btn" aria-label="Remove ${escapeHtml(task.file.name)}">✕</button>
             </div>
         `;
 
         els['results-list'].prepend(card);
+        const thumb = card.querySelector('.file-thumb-img');
+        if (thumb && task.originalUrl) thumb.src = task.originalUrl;
         renderTableRow(task);
 
-        card.querySelector('.remove-btn').addEventListener('click', () => removeTask(task.id));
-        card.querySelector('.compare-view-btn')?.addEventListener('click', () => {
+        card.querySelector('.remove-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeTask(task.id);
+        });
+        card.querySelector('.compare-view-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
             card.querySelector('.compare-view-btn')?.classList.remove('compare-view-btn--pulse');
             openCompareModal(task.id);
         });
-        card.querySelector('.recompress-btn')?.addEventListener('click', () => recompressTask(task.id));
-        card.querySelector('.copy-btn')?.addEventListener('click', () => copyImage(task.id));
+        card.querySelector('.rerun-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            recompressTask(task.id);
+        });
+        card.querySelector('.download-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dl = e.currentTarget;
+            if (dl?.download) window.NexusTools?.trackDownload?.(dl.download, 'compress');
+        });
+        card.addEventListener('click', () => selectTask(task.id));
     }
 
     function renderTableRow(task) {
@@ -969,7 +1063,7 @@
             <td>${formatBytes(task.originalSize)}</td>
             <td class="out-cell">…</td>
             <td class="saved-cell">—</td>
-            <td><span class="status-badge status-processing">Queued</span></td>
+            <td><span class="status-badge status-ready">Ready</span></td>
             <td class="table-actions">
                 <button type="button" class="btn-link compare-row is-hidden" disabled>👁 Compare</button>
                 <button type="button" class="btn-link recompress-row">Again</button>
@@ -988,27 +1082,50 @@
         const row = document.getElementById(`row-${task.id}`);
         if (!card) return;
 
-        card.querySelector('.loading-overlay')?.remove();
-        card.querySelector('.compressed-size').textContent = formatBytes(task.compressedSize);
-        card.querySelector('.dim-line').textContent = task.dimensions;
-        card.querySelector('.dim-text')?.classList.remove('dim-text');
+        const thumb = card.querySelector('.file-thumb-img');
+        if (thumb) thumb.src = task.compressedUrl;
 
-        const baseImg = card.querySelector('.compare-base');
-        const topImg = card.querySelector('.compare-top');
-        const overlay = card.querySelector('.compare-overlay');
-        const handle = card.querySelector('.compare-handle');
-        baseImg.src = task.compressedUrl;
-        topImg.src = task.originalUrl;
-        baseImg.classList.remove('is-dimmed');
-        overlay.classList.remove('is-hidden');
-        handle.classList.remove('is-hidden');
-        setupCompareSlider(card.querySelector('.compare-container'), overlay, handle, topImg);
+        card.querySelector('.compressed-size').textContent = formatBytes(task.compressedSize);
+        const dimLine = card.querySelector('.dim-line');
+        if (dimLine) dimLine.textContent = task.dimensions;
+
+        const statusBadge = card.querySelector('.status-badge');
+        statusBadge?.classList.add('is-hidden');
+
+        const meta = card.querySelector('.file-meta');
+        let savingsBadge = card.querySelector('.savings-badge');
+        if (!savingsBadge && meta) {
+            savingsBadge = document.createElement('span');
+            savingsBadge.className = 'savings-badge';
+            meta.appendChild(savingsBadge);
+        }
+        if (savingsBadge) {
+            savingsBadge.textContent = task.savedRatio < 0
+                ? `+${Math.abs(task.savedRatio).toFixed(0)}% larger`
+                : `${task.savedRatio.toFixed(0)}% saved`;
+        }
+
+        card.querySelector('.file-meta-sizes')?.classList.remove('is-hidden');
+
+        const progressFill = card.querySelector('.file-progress-fill');
+        if (progressFill) {
+            progressFill.classList.remove('file-progress-fill--active');
+            progressFill.style.width = '100%';
+        }
 
         const dl = card.querySelector('.download-btn');
         dl.href = task.compressedUrl;
         dl.download = task.newName;
-        card.querySelector('.result-actions').classList.remove('is-hidden');
+        card.querySelector('.file-actions')?.classList.remove('is-hidden');
+        card.querySelector('.compare-view-btn')?.classList.remove('is-hidden');
+        card.querySelector('.compare-view-btn') && (card.querySelector('.compare-view-btn').disabled = false);
+        card.querySelector('.download-btn')?.classList.remove('is-hidden');
+        card.querySelector('.rerun-btn')?.classList.remove('is-hidden');
+        card.querySelector('.rerun-btn') && (card.querySelector('.rerun-btn').disabled = false);
+        card.classList.remove('result-card--processing');
         card.classList.add('result-card--ready');
+        selectTask(task.id);
+        syncWorkflowUI();
         const compareBtn = card.querySelector('.compare-view-btn');
         if (compareBtn) {
             compareBtn.disabled = false;
@@ -1034,20 +1151,232 @@
         }
 
         updateBatchDownloadBtn();
-        updateWorkflowStep('download');
+    }
+
+    function clearPreviewCompare() {
+        if (previewCompareCleanup) {
+            previewCompareCleanup();
+            previewCompareCleanup = null;
+        }
+    }
+
+    function selectTask(id) {
+        const task = state.tasks.get(id);
+        if (!task || task.status === 'removed') return;
+        state.selectedTaskId = id;
+        document.querySelectorAll('.result-card').forEach((card) => {
+            card.classList.toggle('is-selected', card.id === id);
+        });
+        updatePreviewStage(task);
+    }
+
+    function updatePreviewStage(task) {
+        if (!els['compress-preview-stage']) return;
+
+        els['compress-preview-stage'].classList.remove('is-hidden');
+        els['compress-preview-empty']?.classList.add('is-hidden');
+        els['compress-preview-body']?.classList.remove('is-hidden');
+
+        if (els['compress-preview-title']) {
+            els['compress-preview-title'].textContent = task.file.name;
+        }
+
+        const statsEl = els['compress-preview-stats'];
+        const pendingEl = els['compress-preview-pending'];
+        const compareEl = els['compress-inline-compare'];
+        const actionsEl = els['compress-preview-actions'];
+
+        clearPreviewCompare();
+
+        if (task.status === 'pending') {
+            actionsEl?.classList.add('is-hidden');
+            compareEl?.classList.add('is-hidden');
+            pendingEl?.classList.remove('is-hidden');
+            if (els['compress-preview-original-only']) {
+                els['compress-preview-original-only'].src = task.originalUrl;
+            }
+            if (els['compress-preview-meta']) {
+                els['compress-preview-meta'].textContent =
+                    `${formatBytes(task.originalSize)} · not compressed yet — adjust settings, then click Start compression`;
+            }
+            if (statsEl) {
+                statsEl.innerHTML = `
+                    <div><dt>Status</dt><dd>Waiting</dd></div>
+                    <div><dt>Original</dt><dd>${formatBytes(task.originalSize)}</dd></div>
+                    <div><dt>Output</dt><dd>—</dd></div>
+                    <div><dt>Saved</dt><dd>—</dd></div>`;
+            }
+            return;
+        }
+
+        pendingEl?.classList.add('is-hidden');
+
+        if (task.status === 'processing' || task.status === 'queued') {
+            actionsEl?.classList.add('is-hidden');
+            compareEl?.classList.add('is-hidden');
+            pendingEl?.classList.remove('is-hidden');
+            if (els['compress-preview-original-only']) {
+                els['compress-preview-original-only'].src = task.originalUrl;
+            }
+            if (els['compress-preview-meta']) {
+                els['compress-preview-meta'].textContent = 'Compressing with your current settings…';
+            }
+            if (statsEl) {
+                statsEl.innerHTML = `
+                    <div><dt>Status</dt><dd>Processing</dd></div>
+                    <div><dt>Original</dt><dd>${formatBytes(task.originalSize)}</dd></div>
+                    <div><dt>Output</dt><dd>…</dd></div>
+                    <div><dt>Saved</dt><dd>…</dd></div>`;
+            }
+            return;
+        }
+
+        if (task.status === 'done' && task.compressedUrl) {
+            compareEl?.classList.remove('is-hidden');
+            actionsEl?.classList.remove('is-hidden');
+
+            const baseImg = els['compress-preview-base'];
+            const topImg = els['compress-preview-top'];
+            const overlay = els['compress-preview-overlay'];
+            const handle = els['compress-preview-handle'];
+
+            if (baseImg) baseImg.src = task.compressedUrl;
+            if (topImg) topImg.src = task.originalUrl;
+
+            previewCompareCleanup = setupCompareSlider(compareEl, overlay, handle, topImg);
+
+            const savedLabel = task.savedRatio < 0
+                ? `${Math.abs(task.savedRatio).toFixed(1)}% larger`
+                : `${task.savedRatio.toFixed(1)}% saved`;
+
+            if (els['compress-preview-meta']) {
+                els['compress-preview-meta'].textContent =
+                    `${formatBytes(task.originalSize)} → ${formatBytes(task.compressedSize)} · ${savedLabel} · ${task.dimensions}`;
+            }
+
+            if (statsEl) statsEl.innerHTML = '';
+
+            const dl = els['compress-preview-download'];
+            if (dl) {
+                dl.href = task.compressedUrl;
+                dl.download = task.newName;
+            }
+            return;
+        }
+
+        if (task.status === 'error') {
+            actionsEl?.classList.remove('is-hidden');
+            compareEl?.classList.add('is-hidden');
+            pendingEl?.classList.remove('is-hidden');
+            if (els['compress-preview-original-only']) {
+                els['compress-preview-original-only'].src = task.originalUrl;
+            }
+            if (els['compress-preview-meta']) {
+                els['compress-preview-meta'].textContent = task.error || 'Compression failed';
+            }
+        }
+    }
+
+    function setWorkspaceActive(active) {
+        const workspace = document.querySelector('.compress-workspace');
+        workspace?.classList.toggle('compress-workspace--active', active);
+        els['drop-zone']?.closest('.compress-main-col')?.classList.toggle('has-files', active);
+        const dropTitle = els['drop-zone']?.querySelector('.drop-title');
+        if (dropTitle) {
+            dropTitle.textContent = active ? 'Add more files' : 'Drop your images here';
+        }
+    }
+
+    function syncWorkflowUI() {
+        const all = [...state.tasks.values()].filter((t) => t.status !== 'removed');
+        const pending = all.filter((t) => t.status === 'pending');
+        const active = all.filter((t) => t.status === 'processing' || t.status === 'queued');
+        const done = all.filter((t) => t.status === 'done');
+        const bar = els['compress-workflow-bar'];
+        const btn = els['start-compress-btn'];
+        const statusEl = els['compress-workflow-status'];
+
+        if (!all.length) {
+            bar?.classList.add('is-hidden');
+            els['compress-preview-stage']?.classList.add('is-hidden');
+            state.selectedTaskId = null;
+            clearPreviewCompare();
+            updateWorkflowStep('upload');
+            setWorkspaceActive(false);
+            return;
+        }
+
+        setWorkspaceActive(true);
+        bar?.classList.remove('is-hidden');
+        els['compress-preview-stage']?.classList.remove('is-hidden');
+
+        if (pending.length && !active.length) {
+            updateWorkflowStep('settings');
+            if (statusEl) {
+                statusEl.textContent =
+                    `${pending.length} file${pending.length !== 1 ? 's' : ''} queued — adjust settings in the sidebar, then start`;
+            }
+            if (btn) {
+                btn.classList.remove('is-hidden');
+                btn.disabled = false;
+                btn.textContent = `Start compression (${pending.length})`;
+            }
+        } else if (active.length) {
+            updateWorkflowStep('settings');
+            if (statusEl) {
+                statusEl.textContent =
+                    `Compressing… ${done.length} of ${all.length} complete`;
+            }
+            if (btn) {
+                btn.classList.remove('is-hidden');
+                btn.disabled = true;
+                btn.textContent = 'Compressing…';
+            }
+        } else if (done.length) {
+            updateWorkflowStep('download');
+            if (statusEl) {
+                statusEl.textContent =
+                    `${done.length} file${done.length !== 1 ? 's' : ''} ready — compare with the slider, then download`;
+            }
+            if (btn) {
+                btn.classList.add('is-hidden');
+            }
+        }
+
+        if (state.selectedTaskId) {
+            const selected = state.tasks.get(state.selectedTaskId);
+            if (selected && selected.status !== 'removed') {
+                updatePreviewStage(selected);
+            }
+        }
     }
 
     function updateTaskStatus(id, text, type) {
         document.querySelectorAll(`#${id} .status-badge, #row-${id} .status-badge`).forEach((badge) => {
             badge.textContent = text;
             badge.className = `status-badge status-${type}`;
+            badge.classList.remove('is-hidden');
         });
+        const card = document.getElementById(id);
+        if (!card) return;
+        const isProcessing = type === 'processing';
+        card.classList.toggle('result-card--processing', isProcessing);
+        const fill = card.querySelector('.file-progress-fill');
+        fill?.classList.toggle('file-progress-fill--active', isProcessing);
+        if (type === 'error') {
+            card.classList.remove('result-card--processing', 'result-card--ready');
+            fill?.classList.remove('file-progress-fill--active');
+        }
     }
 
     function recompressTask(id) {
         const task = state.tasks.get(id);
         if (!task) return;
         revokeTaskUrls(id);
+        task.originalUrl = URL.createObjectURL(task.file);
+        trackUrl(id, task.originalUrl);
+        task.compressedUrl = null;
+        task.blob = null;
         state.compressedFiles.delete(id);
         updateFormatForTargetSize();
         task.config = getConfig();
@@ -1058,23 +1387,22 @@
         const row = document.getElementById(`row-${id}`);
         if (card) {
             card.classList.remove('result-card--ready');
+            card.classList.add('result-card--processing');
             card.querySelector('.compare-view-btn')?.classList.remove('compare-view-btn--pulse');
             card.querySelector('.compressed-size').textContent = '…';
-            card.querySelector('.result-actions').classList.add('is-hidden');
+            card.querySelector('.file-actions')?.classList.add('is-hidden');
+            card.querySelector('.savings-badge')?.remove();
+            card.querySelector('.file-meta-sizes')?.classList.add('is-hidden');
+            card.querySelector('.status-badge')?.classList.remove('is-hidden');
+            const thumb = card.querySelector('.file-thumb-img');
+            if (thumb && task.originalUrl) thumb.src = task.originalUrl;
+            const progressFill = card.querySelector('.file-progress-fill');
+            if (progressFill) {
+                progressFill.style.width = '35%';
+                progressFill.classList.add('file-progress-fill--active');
+            }
             const compareBtn = card.querySelector('.compare-view-btn');
             if (compareBtn) compareBtn.disabled = true;
-            const overlay = card.querySelector('.loading-overlay');
-            if (!overlay) {
-                const container = card.querySelector('.compare-container');
-                const div = document.createElement('div');
-                div.className = 'loading-overlay';
-                div.innerHTML = '<div class="spinner"></div>';
-                container.appendChild(div);
-            } else {
-                overlay.classList.remove('is-hidden');
-            }
-            card.querySelector('.compare-overlay')?.classList.add('is-hidden');
-            card.querySelector('.compare-handle')?.classList.add('is-hidden');
         }
         if (row) {
             row.querySelector('.out-cell').textContent = '…';
@@ -1090,6 +1418,8 @@
             if (compareRow) compareRow.disabled = true;
         }
         updateTaskStatus(id, 'Processing…', 'processing');
+        if (state.selectedTaskId === id) updatePreviewStage(task);
+        syncWorkflowUI();
         drainQueue();
         toast('Running compression again…', 'info');
     }
@@ -1119,9 +1449,15 @@
         document.getElementById(id)?.remove();
         document.getElementById(`row-${id}`)?.remove();
         state.tasks.delete(id);
+        if (state.selectedTaskId === id) {
+            state.selectedTaskId = null;
+            const next = [...state.tasks.values()].find((t) => t.status !== 'removed');
+            if (next) selectTask(next.id);
+        }
         updateBatchUI();
         updateBatchDownloadBtn();
         if (state.tasks.size === 0) hideResultsIfEmpty();
+        syncWorkflowUI();
     }
 
     function clearAll() {
@@ -1134,10 +1470,13 @@
         });
         state.tasks.clear();
         state.compressedFiles.clear();
+        state.selectedTaskId = null;
         state.cancelled = false;
+        clearPreviewCompare();
         updateBatchUI();
         updateBatchDownloadBtn();
         hideResultsIfEmpty();
+        syncWorkflowUI();
         toast('Cleared the list', 'info');
     }
 
@@ -1153,8 +1492,13 @@
     }
 
     function updateWorkflowStep(step) {
+        const order = ['upload', 'settings', 'download'];
+        const idx = order.indexOf(step);
         document.querySelectorAll('.workflow-steps__item').forEach((el) => {
-            el.classList.toggle('is-active', el.dataset.step === step);
+            const s = el.dataset.step;
+            const si = order.indexOf(s);
+            el.classList.toggle('is-active', s === step);
+            el.classList.toggle('is-complete', si >= 0 && si < idx);
         });
     }
 
@@ -1190,6 +1534,7 @@
         els['batch-count'].textContent = `${total} file${total !== 1 ? 's' : ''}`;
         els['batch-saved'].textContent = `${formatBytes(savedBytes)} saved`;
         els['batch-avg'].textContent = done.length ? `${(ratioSum / done.length).toFixed(1)}% avg` : '—';
+        els['batch-summary']?.classList.toggle('batch-summary--single', total <= 1);
         const pct = total ? ((total - processing) / total) * 100 : 0;
         els['batch-progress-bar'].style.width = `${pct}%`;
         const progressEl = els['batch-progress'];

@@ -36,6 +36,10 @@ async function clickTab(page, tool) {
 }
 
 async function waitCompressDone(page) {
+    await page.evaluate(() => {
+        const btn = document.getElementById('start-compress-btn');
+        if (btn && !btn.disabled && !btn.classList.contains('is-hidden')) btn.click();
+    });
     await page.waitForFunction(
         () => {
             const el = document.querySelector('.result-card:last-of-type .compressed-size');
@@ -174,7 +178,7 @@ async function main() {
         }
 
         // Recompress with updated settings
-        await page.evaluate(() => document.querySelector('.recompress-btn')?.click());
+        await page.evaluate(() => document.querySelector('.recompress-btn, .rerun-btn')?.click());
         await waitCompressDone(page);
         const statusAfterRetry = await page.evaluate(
             () => document.querySelector('.result-card .status-badge')?.textContent || ''

@@ -10,6 +10,9 @@
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <link rel="canonical" href="https://compress.funadventure.ae/">
     <link rel="preload" href="css/app.css?v=2.1.0" as="style">
+    <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <meta property="og:url" content="https://compress.funadventure.ae/">
     <meta property="og:title" content="Free Online Image Compressor | Reduce Image Size Instantly">
     <meta property="og:description" content="Compress images locally in your browser. No server uploads — fast, free, and private.">
@@ -88,13 +91,6 @@
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="stylesheet" href="css/app.css?v=2.1.0">
-    <style>
-        .hero-callout__actions{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
-        .hero-callout__dismiss{background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:1.15rem;line-height:1;padding:0 .2rem;flex-shrink:0}
-        .hero-callout__dismiss:hover{color:var(--text)}
-        .passport-drop-zone--locked{opacity:.45;pointer-events:none;cursor:not-allowed}
-        .passport-drop-locked-hint{color:var(--accent);font-size:.78rem;font-weight:600;margin:.25rem 0 0}
-    </style>
     <script src="js/ga-config.js?v=2.1.0" defer></script>
     <script src="js/gtm.js?v=2.1.0" defer></script>
 </head>
@@ -109,7 +105,7 @@
     <header class="site-header">
         <div class="site-header-brand max-width-wrap">
             <a href="./" class="site-logo" data-tool-home>
-                <span class="brand-icon" aria-hidden="true">NC</span>
+                <span class="logo-dot" aria-hidden="true"></span>
                 <span class="site-logo-text">
                     <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
                     <span class="site-logo-tag" id="site-logo-tag">Compress images in your browser</span>
@@ -163,110 +159,265 @@
 
     <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress" role="tabpanel" aria-labelledby="tab-compress" tabindex="0">
     <div class="compress-workspace max-width-wrap">
-        <main class="app-main glass-panel compress-main">
-            <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0">NexusCompress — Free Online Image Compressor</h1>
+        <header class="compress-hero">
+            <div class="compress-hero__text">
+                <h1 class="compress-hero__title">
+                    <span class="compress-hero__line">Compress images.</span>
+                    <span class="compress-hero__line"><span class="compress-hero__accent">Instantly. Privately.</span></span>
+                </h1>
+                <p class="compress-hero__sub">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
+            </div>
+            <span class="compress-hero__badge" id="compress-version-badge">v2.1.0 — Free</span>
+        </header>
 
-            <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
-                <p class="hero-callout__text"><strong>🇦🇪 UAE portal uploads?</strong> Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
-                <div class="hero-callout__actions">
-                    <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio">Open Passport Studio</a>
-                    <button type="button" class="hero-callout__dismiss" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
-                </div>
-            </aside>
+        <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
+            <p class="hero-callout__text"><strong>🇦🇪 UAE portal uploads?</strong> Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
+            <div class="hero-callout__actions">
+                <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio">Open Passport Studio</a>
+                <button type="button" class="hero-callout__dismiss" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
+            </div>
+        </aside>
 
-            <nav class="workflow-steps" aria-label="How it works">
-                <ol class="workflow-steps__list">
-                    <li class="workflow-steps__item is-active" data-step="upload">
+        <div class="app-grid compress-app-grid">
+            <nav class="workflow-steps workflow-steps--redesign compress-workflow-strip" aria-label="How it works">
+                <div class="workflow-steps__list" role="list">
+                    <div class="workflow-steps__item is-active" data-step="upload" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">1</span>
-                        <span class="workflow-steps__label">Drop files</span>
-                    </li>
-                    <li class="workflow-steps__item" data-step="settings">
+                        <span class="workflow-steps__label"><strong>Add files</strong></span>
+                    </div>
+                    <span class="workflow-steps__arrow" aria-hidden="true">→</span>
+                    <div class="workflow-steps__item" data-step="settings" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">2</span>
-                        <span class="workflow-steps__label">Choose settings</span>
-                    </li>
-                    <li class="workflow-steps__item" data-step="download">
+                        <span class="workflow-steps__label"><strong>Configure</strong></span>
+                    </div>
+                    <span class="workflow-steps__arrow" aria-hidden="true">→</span>
+                    <div class="workflow-steps__item" data-step="download" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">3</span>
-                        <span class="workflow-steps__label">Download</span>
-                    </li>
-                </ol>
+                        <span class="workflow-steps__label"><strong>Review &amp; export</strong></span>
+                    </div>
+                </div>
             </nav>
 
-            <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
-                <div class="drop-zone-inner">
-                    <div class="drop-icon" aria-hidden="true">
-                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <div class="main-col compress-main-col">
+                <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
+                    <div class="drop-zone-inner">
+                        <div class="drop-icon" aria-hidden="true">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <p class="drop-title">Drop your images here</p>
+                        <p class="drop-sub">Add files to the queue · configure settings in the sidebar · then start compression when ready</p>
+                        <div class="drop-formats" aria-hidden="true">
+                            <span class="fmt-tag">JPEG</span>
+                            <span class="fmt-tag">PNG</span>
+                            <span class="fmt-tag">WebP</span>
+                            <span class="fmt-tag">AVIF</span>
+                        </div>
+                        <div class="drop-actions">
+                            <label class="btn-primary is-clickable">
+                                Choose files
+                                <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
+                            </label>
+                            <label class="btn-secondary is-clickable">
+                                Choose folder
+                                <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
+                            </label>
+                        </div>
                     </div>
-                    <p class="drop-title">Add images</p>
-                    <p class="drop-sub">JPEG, PNG, WebP, or AVIF · compresses automatically on drop · no account needed</p>
-                    <div class="drop-actions">
-                        <label class="btn-primary is-clickable">
-                            Choose files
-                            <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
-                        </label>
-                        <label class="btn-secondary is-clickable">
-                            Choose folder
-                            <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
-                        </label>
+                </section>
+
+                <div id="compress-workflow-bar" class="compress-workflow-bar is-hidden" role="status" aria-live="polite">
+                    <p id="compress-workflow-status" class="compress-workflow-bar__status">Add files to begin</p>
+                    <button type="button" id="start-compress-btn" class="btn-primary compress-workflow-bar__cta">Start compression</button>
+                </div>
+
+                <section id="compress-preview-stage" class="compress-preview-stage is-hidden" aria-label="Image review">
+                    <header class="compress-preview-stage__header">
+                        <div class="compress-preview-stage__header-left">
+                            <h2 id="compress-preview-title" class="compress-preview-stage__title">Review</h2>
+                            <p id="compress-preview-meta" class="compress-preview-stage__meta"></p>
+                        </div>
+                        <div class="compress-preview-stage__toolbar">
+                            <div class="compress-preview-stage__export-actions is-hidden" id="compress-preview-actions">
+                                <button type="button" id="compress-preview-rerun" class="btn-secondary">Re-run with current settings</button>
+                                <a id="compress-preview-download" class="btn-primary">Download</a>
+                            </div>
+                            <div class="compress-preview-stage__queue-bar" aria-label="File queue controls">
+                                <span class="workspace-title compress-queue-label">File queue</span>
+                                <div id="batch-summary" class="batch-summary batch-summary--inline is-hidden" aria-live="polite">
+                                    <div class="batch-stats">
+                                        <span id="batch-count" class="batch-stat">0 files</span>
+                                        <span class="sep">·</span>
+                                        <span id="batch-saved" class="batch-stat">0 saved</span>
+                                        <span class="sep">·</span>
+                                        <span id="batch-avg" class="batch-stat">0% avg</span>
+                                    </div>
+                                    <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="batch-progress" aria-label="Batch progress">
+                                        <div id="batch-progress-bar" class="batch-progress-bar"></div>
+                                    </div>
+                                </div>
+                                <div id="view-toggle-wrap" class="view-toggle is-hidden" role="group" aria-label="Results view">
+                                    <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
+                                    <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+                                </div>
+                                <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
+                                <button type="button" id="download-all-btn" class="btn-primary is-hidden">
+                                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    Download ZIP
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    <div id="compress-preview-empty" class="compress-preview-empty">
+                        <p>Select a file from the queue below to preview it here.</p>
+                    </div>
+                    <div id="compress-preview-body" class="compress-preview-body is-hidden">
+                        <div id="compress-preview-pending" class="compress-preview-pending is-hidden">
+                            <img id="compress-preview-original-only" class="compress-preview-original-only" alt="Original preview">
+                            <p class="compress-preview-pending__label">Original · waiting to compress</p>
+                        </div>
+                        <div
+                            id="compress-inline-compare"
+                            class="compare-container compare-stage bg-checker is-hidden"
+                            role="slider"
+                            aria-label="Drag to compare original and compressed"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="50"
+                            tabindex="0"
+                        >
+                            <img id="compress-preview-base" class="compare-img compare-base" alt="Compressed preview">
+                            <div id="compress-preview-overlay" class="compare-overlay">
+                                <img id="compress-preview-top" class="compare-img compare-top" alt="Original">
+                            </div>
+                            <div id="compress-preview-handle" class="compare-handle" aria-hidden="true"></div>
+                            <span class="compare-stage-label compare-stage-label--before">Before</span>
+                            <span class="compare-stage-label compare-stage-label--after">After</span>
+                        </div>
+                        <dl class="compress-preview-stats" id="compress-preview-stats"></dl>
+                    </div>
+                </section>
+
+                <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
+                    <p class="memory-guard-notice__text">
+                        <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
+                    </p>
+                    <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
+                </div>
+
+                <section id="results-container" class="results-section is-hidden">
+                    <div class="results-section__body">
+                        <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
+                            <div class="zip-progress-header">
+                                <div class="zip-progress-label-group">
+                                    <span id="zip-progress-label">Building ZIP…</span>
+                                    <a href="#" id="zip-cancel" class="zip-cancel-link is-hidden" role="button">Cancel</a>
+                                </div>
+                                <span id="zip-progress-pct">0%</span>
+                            </div>
+                            <div class="zip-progress-track">
+                                <div id="zip-progress-bar" class="zip-progress-bar"></div>
+                            </div>
+                        </div>
+
+                        <div id="results-table-wrap" class="results-table-wrap is-hidden">
+                        <table class="results-table" aria-label="Compression results">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Dimensions</th>
+                                    <th>Original</th>
+                                    <th>Output</th>
+                                    <th>Saved</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-table-body"></tbody>
+                        </table>
+                        </div>
+                        <div id="results-list" class="results-list"></div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="compress-sidebar sidebar" id="panel-compress">
+                <div class="settings-card settings-card--uae" data-settings-card data-default-open="true">
+                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                        <span class="settings-card__header-left">
+                            <span class="settings-icon" aria-hidden="true">🇦🇪</span>
+                            UAE Portal Presets
+                            <span class="uae-label">Popular</span>
+                        </span>
+                        <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="settings-card__body">
+                        <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                            <option value="">None</option>
+                            <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
+                            <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
+                            <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
+                            <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
+                            <option value="portal-reg">General portal (WebP) — 500 KB</option>
+                        </select>
+                        <div class="preset-grid" role="group" aria-label="UAE portal presets">
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span>Emirates ID / passport copy</span><span class="preset-size">200 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span>ICA / visa upload</span><span class="preset-size">200 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span>MOHRE / labour portal</span><span class="preset-size">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span>RTA document upload</span><span class="preset-size">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span>General portal</span><span class="preset-size">500 KB WebP</span></button>
+                        </div>
+                        <div class="uae-info-card">
+                            <p class="uae-info-title">🔒 ID documents stay private</p>
+                            <p class="uae-info-body">Passport &amp; visa copies are processed entirely in your browser. Nothing is uploaded to any server.</p>
+                        </div>
                     </div>
                 </div>
-            </section>
 
-            <details class="settings-customize glass-panel" id="compress-settings">
-                <summary class="settings-customize__summary">⚙ Customize</summary>
-                <div class="settings-customize__body">
-                    <p class="sidebar-intro">Defaults work for most files. Expand only if you need UAE portal limits, resizing, or watermarks.</p>
+                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true">
+                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="false">
+                        <span class="settings-card__header-left">
+                            <span class="settings-icon" aria-hidden="true">⚙️</span>
+                            Compression Settings
+                        </span>
+                        <span class="settings-chevron" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="settings-card__body is-collapsed">
+                        <select id="preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                            <option value="custom">Custom</option>
+                            <option value="web">Website — WebP, 1920px wide</option>
+                            <option value="email">Email — JPEG, 1200px wide</option>
+                            <option value="social">Social post — JPEG, 1080px</option>
+                            <option value="max">Full quality — PNG, no resize</option>
+                        </select>
+                        <div class="form-row">
+                            <p class="field-label">Quick presets</p>
+                            <div class="preset-grid" role="group" aria-label="General presets">
+                                <button type="button" class="preset-btn" data-preset="web"><span>Website</span><span class="preset-size">WebP, 1920px</span></button>
+                                <button type="button" class="preset-btn" data-preset="email"><span>Email</span><span class="preset-size">JPEG, 1200px</span></button>
+                                <button type="button" class="preset-btn" data-preset="social"><span>Social post</span><span class="preset-size">JPEG, 1080px</span></button>
+                                <button type="button" class="preset-btn" data-preset="max"><span>Full quality</span><span class="preset-size">PNG, no resize</span></button>
+                            </div>
+                        </div>
+                        <label class="field-label field-label-spaced-sm" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
+                        <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
 
-                    <div id="panel-compress" class="sidebar-panel">
-                        <section class="settings-group settings-group-uae">
-                            <h3 class="settings-group-title">UAE Smart Services presets</h3>
-                            <p class="settings-group-desc">ICA, MOHRE, RTA, and municipality portals often cap file size at 200–500 KB.</p>
-                            <label class="field-label" for="uae-preset">Government portal</label>
-                            <select id="uae-preset" class="field-input">
-                                <option value="">None</option>
-                                <option value="emirates-id">Emirates ID / passport copy — 200 KB JPEG</option>
-                                <option value="ica-upload">ICA / visa upload — 200 KB JPEG</option>
-                                <option value="mohre-portal">MOHRE / labour portal — 500 KB JPEG</option>
-                                <option value="rta-docs">RTA document upload — 500 KB JPEG</option>
-                                <option value="portal-reg">General portal (WebP) — 500 KB</option>
-                            </select>
-                        </section>
+                        <label class="field-label field-label-spaced-sm" for="format">Output format</label>
+                        <select id="format" class="field-input">
+                            <option value="auto">Same as original</option>
+                            <option value="image/webp">WebP</option>
+                            <option value="image/avif" id="avif-option">AVIF</option>
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/png">PNG</option>
+                        </select>
+                        <p id="format-target-hint" class="field-hint is-hidden">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
 
-                        <section class="settings-group">
-                            <h3 class="settings-group-title">General presets</h3>
-                            <label class="field-label" for="preset">Start from</label>
-                            <select id="preset" class="field-input">
-                                <option value="custom">Custom</option>
-                                <option value="web">Website — WebP, 1920px wide</option>
-                                <option value="email">Email — JPEG, 1200px wide</option>
-                                <option value="social">Social post — JPEG, 1080px</option>
-                                <option value="max">Full quality — PNG, no resize</option>
-                            </select>
-                        </section>
+                        <label class="field-label field-label-spaced-sm" for="max-width">Max width (px)</label>
+                        <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
 
-                        <section class="settings-group settings-group-essential">
-                            <h3 class="settings-group-title">Essential</h3>
-                            <label class="field-label" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
-                            <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
-
-                            <label class="field-label field-label-spaced-sm" for="format">Format</label>
-                            <select id="format" class="field-input">
-                                <option value="auto">Same as original</option>
-                                <option value="image/webp">WebP</option>
-                                <option value="image/avif" id="avif-option">AVIF</option>
-                                <option value="image/jpeg">JPEG</option>
-                                <option value="image/png">PNG</option>
-                            </select>
-                            <p id="format-target-hint" class="field-hint is-hidden">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
-
-                            <label class="field-label field-label-spaced-sm" for="max-width">Max width (px)</label>
-                            <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
-                        </section>
-
-                        <details class="settings-advanced">
+                        <details class="settings-advanced field-label-spaced-sm">
                             <summary>Advanced options</summary>
                             <div class="settings-advanced__body">
                                 <p class="field-hint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
-
                                 <div class="grid-2 field-label-spaced-sm">
                                     <div>
                                         <label class="field-label" for="max-height">Max height (px)</label>
@@ -278,7 +429,6 @@
                                     </div>
                                 </div>
                                 <p class="field-hint">e.g. 50 halves width and height. Applied before max dimensions.</p>
-
                                 <label class="field-label field-label-spaced-sm" for="aspect-ratio">Aspect ratio (center crop)</label>
                                 <select id="aspect-ratio" class="field-input">
                                     <option value="">Keep original</option>
@@ -287,7 +437,6 @@
                                     <option value="1:1">1:1 (square)</option>
                                     <option value="3:2">3:2 (photo)</option>
                                 </select>
-
                                 <h3 class="settings-group-title field-label-spaced-sm">Target file size</h3>
                                 <div class="grid-2 target-size-row">
                                     <div>
@@ -304,42 +453,9 @@
                                 </div>
                                 <input type="hidden" id="target-size-kb" value="">
                                 <p class="field-hint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
-
-                                <h3 class="settings-group-title field-label-spaced-sm">Watermark (batch)</h3>
-                                <label class="checkbox-row">
-                                    <input type="checkbox" id="watermark-enabled">
-                                    <span>Add watermark to every export</span>
-                                </label>
-                                <div id="watermark-fields" class="watermark-fields is-hidden">
-                                    <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
-                                    <select id="watermark-type" class="field-input">
-                                        <option value="text">Text</option>
-                                        <option value="logo">Logo image (PNG)</option>
-                                    </select>
-                                    <div id="wm-text-group">
-                                        <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
-                                        <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
-                                    </div>
-                                    <div id="wm-logo-group" class="is-hidden">
-                                        <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
-                                        <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
-                                    </div>
-                                    <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
-                                    <select id="watermark-position" class="field-input">
-                                        <option value="bottom-right">Bottom right</option>
-                                        <option value="bottom-left">Bottom left</option>
-                                        <option value="top-right">Top right</option>
-                                        <option value="top-left">Top left</option>
-                                        <option value="center">Center</option>
-                                    </select>
-                                    <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
-                                    <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
-                                </div>
-
                                 <label class="field-label field-label-spaced-sm" for="rename-pattern">Download name</label>
                                 <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
                                 <p class="field-hint">Variables: {name}, {ext}, {suffix}</p>
-
                                 <label class="checkbox-row field-label-spaced-sm">
                                     <input type="checkbox" id="fix-orientation" checked>
                                     <span>Fix phone photo rotation</span>
@@ -352,270 +468,357 @@
                         </details>
                     </div>
                 </div>
-            </details>
 
-            <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
-                <p class="memory-guard-notice__text">
-                    <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
-                </p>
-                <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
-            </div>
-
-            <section id="results-container" class="results-section is-hidden">
-                <header class="results-header">
-                    <div class="results-header__heading">
-                        <h2 class="workspace-title">Your images</h2>
-                        <p class="results-header__hint">Use the slider on each card or tap <strong>Compare</strong> for a full before/after view.</p>
-                    </div>
-                    <div class="header-actions">
-                        <div id="view-toggle-wrap" class="view-toggle is-hidden" role="group" aria-label="Results view">
-                            <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
-                            <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true">
+                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="false">
+                        <span class="settings-card__header-left">
+                            <span class="settings-icon" aria-hidden="true">🏷️</span>
+                            Watermark (batch)
+                        </span>
+                        <span class="settings-chevron" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="settings-card__body is-collapsed">
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="watermark-enabled">
+                            <span>Add watermark to every export</span>
+                        </label>
+                        <div id="watermark-fields" class="watermark-fields is-hidden">
+                            <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
+                            <select id="watermark-type" class="field-input">
+                                <option value="text">Text</option>
+                                <option value="logo">Logo image (PNG)</option>
+                            </select>
+                            <div id="wm-text-group">
+                                <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
+                                <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
+                            </div>
+                            <div id="wm-logo-group" class="is-hidden">
+                                <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
+                                <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
+                            </div>
+                            <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
+                            <select id="watermark-position" class="field-input">
+                                <option value="bottom-right">Bottom right</option>
+                                <option value="bottom-left">Bottom left</option>
+                                <option value="top-right">Top right</option>
+                                <option value="top-left">Top left</option>
+                                <option value="center">Center</option>
+                            </select>
+                            <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
+                            <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
                         </div>
-                        <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
-                        <button type="button" id="download-all-btn" class="btn-primary is-hidden">
-                            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                            Download ZIP
-                        </button>
-                    </div>
-                </header>
-
-                <div id="batch-summary" class="batch-summary is-hidden" aria-live="polite">
-                <div class="batch-stats">
-                    <span id="batch-count" class="batch-stat">0 files</span>
-                    <span class="sep">·</span>
-                    <span id="batch-saved" class="batch-stat">0 saved</span>
-                    <span class="sep">·</span>
-                    <span id="batch-avg" class="batch-stat">0% avg</span>
-                </div>
-                <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="batch-progress" aria-label="Batch progress">
-                    <div id="batch-progress-bar" class="batch-progress-bar"></div>
-                </div>
-                <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
-                    <div class="zip-progress-header">
-                        <div class="zip-progress-label-group">
-                            <span id="zip-progress-label">Building ZIP…</span>
-                            <a href="#" id="zip-cancel" class="zip-cancel-link is-hidden" role="button">Cancel</a>
-                        </div>
-                        <span id="zip-progress-pct">0%</span>
-                    </div>
-                    <div class="zip-progress-track">
-                        <div id="zip-progress-bar" class="zip-progress-bar"></div>
                     </div>
                 </div>
-                </div>
-
-                <div id="results-table-wrap" class="results-table-wrap is-hidden">
-                    <table class="results-table" aria-label="Compression results">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Dimensions</th>
-                                <th>Original</th>
-                                <th>Output</th>
-                                <th>Saved</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="results-table-body"></tbody>
-                    </table>
-                </div>
-                <div id="results-list" class="results-list"></div>
-            </section>
-        </main>
+            </aside>
+        </div>
     </div>
     </div>
 
     <div id="tool-panel-images-to-pdf" class="tool-panel is-hidden" data-tool-panel="images-to-pdf" role="tabpanel" aria-labelledby="tab-images-to-pdf" aria-hidden="true" tabindex="-1">
-        <div class="tool-layout max-width-wrap">
-            <main class="app-main glass-panel tool-main">
-                <header class="workspace-header">
-                    <div>
-                        <h2 class="workspace-title">Images to PDF</h2>
-                        <p class="workspace-sub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally.</p>
-                    </div>
-                </header>
-                <section class="tool-drop-zone" id="itp-drop" tabindex="0" aria-label="Drop images here or choose files">
-                    <p class="drop-title">Add images (ID front/back, contracts, etc.)</p>
-                    <p class="drop-sub">Order is top to bottom. Each image becomes a page.</p>
-                    <div class="drop-actions">
-                        <label class="btn-primary is-clickable">Choose images<input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
-                    </div>
-                </section>
-                <ul id="itp-list" class="tool-file-list"></ul>
-                <div class="tool-actions">
-                    <label class="field-label" for="itp-page-size">Page size</label>
-                    <select id="itp-page-size" class="field-input tool-inline-select">
-                        <option value="a4">A4 (portals)</option>
-                        <option value="fit">Fit to image</option>
-                    </select>
-                    <button type="button" id="itp-build" class="btn-primary" disabled>Download PDF</button>
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">Images to <span class="compress-hero__accent">PDF</span></span></h1>
+                    <p class="compress-hero__sub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally in your browser.</p>
                 </div>
-            </main>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <section class="drop-zone tool-drop-zone" id="itp-drop" tabindex="0" aria-label="Drop images here or choose files">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">📄</div>
+                            <p class="drop-title">Drop images to convert to PDF</p>
+                            <p class="drop-sub">Each image becomes one page — order is top to bottom</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                                <span class="fmt-tag">WebP</span>
+                            </div>
+                            <div class="drop-actions">
+                                <label class="btn-primary is-clickable">Choose images<input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
+                            </div>
+                        </div>
+                    </section>
+                    <ul id="itp-list" class="tool-file-list"></ul>
+                    <p class="tool-empty-state" id="itp-empty">No images yet — drop scans above, reorder if needed, then download your PDF.</p>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">📐</span>
+                                Page settings
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="itp-page-size">Page size</label>
+                            <select id="itp-page-size" class="field-input">
+                                <option value="a4">A4 (portal standard)</option>
+                                <option value="fit">Fit to image</option>
+                            </select>
+                            <p class="field-hint field-label-spaced-sm">A4 centers each scan with margins — ideal for government portals.</p>
+                            <button type="button" id="itp-build" class="btn-primary btn-block field-label-spaced-sm" disabled>Download PDF</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
     <div id="tool-panel-pdf-suite" class="tool-panel is-hidden" data-tool-panel="pdf-suite" role="tabpanel" aria-labelledby="tab-pdf-suite" aria-hidden="true" tabindex="-1">
-        <div class="tool-layout max-width-wrap">
-            <main class="app-main glass-panel tool-main">
-                <header class="workspace-header">
-                    <div>
-                        <h2 class="workspace-title">PDF merge &amp; split</h2>
-                        <p class="workspace-sub">Combine PDFs or extract pages — private, in your browser.</p>
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">PDF <span class="compress-hero__accent">merge &amp; split</span></span></h1>
+                    <p class="compress-hero__sub">Combine PDFs or extract pages — private, runs entirely in your browser.</p>
+                </div>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <div class="pdf-suite-tabs" role="tablist" aria-label="PDF tools">
+                        <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true">Merge</button>
+                        <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false">Split</button>
                     </div>
-                </header>
-                <div class="pdf-suite-tabs" role="tablist">
-                    <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true">Merge</button>
-                    <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false">Split</button>
+                    <div id="pdf-panel-merge" class="pdf-tab-panel">
+                        <section class="drop-zone tool-drop-zone" id="pdf-merge-drop" tabindex="0" aria-label="Drop PDF files to merge">
+                            <div class="drop-zone-inner">
+                                <div class="drop-icon" aria-hidden="true">🔗</div>
+                                <p class="drop-title">Merge PDFs</p>
+                                <p class="drop-sub">Select two or more PDF files in the order you want</p>
+                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
+                                <label class="btn-primary is-clickable">Choose PDFs<input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
+                            </div>
+                        </section>
+                        <ul id="pdf-merge-list" class="tool-file-list"></ul>
+                        <p class="tool-empty-state" id="pdf-merge-empty">Add at least two PDFs above, reorder with ↑ ↓, then merge from the sidebar.</p>
+                    </div>
+                    <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
+                        <section class="drop-zone tool-drop-zone" id="pdf-split-drop" tabindex="0" aria-label="Drop a PDF to split">
+                            <div class="drop-zone-inner">
+                                <div class="drop-icon" aria-hidden="true">✂️</div>
+                                <p class="drop-title">Split a PDF</p>
+                                <p class="drop-sub">Extract every page as its own file (ZIP if more than one)</p>
+                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
+                                <label class="btn-primary is-clickable">Choose PDF<input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
+                            </div>
+                        </section>
+                        <p id="pdf-split-info" class="tool-status"></p>
+                    </div>
                 </div>
-                <div id="pdf-panel-merge" class="pdf-tab-panel">
-                    <section class="tool-drop-zone" id="pdf-merge-drop" tabindex="0" aria-label="Drop PDF files to merge">
-                        <p class="drop-title">Merge PDFs</p>
-                        <p class="drop-sub">Select two or more PDF files in the order you want.</p>
-                        <label class="btn-primary is-clickable">Choose PDFs<input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
-                    </section>
-                    <ul id="pdf-merge-list" class="tool-file-list"></ul>
-                    <button type="button" id="pdf-merge-btn" class="btn-primary" disabled>Download merged PDF</button>
-                </div>
-                <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
-                    <section class="tool-drop-zone" id="pdf-split-drop" tabindex="0" aria-label="Drop a PDF to split">
-                        <p class="drop-title">Split a PDF</p>
-                        <p class="drop-sub">Extract every page as its own file (ZIP if more than one).</p>
-                        <label class="btn-primary is-clickable">Choose PDF<input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
-                    </section>
-                    <p id="pdf-split-info" class="tool-status"></p>
-                    <button type="button" id="pdf-split-btn" class="btn-primary" disabled>Download pages</button>
-                </div>
-            </main>
+                <aside class="compress-sidebar sidebar">
+                    <div id="pdf-sidebar-merge" class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚙️</span>
+                                Merge settings
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Drag files in the list to reorder before merging (use ↑ ↓ buttons).</p>
+                            <button type="button" id="pdf-merge-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Download merged PDF</button>
+                        </div>
+                    </div>
+                    <div id="pdf-sidebar-split" class="settings-card is-hidden" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">✂️</span>
+                                Split settings
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Each page exports as a separate PDF. Multiple pages download as a ZIP.</p>
+                            <button type="button" id="pdf-split-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Download pages</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
     <div id="tool-panel-svg" class="tool-panel is-hidden" data-tool-panel="svg" role="tabpanel" aria-labelledby="tab-svg" aria-hidden="true" tabindex="-1">
-        <div class="tool-layout max-width-wrap">
-            <main class="app-main glass-panel tool-main">
-                <header class="workspace-header">
-                    <div>
-                        <h2 class="workspace-title">SVG optimizer</h2>
-                        <p class="workspace-sub">Strip metadata and bloat from vector files before you ship them.</p>
-                    </div>
-                </header>
-                <section class="tool-drop-zone" id="svg-drop" tabindex="0" aria-label="Drop an SVG file here or choose one">
-                    <p class="drop-title">Drop an SVG file</p>
-                    <label class="btn-primary is-clickable">Choose SVG<input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
-                </section>
-                <div class="svg-editor grid-2">
-                    <div>
-                        <label class="field-label">Original</label>
-                        <textarea id="svg-before" class="svg-textarea" readonly placeholder="Upload an SVG…"></textarea>
-                        <p id="svg-before-size" class="tool-status"></p>
-                    </div>
-                    <div>
-                        <label class="field-label">Optimized</label>
-                        <textarea id="svg-after" class="svg-textarea" readonly placeholder="Optimized output…"></textarea>
-                        <p id="svg-after-size" class="tool-status"></p>
-                    </div>
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">SVG <span class="compress-hero__accent">optimizer</span></span></h1>
+                    <p class="compress-hero__sub">Strip metadata and bloat from vector files before you ship them.</p>
                 </div>
-                <button type="button" id="svg-download" class="btn-primary" disabled>Download optimized SVG</button>
-            </main>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <section class="drop-zone tool-drop-zone" id="svg-drop" tabindex="0" aria-label="Drop an SVG file here or choose one">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">📐</div>
+                            <p class="drop-title">Drop an SVG file</p>
+                            <p class="drop-sub">See before/after size comparison instantly</p>
+                            <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">SVG</span></div>
+                            <label class="btn-primary is-clickable">Choose SVG<input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
+                        </div>
+                    </section>
+                    <div class="svg-editor grid-2 is-hidden">
+                        <div>
+                            <label class="field-label" for="svg-before">Original</label>
+                            <textarea id="svg-before" class="svg-textarea" readonly placeholder="Upload an SVG…"></textarea>
+                            <p id="svg-before-size" class="tool-status"></p>
+                        </div>
+                        <div>
+                            <label class="field-label" for="svg-after">Optimized</label>
+                            <textarea id="svg-after" class="svg-textarea" readonly placeholder="Optimized output…"></textarea>
+                            <p id="svg-after-size" class="tool-status"></p>
+                        </div>
+                    </div>
+                    <p class="tool-empty-state" id="svg-empty">Drop an SVG above to compare original vs optimized size side by side.</p>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚙️</span>
+                                Optimizer
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Removes metadata, comments, and unnecessary attributes while preserving visual output.</p>
+                            <button type="button" id="svg-download" class="btn-primary btn-block field-label-spaced-sm" disabled>Download optimized SVG</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
     <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio" role="tabpanel" aria-labelledby="tab-passport-studio" aria-hidden="true" tabindex="-1">
-        <div id="passport-studio-workspace" class="app-layout">
-            <aside class="app-sidebar glass-panel" aria-label="Passport and visa presets">
-                <details class="sidebar-mobile-fold" open>
-                    <summary class="sidebar-mobile-fold__summary">
-                        <span class="sidebar-mobile-fold__title">Preset &amp; export settings</span>
-                        <span class="sidebar-mobile-fold__hint">Tap to expand</span>
-                    </summary>
-                    <div class="sidebar-mobile-fold__body">
-                <p class="sidebar-intro">Pick a government preset and export settings. Your portrait never leaves this device.</p>
-
-                <div class="sidebar-panel">
-                    <section class="settings-group settings-group-passport">
-                        <h3 class="settings-group-title">Target format</h3>
-                        <label class="field-label" for="passport-preset-select">Preset</label>
-                        <select id="passport-preset-select" class="field-input passport-preset-select">
-                            <option value="">Select Preset...</option>
-                            <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
-                            <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
-                            <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
-                        </select>
-                        <div id="passport-warnings" class="passport-warnings is-hidden" role="alert" aria-live="polite"></div>
-                    </section>
-
-                    <section id="passport-sidebar-crop" class="settings-group is-hidden">
-                        <h3 class="settings-group-title">Crop &amp; align</h3>
-                        <label class="field-label" for="passport-zoom">Zoom</label>
-                        <input type="range" id="passport-zoom" class="passport-zoom custom-slider" min="1" max="3" step="0.01" value="1">
-                        <p class="field-hint">Drag the preview on the right to reposition. Face should fill 70–85% of the circle.</p>
-                        <div class="passport-photo-tools">
-                            <label class="btn-secondary is-clickable passport-change-photo btn-block">
-                                Change photo
-                                <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
-                            </label>
-                            <button type="button" id="passport-clear-photo" class="btn-ghost passport-clear-photo btn-block">Clear photo</button>
-                        </div>
-                    </section>
-
-                    <section id="passport-sidebar-export" class="settings-group is-hidden">
-                        <h3 class="settings-group-title">Export</h3>
-                        <button type="button" id="passport-export-digital" class="btn-primary btn-block">Download Digital Photo</button>
-                        <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm">Generate 4×6 Print Sheet</button>
-                        <p class="field-hint">Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.</p>
-                    </section>
-
-                    <section class="settings-group">
-                        <h3 class="settings-group-title">How it works</h3>
-                        <p class="settings-group-desc">Choose a preset for compliance notes, upload a portrait, align your face in the biometric ring, then download a digital file or a 4×6 print sheet.</p>
-                    </section>
+        <div id="passport-studio-workspace" class="tool-workspace passport-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">Passport &amp; <span class="compress-hero__accent">visa photos</span></span></h1>
+                    <p class="compress-hero__sub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.</p>
                 </div>
-                    </div>
-                </details>
-            </aside>
-
-            <main class="app-main glass-panel passport-studio-main" aria-label="Passport photo workspace">
-                <header class="workspace-header">
-                    <div>
-                        <h2 class="workspace-title">Passport &amp; Visa Photo Studio</h2>
-                        <p class="workspace-sub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.</p>
-                    </div>
-                </header>
-
-                <section id="passport-drop-zone" class="drop-zone passport-drop-zone passport-drop-zone--locked" tabindex="0" aria-label="Upload passport portrait — select a preset first">
-                    <div class="drop-zone-inner">
-                        <div class="drop-icon" aria-hidden="true">
-                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        </div>
-                        <p class="drop-title">Add a portrait photo</p>
-                        <p class="drop-sub">Choose a photo to crop and export to the exact dimensions required.</p>
-                        <p class="passport-drop-locked-hint" id="passport-drop-locked-hint">Select a preset above first to enable upload</p>
-                        <div class="drop-actions">
-                            <label class="btn-primary is-clickable">
-                                Choose photo
-                                <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
-                            </label>
-                        </div>
-                    </div>
-                </section>
-
-                <div id="passport-editor" class="passport-editor is-hidden">
-                    <div class="passport-preview-stage" id="passport-preview-stage" data-aspect="7-9">
-                        <div class="passport-preview-wrap" id="passport-preview-wrap">
-                            <canvas id="passport-preview-canvas" class="passport-preview-canvas" aria-label="Passport photo crop preview"></canvas>
-                            <div class="passport-biometric-overlay" id="passport-biometric-overlay" aria-hidden="true">
-                                <span class="passport-bio-label passport-bio-label--hair">Top of Hair</span>
-                                <div class="passport-bio-ring"></div>
-                                <span class="passport-bio-label passport-bio-label--chin">Bottom of Chin</span>
+                <span class="compress-hero__badge uae-label">UAE · India</span>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <section id="passport-drop-zone" class="drop-zone passport-drop-zone passport-drop-zone--locked" tabindex="-1" aria-label="Upload passport portrait — select a preset first">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">
+                                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            </div>
+                            <p class="drop-title">Add a portrait photo</p>
+                            <p class="drop-sub">Choose a photo to crop and export to the exact dimensions required.</p>
+                            <p class="passport-drop-locked-hint" id="passport-drop-locked-hint">Select a preset in the sidebar first to enable upload</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                            </div>
+                            <div class="drop-actions">
+                                <label class="btn-primary is-clickable">
+                                    Choose photo
+                                    <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                                </label>
                             </div>
                         </div>
-                        <p class="passport-bio-hint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
+                    </section>
+
+                    <div id="passport-editor" class="passport-editor is-hidden">
+                        <div class="passport-preview-stage" id="passport-preview-stage" data-aspect="7-9">
+                            <div class="passport-preview-wrap" id="passport-preview-wrap">
+                                <canvas id="passport-preview-canvas" class="passport-preview-canvas" aria-label="Passport photo crop preview"></canvas>
+                                <div class="passport-biometric-overlay" id="passport-biometric-overlay" aria-hidden="true">
+                                    <span class="passport-bio-label passport-bio-label--hair">Top of Hair</span>
+                                    <div class="passport-bio-ring"></div>
+                                    <span class="passport-bio-label passport-bio-label--chin">Bottom of Chin</span>
+                                </div>
+                            </div>
+                            <p class="passport-bio-hint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
+                        </div>
                     </div>
+
+                    <p id="passport-studio-status" class="tool-status" aria-live="polite"></p>
                 </div>
 
-                <p id="passport-studio-status" class="tool-status" aria-live="polite"></p>
-            </main>
+                <aside class="compress-sidebar sidebar passport-sidebar">
+                    <select id="passport-preset-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                        <option value="">Select Preset...</option>
+                        <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
+                        <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
+                        <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
+                    </select>
+
+                    <div class="settings-card settings-card--uae" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🇦🇪</span>
+                                UAE Presets
+                                <span class="uae-label">UAE</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <div class="preset-grid" role="group" aria-label="UAE passport presets">
+                                <button type="button" class="preset-btn preset-btn--uae" data-passport-preset="uae-emirates"><span>Emirates ID &amp; Visa</span><span class="preset-size">35×45 mm</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🇮🇳</span>
+                                India Presets
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <div class="preset-grid" role="group" aria-label="India passport presets">
+                                <button type="button" class="preset-btn" data-passport-preset="india-passport-seva"><span>Passport Seva Digital</span><span class="preset-size">630×810 px</span></button>
+                                <button type="button" class="preset-btn" data-passport-preset="india-oci-vfs"><span>OCI / e-Visa / VFS Print</span><span class="preset-size">2×2 inches</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="passport-warnings" class="passport-warnings is-hidden" role="alert" aria-live="polite"></div>
+
+                    <div id="passport-sidebar-crop" class="settings-card is-hidden" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🔍</span>
+                                Crop &amp; align
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="passport-zoom">Zoom</label>
+                            <input type="range" id="passport-zoom" class="passport-zoom custom-slider" min="1" max="3" step="0.01" value="1">
+                            <p class="field-hint">Drag the preview to reposition. Face should fill 70–85% of the circle.</p>
+                            <div class="passport-photo-tools">
+                                <label class="btn-secondary is-clickable passport-change-photo btn-block">
+                                    Change photo
+                                    <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
+                                </label>
+                                <button type="button" id="passport-clear-photo" class="btn-secondary passport-clear-photo btn-block field-label-spaced-sm">Clear photo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="passport-sidebar-export" class="settings-card is-hidden" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">📤</span>
+                                Export
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <button type="button" id="passport-export-digital" class="btn-primary btn-block">Download Digital Photo</button>
+                            <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm">Generate 4×6 Print Sheet</button>
+                            <p class="field-hint">Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
@@ -650,9 +853,10 @@
             </div>
         </section>
 
-        <section class="seo-secondary glass-panel" aria-label="More about NexusCompress">
+        <details class="faq-item seo-secondary-details" aria-label="More about NexusCompress">
+            <summary>Why use a browser-based image compressor?</summary>
+            <div class="faq-answer seo-secondary__body">
             <div class="seo-block-compress" data-seo-scope="compress">
-            <h2 class="seo-subheading">Why use a browser-based image compressor?</h2>
             <ul class="seo-list">
                 <li><strong>No uploads required</strong> — images never leave your device</li>
                 <li><strong>Batch processing</strong> — compress many files and download as ZIP</li>
@@ -683,7 +887,8 @@
                 <li><a href="guides/index.html">View all guides</a></li>
             </ul>
             </div>
-        </section>
+            </div>
+        </details>
         </footer>
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">

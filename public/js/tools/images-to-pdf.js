@@ -27,6 +27,7 @@
             list.appendChild(li);
         });
         if (btn) btn.disabled = files.length === 0;
+        document.getElementById('itp-empty')?.classList.toggle('is-hidden', files.length > 0);
     }
 
     function addFiles(fileList) {
