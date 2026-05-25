@@ -188,10 +188,10 @@
         <header class="compress-hero">
             <div class="compress-hero__text">
                 <h1 class="compress-hero__title">
-                    <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix"> — compress images.</span></span>
-                    <span class="compress-hero__line" data-i18n="heroCompressL2">Instantly. Privately.</span>
+                    <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix"> — ضغط الصور.</span></span>
+                    <span class="compress-hero__line" data-i18n="heroCompressL2">فوراً. بخصوصية تامة.</span>
                 </h1>
-                <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
+                <p class="compress-hero__sub" data-i18n="heroSubCompress">اضغط JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
             <span class="compress-hero__badge" id="compress-version-badge">v2.1.0 — Free</span>
         </header>
@@ -200,7 +200,7 @@
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 UAE portal uploads? Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
             <div class="hero-callout__actions">
                 <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPassportStudio">Open Passport Studio</a>
-                <a href="../guides/uae-portal-compression.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
+                <a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">دليل بوابات الإمارات</a>
                 <button type="button" class="hero-callout__dismiss" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
             </div>
         </aside>
@@ -210,17 +210,17 @@
                 <div class="workflow-steps__list" role="list">
                     <div class="workflow-steps__item is-active" data-step="upload" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">1</span>
-                        <span class="workflow-steps__label"><strong data-i18n="stepAdd">Add files</strong></span>
+                        <span class="workflow-steps__label"><strong data-i18n="stepAdd">إضافة ملفات</strong></span>
                     </div>
-                    <span class="workflow-steps__arrow" aria-hidden="true">→</span>
+                    <span class="workflow-steps__arrow" aria-hidden="true">←</span>
                     <div class="workflow-steps__item" data-step="settings" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">2</span>
-                        <span class="workflow-steps__label"><strong data-i18n="stepConfigure">Configure</strong></span>
+                        <span class="workflow-steps__label"><strong data-i18n="stepConfigure">الإعدادات</strong></span>
                     </div>
-                    <span class="workflow-steps__arrow" aria-hidden="true">→</span>
+                    <span class="workflow-steps__arrow" aria-hidden="true">←</span>
                     <div class="workflow-steps__item" data-step="download" role="listitem">
                         <span class="workflow-steps__num" aria-hidden="true">3</span>
-                        <span class="workflow-steps__label"><strong data-i18n="stepReview">Review &amp; export</strong></span>
+                        <span class="workflow-steps__label"><strong data-i18n="stepReview">مراجعة وتصدير</strong></span>
                     </div>
                 </div>
             </nav>
@@ -231,8 +231,8 @@
                         <div class="drop-icon" aria-hidden="true">
                             <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
-                        <p class="drop-title" data-i18n="dropTitle">Drop your images here</p>
-                        <p class="drop-sub" data-i18n="dropSub">Add files to the queue · configure settings in the sidebar · then start compression when ready</p>
+                        <p class="drop-title" data-i18n="dropTitle">اسحب صورك هنا</p>
+                        <p class="drop-sub" data-i18n="dropSub">أضف الملفات · اضبط الإعدادات من الشريط الجانبي · ثم ابدأ الضغط</p>
                         <div class="drop-formats" aria-hidden="true">
                             <span class="fmt-tag">JPEG</span>
                             <span class="fmt-tag">PNG</span>
@@ -241,11 +241,11 @@
                         </div>
                         <div class="drop-actions">
                             <label class="btn-primary is-clickable">
-                                <span data-i18n="chooseFiles">Choose files</span>
+                                <span data-i18n="chooseFiles">اختر ملفات</span>
                                 <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
                             </label>
                             <label class="btn-secondary is-clickable">
-                                <span data-i18n="chooseFolder">Choose folder</span>
+                                <span data-i18n="chooseFolder">اختيار مجلد</span>
                                 <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
                             </label>
                         </div>
@@ -253,8 +253,8 @@
                 </section>
 
                 <div id="compress-workflow-bar" class="compress-workflow-bar is-hidden" role="status" aria-live="polite">
-                    <p id="compress-workflow-status" class="compress-workflow-bar__status">Add files to begin</p>
-                    <button type="button" id="start-compress-btn" class="btn-primary compress-workflow-bar__cta" data-i18n="startCompression">Start compression</button>
+                    <p id="compress-workflow-status" class="compress-workflow-bar__status">أضف ملفات للبدء</p>
+                    <button type="button" id="start-compress-btn" class="btn-primary compress-workflow-bar__cta" data-i18n="startCompression">بدء الضغط</button>
                 </div>
 
                 <section id="compress-preview-stage" class="compress-preview-stage is-hidden" aria-label="Image review">
@@ -875,7 +875,7 @@
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span data-i18n="chooseFiles">Choose files</span>
+                                    <span data-i18n="chooseFiles">اختر ملفات</span>
                                     <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
                                 </label>
                             </div>
@@ -949,7 +949,7 @@
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span data-i18n="chooseFiles">Choose files</span>
+                                    <span data-i18n="chooseFiles">اختر ملفات</span>
                                     <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
                                 </label>
                             </div>
@@ -1003,37 +1003,37 @@
         <footer class="marketing-footer" role="contentinfo">
         <section class="seo-marketing" aria-labelledby="seo-heading">
             <header class="marketing-footer__hero">
-                <h2 id="seo-heading" class="seo-heading">NexusCompress — Free Online Image Compressor</h2>
+                <h2 id="seo-heading" class="seo-heading">NexusCompress — ضاغط صور مجاني على الإنترنت</h2>
             </header>
             <div class="seo-intro-grid">
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-1">Shrink files in seconds</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-1">NexusCompress is a free online image compressor that shrinks JPEG, PNG, WebP, and AVIF files without sending them to a cloud server. Drag and drop photos, adjust quality and dimensions, then download optimized images in seconds — perfect for websites, email attachments, and social media.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-1">تصغير الملفات في ثوانٍ</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-1">NexusCompress ضاغط صور مجاني يصغّر ملفات JPEG وPNG وWebP وAVIF دون إرسالها إلى السحابة. اسحب الصور، اضبط الجودة والأبعاد، ثم حمّل النتائج — مثالي للمواقع والبريد ووسائل التواصل.</p>
                 </article>
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-2">Nothing leaves your device</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-2">Unlike traditional compressors that upload your files, everything runs locally in your browser thread. That means faster processing, stronger privacy, and no risk of personal or client images sitting on a third-party server.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-2">لا شيء يغادر جهازك</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-2">على عكس الأدوات التي ترفع ملفاتك، كل المعالجة تتم محلياً في متصفحك — سرعة أعلى، خصوصية أقوى، ولا مخاطرة من بقاء صورك على خوادم طرف ثالث.</p>
                 </article>
                 <article class="seo-intro-card glass-panel">
-                    <h2 class="seo-intro-card__title" id="seo-intro-title-3">Ready for real workflows</h2>
-                    <p class="seo-intro-card__body" id="seo-intro-3">Batch compress, set UAE portal size targets, compare before/after, and export as ZIP — all without creating an account or installing software.</p>
+                    <h2 class="seo-intro-card__title" id="seo-intro-title-3">جاهز لسير عمل حقيقي</h2>
+                    <p class="seo-intro-card__body" id="seo-intro-3">ضغط دفعات، حدود 200/500 ك.ب لبوابات الإمارات، مقارنة قبل/بعد، وتصدير ZIP — بدون حساب وبدون تثبيت.</p>
                 </article>
             </div>
         </section>
 
         <details class="faq-item seo-secondary-details" aria-label="More about NexusCompress">
-            <summary data-i18n="seoFaqSummary">Why use a browser-based image compressor?</summary>
+            <summary data-i18n="seoFaqSummary">لماذا ضاغط صور يعمل في المتصفح؟</summary>
             <div class="faq-answer seo-secondary__body">
             <div class="seo-block-compress" data-seo-scope="compress">
             <ul class="seo-list">
-                <li data-i18n-html="seoLiNoUpload"><strong>No uploads required</strong> — images never leave your device</li>
-                <li data-i18n-html="seoLiBatch"><strong>Batch processing</strong> — compress many files and download as ZIP</li>
-                <li data-i18n-html="seoLiModern"><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
-                <li data-i18n-html="seoLiCompare"><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
+                <li data-i18n-html="seoLiNoUpload"><strong>بدون رفع</strong> — الصور لا تغادر جهازك</li>
+                <li data-i18n-html="seoLiBatch"><strong>معالجة دفعات</strong> — ضغط عدة ملفات وتحميل ZIP</li>
+                <li data-i18n-html="seoLiModern"><strong>صيغ حديثة</strong> — WebP وAVIF لملفات أصغر بجودة مماثلة</li>
+                <li data-i18n-html="seoLiCompare"><strong>مقارنة بصرية</strong> — شريط قبل/بعد قبل الحفظ</li>
             </ul>
             </div>
-            <h2 class="seo-subheading" data-i18n="seoToolsHeading">Free media tools (same site, no upload)</h2>
-            <p class="seo-tool-lead" data-i18n="seoToolLead">Use the studio tabs above, or jump directly:</p>
+            <h2 class="seo-subheading" data-i18n="seoToolsHeading">أدوات وسائط مجانية (نفس الموقع، بدون رفع)</h2>
+            <p class="seo-tool-lead" data-i18n="seoToolLead">استخدم التبويبات أعلاه، أو انتقل مباشرة:</p>
             <nav class="seo-tool-chips" aria-label="Media tools">
                 <a href="./" class="seo-tool-chip" data-i18n="seoChipCompress">Image compressor</a>
                 <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">Images to PDF</a>
@@ -1044,11 +1044,11 @@
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
-            <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
-            <p data-i18n-html="seoUaeBody">Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.</p>
-            <h2 class="seo-subheading" data-i18n="seoBatchHeading">Batch resize, aspect ratio &amp; watermark</h2>
-            <p data-i18n-html="seoBatchBody">Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.</p>
-            <h2 class="seo-subheading" data-i18n="seoGuidesHeading">Compression guides</h2>
+            <h2 class="seo-subheading" data-i18n="seoUaeHeading">رفع بوابات حكومة الإمارات (حدود 200 / 500 ك.ب)</h2>
+            <p data-i18n-html="seoUaeBody">استخدم <strong>إعدادات الخدمات الذكية في الإمارات</strong> من الشريط الجانبي للهوية الإماراتية وICA وMOHRE وRTA. فعّل <strong>حجم الملف المستهدف</strong> (مثلاً 200 ك.ب) وسيخفض NexusCompress الجودة تدريجياً حتى يلائم المسح — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.</p>
+            <h2 class="seo-subheading" data-i18n="seoBatchHeading">تغيير الحجم، النسبة، والعلامة المائية</h2>
+            <p data-i18n-html="seoBatchBody">غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.</p>
+            <h2 class="seo-subheading" data-i18n="seoGuidesHeading">أدلة الضغط</h2>
             <ul class="seo-list guide-links">
                 <li><a href="../guides/uae-portal-compression.html" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
                 <li><a href="../guides/best-image-format-uae-government-portals.html" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar.html" data-i18n="seoGuideUaeFormat">Best image format for UAE government portals</a></li>
@@ -1071,7 +1071,7 @@
         <aside class="ad-slot ad-slot--in-content glass-panel" data-nexus-ad="inContent" aria-label="Advertisement"></aside>
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
-            <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">Frequently Asked Questions</h2>
+            <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">الأسئلة الشائعة</h2>
 
             <details class="faq-item" open>
                 <summary data-i18n="faq1Summary">How do I compress a JPEG without losing quality?</summary>
