@@ -152,14 +152,21 @@ window.__NEXUS_TOOL_META = {
 
         applyHeadMeta(resolved);
 
-        var copy = m.seo[resolved] || m.seo.compress;
-        if (copy && window.__NEXUS_LOCALE !== 'ar') {
+        function seoCopyFor(tool) {
+            var loc = window.__NEXUS_LOCALE || 'en';
+            if (loc === 'ar' && window.__NEXUS_I18N_SEO?.ar?.[tool]) {
+                return window.__NEXUS_I18N_SEO.ar[tool];
+            }
+            return m.seo[tool] || m.seo.compress;
+        }
+
+        var copy = seoCopyFor(resolved);
+        if (copy) {
             var set = function (id, text) {
                 var el = document.getElementById(id);
                 if (el && text != null) el.textContent = text;
             };
-            var seoH1 = copy.h1;
-            if (seoH1) set('seo-heading', seoH1);
+            if (copy.h1) set('seo-heading', copy.h1);
             set('seo-intro-title-1', copy.title1);
             set('seo-intro-1', copy.intro1);
             set('seo-intro-title-2', copy.title2);

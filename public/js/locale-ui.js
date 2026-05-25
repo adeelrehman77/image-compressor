@@ -81,5 +81,11 @@
         applyI18n();
         bindLangSwitch();
         bindLocaleLinks();
+        if (window.NexusPassportStudio?.updatePassportWarnings) {
+            window.NexusPassportStudio.updatePassportWarnings();
+        }
+        if (window.__NEXUS_TOOL_SHELL?.applyToolState && window.__NEXUS_TOOL_SHELL?.parseTool) {
+            window.__NEXUS_TOOL_SHELL.applyToolState(window.__NEXUS_TOOL_SHELL.parseTool());
+        }
     });
 })();

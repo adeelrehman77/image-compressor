@@ -60,6 +60,65 @@ window.__NEXUS_I18N = {
         statusQueuedBadge: 'Queued',
         statusProcessing: 'Processing…',
         statusFailed: 'Failed',
+        passportDropTitle: 'Add a portrait photo',
+        passportDropSub: 'Choose a photo to crop and export to the exact dimensions required.',
+        passportDropLocked: 'Select a preset in the sidebar first to enable upload',
+        passportChoosePhoto: 'Choose photo',
+        passportBioHair: 'Top of Hair',
+        passportBioChin: 'Bottom of Chin',
+        passportBioHint: 'Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).',
+        passportUaePresets: 'UAE Presets',
+        passportIndiaPresets: 'India Presets',
+        passportPresetUae: 'Emirates ID & Visa',
+        passportPresetIndiaSeva: 'Passport Seva Digital',
+        passportPresetIndiaOci: 'OCI / e-Visa / VFS Print',
+        passportCropAlign: 'Crop & align',
+        passportZoom: 'Zoom',
+        passportCropHint: 'Drag the preview to reposition. Face should fill 70–85% of the circle.',
+        passportChangePhoto: 'Change photo',
+        passportClearPhoto: 'Clear photo',
+        passportExport: 'Export',
+        passportDownloadDigital: 'Download Digital Photo',
+        passportPrintSheet: 'Generate 4×6 Print Sheet',
+        passportPrintHint: 'Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.',
+        passportWarningIndia:
+            '⚠️ ICAO Compliance Rules: Eyeglasses are forbidden. Wear dark or colored clothing to contrast with the solid white background. File size must be under 250 KB.',
+        passportWarningUae:
+            '⚠️ Smart Portal Target: Clean white background required. Ideal for direct uploads to MOHRE, ICP, and Dubai Municipality turnstiles.',
+        passportAriaLocked: 'Upload passport portrait — select a preset first',
+        passportAriaReady: 'Upload passport portrait',
+        passportStatusSelectFirst: 'Select a preset first, then choose your photo.',
+        passportStatusLoaded: '{name} loaded — align face within the circle, then export.',
+        passportStatusCleared: 'Photo cleared. Choose another portrait when ready.',
+        passportStatusDropFormat: 'Drop a JPEG, PNG, or WebP portrait photo.',
+        passportStatusExportSaved: 'Digital export saved ({kb} KB).',
+        passportStatusPrintReady: '4×6 sheet ready — {count} photos at {dpi} DPI ({w}×{h} px).',
+        passportPresetToastIndiaSeva: 'India Passport Seva',
+        passportPresetToastIndiaOci: 'India OCI / VFS',
+        passportPresetToastUae: 'UAE Emirates ID',
+        passportPresetToastReady: '{preset} ready — upload your portrait.',
+        passportPresetCleared: 'Preset cleared.',
+        seoFaqSummary: 'Why use a browser-based image compressor?',
+        seoLiNoUpload: '<strong>No uploads required</strong> — images never leave your device',
+        seoLiBatch: '<strong>Batch processing</strong> — compress many files and download as ZIP',
+        seoLiModern: '<strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality',
+        seoLiCompare: '<strong>Visual comparison</strong> — before/after slider to check quality before saving',
+        seoToolsHeading: 'Free media tools (same site, no upload)',
+        seoToolLead: 'Use the studio tabs above, or jump directly:',
+        seoChipCompress: 'Image compressor',
+        seoChipItp: 'Images to PDF',
+        seoChipPdf: 'PDF merge & split',
+        seoChipSvg: 'SVG optimizer',
+        seoChipPassport: 'Passport Studio',
+        seoUaeHeading: 'UAE government portal uploads (200 KB / 500 KB limits)',
+        seoUaeBody:
+            'Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.',
+        seoBatchHeading: 'Batch resize, aspect ratio & watermark',
+        seoBatchBody:
+            'Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.',
+        seoGuidesHeading: 'Compression guides',
+        seoGuideUae: 'UAE portal image compression (200/500 KB)',
+        seoGuideViewAll: 'View all guides',
     },
     ar: {
         siteLogoTag: 'ضغط الصور في متصفحك — بدون رفع',
@@ -121,6 +180,65 @@ window.__NEXUS_I18N = {
         statusQueuedBadge: 'في الانتظار',
         statusProcessing: 'جاري المعالجة…',
         statusFailed: 'فشل',
+        passportDropTitle: 'أضف صورة شخصية',
+        passportDropSub: 'اختر صورة لقصّها وتصديرها بالمقاسات المطلوبة.',
+        passportDropLocked: 'اختر إعداداً من الشريط الجانبي أولاً لتفعيل الرفع',
+        passportChoosePhoto: 'اختيار صورة',
+        passportBioHair: 'أعلى الرأس',
+        passportBioChin: 'أسفل الذقن',
+        passportBioHint: 'ضع وجهك ليملأ <strong>70–85%</strong> من الدائرة (من خط الشعر إلى الذقن).',
+        passportUaePresets: 'إعدادات الإمارات',
+        passportIndiaPresets: 'إعدادات الهند',
+        passportPresetUae: 'الهوية الإماراتية والتأشيرة',
+        passportPresetIndiaSeva: 'Passport Seva Digital',
+        passportPresetIndiaOci: 'OCI / e-Visa / VFS',
+        passportCropAlign: 'القص والمحاذاة',
+        passportZoom: 'تكبير',
+        passportCropHint: 'اسحب المعاينة لإعادة التموضع. يجب أن يملأ الوجه 70–85% من الدائرة.',
+        passportChangePhoto: 'تغيير الصورة',
+        passportClearPhoto: 'مسح الصورة',
+        passportExport: 'تصدير',
+        passportDownloadDigital: 'تحميل الصورة الرقمية',
+        passportPrintSheet: 'إنشاء ورقة طباعة 4×6',
+        passportPrintHint: 'ورقة الطباعة جاهزة لـ Walgreens وCVS والمختبرات المحلية بدقة 300 DPI.',
+        passportWarningIndia:
+            '⚠️ قواعد ICAO: النظارات ممنوعة. ارتدِ ملابس داكنة أو ملونة لتباين مع الخلفية البيضاء. حجم الملف أقل من 250 ك.ب.',
+        passportWarningUae:
+            '⚠️ بوابات الإمارات: خلفية بيضاء نظيفة مطلوبة. مناسب للرفع المباشر على MOHRE وICP وبلدية دبي.',
+        passportAriaLocked: 'رفع صورة جواز — اختر إعداداً أولاً',
+        passportAriaReady: 'رفع صورة جواز',
+        passportStatusSelectFirst: 'اختر إعداداً أولاً، ثم اختر صورتك.',
+        passportStatusLoaded: 'تم تحميل {name} — محاذاة الوجه داخل الدائرة ثم التصدير.',
+        passportStatusCleared: 'تم مسح الصورة. اختر صورة أخرى عندما تكون جاهزاً.',
+        passportStatusDropFormat: 'اسحب صورة JPEG أو PNG أو WebP.',
+        passportStatusExportSaved: 'تم حفظ التصدير الرقمي ({kb} ك.ب).',
+        passportStatusPrintReady: 'ورقة 4×6 جاهزة — {count} صور بدقة {dpi} DPI ({w}×{h} بكسل).',
+        passportPresetToastIndiaSeva: 'Passport Seva الهند',
+        passportPresetToastIndiaOci: 'OCI / VFS الهند',
+        passportPresetToastUae: 'الهوية الإماراتية',
+        passportPresetToastReady: '{preset} جاهز — ارفع صورتك الشخصية.',
+        passportPresetCleared: 'تم إلغاء الإعداد.',
+        seoFaqSummary: 'لماذا ضاغط صور يعمل في المتصفح؟',
+        seoLiNoUpload: '<strong>بدون رفع</strong> — الصور لا تغادر جهازك',
+        seoLiBatch: '<strong>معالجة دفعات</strong> — ضغط عدة ملفات وتحميل ZIP',
+        seoLiModern: '<strong>صيغ حديثة</strong> — WebP وAVIF لملفات أصغر بجودة مماثلة',
+        seoLiCompare: '<strong>مقارنة بصرية</strong> — شريط قبل/بعد قبل الحفظ',
+        seoToolsHeading: 'أدوات وسائط مجانية (نفس الموقع، بدون رفع)',
+        seoToolLead: 'استخدم التبويبات أعلاه، أو انتقل مباشرة:',
+        seoChipCompress: 'ضاغط الصور',
+        seoChipItp: 'صور إلى PDF',
+        seoChipPdf: 'دمج وتقسيم PDF',
+        seoChipSvg: 'تحسين SVG',
+        seoChipPassport: 'استوديو الجواز',
+        seoUaeHeading: 'رفع بوابات حكومة الإمارات (حدود 200 / 500 ك.ب)',
+        seoUaeBody:
+            'استخدم <strong>إعدادات الخدمات الذكية في الإمارات</strong> من الشريط الجانبي للهوية الإماراتية وICA وMOHRE وRTA. فعّل <strong>حجم الملف المستهدف</strong> (مثلاً 200 ك.ب) وسيخفض NexusCompress الجودة تدريجياً حتى يلائم المسح — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.',
+        seoBatchHeading: 'تغيير الحجم، النسبة، والعلامة المائية',
+        seoBatchBody:
+            'غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.',
+        seoGuidesHeading: 'أدلة الضغط',
+        seoGuideUae: 'ضغط صور بوابات الإمارات (200/500 ك.ب)',
+        seoGuideViewAll: 'جميع الأدلة',
     },
 };
 
@@ -177,6 +295,138 @@ window.__NEXUS_I18N_META = {
             'pdf-suite': 'دمج PDF — محلي فقط',
             svg: 'تحسين SVG للويب',
             'passport-studio': 'صور جواز وتأشيرة — ICAO',
+        },
+    },
+};
+
+/** Arabic SEO intro cards — keyed by tool id (English lives in tool-meta.js). */
+window.__NEXUS_I18N_SEO = {
+    ar: {
+        compress: {
+            h1: 'NexusCompress — ضاغط صور مجاني على الإنترنت',
+            title1: 'تصغير الملفات في ثوانٍ',
+            intro1:
+                'NexusCompress ضاغط صور مجاني يصغّر ملفات JPEG وPNG وWebP وAVIF دون إرسالها إلى السحابة. اسحب الصور، اضبط الجودة والأبعاد، ثم حمّل النتائج — مثالي للمواقع والبريد ووسائل التواصل.',
+            title2: 'لا شيء يغادر جهازك',
+            intro2:
+                'على عكس الأدوات التي ترفع ملفاتك، كل المعالجة تتم محلياً في متصفحك — سرعة أعلى، خصوصية أقوى، ولا مخاطرة من بقاء صورك على خوادم طرف ثالث.',
+            title3: 'جاهز لسير عمل حقيقي',
+            intro3:
+                'ضغط دفعات، حدود 200/500 ك.ب لبوابات الإمارات، مقارنة قبل/بعد، وتصدير ZIP — بدون حساب وبدون تثبيت.',
+        },
+        'images-to-pdf': {
+            h1: 'NexusCompress — تحويل JPEG وPNG إلى PDF',
+            title1: 'ملف PDF واحد من عدة مسوح',
+            intro1:
+                'دمج مسوح الهوية الإماراتية، العقود، ونسخ الجواز في PDF واحد لرفع MOHRE وICA وRTA وبلدية دبي — دون رفع الوثائق إلى السحابة.',
+            title2: 'رتّب الصفحات كما تريد',
+            intro2:
+                'اسحب الصور بالترتيب المطلوب، اختر A4 أو ملائمة الصفحة، وحمّل PDF واحد في ثوانٍ. المعالجة في متصفحك فتبقى الأوراق الحساسة على جهازك.',
+            title3: 'مصمم لبوابات الإمارات',
+            intro3:
+                'مثالي عندما يطلب النموذج ملفاً واحداً بدلاً من صور منفصلة — سريع، مجاني، وخاص لتقديمات التأشيرة والعمل والبلدية.',
+        },
+        'pdf-suite': {
+            h1: 'NexusCompress — دمج وتقسيم PDF في متصفحك',
+            title1: 'دمج بدون رفع',
+            intro1:
+                'اجمع كشوفاً بنكية أو عقوداً أو حزم تأشيرة في ملف واحد، أو قسّم PDF كبير إلى صفحات — مجاني وسريع وخاص.',
+            title2: 'تقسيم الصفحات إلى ZIP',
+            intro2:
+                'اختر PDFs، ادمج بالترتيب أو استخرج كل صفحة إلى ZIP، وحمّل فوراً. لا رفع — الدمج والتقسيم محليان.',
+            title3: 'بدون قفل سحابي',
+            intro3:
+                'نظّم كشوفات وعقود وحزم طلبات في دقائق — بدون تطبيق سطح مكتب، بدون اشتراك، وبدون تخزين ملفات على خوادمنا.',
+        },
+        svg: {
+            h1: 'NexusCompress — تحسين ملفات SVG',
+            title1: 'ملفات vector أخف',
+            intro1:
+                'أزل البيانات الوصفية والطبقات المخفية والزوائد من أيقونات SVG ورسوماتك لتسريع موقعك — دون برامج سطح مكتب.',
+            title2: 'معاينة قبل التحميل',
+            intro2:
+                'ارفع أو الصق SVG، preview المخرجات الأخف، وحمّل بضغطة — كل التحسين في متصفحك للسرعة والخصوصية.',
+            title3: 'للمطورين',
+            intro3:
+                'انشر أيقونات وشعارات أصغر للإنتاج — أداة تناسب سير عمل التصميم إلى الكود دون CLI.',
+        },
+        'passport-studio': {
+            h1: 'NexusCompress — استوديو صور الجواز والتأشيرة',
+            title1: 'صيغ حكومية للهند والإمارات',
+            intro1:
+                'نسّق صورك لـ Passport Seva Digital (630×810)، OCI وVFS (2×2 بوصة)، والهوية الإماراتية والتأشيرة (35×45 مم) — دون رفع بياناتك الحيوية للسحابة.',
+            title2: 'جاهز لـ VFS وOCI وبوابات الإمارات',
+            intro2:
+                'نصائح امتثال ICAO وإماراتية أثناء اختيار الإعداد: خلفية بيضاء، تباين الملابس، حدود الحجم، ومقاسات موثوقة لـ MOHRE وICP وبلدية دبي.',
+            title3: 'خصوصية بالتصميم',
+            intro3:
+                'صور جوازك وتأشيرتك تبقى على جهازك. قصّ، راجع التحذيرات، وصدّر JPEG جاهز للبوابات محلياً — مجاني وبدون تخزين على الخادم.',
+        },
+    },
+};
+
+/** Arabic SEO intro cards — keyed by tool id (English lives in tool-meta.js). */
+window.__NEXUS_I18N_SEO = {
+    ar: {
+        compress: {
+            h1: 'NexusCompress — ضاغط صور مجاني على الإنترنت',
+            title1: 'تصغير الملفات في ثوانٍ',
+            intro1:
+                'NexusCompress ضاغط صور مجاني يصغّر ملفات JPEG وPNG وWebP وAVIF دون إرسالها إلى السحابة. اسحب الصور، اضبط الجودة والأبعاد، ثم حمّل النتائج — مثالي للمواقع والبريد ووسائل التواصل.',
+            title2: 'لا شيء يغادر جهازك',
+            intro2:
+                'على عكس الأدوات التي ترفع ملفاتك، كل المعالجة تتم محلياً في متصفحك — سرعة أعلى، خصوصية أقوى، ولا مخاطرة من بقاء صورك على خوادم طرف ثالث.',
+            title3: 'جاهز لسير عمل حقيقي',
+            intro3:
+                'ضغط دفعات، حدود 200/500 ك.ب لبوابات الإمارات، مقارنة قبل/بعد، وتصدير ZIP — بدون حساب وبدون تثبيت.',
+        },
+        'images-to-pdf': {
+            h1: 'NexusCompress — تحويل JPEG وPNG إلى PDF',
+            title1: 'ملف PDF واحد من عدة مسوح',
+            intro1:
+                'دمج مسوح الهوية الإماراتية، العقود، ونسخ الجواز في PDF واحد لرفع MOHRE وICA وRTA وبلدية دبي — دون رفع الوثائق إلى السحابة.',
+            title2: 'رتّب الصفحات كما تريد',
+            intro2:
+                'اسحب الصور بالترتيب المطلوب، اختر A4 أو ملائمة الصفحة، وحمّل PDF واحد في ثوانٍ. المعالجة في متصفحك فتبقى الأوراق الحساسة على جهازك.',
+            title3: 'مصمم لبوابات الإمارات',
+            intro3:
+                'مثالي عندما يطلب النموذج ملفاً واحداً بدلاً من صور منفصلة — سريع، مجاني، وخاص لتقديمات التأشيرة والعمل والبلدية.',
+        },
+        'pdf-suite': {
+            h1: 'NexusCompress — دمج وتقسيم PDF في متصفحك',
+            title1: 'دمج بدون رفع',
+            intro1:
+                'اجمع كشوفاً بنكية أو عقوداً أو حزم تأشيرة في ملف واحد، أو قسّم PDF كبير إلى صفحات — مجاني وسريع وخاص.',
+            title2: 'تقسيم الصفحات إلى ZIP',
+            intro2:
+                'اختر PDFs، ادمج بالترتيب أو استخرج كل صفحة إلى ZIP، وحمّل فوراً. لا رفع — الدمج والتقسيم محليان.',
+            title3: 'بدون قفل سحابي',
+            intro3:
+                'نظّم كشوفات وعقود وحزم طلبات في دقائق — بدون تطبيق سطح مكتب، بدون اشتراك، وبدون تخزين ملفات على خوادمنا.',
+        },
+        svg: {
+            h1: 'NexusCompress — تحسين ملفات SVG',
+            title1: 'ملفات vector أخف',
+            intro1:
+                'أزل البيانات الوصفية والطبقات المخفية والزوائد من أيقونات SVG ورسوماتك لتسريع موقعك — دون برامج سطح مكتب.',
+            title2: 'معاينة قبل التحميل',
+            intro2:
+                'ارفع أو الصق SVG، preview المخرجات الأخف، وحمّل بضغطة — كل التحسين في متصفحك للسرعة والخصوصية.',
+            title3: 'للمطورين',
+            intro3:
+                'انشر أيقونات وشعارات أصغر للإنتاج — أداة تناسب سير عمل التصميم إلى الكود دون CLI.',
+        },
+        'passport-studio': {
+            h1: 'NexusCompress — استوديو صور الجواز والتأشيرة',
+            title1: 'صيغ حكومية للهند والإمارات',
+            intro1:
+                'نسّق صورك لـ Passport Seva Digital (630×810)، OCI وVFS (2×2 بوصة)، والهوية الإماراتية والتأشيرة (35×45 مم) — دون رفع بياناتك الحيوية للسحابة.',
+            title2: 'جاهز لـ VFS وOCI وبوابات الإمارات',
+            intro2:
+                'نصائح امتثال ICAO وإماراتية أثناء اختيار الإعداد: خلفية بيضاء، تباين الملابس، حدود الحجم، ومقاسات موثوقة لـ MOHRE وICP وبلدية دبي.',
+            title3: 'خصوصية بالتصميم',
+            intro3:
+                'صور جوازك وتأشيرتك تبقى على جهازك. قصّ، راجع التحذيرات، وصدّر JPEG جاهز للبوابات محلياً — مجاني وبدون تخزين على الخادم.',
         },
     },
 };

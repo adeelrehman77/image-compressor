@@ -6,12 +6,12 @@
     const MIN_QUALITY = 0.35;
     const QUALITY_STEP = 0.05;
 
-    const WARNINGS = {
-        india:
-            '⚠️ ICAO Compliance Rules: Eyeglasses are forbidden. Wear dark or colored clothing to contrast with the solid white background. File size must be under 250 KB.',
-        uae:
-            '⚠️ Smart Portal Target: Clean white background required. Ideal for direct uploads to MOHRE, ICP, and Dubai Municipality turnstiles.',
-    };
+    function tf(key, vars, fallback) {
+        var s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
+        if (s) return s;
+        if (fallback != null) return fallback;
+        return window.__NEXUS_T?.(key) || key;
+    }
 
     const PRESET_REGION = {
         'india-passport-seva': 'india',
@@ -90,14 +90,16 @@
         if (!select || !warnings) return;
 
         const region = PRESET_REGION[select.value];
-        if (!region || !WARNINGS[region]) {
+        const warningKey = region === 'india' ? 'passportWarningIndia' : region === 'uae' ? 'passportWarningUae' : '';
+        const warningText = warningKey ? tf(warningKey, null, '') : '';
+        if (!region || !warningText) {
             warnings.classList.add('is-hidden');
             warnings.textContent = '';
             warnings.removeAttribute('data-region');
             return;
         }
 
-        warnings.textContent = WARNINGS[region];
+        warnings.textContent = warningText;
         warnings.dataset.region = region;
         warnings.classList.remove('is-hidden');
     }
@@ -237,7 +239,13 @@
 
             const blob = await canvasToBlob(sheet, 'image/jpeg', 0.95);
             downloadBlob(blob, `passport-print-sheet-4x6-${state.presetId}.jpg`);
-            setStatus(`4×6 sheet ready — ${cols * rows} photos at ${SHEET_DPI} DPI (${SHEET_W}×${SHEET_H} px).`);
+            setStatus(
+                tf(
+                    'passportStatusPrintReady',
+                    { count: cols * rows, dpi: SHEET_DPI, w: SHEET_W, h: SHEET_H },
+                    `4×6 sheet ready — ${cols * rows} photos at ${SHEET_DPI} DPI (${SHEET_W}×${SHEET_H} px).`
+                )
+            );
         } finally {
             portraitBitmap.close();
             releaseCanvas(sheet);
@@ -249,7 +257,7 @@
         resetTransform();
         releaseCanvas(els.previewCanvas);
         showEditor(false);
-        setStatus('Photo cleared. Choose another portrait when ready.');
+        setStatus(tf('passportStatusCleared', null, 'Photo cleared. Choose another portrait when ready.'));
     }
 
     function showEditor(show) {
@@ -280,7 +288,7 @@
     async function onPhotoSelected(file) {
         if (!file) return;
         if (!state.presetId) {
-            setStatus('Select a preset first, then choose your photo.');
+            setStatus(tf('passportStatusSelectFirst', null, 'Select a preset first, then choose your photo.'));
             return;
         }
 
@@ -289,7 +297,7 @@
         state.bitmap = await createImageBitmap(file);
         resetTransform();
         showEditor(true);
-        setStatus(`${file.name} loaded — align face within the circle, then export.`);
+        setStatus(tf('passportStatusLoaded', { name: file.name }, `${file.name} loaded — align face within the circle, then export.`));
         renderPreview();
     }
 
@@ -300,10 +308,10 @@
         if (hint) hint.style.display = locked ? '' : 'none';
         if (locked) {
             els.dropZone.setAttribute('tabindex', '-1');
-            els.dropZone.setAttribute('aria-label', 'Upload passport portrait — select a preset first');
+            els.dropZone.setAttribute('aria-label', tf('passportAriaLocked', null, 'Upload passport portrait — select a preset first'));
         } else {
             els.dropZone.setAttribute('tabindex', '0');
-            els.dropZone.setAttribute('aria-label', 'Upload passport portrait');
+            els.dropZone.setAttribute('aria-label', tf('passportAriaReady', null, 'Upload passport portrait'));
         }
     }
 
@@ -324,11 +332,18 @@
 
         if (state.presetId && !opts.silent) {
             const labels = {
-                'india-passport-seva': 'India Passport Seva',
-                'india-oci-vfs': 'India OCI / VFS',
-                'uae-emirates': 'UAE Emirates ID',
+                'india-passport-seva': tf('passportPresetToastIndiaSeva', null, 'India Passport Seva'),
+                'india-oci-vfs': tf('passportPresetToastIndiaOci', null, 'India OCI / VFS'),
+                'uae-emirates': tf('passportPresetToastUae', null, 'UAE Emirates ID'),
             };
-            window.NexusTools?.toast?.(`${labels[state.presetId] || 'Preset'} ready — upload your portrait.`, 'info');
+            window.NexusTools?.toast?.(
+                tf(
+                    'passportPresetToastReady',
+                    { preset: labels[state.presetId] || 'Preset' },
+                    `${labels[state.presetId] || 'Preset'} ready — upload your portrait.`
+                ),
+                'info'
+            );
         }
 
         if (state.presetId === 'india-passport-seva' && preset) {
@@ -392,7 +407,7 @@
                 if (els.presetSelect.value === val) {
                     els.presetSelect.value = '';
                     onPresetChange({ silent: true });
-                    window.NexusTools?.toast?.('Preset cleared.', 'info');
+                    window.NexusTools?.toast?.(tf('passportPresetCleared', null, 'Preset cleared.'), 'info');
                     return;
                 }
                 els.presetSelect.value = val;
@@ -417,7 +432,7 @@
         window.NexusTools?.bindDropZone?.(els.dropZone, els.input, (files) => {
             const file = [...files].find((f) => /^image\/(jpeg|png|webp)$/i.test(f.type));
             if (file) onPhotoSelected(file);
-            else if (files.length) setStatus('Drop a JPEG, PNG, or WebP portrait photo.');
+            else if (files.length) setStatus(tf('passportStatusDropFormat', null, 'Drop a JPEG, PNG, or WebP portrait photo.'));
         });
 
         els.zoom?.addEventListener('input', (e) => {
@@ -461,7 +476,7 @@
                 const ext = blob.type === 'image/jpeg' ? 'jpg' : 'png';
                 const kb = (blob.size / 1024).toFixed(1);
                 downloadBlob(blob, `passport-digital-${state.presetId}.${ext}`);
-                setStatus(`Digital export saved (${kb} KB).`);
+                setStatus(tf('passportStatusExportSaved', { kb }, `Digital export saved (${kb} KB).`));
             } catch (err) {
                 setStatus(err.message || 'Export failed.');
                 window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'export' });

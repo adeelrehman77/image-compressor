@@ -722,16 +722,16 @@
                             <div class="drop-icon" aria-hidden="true">
                                 <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                             </div>
-                            <p class="drop-title">Add a portrait photo</p>
-                            <p class="drop-sub">Choose a photo to crop and export to the exact dimensions required.</p>
-                            <p class="passport-drop-locked-hint" id="passport-drop-locked-hint">Select a preset in the sidebar first to enable upload</p>
+                            <p class="drop-title" data-i18n="passportDropTitle">Add a portrait photo</p>
+                            <p class="drop-sub" data-i18n="passportDropSub">Choose a photo to crop and export to the exact dimensions required.</p>
+                            <p class="passport-drop-locked-hint" id="passport-drop-locked-hint" data-i18n="passportDropLocked">Select a preset in the sidebar first to enable upload</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">JPEG</span>
                                 <span class="fmt-tag">PNG</span>
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    Choose photo
+                                    <span data-i18n="passportChoosePhoto">Choose photo</span>
                                     <input type="file" id="passport-photo-input" class="is-hidden" accept="image/jpeg,image/png,image/webp">
                                 </label>
                             </div>
@@ -743,12 +743,12 @@
                             <div class="passport-preview-wrap" id="passport-preview-wrap">
                                 <canvas id="passport-preview-canvas" class="passport-preview-canvas" aria-label="Passport photo crop preview"></canvas>
                                 <div class="passport-biometric-overlay" id="passport-biometric-overlay" aria-hidden="true">
-                                    <span class="passport-bio-label passport-bio-label--hair">Top of Hair</span>
+                                    <span class="passport-bio-label passport-bio-label--hair" data-i18n="passportBioHair">Top of Hair</span>
                                     <div class="passport-bio-ring"></div>
-                                    <span class="passport-bio-label passport-bio-label--chin">Bottom of Chin</span>
+                                    <span class="passport-bio-label passport-bio-label--chin" data-i18n="passportBioChin">Bottom of Chin</span>
                                 </div>
                             </div>
-                            <p class="passport-bio-hint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
+                            <p class="passport-bio-hint" data-i18n-html="passportBioHint">Position your face so it fills <strong>70–85%</strong> of the circle (hairline to chin).</p>
                         </div>
                     </div>
 
@@ -767,14 +767,14 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">🇦🇪</span>
-                                UAE Presets
-                                <span class="uae-label">UAE</span>
+                                <span data-i18n="passportUaePresets">UAE Presets</span>
+                                <span class="uae-label" data-i18n="tabPassportBadge">UAE</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
                             <div class="preset-grid" role="group" aria-label="UAE passport presets">
-                                <button type="button" class="preset-btn preset-btn--uae" data-passport-preset="uae-emirates"><span>Emirates ID &amp; Visa</span><span class="preset-size">35×45 mm</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-passport-preset="uae-emirates"><span data-i18n="passportPresetUae">Emirates ID &amp; Visa</span><span class="preset-size">35×45 mm</span></button>
                             </div>
                         </div>
                     </div>
@@ -783,14 +783,14 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">🇮🇳</span>
-                                India Presets
+                                <span data-i18n="passportIndiaPresets">India Presets</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
                             <div class="preset-grid" role="group" aria-label="India passport presets">
-                                <button type="button" class="preset-btn" data-passport-preset="india-passport-seva"><span>Passport Seva Digital</span><span class="preset-size">630×810 px</span></button>
-                                <button type="button" class="preset-btn" data-passport-preset="india-oci-vfs"><span>OCI / e-Visa / VFS Print</span><span class="preset-size">2×2 inches</span></button>
+                                <button type="button" class="preset-btn" data-passport-preset="india-passport-seva"><span data-i18n="passportPresetIndiaSeva">Passport Seva Digital</span><span class="preset-size">630×810 px</span></button>
+                                <button type="button" class="preset-btn" data-passport-preset="india-oci-vfs"><span data-i18n="passportPresetIndiaOci">OCI / e-Visa / VFS Print</span><span class="preset-size">2×2 inches</span></button>
                             </div>
                         </div>
                     </div>
@@ -801,20 +801,20 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">🔍</span>
-                                Crop &amp; align
+                                <span data-i18n="passportCropAlign">Crop &amp; align</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="passport-zoom">Zoom</label>
+                            <label class="field-label" for="passport-zoom" data-i18n="passportZoom">Zoom</label>
                             <input type="range" id="passport-zoom" class="passport-zoom custom-slider" min="1" max="3" step="0.01" value="1">
-                            <p class="field-hint">Drag the preview to reposition. Face should fill 70–85% of the circle.</p>
+                            <p class="field-hint" data-i18n="passportCropHint">Drag the preview to reposition. Face should fill 70–85% of the circle.</p>
                             <div class="passport-photo-tools">
                                 <label class="btn-secondary is-clickable passport-change-photo btn-block">
-                                    Change photo
+                                    <span data-i18n="passportChangePhoto">Change photo</span>
                                     <input type="file" id="passport-photo-replace" class="is-hidden" accept="image/jpeg,image/png,image/webp">
                                 </label>
-                                <button type="button" id="passport-clear-photo" class="btn-secondary passport-clear-photo btn-block field-label-spaced-sm">Clear photo</button>
+                                <button type="button" id="passport-clear-photo" class="btn-secondary passport-clear-photo btn-block field-label-spaced-sm" data-i18n="passportClearPhoto">Clear photo</button>
                             </div>
                         </div>
                     </div>
@@ -823,14 +823,14 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">📤</span>
-                                Export
+                                <span data-i18n="passportExport">Export</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <button type="button" id="passport-export-digital" class="btn-primary btn-block">Download Digital Photo</button>
-                            <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm">Generate 4×6 Print Sheet</button>
-                            <p class="field-hint">Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.</p>
+                            <button type="button" id="passport-export-digital" class="btn-primary btn-block" data-i18n="passportDownloadDigital">Download Digital Photo</button>
+                            <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="passportPrintSheet">Generate 4×6 Print Sheet</button>
+                            <p class="field-hint" data-i18n="passportPrintHint">Print sheet is Walgreens, CVS, and local lab ready at 300 DPI.</p>
                         </div>
                     </div>
                 </aside>
@@ -844,7 +844,7 @@
         <footer class="marketing-footer" role="contentinfo">
         <section class="seo-marketing" aria-labelledby="seo-heading">
             <header class="marketing-footer__hero">
-                <h2 id="seo-heading" class="seo-heading" data-i18n="seoH1">NexusCompress — Free Online Image Compressor</h2>
+                <h2 id="seo-heading" class="seo-heading">NexusCompress — Free Online Image Compressor</h2>
             </header>
             <div class="seo-intro-grid">
                 <article class="seo-intro-card glass-panel">
@@ -863,37 +863,38 @@
         </section>
 
         <details class="faq-item seo-secondary-details" aria-label="More about NexusCompress">
-            <summary>Why use a browser-based image compressor?</summary>
+            <summary data-i18n="seoFaqSummary">Why use a browser-based image compressor?</summary>
             <div class="faq-answer seo-secondary__body">
             <div class="seo-block-compress" data-seo-scope="compress">
             <ul class="seo-list">
-                <li><strong>No uploads required</strong> — images never leave your device</li>
-                <li><strong>Batch processing</strong> — compress many files and download as ZIP</li>
-                <li><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
-                <li><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
+                <li data-i18n-html="seoLiNoUpload"><strong>No uploads required</strong> — images never leave your device</li>
+                <li data-i18n-html="seoLiBatch"><strong>Batch processing</strong> — compress many files and download as ZIP</li>
+                <li data-i18n-html="seoLiModern"><strong>Modern formats</strong> — WebP and AVIF for smaller files at similar quality</li>
+                <li data-i18n-html="seoLiCompare"><strong>Visual comparison</strong> — before/after slider to check quality before saving</li>
             </ul>
             </div>
-            <h2 class="seo-subheading">Free media tools (same site, no upload)</h2>
-            <p class="seo-tool-lead">Use the studio tabs above, or jump directly:</p>
+            <h2 class="seo-subheading" data-i18n="seoToolsHeading">Free media tools (same site, no upload)</h2>
+            <p class="seo-tool-lead" data-i18n="seoToolLead">Use the studio tabs above, or jump directly:</p>
             <nav class="seo-tool-chips" aria-label="Media tools">
-                <a href="./" class="seo-tool-chip">Image compressor</a>
-                <a href="#images-to-pdf" class="seo-tool-chip">Images to PDF</a>
-                <a href="#pdf-suite" class="seo-tool-chip">PDF merge &amp; split</a>
-                <a href="#svg" class="seo-tool-chip">SVG optimizer</a>
-                <a href="#passport-studio" class="seo-tool-chip">Passport Studio</a>
+                <a href="./" class="seo-tool-chip" data-i18n="seoChipCompress">Image compressor</a>
+                <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">Images to PDF</a>
+                <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
+                <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
+                <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">Passport Studio</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
-            <h2 class="seo-subheading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
-            <p>Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.</p>
-            <h2 class="seo-subheading">Batch resize, aspect ratio & watermark</h2>
-            <p>Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar. Handy for real estate listings, creators, and developers preparing assets locally.</p>
-            <h2 class="seo-subheading">Compression guides</h2>
+            <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
+            <p data-i18n-html="seoUaeBody">Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.</p>
+            <h2 class="seo-subheading" data-i18n="seoBatchHeading">Batch resize, aspect ratio &amp; watermark</h2>
+            <p data-i18n-html="seoBatchBody">Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.</p>
+            <h2 class="seo-subheading" data-i18n="seoGuidesHeading">Compression guides</h2>
             <ul class="seo-list guide-links">
                 <li><a href="guides/compress-jpeg-without-losing-quality.html">Compress JPEG without losing quality</a></li>
                 <li><a href="guides/jpeg-vs-webp.html">JPEG vs WebP — which to use?</a></li>
                 <li><a href="guides/avif-vs-webp.html">AVIF vs WebP for smallest files</a></li>
                 <li><a href="guides/resize-images-for-instagram.html">Resize images for Instagram</a></li>
-                <li><a href="guides/index.html">View all guides</a></li>
+                <li><a href="guides/uae-portal-compression.html" data-locale-href-en="guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="guides/index.html" data-i18n="seoGuideViewAll">View all guides</a></li>
             </ul>
             </div>
             </div>
