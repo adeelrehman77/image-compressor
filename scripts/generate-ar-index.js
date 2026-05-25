@@ -85,6 +85,46 @@ if (!html.includes('hreflang="ar-AE"')) {
     );
 }
 
+const AR_FAQ_SCHEMA = [
+    {
+        name: 'كيف أضغط JPEG دون فقدان الجودة؟',
+        text: 'استخدم جودة بين 75% و85%. للويب، حوّل إلى WebP أو AVIF. استخدم شريط قبل/بعد في NexusCompress قبل التحميل.',
+    },
+    {
+        name: 'هل من الآمن رفع صوري هنا؟',
+        text: 'صورك لا تُرفع أبداً. المعالجة في متصفحك عبر Web Workers؛ الملفات تبقى على جهازك.',
+    },
+    {
+        name: 'ما أفضل صيغة لتصغير حجم الصورة؟',
+        text: 'WebP لمعظم المواقع، AVIF لأصغر ملف حيث مدعوم، JPEG للبريد، PNG للشفافية.',
+    },
+    {
+        name: 'هل يمكن ضغط عدة صور دفعة واحدة؟',
+        text: 'نعم. اسحب عدة ملفات أو مجلداً وحمّل النتائج كملف ZIP واحد.',
+    },
+    {
+        name: 'هل الضغط يزيل EXIF أو موقع GPS؟',
+        text: 'إعادة الترميز تزيل البيانات الوصفية بما فيها GPS. يُصحّح اتجاه EXIF تلقائياً.',
+    },
+    {
+        name: 'هل الأداة مجانية فعلاً؟',
+        text: 'نعم. الضغط مجاني بدون حساب؛ الأداة تعمل بالكامل في متصفحك.',
+    },
+];
+
+const arFaqEntities = AR_FAQ_SCHEMA.map(
+    (q) => `            {
+              "@type": "Question",
+              "name": ${JSON.stringify(q.name)},
+              "acceptedAnswer": { "@type": "Answer", "text": ${JSON.stringify(q.text)} }
+            }`
+).join(',\n');
+
+html = html.replace(
+    /"@type": "FAQPage",\s*"mainEntity": \[[\s\S]*?\]\s*\}/,
+    `"@type": "FAQPage",\n          "inLanguage": "ar",\n          "mainEntity": [\n${arFaqEntities}\n          ]\n        }`
+);
+
 fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(out, html);
 console.log('Generated public/ar/index.html');

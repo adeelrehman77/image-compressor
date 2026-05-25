@@ -62,36 +62,37 @@
         },
         {
           "@type": "FAQPage",
+          "inLanguage": "ar",
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "How do I compress a JPEG without losing quality?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Use quality 75-85%, WebP or AVIF for web, resize to display size, and compare with the before/after slider before downloading." }
+              "name": "كيف أضغط JPEG دون فقدان الجودة؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "استخدم جودة بين 75% و85%. للويب، حوّل إلى WebP أو AVIF. استخدم شريط قبل/بعد في NexusCompress قبل التحميل." }
             },
             {
               "@type": "Question",
-              "name": "Is it safe to upload my photos here?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Photos are never uploaded. Compression runs in your browser with Web Workers; files stay on your device." }
+              "name": "هل من الآمن رفع صوري هنا؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "صورك لا تُرفع أبداً. المعالجة في متصفحك عبر Web Workers؛ الملفات تبقى على جهازك." }
             },
             {
               "@type": "Question",
-              "name": "What is the best format to reduce image file size?",
-              "acceptedAnswer": { "@type": "Answer", "text": "WebP for most websites, AVIF for smallest files where supported, JPEG for compatibility, PNG for transparency." }
+              "name": "ما أفضل صيغة لتصغير حجم الصورة؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "WebP لمعظم المواقع، AVIF لأصغر ملف حيث مدعوم، JPEG للبريد، PNG للشفافية." }
             },
             {
               "@type": "Question",
-              "name": "Can I compress multiple images at once?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop multiple files or import a folder and download results as a ZIP." }
+              "name": "هل يمكن ضغط عدة صور دفعة واحدة؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "نعم. اسحب عدة ملفات أو مجلداً وحمّل النتائج كملف ZIP واحد." }
             },
             {
               "@type": "Question",
-              "name": "Does compressing remove EXIF or location data?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Re-encoding strips metadata including GPS. EXIF orientation is corrected automatically." }
+              "name": "هل الضغط يزيل EXIF أو موقع GPS؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "إعادة الترميز تزيل البيانات الوصفية بما فيها GPS. يُصحّح اتجاه EXIF تلقائياً." }
             },
             {
               "@type": "Question",
-              "name": "Is this tool really free?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Yes. Compression is free with no account; the tool runs entirely in your browser." }
+              "name": "هل الأداة مجانية فعلاً؟",
+              "acceptedAnswer": { "@type": "Answer", "text": "نعم. الضغط مجاني بدون حساب؛ الأداة تعمل بالكامل في متصفحك." }
             }
           ]
         }
@@ -905,47 +906,47 @@
         <aside class="ad-slot ad-slot--in-content glass-panel" data-nexus-ad="inContent" aria-label="Advertisement"></aside>
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
-            <h2 id="faq-heading" class="faq-title">Frequently Asked Questions</h2>
+            <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">Frequently Asked Questions</h2>
 
             <details class="faq-item" open>
-                <summary>How do I compress a JPEG without losing quality?</summary>
+                <summary data-i18n="faq1Summary">How do I compress a JPEG without losing quality?</summary>
                 <div class="faq-answer">
-                    <p>Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="../guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
+                    <p data-i18n-html="faq1Answer">Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="../guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary>Is it safe to upload my photos here?</summary>
+                <summary data-i18n="faq2Summary">Is it safe to upload my photos here?</summary>
                 <div class="faq-answer">
-                    <p><strong>Your photos are never uploaded.</strong> NexusCompress processes images entirely inside your browser using Web Workers and the OffscreenCanvas API. Files stay on your computer or phone; nothing is transmitted to our servers for compression. That makes it safe for sensitive screenshots, client work, and personal albums — as long as you trust your own device, your images remain local.</p>
+                    <p data-i18n-html="faq2Answer"><strong>Your photos are never uploaded.</strong> NexusCompress processes images entirely inside your browser using Web Workers and the OffscreenCanvas API. Files stay on your computer or phone; nothing is transmitted to our servers for compression. That makes it safe for sensitive screenshots, client work, and personal albums — as long as you trust your own device, your images remain local.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary>What is the best format to reduce image file size?</summary>
+                <summary data-i18n="faq3Summary">What is the best format to reduce image file size?</summary>
                 <div class="faq-answer">
-                    <p>For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="../guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="../guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
+                    <p data-i18n-html="faq3Answer">For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="../guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="../guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary>Can I compress multiple images at once?</summary>
+                <summary data-i18n="faq4Summary">Can I compress multiple images at once?</summary>
                 <div class="faq-answer">
-                    <p>Yes. Drop multiple files or import an entire folder. NexusCompress queues each image, shows progress and savings per file, and lets you download everything as a single ZIP when you are done.</p>
+                    <p data-i18n-html="faq4Answer">Yes. Drop multiple files or import an entire folder. NexusCompress queues each image, shows progress and savings per file, and lets you download everything as a single ZIP when you are done.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary>Does compressing remove EXIF or location data?</summary>
+                <summary data-i18n="faq5Summary">Does compressing remove EXIF or location data?</summary>
                 <div class="faq-answer">
-                    <p>Re-encoding an image strips metadata such as GPS location, camera model, and timestamps. NexusCompress also corrects EXIF orientation so photos from phones display right-side up. This is ideal for privacy when sharing images online.</p>
+                    <p data-i18n-html="faq5Answer">Re-encoding an image strips metadata such as GPS location, camera model, and timestamps. NexusCompress also corrects EXIF orientation so photos from phones display right-side up. This is ideal for privacy when sharing images online.</p>
                 </div>
             </details>
 
             <details class="faq-item">
-                <summary>Is this tool really free?</summary>
+                <summary data-i18n="faq6Summary">Is this tool really free?</summary>
                 <div class="faq-answer">
-                    <p>Yes. Core compression is free with no account required. The tool runs in your browser, so there are no per-image API fees — only optional ads help support hosting.</p>
+                    <p data-i18n-html="faq6Answer">Yes. Core compression is free with no account required. The tool runs in your browser, so there are no per-image API fees — only optional ads help support hosting.</p>
                 </div>
             </details>
         </section>

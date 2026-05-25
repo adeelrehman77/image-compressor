@@ -119,6 +119,25 @@ window.__NEXUS_I18N = {
         seoGuidesHeading: 'Compression guides',
         seoGuideUae: 'UAE portal image compression (200/500 KB)',
         seoGuideViewAll: 'View all guides',
+        faqTitle: 'Frequently Asked Questions',
+        faq1Summary: 'How do I compress a JPEG without losing quality?',
+        faq1Answer:
+            'Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.',
+        faq2Summary: 'Is it safe to upload my photos here?',
+        faq2Answer:
+            '<strong>Your photos are never uploaded.</strong> NexusCompress processes images entirely inside your browser using Web Workers and the OffscreenCanvas API. Files stay on your computer or phone; nothing is transmitted to our servers for compression. That makes it safe for sensitive screenshots, client work, and personal albums — as long as you trust your own device, your images remain local.',
+        faq3Summary: 'What is the best format to reduce image file size?',
+        faq3Answer:
+            'For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.',
+        faq4Summary: 'Can I compress multiple images at once?',
+        faq4Answer:
+            'Yes. Drop multiple files or import an entire folder. NexusCompress queues each image, shows progress and savings per file, and lets you download everything as a single ZIP when you are done.',
+        faq5Summary: 'Does compressing remove EXIF or location data?',
+        faq5Answer:
+            'Re-encoding an image strips metadata such as GPS location, camera model, and timestamps. NexusCompress also corrects EXIF orientation so photos from phones display right-side up. This is ideal for privacy when sharing images online.',
+        faq6Summary: 'Is this tool really free?',
+        faq6Answer:
+            'Yes. Core compression is free with no account required. The tool runs in your browser, so there are no per-image API fees — only optional ads help support hosting.',
     },
     ar: {
         siteLogoTag: 'ضغط الصور في متصفحك — بدون رفع',
@@ -239,6 +258,25 @@ window.__NEXUS_I18N = {
         seoGuidesHeading: 'أدلة الضغط',
         seoGuideUae: 'ضغط صور بوابات الإمارات (200/500 ك.ب)',
         seoGuideViewAll: 'جميع الأدلة',
+        faqTitle: 'الأسئلة الشائعة',
+        faq1Summary: 'كيف أضغط JPEG دون فقدان الجودة؟',
+        faq1Answer:
+            'استخدم جودة بين <strong>75%</strong> و<strong>85%</strong> للصور. للويب، حوّل إلى WebP أو AVIF — غالباً ملفات أصغر بنفس الجودة البصرية. راجع <a href="../guides/compress-jpeg-without-losing-quality.html">دليل ضغط JPEG</a> أو <a href="../guides/uae-portal-compression-ar.html">دليل بوابات الإمارات</a>. استخدم شريط قبل/بعد في NexusCompress قبل التحميل.',
+        faq2Summary: 'هل من الآمن رفع صوري هنا؟',
+        faq2Answer:
+            '<strong>صورك لا تُرفع أبداً.</strong> NexusCompress يعالج الصور بالكامل داخل متصفحك عبر Web Workers وOffscreenCanvas. الملفات تبقى على جهازك ولا تُرسل إلى خوادمنا — مناسب للقطات الحساسة وأعمال العملاء والهوية والجواز.',
+        faq3Summary: 'ما أفضل صيغة لتصغير حجم الصورة؟',
+        faq3Answer:
+            'لمعظم المواقع، <strong>WebP</strong> توازن ممتاز (<a href="../guides/jpeg-vs-webp.html">قارن JPEG وWebP</a>). <strong>AVIF</strong> أصغر حيث مدعوم (<a href="../guides/avif-vs-webp.html">AVIF مقابل WebP</a>). استخدم <strong>JPEG</strong> للبريد؛ <strong>PNG</strong> للشفافية.',
+        faq4Summary: 'هل يمكن ضغط عدة صور دفعة واحدة؟',
+        faq4Answer:
+            'نعم. اسحب عدة ملفات أو استورد مجلداً كاملاً. NexusCompress يصف كل صورة ويعرض التقدم والتوفير لكل ملف، ثم يمكنك تحميل الكل كملف ZIP واحد.',
+        faq5Summary: 'هل الضغط يزيل EXIF أو موقع GPS؟',
+        faq5Answer:
+            'إعادة الترميز تزيل البيانات الوصفية مثل موقع GPS وطراز الجهاز والطوابع الزمنية. NexusCompress يصحّح اتجاه EXIF لتظهر صور الهاتف بالاتجاه الصحيح — مثالي للخصوصية عند المشاركة.',
+        faq6Summary: 'هل الأداة مجانية فعلاً؟',
+        faq6Answer:
+            'نعم. الضغط الأساسي مجاني بدون حساب. الأداة تعمل في متصفحك دون رسوم API لكل صورة — الإعلانات الاختيارية تدعم الاستضافة فقط.',
     },
 };
 
