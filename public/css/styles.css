@@ -877,6 +877,37 @@ html:not(.dark) .ambient-bg {
     padding-bottom: 0.85rem;
 }
 
+@media (min-width: 901px) {
+    .settings-customize--desktop > .settings-customize__body,
+    .settings-customize.settings-customize--desktop:not([open]) > .settings-customize__body {
+        display: block;
+    }
+
+    .settings-customize--desktop .settings-customize__summary {
+        pointer-events: none;
+        cursor: default;
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding-bottom: 0.35rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .settings-customize:not([open]) .settings-customize__summary::after {
+        content: ' ▾';
+        opacity: 0.5;
+        font-size: 0.75rem;
+    }
+
+    .settings-customize[open] .settings-customize__summary::after {
+        content: ' ▴';
+        opacity: 0.5;
+        font-size: 0.75rem;
+    }
+}
+
 .settings-advanced {
     margin-top: 0.35rem;
     border-top: 1px solid var(--surface-border);

@@ -91,6 +91,7 @@
         initWorkers();
         loadSettings();
         bindEvents();
+        syncCompressSettingsPanel();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
         scheduleIdle(registerServiceWorker, 6000);
         loadVersion();
@@ -300,6 +301,15 @@
         }
     }
 
+    function syncCompressSettingsPanel() {
+        const panel = document.getElementById('compress-settings');
+        if (!panel) return;
+        const desktop = window.matchMedia('(min-width: 901px)').matches;
+        panel.classList.toggle('settings-customize--desktop', desktop);
+        if (desktop) panel.setAttribute('open', '');
+        else panel.removeAttribute('open');
+    }
+
     function bindEvents() {
         els.quality.addEventListener('input', (e) => {
             els['quality-val'].textContent = `${e.target.value}%`;
@@ -408,6 +418,11 @@
 
         syncTargetSizeKbField();
         toggleWatermarkFields();
+
+        const settingsMq = window.matchMedia('(min-width: 901px)');
+        const onSettingsMq = () => syncCompressSettingsPanel();
+        if (settingsMq.addEventListener) settingsMq.addEventListener('change', onSettingsMq);
+        else settingsMq.addListener(onSettingsMq);
     }
 
     function syncTargetSizeKbFieldOnly() {
