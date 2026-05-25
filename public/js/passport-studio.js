@@ -286,11 +286,26 @@
         renderPreview();
     }
 
+    function setDropZoneLocked(locked) {
+        if (!els.dropZone) return;
+        els.dropZone.classList.toggle('passport-drop-zone--locked', locked);
+        const hint = document.getElementById('passport-drop-locked-hint');
+        if (hint) hint.style.display = locked ? '' : 'none';
+        if (locked) {
+            els.dropZone.setAttribute('tabindex', '-1');
+            els.dropZone.setAttribute('aria-label', 'Upload passport portrait — select a preset first');
+        } else {
+            els.dropZone.setAttribute('tabindex', '0');
+            els.dropZone.setAttribute('aria-label', 'Upload passport portrait');
+        }
+    }
+
     function onPresetChange() {
         state.presetId = els.presetSelect?.value || '';
         updatePassportWarnings();
         const preset = getPreset();
         applyAspectUI(preset);
+        setDropZoneLocked(!state.presetId);
 
         if (state.presetId === 'india-passport-seva' && preset) {
             const ratio = preset.export.w / preset.export.h;
@@ -341,6 +356,8 @@
         els.printBtn = document.getElementById('passport-print-sheet');
         els.clearBtn = document.getElementById('passport-clear-photo');
         els.replaceInput = document.getElementById('passport-photo-replace');
+
+        setDropZoneLocked(true);
 
         els.presetSelect?.addEventListener('change', onPresetChange);
 
