@@ -63,7 +63,7 @@
             <nav class="site-compliance-nav" aria-label="Legal and support">
                 <a href="${resolvePath('privacy.html')}">Privacy Policy</a>
                 <a href="${resolvePath('terms.html')}">Terms of Service</a>
-                <a href="mailto:info@funadventure.ae">Contact Support</a>
+                <a href="${resolvePath('contact.html')}">Contact Support</a>
             </nav>`;
         document.body.appendChild(footer);
     }

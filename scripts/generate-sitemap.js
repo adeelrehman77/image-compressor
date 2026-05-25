@@ -7,6 +7,8 @@ const pages = [
     { loc: '/ar/', priority: '0.95', changefreq: 'weekly', alternates: [{ lang: 'ar-AE', href: '/ar/' }, { lang: 'en', href: '/' }] },
     { loc: '/docs.html', priority: '0.6', changefreq: 'monthly' },
     { loc: '/privacy.html', priority: '0.5', changefreq: 'yearly' },
+    { loc: '/terms.html', priority: '0.5', changefreq: 'yearly' },
+    { loc: '/contact.html', priority: '0.5', changefreq: 'yearly' },
     { loc: '/guides/index.html', priority: '0.8', changefreq: 'weekly' },
     { loc: '/guides/uae-portal-compression.html', priority: '0.85', changefreq: 'monthly', alternates: [{ lang: 'en', href: '/guides/uae-portal-compression.html' }, { lang: 'ar-AE', href: '/guides/uae-portal-compression-ar.html' }] },
     { loc: '/guides/uae-portal-compression-ar.html', priority: '0.85', changefreq: 'monthly', alternates: [{ lang: 'ar-AE', href: '/guides/uae-portal-compression-ar.html' }, { lang: 'en', href: '/guides/uae-portal-compression.html' }] },

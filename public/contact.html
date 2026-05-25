@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.1.0">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/sentry-init.js?v=2.1.0" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <meta name="description" content="Contact NexusCompress support — email Fun Adventure Media Studio for help with the free browser image compressor.">
+    <meta name="application-name" content="NexusCompress">
+    <link rel="canonical" href="https://compress.funadventure.ae/contact.html">
+    <meta name="robots" content="index, follow">
+    <title>Contact Support | NexusCompress</title>
+    <link rel="stylesheet" href="css/app.css?v=2.1.0">
+    <link rel="icon" href="icons/icon-192.png" type="image/png">
+    <script src="js/ga-config.js?v=2.1.0" defer></script>
+    <script src="js/gtm.js?v=2.1.0" defer></script>
+</head>
+<body class="app-body">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="./" class="site-logo">
+                <span class="logo-dot" aria-hidden="true"></span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
+                    <span class="site-logo-tag">Contact Support</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <a href="./" class="chip chip-success">← NexusCompress</a>
+                <a href="docs.html" class="chip chip-muted">Docs</a>
+            </div>
+        </div>
+    </header>
+
+    <article class="guide-page max-width-wrap glass-panel legal-page contact-page">
+        <p class="guide-breadcrumb"><a href="./">NexusCompress</a> · Contact Support</p>
+        <h1>Contact NexusCompress Support</h1>
+        <p class="guide-lead">Need help with compression settings, UAE portal presets, or a bug report? We’re here — by email.</p>
+
+        <div class="contact-card glass-panel">
+            <h2>Email us</h2>
+            <p>NexusCompress is operated by <strong>Fun Adventure Media Studio</strong>. We typically reply within <strong>1–2 business days</strong> (UAE time, Sun–Thu).</p>
+            <p class="contact-email-line">
+                <a id="contact-email-link" class="btn-primary guide-cta contact-email-btn" href="mailto:info@funadventure.ae?subject=NexusCompress%20Support">Email support</a>
+            </p>
+            <p class="contact-email-address">Or write directly: <a id="contact-email-plain" href="mailto:info@funadventure.ae?subject=NexusCompress%20Support">info@funadventure.ae</a></p>
+        </div>
+
+        <h2>Before you email</h2>
+        <ul>
+            <li><strong>Your files stay on your device.</strong> We cannot access images you compress — include a screenshot if something looks wrong.</li>
+            <li>Check the <a href="./#faq-heading">FAQ on the homepage</a> for JPEG/WebP settings and privacy questions.</li>
+            <li>See <a href="docs.html">documentation</a> for presets, batch ZIP, and CLI usage.</li>
+            <li>UAE portal sizing? Read our <a href="guides/uae-portal-compression.html">UAE compression guide</a>.</li>
+        </ul>
+
+        <h2>What to include</h2>
+        <ul>
+            <li>Browser and device (e.g. Chrome on iPhone, Safari on Mac)</li>
+            <li>Which tool tab (compressor, HEIC, PDF, etc.)</li>
+            <li>Steps to reproduce the issue</li>
+            <li>Screenshots of any error message</li>
+        </ul>
+
+        <p class="contact-ar-note">دعم بالعربية متاح — يمكنك مراسلتنا بالعربية أو الإنجليزية.</p>
+
+        <p><a href="./" class="btn-primary guide-cta">Back to NexusCompress</a></p>
+    </article>
+
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="./">Compressor</a> · <a href="guides/index.html">Guides</a> · <a href="docs.html">Docs</a></p>
+    </footer>
+    <footer class="site-compliance-footer max-width-wrap" id="site-compliance-footer">
+        <nav class="site-compliance-nav" aria-label="Legal and support">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="contact.html" aria-current="page">Contact Support</a>
+        </nav>
+    </footer>
+    <script src="js/brand-config.js?v=2.1.0"></script>
+    <script src="js/guide-footer.js?v=2.1.0"></script>
+    <script>
+        (function () {
+            var brand = window.__NEXUS_BRAND || {};
+            var email = brand.contactEmail || 'info@funadventure.ae';
+            var mailto = 'mailto:' + email + '?subject=' + encodeURIComponent('NexusCompress Support');
+            ['contact-email-link', 'contact-email-plain'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                el.href = mailto;
+                if (id === 'contact-email-plain') el.textContent = email;
+            });
+        })();
+    </script>
+</body>
+</html>

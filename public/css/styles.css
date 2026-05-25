@@ -483,14 +483,20 @@ html:not(.dark) .tool-nav-link.active {
 }
 
 .site-compliance-nav a {
-    color: var(--text-muted);
+    color: var(--accent);
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 .site-compliance-nav a:hover {
     color: var(--accent);
     text-decoration: underline;
+    opacity: 0.9;
+}
+
+.site-compliance-nav a[aria-current="page"] {
+    text-decoration: underline;
+    font-weight: 500;
 }
 
 .memory-guard-notice {
@@ -1965,6 +1971,45 @@ html:not(.dark) .ambient-bg {
 }
 
 .guide-list a:hover { text-decoration: underline; }
+
+.contact-page .contact-card {
+    margin: 1.25rem 0 1.5rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+}
+
+.contact-page .contact-card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+}
+
+.contact-page .contact-email-line {
+    margin: 1rem 0 0.75rem;
+}
+
+.contact-page .contact-email-btn {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.contact-page .contact-email-address {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.contact-page .contact-email-address a {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.contact-page .contact-ar-note {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    font-size: 0.95rem;
+}
 
 .guide-cta {
     display: inline-flex;

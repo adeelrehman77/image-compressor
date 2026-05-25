@@ -34,6 +34,7 @@ function up(ref) {
         .replace(/href="privacy\.html"/g, 'href="../privacy.html"')
         .replace(/href="terms\.html"/g, 'href="../terms.html"')
         .replace(/href="docs\.html"/g, 'href="../docs.html"')
+        .replace(/href="contact\.html"/g, 'href="../contact.html"')
         .replace(/href="manifest\.json"/g, 'href="../manifest.json"')
         .replace(/src="js\//g, 'src="../js/');
 }
