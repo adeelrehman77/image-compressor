@@ -3,6 +3,11 @@
 
     const { toast, formatBytes, downloadBlob, loadJsZip, bindDropZone, runWhenReady } = window.NexusTools;
 
+    function tf(key, vars, fallback) {
+        const s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
+        return s || fallback || key;
+    }
+
     let heic2anyLoaded = false;
     let heic2anyPromise = null;
 
@@ -14,7 +19,7 @@
             s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
             s.crossOrigin = 'anonymous';
             s.onload = () => { heic2anyLoaded = true; resolve(); };
-            s.onerror = () => reject(new Error('Failed to load HEIC converter library. Check your internet connection.'));
+            s.onerror = () => reject(new Error(tf('heicLibLoadFail', null, 'Failed to load HEIC converter library. Check your internet connection.')));
             document.head.appendChild(s);
         });
         return heic2anyPromise;
@@ -43,15 +48,14 @@
     let outputFormat = 'image/jpeg';
 
     runWhenReady(() => {
-        const dropZone = document.getElementById('heic-drop');
+        const dropZone = document.getElementById('heic-drop-zone');
         if (!dropZone) return;
 
-        const fileInput    = document.getElementById('heic-input');
+        const fileInput = document.getElementById('heic-file-input');
         const formatSelect = document.getElementById('heic-output-format');
-        const convertBtn   = document.getElementById('heic-convert-btn');
-        const dlAllBtn     = document.getElementById('heic-download-all-btn');
-        const fileList     = document.getElementById('heic-file-list');
-        const emptyState   = document.getElementById('heic-empty');
+        const convertBtn = document.getElementById('heic-convert-btn');
+        const dlAllBtn = document.getElementById('heic-download-zip-btn');
+        const fileList = document.getElementById('heic-file-list');
 
         formatSelect?.addEventListener('change', () => { outputFormat = formatSelect.value; });
 
@@ -70,7 +74,7 @@
         function addFiles(incoming) {
             const valid = incoming.filter(isHeicFile);
             if (!valid.length) {
-                toast('Please drop HEIC or HEIF files (iPhone photos).', 'warn');
+                toast(tf('heicToastNeedHeic', null, 'Please drop HEIC or HEIF files (iPhone photos).'), 'warn');
                 return;
             }
             valid.forEach((f) => {
@@ -79,7 +83,7 @@
                 fileItems.push(item);
                 renderItem(item);
             });
-            emptyState?.classList.add('is-hidden');
+            fileList?.classList.remove('is-hidden');
             if (convertBtn) convertBtn.disabled = false;
             syncDlAllBtn();
         }
@@ -91,11 +95,11 @@
             li.innerHTML = `
                 <span class="heic-file-name" title="${escapeHtml(item.file.name)}">${escapeHtml(item.file.name)}</span>
                 <span class="heic-file-size">${formatBytes(item.file.size)}</span>
-                <span class="heic-badge status-badge status-ready">Ready</span>
+                <span class="heic-badge status-badge status-ready">${escapeHtml(tf('statusReady', null, 'Ready'))}</span>
                 <span class="heic-output-size is-hidden"></span>
                 <div class="heic-actions">
-                    <a class="btn-link heic-dl-btn is-hidden" download>Save</a>
-                    <button type="button" class="btn-link heic-remove-btn">Remove</button>
+                    <a class="btn-link heic-dl-btn is-hidden" download>${escapeHtml(tf('save', null, 'Save'))}</a>
+                    <button type="button" class="btn-link heic-remove-btn">${escapeHtml(tf('remove', null, 'Remove'))}</button>
                 </div>
             `;
             li.querySelector('.heic-remove-btn').addEventListener('click', () => {
@@ -111,7 +115,7 @@
             const item = fileItems[idx];
             if (item.url) URL.revokeObjectURL(item.url);
             fileItems.splice(idx, 1);
-            if (!fileItems.length) emptyState?.classList.remove('is-hidden');
+            if (!fileItems.length) fileList?.classList.add('is-hidden');
             syncDlAllBtn();
         }
 
@@ -140,7 +144,7 @@
         }
 
         async function convertOne(item) {
-            setBadge(item, 'status-processing', 'Converting…');
+            setBadge(item, 'status-processing', tf('statusConverting', null, 'Converting…'));
             item.status = 'processing';
             try {
                 const result = await heic2any({ blob: item.file, toType: outputFormat, quality: 0.92 });
@@ -152,14 +156,17 @@
                 const ext = mimeToExt(outputFormat);
                 const outName = item.file.name.replace(/\.(heic|heif)$/i, `.${ext}`);
 
-                setBadge(item, 'status-success', '✓ Done');
+                setBadge(item, 'status-success', tf('statusDone', null, '✓ Done'));
 
                 const li = document.getElementById(item.id);
                 if (li) {
                     const sizeEl = li.querySelector('.heic-output-size');
                     if (sizeEl) {
                         const saved = Math.round((1 - resultBlob.size / item.file.size) * 100);
-                        sizeEl.textContent = `→ ${formatBytes(resultBlob.size)}${saved > 0 ? ` (${saved}% smaller)` : ''}`;
+                        const smaller = saved > 0
+                            ? tf('outputSmaller', { pct: saved }, ` (${saved}% smaller)`)
+                            : '';
+                        sizeEl.textContent = `→ ${formatBytes(resultBlob.size)}${smaller}`;
                         sizeEl.classList.remove('is-hidden');
                     }
                     const dlBtn = li.querySelector('.heic-dl-btn');
@@ -171,14 +178,17 @@
                 }
             } catch (err) {
                 item.status = 'error';
-                setBadge(item, 'status-error', 'Error');
-                toast(`${item.file.name}: ${err.message || 'Conversion failed'}`, 'error');
+                setBadge(item, 'status-error', tf('statusError', null, 'Error'));
+                toast(`${item.file.name}: ${err.message || tf('convertFailed', null, 'Conversion failed')}`, 'error');
             }
         }
 
         async function downloadAll() {
             const done = fileItems.filter((f) => f.status === 'done');
-            if (!done.length) { toast('No converted files yet. Click "Convert" first.', 'warn'); return; }
+            if (!done.length) {
+                toast(tf('toastNoConverted', null, 'No converted files yet. Click "Convert all" first.'), 'warn');
+                return;
+            }
             if (done.length === 1) {
                 const item = done[0];
                 const ext = mimeToExt(outputFormat);
@@ -194,8 +204,8 @@
                 });
                 const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
                 downloadBlob(zipBlob, 'heic-converted.zip', 'heic-converter');
-            } catch (err) {
-                toast('Failed to build ZIP.', 'error');
+            } catch {
+                toast(tf('zipBuildFailed', null, 'Failed to build ZIP.'), 'error');
             }
         }
 

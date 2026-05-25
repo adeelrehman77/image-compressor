@@ -172,11 +172,11 @@
                     </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
-                        <span class="tool-tab__label">HEIC Converter</span>
+                        <span class="tool-tab__label" data-i18n="tabHeic">HEIC Converter</span>
                     </a>
                     <a href="#format-converter" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔄</span>
-                        <span class="tool-tab__label">Format Converter</span>
+                        <span class="tool-tab__label" data-i18n="tabFormat">Format Converter</span>
                     </a>
                 </div>
             </nav>
@@ -260,16 +260,16 @@
                 <section id="compress-preview-stage" class="compress-preview-stage is-hidden" aria-label="Image review">
                     <header class="compress-preview-stage__header">
                         <div class="compress-preview-stage__header-left">
-                            <h2 id="compress-preview-title" class="compress-preview-stage__title">Review</h2>
+                            <h2 id="compress-preview-title" class="compress-preview-stage__title" data-i18n="previewReview">Review</h2>
                             <p id="compress-preview-meta" class="compress-preview-stage__meta"></p>
                         </div>
                         <div class="compress-preview-stage__toolbar">
                             <div class="compress-preview-stage__export-actions is-hidden" id="compress-preview-actions">
-                                <button type="button" id="compress-preview-rerun" class="btn-secondary">Re-run with current settings</button>
-                                <a id="compress-preview-download" class="btn-primary">Download</a>
+                                <button type="button" id="compress-preview-rerun" class="btn-secondary" data-i18n="rerunSettings">Re-run with current settings</button>
+                                <a id="compress-preview-download" class="btn-primary" data-i18n="download">Download</a>
                             </div>
                             <div class="compress-preview-stage__queue-bar" aria-label="File queue controls">
-                                <span class="workspace-title compress-queue-label">File queue</span>
+                                <span class="workspace-title compress-queue-label" data-i18n="fileQueue">File queue</span>
                                 <div id="batch-summary" class="batch-summary batch-summary--inline is-hidden" aria-live="polite">
                                     <div class="batch-stats">
                                         <span id="batch-count" class="batch-stat">0 files</span>
@@ -283,30 +283,32 @@
                                     </div>
                                 </div>
                                 <div id="view-toggle-wrap" class="view-toggle is-hidden" role="group" aria-label="Results view">
-                                    <button type="button" id="view-cards" class="view-btn active" aria-pressed="true">Cards</button>
-                                    <button type="button" id="view-table" class="view-btn" aria-pressed="false">Table</button>
+                                    <button type="button" id="view-cards" class="view-btn active" aria-pressed="true" data-i18n="viewCards">Cards</button>
+                                    <button type="button" id="view-table" class="view-btn" aria-pressed="false" data-i18n="viewTable">Table</button>
                                 </div>
-                                <button type="button" id="clear-all-btn" class="btn-secondary is-hidden">Clear all</button>
+                                <button type="button" id="clear-all-btn" class="btn-secondary is-hidden" data-i18n="clearAll">Clear all</button>
                                 <button type="button" id="download-all-btn" class="btn-primary is-hidden">
                                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                    Download ZIP
+                                    <span data-i18n="downloadZip">Download ZIP</span>
                                 </button>
                             </div>
                         </div>
                     </header>
                     <div id="compress-preview-empty" class="compress-preview-empty">
-                        <p>Select a file from the queue below to preview it here.</p>
+                        <p data-i18n="previewSelectFile">Select a file from the queue below to preview it here.</p>
                     </div>
                     <div id="compress-preview-body" class="compress-preview-body is-hidden">
                         <div id="compress-preview-pending" class="compress-preview-pending is-hidden">
                             <img id="compress-preview-original-only" class="compress-preview-original-only" alt="Original preview">
-                            <p class="compress-preview-pending__label">Original · waiting to compress</p>
+                            <p class="compress-preview-pending__label" data-i18n="previewOriginalWaiting">Original · waiting to compress</p>
                         </div>
                         <div
                             id="compress-inline-compare"
                             class="compare-container compare-stage bg-checker is-hidden"
                             role="slider"
                             aria-label="Drag to compare original and compressed"
+                            data-i18n-attr="aria-label"
+                            data-i18n="compareInlineAria"
                             aria-valuemin="0"
                             aria-valuemax="100"
                             aria-valuenow="50"
@@ -317,18 +319,18 @@
                                 <img id="compress-preview-top" class="compare-img compare-top" alt="Original">
                             </div>
                             <div id="compress-preview-handle" class="compare-handle" aria-hidden="true"></div>
-                            <span class="compare-stage-label compare-stage-label--before">Before</span>
-                            <span class="compare-stage-label compare-stage-label--after">After</span>
+                            <span class="compare-stage-label compare-stage-label--before" data-i18n="previewBefore">Before</span>
+                            <span class="compare-stage-label compare-stage-label--after" data-i18n="previewAfter">After</span>
                         </div>
                         <dl class="compress-preview-stats" id="compress-preview-stats"></dl>
                     </div>
                 </section>
 
                 <div id="memory-guard-notice" class="memory-guard-notice is-hidden" role="status" aria-live="polite">
-                    <p class="memory-guard-notice__text">
+                    <p class="memory-guard-notice__text" data-i18n-html="memoryGuardHtml">
                         <strong>Large batch detected.</strong> Some files exceed 25&nbsp;MB or you added more than 20 images — processing will run <strong>one file at a time</strong> to keep your browser stable.
                     </p>
-                    <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" aria-label="Dismiss notice">×</button>
+                    <button type="button" id="memory-guard-dismiss" class="memory-guard-notice__dismiss" data-i18n="memoryGuardDismiss" data-i18n-attr="aria-label" aria-label="Dismiss notice">×</button>
                 </div>
 
                 <section id="results-container" class="results-section is-hidden">
@@ -336,8 +338,8 @@
                         <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
                             <div class="zip-progress-header">
                                 <div class="zip-progress-label-group">
-                                    <span id="zip-progress-label">Building ZIP…</span>
-                                    <a href="#" id="zip-cancel" class="zip-cancel-link is-hidden" role="button">Cancel</a>
+                                    <span id="zip-progress-label" data-i18n="buildingZip">Building ZIP…</span>
+                                    <a href="#" id="zip-cancel" class="zip-cancel-link is-hidden" role="button" data-i18n="cancel">Cancel</a>
                                 </div>
                                 <span id="zip-progress-pct">0%</span>
                             </div>
@@ -350,13 +352,13 @@
                         <table class="results-table" aria-label="Compression results">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Dimensions</th>
-                                    <th>Original</th>
-                                    <th>Output</th>
-                                    <th>Saved</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th data-i18n="tableName">Name</th>
+                                    <th data-i18n="tableDimensions">Dimensions</th>
+                                    <th data-i18n="tableOriginal">Original</th>
+                                    <th data-i18n="tableOutput">Output</th>
+                                    <th data-i18n="tableSaved">Saved</th>
+                                    <th data-i18n="tableStatus">Status</th>
+                                    <th data-i18n="tableActions">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="results-table-body"></tbody>
@@ -387,15 +389,15 @@
                             <option value="portal-reg">General portal (WebP) — 500 KB</option>
                         </select>
                         <div class="preset-grid" role="group" aria-label="UAE portal presets">
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span>Emirates ID / passport copy</span><span class="preset-size">200 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span>ICA / visa upload</span><span class="preset-size">200 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span>MOHRE / labour portal</span><span class="preset-size">500 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span>RTA document upload</span><span class="preset-size">500 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span>General portal</span><span class="preset-size">500 KB WebP</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span data-i18n="uaePresetEmiratesId">Emirates ID / passport copy</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span data-i18n="uaePresetIca">ICA / visa upload</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span data-i18n="uaePresetMohre">MOHRE / labour portal</span><span class="preset-size">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span data-i18n="uaePresetRta">RTA document upload</span><span class="preset-size">500 KB JPEG</span></button>
+                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span data-i18n="uaePresetGeneral">General portal</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 KB WebP</span></button>
                         </div>
                         <div class="uae-info-card">
-                            <p class="uae-info-title">🔒 ID documents stay private</p>
-                            <p class="uae-info-body">Passport &amp; visa copies are processed entirely in your browser. Nothing is uploaded to any server.</p>
+                            <p class="uae-info-title" data-i18n="uaeInfoTitle">🔒 ID documents stay private</p>
+                            <p class="uae-info-body" data-i18n="uaeInfoBody">Passport &amp; visa copies are processed entirely in your browser. Nothing is uploaded to any server.</p>
                         </div>
                     </div>
                 </div>
@@ -417,79 +419,79 @@
                             <option value="max">Full quality — PNG, no resize</option>
                         </select>
                         <div class="form-row">
-                            <p class="field-label">Quick presets</p>
+                            <p class="field-label" data-i18n="quickPresets">Quick presets</p>
                             <div class="preset-grid" role="group" aria-label="General presets">
-                                <button type="button" class="preset-btn" data-preset="web"><span>Website</span><span class="preset-size">WebP, 1920px</span></button>
-                                <button type="button" class="preset-btn" data-preset="email"><span>Email</span><span class="preset-size">JPEG, 1200px</span></button>
-                                <button type="button" class="preset-btn" data-preset="social"><span>Social post</span><span class="preset-size">JPEG, 1080px</span></button>
-                                <button type="button" class="preset-btn" data-preset="max"><span>Full quality</span><span class="preset-size">PNG, no resize</span></button>
+                                <button type="button" class="preset-btn" data-preset="web"><span data-i18n="presetWebsite">Website</span><span class="preset-size" data-i18n="presetWebsiteSize">WebP, 1920px</span></button>
+                                <button type="button" class="preset-btn" data-preset="email"><span data-i18n="presetEmail">Email</span><span class="preset-size" data-i18n="presetEmailSize">JPEG, 1200px</span></button>
+                                <button type="button" class="preset-btn" data-preset="social"><span data-i18n="presetSocial">Social post</span><span class="preset-size" data-i18n="presetSocialSize">JPEG, 1080px</span></button>
+                                <button type="button" class="preset-btn" data-preset="max"><span data-i18n="presetMax">Full quality</span><span class="preset-size" data-i18n="presetMaxSize">PNG, no resize</span></button>
                             </div>
                         </div>
-                        <label class="field-label field-label-spaced-sm" for="quality">Quality <span id="quality-val" class="accent-text">80%</span></label>
+                        <label class="field-label field-label-spaced-sm" for="quality"><span data-i18n="qualityLabel">Quality</span> <span id="quality-val" class="accent-text">80%</span></label>
                         <input type="range" id="quality" min="10" max="100" value="80" class="custom-slider" aria-valuemin="10" aria-valuemax="100" aria-valuenow="80">
 
-                        <label class="field-label field-label-spaced-sm" for="format">Output format</label>
+                        <label class="field-label field-label-spaced-sm" for="format" data-i18n="outputFormatLabel">Output format</label>
                         <select id="format" class="field-input">
-                            <option value="auto">Same as original</option>
+                            <option value="auto" data-i18n="formatSameAsOriginal">Same as original</option>
                             <option value="image/webp">WebP</option>
                             <option value="image/avif" id="avif-option">AVIF</option>
                             <option value="image/jpeg">JPEG</option>
                             <option value="image/png">PNG</option>
                         </select>
-                        <p id="format-target-hint" class="field-hint is-hidden">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
+                        <p id="format-target-hint" class="field-hint is-hidden" data-i18n="formatTargetHint">Size caps require JPEG, WebP, or AVIF — PNG stays lossless and cannot be shrunk to a target.</p>
 
-                        <label class="field-label field-label-spaced-sm" for="max-width">Max width (px)</label>
-                        <input type="number" id="max-width" class="field-input" placeholder="Auto" min="1">
+                        <label class="field-label field-label-spaced-sm" for="max-width" data-i18n="maxWidthLabel">Max width (px)</label>
+                        <input type="number" id="max-width" class="field-input" data-i18n="placeholderAuto" data-i18n-attr="placeholder" placeholder="Auto" min="1">
 
                         <details class="settings-advanced field-label-spaced-sm">
-                            <summary>Advanced options</summary>
+                            <summary data-i18n="advancedOptions">Advanced options</summary>
                             <div class="settings-advanced__body">
-                                <p class="field-hint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
+                                <p class="field-hint" data-i18n="qualityFormatHint">Quality applies to JPEG, WebP, and AVIF. PNG stays lossless — choose WebP or JPEG to shrink PNG files.</p>
                                 <div class="grid-2 field-label-spaced-sm">
                                     <div>
-                                        <label class="field-label" for="max-height">Max height (px)</label>
-                                        <input type="number" id="max-height" class="field-input" placeholder="Auto" min="1">
+                                        <label class="field-label" for="max-height" data-i18n="maxHeightLabel">Max height (px)</label>
+                                        <input type="number" id="max-height" class="field-input" data-i18n="placeholderAuto" data-i18n-attr="placeholder" placeholder="Auto" min="1">
                                     </div>
                                     <div>
-                                        <label class="field-label" for="scale-percent">Scale by %</label>
-                                        <input type="number" id="scale-percent" class="field-input" placeholder="100" min="1" max="100" value="100" step="1">
+                                        <label class="field-label" for="scale-percent" data-i18n="scaleByPercentLabel">Scale by %</label>
+                                        <input type="number" id="scale-percent" class="field-input" data-i18n="placeholder100" data-i18n-attr="placeholder" placeholder="100" min="1" max="100" value="100" step="1">
                                     </div>
                                 </div>
-                                <p class="field-hint">e.g. 50 halves width and height. Applied before max dimensions.</p>
-                                <label class="field-label field-label-spaced-sm" for="aspect-ratio">Aspect ratio (center crop)</label>
+                                <p class="field-hint" data-i18n="scalePercentHint">e.g. 50 halves width and height. Applied before max dimensions.</p>
+                                <label class="field-label field-label-spaced-sm" for="aspect-ratio" data-i18n="aspectRatioLabel">Aspect ratio (center crop)</label>
                                 <select id="aspect-ratio" class="field-input">
-                                    <option value="">Keep original</option>
-                                    <option value="16:9">16:9 (widescreen)</option>
-                                    <option value="4:3">4:3 (standard)</option>
-                                    <option value="1:1">1:1 (square)</option>
-                                    <option value="3:2">3:2 (photo)</option>
+                                    <option value="" data-i18n="aspectKeepOriginal">Keep original</option>
+                                    <option value="16:9" data-i18n="aspect169">16:9 (widescreen)</option>
+                                    <option value="4:3" data-i18n="aspect43">4:3 (standard)</option>
+                                    <option value="1:1" data-i18n="aspect11">1:1 (square)</option>
+                                    <option value="3:2" data-i18n="aspect32">3:2 (photo)</option>
                                 </select>
-                                <h3 class="settings-group-title field-label-spaced-sm">Target file size</h3>
+                                <h3 class="settings-group-title field-label-spaced-sm" data-i18n="targetFileSizeHeading">Target file size</h3>
                                 <div class="grid-2 target-size-row">
                                     <div>
-                                        <label class="field-label" for="target-size-value">Must be under</label>
-                                        <input type="number" id="target-size-value" class="field-input" placeholder="No limit" min="1" step="any">
+                                        <label class="field-label" for="target-size-value" data-i18n="targetMustBeUnder">Must be under</label>
+                                        <input type="number" id="target-size-value" class="field-input" data-i18n="placeholderNoLimit" data-i18n-attr="placeholder" placeholder="No limit" min="1" step="any">
                                     </div>
                                     <div>
-                                        <label class="field-label" for="target-size-unit">Unit</label>
+                                        <label class="field-label" for="target-size-unit" data-i18n="targetUnitLabel">Unit</label>
                                         <select id="target-size-unit" class="field-input">
-                                            <option value="kb">KB</option>
-                                            <option value="mb">MB</option>
+                                            <option value="kb" data-i18n="unitKb">KB</option>
+                                            <option value="mb" data-i18n="unitMb">MB</option>
                                         </select>
                                     </div>
                                 </div>
                                 <input type="hidden" id="target-size-kb" value="">
-                                <p class="field-hint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
-                                <label class="field-label field-label-spaced-sm" for="rename-pattern">Download name</label>
+                                <p class="field-hint" data-i18n="targetSizeAlgoHint">Uses JPEG/WebP (not PNG) and lowers quality, then size if needed, until the file fits.</p>
+                                <label class="field-label field-label-spaced-sm" for="rename-pattern" data-i18n="downloadNameLabel">Download name</label>
                                 <input type="text" id="rename-pattern" class="field-input" value="{name}-compressed.{ext}" title="Use {name}, {ext}, {suffix}">
-                                <p class="field-hint">Variables: {name}, {ext}, {suffix}</p>
+                                <p class="field-hint" data-i18n="renameVarsHint">Variables: {name}, {ext}, {suffix}</p>
                                 <label class="checkbox-row field-label-spaced-sm">
                                     <input type="checkbox" id="fix-orientation" checked>
-                                    <span>Fix phone photo rotation</span>
+                                    <span data-i18n="fixOrientationLabel">Fix phone photo rotation</span>
                                 </label>
                                 <label class="checkbox-row field-label-spaced-xs">
                                     <input type="checkbox" id="strip-metadata" checked disabled>
-                                    <span>Remove metadata when saving</span>
+                                    <span data-i18n="stripMetadataLabel">Remove metadata when saving</span>
                                 </label>
                             </div>
                         </details>
@@ -500,38 +502,38 @@
                     <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="false">
                         <span class="settings-card__header-left">
                             <span class="settings-icon" aria-hidden="true">🏷️</span>
-                            Watermark (batch)
+                            <span data-i18n="watermarkBatch">Watermark (batch)</span>
                         </span>
                         <span class="settings-chevron" aria-hidden="true">▾</span>
                     </button>
                     <div class="settings-card__body is-collapsed">
                         <label class="checkbox-row">
                             <input type="checkbox" id="watermark-enabled">
-                            <span>Add watermark to every export</span>
+                            <span data-i18n="watermarkEnableLabel">Add watermark to every export</span>
                         </label>
                         <div id="watermark-fields" class="watermark-fields is-hidden">
-                            <label class="field-label field-label-spaced-sm" for="watermark-type">Type</label>
+                            <label class="field-label field-label-spaced-sm" for="watermark-type" data-i18n="watermarkTypeLabel">Type</label>
                             <select id="watermark-type" class="field-input">
-                                <option value="text">Text</option>
-                                <option value="logo">Logo image (PNG)</option>
+                                <option value="text" data-i18n="watermarkTypeText">Text</option>
+                                <option value="logo" data-i18n="watermarkTypeLogo">Logo image (PNG)</option>
                             </select>
                             <div id="wm-text-group">
-                                <label class="field-label field-label-spaced-sm" for="watermark-text">Text</label>
-                                <input type="text" id="watermark-text" class="field-input" placeholder="© Your name" maxlength="80">
+                                <label class="field-label field-label-spaced-sm" for="watermark-text" data-i18n="watermarkTextLabel">Text</label>
+                                <input type="text" id="watermark-text" class="field-input" data-i18n="watermarkTextPlaceholder" data-i18n-attr="placeholder" placeholder="© Your name" maxlength="80">
                             </div>
                             <div id="wm-logo-group" class="is-hidden">
-                                <label class="field-label field-label-spaced-sm" for="watermark-logo">Logo file</label>
+                                <label class="field-label field-label-spaced-sm" for="watermark-logo" data-i18n="watermarkLogoLabel">Logo file</label>
                                 <input type="file" id="watermark-logo" class="field-input field-input-file" accept="image/png,image/webp,image/jpeg">
                             </div>
-                            <label class="field-label field-label-spaced-sm" for="watermark-position">Position</label>
+                            <label class="field-label field-label-spaced-sm" for="watermark-position" data-i18n="watermarkPositionLabel">Position</label>
                             <select id="watermark-position" class="field-input">
-                                <option value="bottom-right">Bottom right</option>
-                                <option value="bottom-left">Bottom left</option>
-                                <option value="top-right">Top right</option>
-                                <option value="top-left">Top left</option>
-                                <option value="center">Center</option>
+                                <option value="bottom-right" data-i18n="wmPosBottomRight">Bottom right</option>
+                                <option value="bottom-left" data-i18n="wmPosBottomLeft">Bottom left</option>
+                                <option value="top-right" data-i18n="wmPosTopRight">Top right</option>
+                                <option value="top-left" data-i18n="wmPosTopLeft">Top left</option>
+                                <option value="center" data-i18n="wmPosCenter">Center</option>
                             </select>
-                            <label class="field-label field-label-spaced-sm" for="watermark-opacity">Opacity <span id="watermark-opacity-val" class="accent-text">70%</span></label>
+                            <label class="field-label field-label-spaced-sm" for="watermark-opacity"><span data-i18n="watermarkOpacityLabel">Opacity</span> <span id="watermark-opacity-val" class="accent-text">70%</span></label>
                             <input type="range" id="watermark-opacity" min="20" max="100" value="70" class="custom-slider">
                         </div>
                     </div>
@@ -551,41 +553,41 @@
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
-                    <section class="drop-zone tool-drop-zone" id="itp-drop" tabindex="0" aria-label="Drop images here or choose files">
+                    <section class="drop-zone tool-drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="Drop images here or choose files">
                         <div class="drop-zone-inner">
                             <div class="drop-icon" aria-hidden="true">📄</div>
-                            <p class="drop-title">Drop images to convert to PDF</p>
-                            <p class="drop-sub">Each image becomes one page — order is top to bottom</p>
+                            <p class="drop-title" data-i18n="itpDropTitle">Drop images to convert to PDF</p>
+                            <p class="drop-sub" data-i18n="itpDropSub">Each image becomes one page — order is top to bottom</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">JPEG</span>
                                 <span class="fmt-tag">PNG</span>
                                 <span class="fmt-tag">WebP</span>
                             </div>
                             <div class="drop-actions">
-                                <label class="btn-primary is-clickable">Choose images<input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
+                                <label class="btn-primary is-clickable"><span data-i18n="itpChooseImages">Choose images</span><input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
                             </div>
                         </div>
                     </section>
                     <ul id="itp-list" class="tool-file-list"></ul>
-                    <p class="tool-empty-state" id="itp-empty">No images yet — drop scans above, reorder if needed, then download your PDF.</p>
+                    <p class="tool-empty-state" id="itp-empty" data-i18n="itpEmpty">No images yet — drop scans above, reorder if needed, then download your PDF.</p>
                 </div>
                 <aside class="compress-sidebar sidebar">
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">📐</span>
-                                Page settings
+                                <span data-i18n="itpPageSettings">Page settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="itp-page-size">Page size</label>
+                            <label class="field-label" for="itp-page-size" data-i18n="itpPageSizeLabel">Page size</label>
                             <select id="itp-page-size" class="field-input">
-                                <option value="a4">A4 (portal standard)</option>
-                                <option value="fit">Fit to image</option>
+                                <option value="a4" data-i18n="itpPageA4">A4 (portal standard)</option>
+                                <option value="fit" data-i18n="itpPageFit">Fit to image</option>
                             </select>
-                            <p class="field-hint field-label-spaced-sm">A4 centers each scan with margins — ideal for government portals.</p>
-                            <button type="button" id="itp-build" class="btn-primary btn-block field-label-spaced-sm" disabled>Download PDF</button>
+                            <p class="field-hint field-label-spaced-sm" data-i18n="itpA4Hint">A4 centers each scan with margins — ideal for government portals.</p>
+                            <button type="button" id="itp-build" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="itpDownloadPdf">Download PDF</button>
                         </div>
                     </div>
                 </aside>
@@ -603,31 +605,31 @@
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
-                    <div class="pdf-suite-tabs" role="tablist" aria-label="PDF tools">
-                        <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true">Merge</button>
-                        <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false">Split</button>
+                    <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="PDF tools">
+                        <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true" data-i18n="pdfTabMerge">Merge</button>
+                        <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false" data-i18n="pdfTabSplit">Split</button>
                     </div>
                     <div id="pdf-panel-merge" class="pdf-tab-panel">
-                        <section class="drop-zone tool-drop-zone" id="pdf-merge-drop" tabindex="0" aria-label="Drop PDF files to merge">
+                        <section class="drop-zone tool-drop-zone" id="pdf-merge-drop" tabindex="0" data-i18n="pdfMergeDropAria" data-i18n-attr="aria-label" aria-label="Drop PDF files to merge">
                             <div class="drop-zone-inner">
                                 <div class="drop-icon" aria-hidden="true">🔗</div>
-                                <p class="drop-title">Merge PDFs</p>
-                                <p class="drop-sub">Select two or more PDF files in the order you want</p>
+                                <p class="drop-title" data-i18n="pdfMergeTitle">Merge PDFs</p>
+                                <p class="drop-sub" data-i18n="pdfMergeSub">Select two or more PDF files in the order you want</p>
                                 <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
-                                <label class="btn-primary is-clickable">Choose PDFs<input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
+                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdfs">Choose PDFs</span><input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
                             </div>
                         </section>
                         <ul id="pdf-merge-list" class="tool-file-list"></ul>
-                        <p class="tool-empty-state" id="pdf-merge-empty">Add at least two PDFs above, reorder with ↑ ↓, then merge from the sidebar.</p>
+                        <p class="tool-empty-state" id="pdf-merge-empty" data-i18n="pdfMergeEmpty">Add at least two PDFs above, reorder with ↑ ↓, then merge from the sidebar.</p>
                     </div>
                     <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
-                        <section class="drop-zone tool-drop-zone" id="pdf-split-drop" tabindex="0" aria-label="Drop a PDF to split">
+                        <section class="drop-zone tool-drop-zone" id="pdf-split-drop" tabindex="0" data-i18n="pdfSplitDropAria" data-i18n-attr="aria-label" aria-label="Drop a PDF to split">
                             <div class="drop-zone-inner">
                                 <div class="drop-icon" aria-hidden="true">✂️</div>
-                                <p class="drop-title">Split a PDF</p>
-                                <p class="drop-sub">Extract every page as its own file (ZIP if more than one)</p>
+                                <p class="drop-title" data-i18n="pdfSplitTitle">Split a PDF</p>
+                                <p class="drop-sub" data-i18n="pdfSplitSub">Extract every page as its own file (ZIP if more than one)</p>
                                 <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
-                                <label class="btn-primary is-clickable">Choose PDF<input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
+                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">Choose PDF</span><input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
                             </div>
                         </section>
                         <p id="pdf-split-info" class="tool-status"></p>
@@ -638,26 +640,26 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                Merge settings
+                                <span data-i18n="pdfMergeSettings">Merge settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <p class="field-hint">Drag files in the list to reorder before merging (use ↑ ↓ buttons).</p>
-                            <button type="button" id="pdf-merge-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Download merged PDF</button>
+                            <p class="field-hint" data-i18n="pdfMergeReorderHint">Drag files in the list to reorder before merging (use ↑ ↓ buttons).</p>
+                            <button type="button" id="pdf-merge-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="pdfDownloadMerged">Download merged PDF</button>
                         </div>
                     </div>
                     <div id="pdf-sidebar-split" class="settings-card is-hidden" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">✂️</span>
-                                Split settings
+                                <span data-i18n="pdfSplitSettings">Split settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <p class="field-hint">Each page exports as a separate PDF. Multiple pages download as a ZIP.</p>
-                            <button type="button" id="pdf-split-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Download pages</button>
+                            <p class="field-hint" data-i18n="pdfSplitHint">Each page exports as a separate PDF. Multiple pages download as a ZIP.</p>
+                            <button type="button" id="pdf-split-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="pdfDownloadPages">Download pages</button>
                         </div>
                     </div>
                 </aside>
@@ -675,41 +677,41 @@
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
-                    <section class="drop-zone tool-drop-zone" id="svg-drop" tabindex="0" aria-label="Drop an SVG file here or choose one">
+                    <section class="drop-zone tool-drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="Drop an SVG file here or choose one">
                         <div class="drop-zone-inner">
                             <div class="drop-icon" aria-hidden="true">📐</div>
-                            <p class="drop-title">Drop an SVG file</p>
-                            <p class="drop-sub">See before/after size comparison instantly</p>
+                            <p class="drop-title" data-i18n="svgDropTitle">Drop an SVG file</p>
+                            <p class="drop-sub" data-i18n="svgDropSub">See before/after size comparison instantly</p>
                             <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">SVG</span></div>
-                            <label class="btn-primary is-clickable">Choose SVG<input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
+                            <label class="btn-primary is-clickable"><span data-i18n="svgChooseSvg">Choose SVG</span><input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
                         </div>
                     </section>
                     <div class="svg-editor grid-2 is-hidden">
                         <div>
-                            <label class="field-label" for="svg-before">Original</label>
-                            <textarea id="svg-before" class="svg-textarea" readonly placeholder="Upload an SVG…"></textarea>
+                            <label class="field-label" for="svg-before" data-i18n="svgOriginalLabel">Original</label>
+                            <textarea id="svg-before" class="svg-textarea" readonly data-i18n="svgBeforePlaceholder" data-i18n-attr="placeholder" placeholder="Upload an SVG…"></textarea>
                             <p id="svg-before-size" class="tool-status"></p>
                         </div>
                         <div>
-                            <label class="field-label" for="svg-after">Optimized</label>
-                            <textarea id="svg-after" class="svg-textarea" readonly placeholder="Optimized output…"></textarea>
+                            <label class="field-label" for="svg-after" data-i18n="svgOptimizedLabel">Optimized</label>
+                            <textarea id="svg-after" class="svg-textarea" readonly data-i18n="svgAfterPlaceholder" data-i18n-attr="placeholder" placeholder="Optimized output…"></textarea>
                             <p id="svg-after-size" class="tool-status"></p>
                         </div>
                     </div>
-                    <p class="tool-empty-state" id="svg-empty">Drop an SVG above to compare original vs optimized size side by side.</p>
+                    <p class="tool-empty-state" id="svg-empty" data-i18n="svgEmpty">Drop an SVG above to compare original vs optimized size side by side.</p>
                 </div>
                 <aside class="compress-sidebar sidebar">
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                Optimizer
+                                <span data-i18n="svgOptimizer">Optimizer</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <p class="field-hint">Removes metadata, comments, and unnecessary attributes while preserving visual output.</p>
-                            <button type="button" id="svg-download" class="btn-primary btn-block field-label-spaced-sm" disabled>Download optimized SVG</button>
+                            <p class="field-hint" data-i18n="svgOptimizerHint">Removes metadata, comments, and unnecessary attributes while preserving visual output.</p>
+                            <button type="button" id="svg-download" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="svgDownload">Download optimized SVG</button>
                         </div>
                     </div>
                 </aside>
@@ -853,10 +855,10 @@
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
                 <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line">📱 <span class="compress-hero__accent">HEIC Converter</span></span></h1>
-                    <p class="compress-hero__sub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroHeicHtml">📱 <span class="compress-hero__accent">HEIC Converter</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroHeicSub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
                 </div>
-                <span class="compress-hero__badge">Free · Private</span>
+                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
@@ -865,15 +867,15 @@
                             <div class="drop-icon" aria-hidden="true">
                                 <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                             </div>
-                            <p class="drop-title">Drop HEIC / HEIF files here</p>
-                            <p class="drop-sub">Add files from your iPhone or iPad — batch conversion supported</p>
+                            <p class="drop-title" data-i18n="heicDropTitle">Drop HEIC / HEIF files here</p>
+                            <p class="drop-sub" data-i18n="heicDropSub">Add files from your iPhone or iPad — batch conversion supported</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">HEIC</span>
                                 <span class="fmt-tag">HEIF</span>
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span>Choose files</span>
+                                    <span data-i18n="chooseFiles">Choose files</span>
                                     <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
                                 </label>
                             </div>
@@ -887,32 +889,32 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                <span>Output settings</span>
+                                <span data-i18n="outputSettings">Output settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="heic-output-format">Output format</label>
+                            <label class="field-label" for="heic-output-format" data-i18n="heicOutputFormat">Output format</label>
                             <select id="heic-output-format" class="field-select">
                                 <option value="image/jpeg">JPEG</option>
                                 <option value="image/png">PNG</option>
                                 <option value="image/webp">WebP</option>
                             </select>
-                            <p class="field-hint">JPEG is best for photos; PNG keeps transparency; WebP gives the smallest files.</p>
-                            <button type="button" id="heic-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
-                            <button type="button" id="heic-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                            <p class="field-hint" data-i18n="heicFormatHint">JPEG is best for photos; PNG keeps transparency; WebP gives the smallest files.</p>
+                            <button type="button" id="heic-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="convertAll">Convert all</button>
+                            <button type="button" id="heic-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden" data-i18n="downloadZip">Download ZIP</button>
                         </div>
                     </div>
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">ℹ️</span>
-                                <span>How it works</span>
+                                <span data-i18n="howItWorks">How it works</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <p class="field-hint">Uses the <strong>heic2any</strong> library to decode Apple HEIC/HEIF files directly in your browser. Files are never uploaded — conversion is 100% local and private.</p>
+                            <p class="field-hint" data-i18n-html="heicHowItWorksHtml">Uses the <strong>heic2any</strong> library to decode Apple HEIC/HEIF files directly in your browser. Files are never uploaded — conversion is 100% local and private.</p>
                         </div>
                     </div>
                 </aside>
@@ -924,10 +926,10 @@
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
                 <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line">🔄 <span class="compress-hero__accent">Format Converter</span></span></h1>
-                    <p class="compress-hero__sub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroFmtHtml">🔄 <span class="compress-hero__accent">Format Converter</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroFmtSub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
                 </div>
-                <span class="compress-hero__badge">Free · Private</span>
+                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
             </header>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
@@ -936,8 +938,8 @@
                             <div class="drop-icon" aria-hidden="true">
                                 <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                             </div>
-                            <p class="drop-title">Drop images here to convert</p>
-                            <p class="drop-sub">Supports JPEG, PNG, WebP, AVIF, and GIF — batch conversion in one click</p>
+                            <p class="drop-title" data-i18n="fmtDropTitle">Drop images here to convert</p>
+                            <p class="drop-sub" data-i18n="fmtDropSub">Supports JPEG, PNG, WebP, AVIF, and GIF — batch conversion in one click</p>
                             <div class="drop-formats" aria-hidden="true">
                                 <span class="fmt-tag">JPEG</span>
                                 <span class="fmt-tag">PNG</span>
@@ -947,7 +949,7 @@
                             </div>
                             <div class="drop-actions">
                                 <label class="btn-primary is-clickable">
-                                    <span>Choose files</span>
+                                    <span data-i18n="chooseFiles">Choose files</span>
                                     <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
                                 </label>
                             </div>
@@ -961,33 +963,33 @@
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">⚙️</span>
-                                <span>Output settings</span>
+                                <span data-i18n="outputSettings">Output settings</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <label class="field-label" for="fmt-output-format">Convert to</label>
+                            <label class="field-label" for="fmt-output-format" data-i18n="fmtConvertTo">Convert to</label>
                             <select id="fmt-output-format" class="field-select">
-                                <option value="image/webp">WebP — best for web</option>
-                                <option value="image/avif">AVIF — smallest files</option>
-                                <option value="image/jpeg">JPEG — universal</option>
-                                <option value="image/png">PNG — lossless</option>
+                                <option value="image/webp" data-i18n="fmtOptWebp">WebP — best for web</option>
+                                <option value="image/avif" data-i18n="fmtOptAvif">AVIF — smallest files</option>
+                                <option value="image/jpeg" data-i18n="fmtOptJpeg">JPEG — universal</option>
+                                <option value="image/png" data-i18n="fmtOptPng">PNG — lossless</option>
                             </select>
-                            <p class="field-hint">WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%.</p>
-                            <button type="button" id="fmt-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
-                            <button type="button" id="fmt-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                            <p class="field-hint" data-i18n="fmtFormatHint">WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%.</p>
+                            <button type="button" id="fmt-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="convertAll">Convert all</button>
+                            <button type="button" id="fmt-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden" data-i18n="downloadZip">Download ZIP</button>
                         </div>
                     </div>
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
                             <span class="settings-card__header-left">
                                 <span class="settings-icon" aria-hidden="true">ℹ️</span>
-                                <span>How it works</span>
+                                <span data-i18n="howItWorks">How it works</span>
                             </span>
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <p class="field-hint">Uses the browser's built-in <strong>OffscreenCanvas API</strong> to re-encode images client-side. No server involved, no account required — files are converted and downloaded directly in your browser.</p>
+                            <p class="field-hint" data-i18n-html="fmtHowItWorksHtml">Uses the browser's built-in <strong>OffscreenCanvas API</strong> to re-encode images client-side. No server involved, no account required — files are converted and downloaded directly in your browser.</p>
                         </div>
                     </div>
                 </aside>
@@ -1038,8 +1040,8 @@
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
                 <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">Passport Studio</a>
-                <a href="#heic-converter" class="seo-tool-chip">HEIC Converter</a>
-                <a href="#format-converter" class="seo-tool-chip">Format Converter</a>
+                <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
+                <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -1118,11 +1120,11 @@
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
         <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.1.0</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
-            <a href="../guides/index.html">Guides</a>
-            <a href="../docs.html">Docs</a>
-            <a href="../privacy.html">Privacy Policy</a>
-            <a href="../terms.html">Terms of Service</a>
-            <a href="mailto:info@funadventure.ae">Contact Support</a>
+            <a href="../guides/index.html" data-i18n="footerGuides">Guides</a>
+            <a href="../docs.html" data-i18n="footerDocs">Docs</a>
+            <a href="../privacy.html" data-i18n="privacyPolicy">Privacy Policy</a>
+            <a href="../terms.html" data-i18n="footerTerms">Terms of Service</a>
+            <a href="mailto:info@funadventure.ae" data-i18n="footerContact">Contact Support</a>
         </nav>
     </footer>
 
@@ -1131,10 +1133,10 @@
         <div class="compare-modal-panel glass-panel">
             <header class="compare-modal-header">
                 <div class="compare-modal-heading">
-                    <h2 id="compare-modal-title">Before & after</h2>
+                    <h2 id="compare-modal-title" data-i18n="compareModalTitle">Before & after</h2>
                     <p id="compare-modal-meta" class="compare-modal-meta"></p>
                 </div>
-                <button type="button" id="compare-modal-close" class="btn-icon compare-modal-close" aria-label="Close compare view">×</button>
+                <button type="button" id="compare-modal-close" class="btn-icon compare-modal-close" data-i18n="compareCloseAria" data-i18n-attr="aria-label" aria-label="Close compare view">×</button>
             </header>
             <div class="compare-modal-stage">
                 <div
@@ -1142,6 +1144,8 @@
                     class="compare-container compare-modal-container bg-checker"
                     role="slider"
                     aria-label="Drag to compare original and compressed images"
+                    data-i18n-attr="aria-label"
+                    data-i18n="compareSliderAria"
                     aria-valuemin="0"
                     aria-valuemax="100"
                     aria-valuenow="50"
@@ -1154,9 +1158,9 @@
                     <div id="compare-modal-handle" class="compare-handle compare-modal-handle" aria-hidden="true"></div>
                 </div>
                 <div class="compare-modal-labels">
-                    <span class="compare-label compare-label-original">Original ←</span>
-                    <span class="compare-label compare-label-hint">Drag the divider</span>
-                    <span class="compare-label compare-label-compressed">→ Compressed</span>
+                    <span class="compare-label compare-label-original" data-i18n="compareOriginal">Original ←</span>
+                    <span class="compare-label compare-label-hint" data-i18n="compareDragHint">Drag the divider</span>
+                    <span class="compare-label compare-label-compressed" data-i18n="compareCompressed">→ Compressed</span>
                 </div>
             </div>
         </div>
@@ -1178,13 +1182,13 @@
         <div class="pwa-install-banner__content">
             <span class="pwa-install-banner__icon" aria-hidden="true">📲</span>
             <div class="pwa-install-banner__text">
-                <strong>Install NexusCompress</strong>
-                <span>Add to your home screen for instant access</span>
+                <strong data-i18n="pwaInstallTitle">Install NexusCompress</strong>
+                <span data-i18n="pwaInstallSub">Add to your home screen for instant access</span>
             </div>
         </div>
         <div class="pwa-install-banner__actions">
-            <button type="button" id="pwa-install-btn" class="btn-primary pwa-install-banner__install">Install</button>
-            <button type="button" id="pwa-dismiss-btn" class="pwa-install-banner__dismiss" aria-label="Dismiss install prompt">✕</button>
+            <button type="button" id="pwa-install-btn" class="btn-primary pwa-install-banner__install" data-i18n="pwaInstallBtn">Install</button>
+            <button type="button" id="pwa-dismiss-btn" class="pwa-install-banner__dismiss" data-i18n="pwaDismissAria" data-i18n-attr="aria-label" aria-label="Dismiss install prompt">✕</button>
         </div>
     </div>
 
@@ -1192,8 +1196,8 @@
         <div class="exif-modal-backdrop" data-exif-close tabindex="-1" aria-hidden="true"></div>
         <div class="exif-modal-panel glass-panel">
             <header class="exif-modal-header">
-                <h2 id="exif-modal-title" class="exif-modal-title">Image metadata</h2>
-                <button type="button" id="exif-modal-close" class="btn-icon exif-modal-close" aria-label="Close metadata viewer">×</button>
+                <h2 id="exif-modal-title" class="exif-modal-title" data-i18n="exifModalTitle">Image metadata</h2>
+                <button type="button" id="exif-modal-close" class="btn-icon exif-modal-close" data-i18n="exifCloseAria" data-i18n-attr="aria-label" aria-label="Close metadata viewer">×</button>
             </header>
             <div id="exif-modal-body" class="exif-modal-body"></div>
         </div>

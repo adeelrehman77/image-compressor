@@ -805,10 +805,11 @@
         const textEl = notice.querySelector('.memory-guard-notice__text');
         if (textEl) {
             const parts = [];
-            if (hasOversized) parts.push('one or more files exceed 25&nbsp;MB');
-            if (isLargeBatch) parts.push(`you added more than ${MAX_BATCH_FILES} images`);
-            const reason = parts.join(' and ');
-            textEl.innerHTML = `<strong>Large batch detected.</strong> ${reason.charAt(0).toUpperCase() + reason.slice(1)} — processing will run <strong>one file at a time</strong> to keep your browser stable.`;
+            if (hasOversized) parts.push(tf('memoryGuardOversized', null, 'one or more files exceed 25&nbsp;MB'));
+            if (isLargeBatch) parts.push(tf('memoryGuardLargeBatch', { n: MAX_BATCH_FILES }, `you added more than ${MAX_BATCH_FILES} images`));
+            const reason = parts.join(window.__NEXUS_LOCALE === 'ar' ? ' و' : ' and ');
+            const cap = window.__NEXUS_LOCALE === 'ar' ? reason : reason.charAt(0).toUpperCase() + reason.slice(1);
+            textEl.innerHTML = tf('memoryGuardDynamic', { reason: cap }, `<strong>Large batch detected.</strong> ${cap} — processing will run <strong>one file at a time</strong> to keep your browser stable.`);
         }
         notice.classList.remove('is-hidden');
     }
