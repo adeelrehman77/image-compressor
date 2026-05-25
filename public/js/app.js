@@ -7,6 +7,13 @@
     const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif)$/i;
     const ACCEPTED_EXT = /\.(jpe?g|png|webp|avif)$/i;
 
+    function tf(key, vars, fallback) {
+        var s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
+        if (s) return s;
+        if (fallback != null) return fallback;
+        return window.__NEXUS_T?.(key) || key;
+    }
+
     const PRESETS = {
         web: { quality: 85, format: 'image/webp', maxWidth: 1920, maxHeight: null, targetSizeKb: null },
         email: { quality: 70, format: 'image/jpeg', maxWidth: 1200, maxHeight: null, targetSizeKb: null },
@@ -756,13 +763,13 @@
             task.config = { ...config };
             task.status = 'queued';
             state.queue.push(task.id);
-            updateTaskStatus(task.id, 'Queued', 'processing');
+            updateTaskStatus(task.id, tf('statusQueuedBadge', null, 'Queued'), 'processing');
         });
 
         const btn = els['start-compress-btn'];
         if (btn) {
             btn.disabled = true;
-            btn.textContent = 'Compressing…';
+            btn.textContent = tf('compressing', null, 'Compressing…');
         }
         syncWorkflowUI();
         drainQueue();
@@ -818,7 +825,7 @@
 
         idle.busy = true;
         task.status = 'processing';
-        updateTaskStatus(id, 'Processing…', 'processing');
+        updateTaskStatus(id, tf('statusProcessing', null, 'Processing…'), 'processing');
 
         idle.postMessage({ id, file: task.file, config: task.config });
     }
@@ -926,10 +933,10 @@
             fileName: task.file?.name,
             tool: 'compress',
         });
-        updateTaskStatus(task.id, 'Failed', 'error');
+        updateTaskStatus(task.id, tf('statusFailed', null, 'Failed'), 'error');
         const errEl = document.querySelector(`#${task.id} .error-msg`);
         if (errEl) {
-            errEl.textContent = error || 'Compression failed';
+            errEl.textContent = error || tf('compressionFailed', null, 'Compression failed');
             errEl.classList.remove('is-hidden');
         }
         toast(`${task.file.name}: ${error}`, 'error');
@@ -1165,7 +1172,7 @@
                 els['compress-preview-original-only'].src = task.originalUrl;
             }
             if (els['compress-preview-meta']) {
-                els['compress-preview-meta'].textContent = 'Compressing with your current settings…';
+                els['compress-preview-meta'].textContent = tf('previewCompressing', null, 'Compressing with your current settings…');
             }
             if (statsEl) {
                 statsEl.innerHTML = `
@@ -1218,7 +1225,7 @@
                 els['compress-preview-original-only'].src = task.originalUrl;
             }
             if (els['compress-preview-meta']) {
-                els['compress-preview-meta'].textContent = task.error || 'Compression failed';
+                els['compress-preview-meta'].textContent = task.error || tf('compressionFailed', null, 'Compression failed');
             }
         }
     }
@@ -1229,7 +1236,9 @@
         els['drop-zone']?.closest('.compress-main-col')?.classList.toggle('has-files', active);
         const dropTitle = els['drop-zone']?.querySelector('.drop-title');
         if (dropTitle) {
-            dropTitle.textContent = active ? 'Add more files' : 'Drop your images here';
+            dropTitle.textContent = active
+                ? tf('dropTitleMore', null, 'Add more files')
+                : window.__NEXUS_T?.('dropTitle') || 'Drop your images here';
         }
     }
 
@@ -1260,7 +1269,9 @@
             updateWorkflowStep('settings');
             if (statusEl) {
                 statusEl.textContent =
-                    `${pending.length} file${pending.length !== 1 ? 's' : ''} queued — adjust settings in the sidebar, then start`;
+                    pending.length === 1
+                        ? tf('statusQueuedOne', null, '1 file queued — adjust settings in the sidebar, then start')
+                        : tf('statusQueued', { n: pending.length }, `${pending.length} files queued — adjust settings in the sidebar, then start`);
             }
             if (btn) {
                 btn.classList.remove('is-hidden');
@@ -1271,19 +1282,24 @@
         } else if (active.length) {
             updateWorkflowStep('settings');
             if (statusEl) {
-                statusEl.textContent =
-                    `Compressing… ${done.length} of ${all.length} complete`;
+                statusEl.textContent = tf(
+                    'statusCompressing',
+                    { done: done.length, total: all.length },
+                    `Compressing… ${done.length} of ${all.length} complete`
+                );
             }
             if (btn) {
                 btn.classList.remove('is-hidden');
                 btn.disabled = true;
-                btn.textContent = 'Compressing…';
+                btn.textContent = tf('compressing', null, 'Compressing…');
             }
         } else if (done.length) {
             updateWorkflowStep('download');
             if (statusEl) {
                 statusEl.textContent =
-                    `${done.length} file${done.length !== 1 ? 's' : ''} ready — compare with the slider, then download`;
+                    done.length === 1
+                        ? tf('statusReadyOne', null, '1 file ready — compare with the slider, then download')
+                        : tf('statusReady', { n: done.length }, `${done.length} files ready — compare with the slider, then download`);
             }
             if (btn) {
                 btn.classList.add('is-hidden');
@@ -1364,7 +1380,7 @@
             const compareRow = row.querySelector('.compare-row');
             if (compareRow) compareRow.disabled = true;
         }
-        updateTaskStatus(id, 'Processing…', 'processing');
+        updateTaskStatus(id, tf('statusProcessing', null, 'Processing…'), 'processing');
         if (state.selectedTaskId === id) updatePreviewStage(task);
         syncWorkflowUI();
         drainQueue();
@@ -1501,13 +1517,13 @@
         const zipPct = els['zip-progress-pct'];
         if (btn) {
             btn.disabled = false;
-            btn.textContent = 'Download ZIP';
+            btn.textContent = tf('downloadZip', null, 'Download ZIP');
         }
         els['zip-cancel']?.classList.add('is-hidden');
         zipWrap?.classList.add('is-hidden');
         if (zipBar) zipBar.style.width = '0%';
         if (zipPct) zipPct.textContent = '0%';
-        if (zipLabel) zipLabel.textContent = 'Building ZIP…';
+        if (zipLabel) zipLabel.textContent = tf('buildingZip', null, 'Building ZIP…');
     }
 
     function cancelZipBuild() {
@@ -1538,12 +1554,12 @@
         state.zipAbort = false;
 
         btn.disabled = true;
-        btn.textContent = 'Building ZIP…';
+        btn.textContent = tf('buildingZip', null, 'Building ZIP…');
         zipWrap?.classList.remove('is-hidden');
         zipCancel?.classList.remove('is-hidden');
         if (zipBar) zipBar.style.width = '0%';
         if (zipPct) zipPct.textContent = '0%';
-        if (zipLabel) zipLabel.textContent = 'Adding files to ZIP…';
+        if (zipLabel) zipLabel.textContent = tf('addingToZip', null, 'Adding files to ZIP…');
 
         try {
             const zip = new JSZip();
@@ -1558,7 +1574,7 @@
             }
 
             if (isZipRunStale(gen)) return;
-            if (zipLabel) zipLabel.textContent = 'Compressing archive…';
+            if (zipLabel) zipLabel.textContent = tf('compressingArchive', null, 'Compressing archive…');
             const content = await zip.generateAsync(
                 { type: 'blob', streamFiles: true },
                 (metadata) => {
@@ -1573,7 +1589,7 @@
 
             if (zipBar) zipBar.style.width = '100%';
             if (zipPct) zipPct.textContent = '100%';
-            if (zipLabel) zipLabel.textContent = 'Done — starting download';
+            if (zipLabel) zipLabel.textContent = tf('zipDone', null, 'Done — starting download');
 
             const url = URL.createObjectURL(content);
             triggerDownload(url, 'funadventure-batch.zip', 'compress');
@@ -1586,7 +1602,7 @@
                 resetZipUi();
             } else {
                 btn.disabled = false;
-                btn.textContent = 'Download ZIP';
+                btn.textContent = tf('downloadZip', null, 'Download ZIP');
                 zipCancel?.classList.add('is-hidden');
                 window.setTimeout(() => zipWrap?.classList.add('is-hidden'), 1200);
             }

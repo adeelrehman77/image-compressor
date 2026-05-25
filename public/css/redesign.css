@@ -761,6 +761,17 @@ html:not(.dark) .file-actions .download-btn {
     color: var(--uae);
 }
 
+.hero-callout__link--muted {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.hero-callout__link--muted:hover {
+    color: var(--text);
+}
+
 .hero-callout__actions {
     display: flex;
     align-items: center;

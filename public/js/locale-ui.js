@@ -9,6 +9,15 @@
         return strings[key] ?? window.__NEXUS_I18N?.en?.[key] ?? '';
     }
 
+    function tFmt(key, vars) {
+        var s = t(key);
+        if (!vars || !s) return s;
+        Object.keys(vars).forEach(function (k) {
+            s = s.split('{' + k + '}').join(String(vars[k]));
+        });
+        return s;
+    }
+
     function applyI18n() {
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
             var key = el.dataset.i18n;
@@ -50,15 +59,27 @@
         if (ogLocale) ogLocale.setAttribute('content', 'ar_AE');
     }
 
+    function bindLocaleLinks() {
+        document.querySelectorAll('[data-locale-href-en]').forEach(function (link) {
+            var en = link.dataset.localeHrefEn;
+            var ar = link.dataset.localeHrefAr;
+            if (locale === 'ar' && ar) link.href = ar;
+            else if (en) link.href = en;
+        });
+    }
+
     window.__NEXUS_T = t;
+    window.__NEXUS_TF = tFmt;
     window.__NEXUS_APPLY_I18N = applyI18n;
 
     applyI18n();
     bindLangSwitch();
+    bindLocaleLinks();
     patchMeta();
 
     document.addEventListener('DOMContentLoaded', function () {
         applyI18n();
         bindLangSwitch();
+        bindLocaleLinks();
     });
 })();

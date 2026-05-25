@@ -27,6 +27,8 @@ function up(ref) {
 
 html = up(html);
 
+html = html.replace(/data-locale-href-en="guides\//g, 'data-locale-href-en="../guides/');
+
 html = html.replace(
     /<html lang="en"([^>]*)>/,
     '<html lang="ar" dir="rtl"$1>'
@@ -65,6 +67,10 @@ html = html.replace(
 html = html.replace(
     /<meta name="twitter:description" content="[^"]*">/,
     `<meta name="twitter:description" content="${arDesc}">`
+);
+html = html.replace(
+    /<meta name="keywords" content="[^"]*">/,
+    '<meta name="keywords" content="ضغط صور، ضاغط صور مجاني، تصغير الصور، هوية إماراتية، ICA، ضغط JPEG، بوابات الإمارات، MOHRE">'
 );
 
 html = html.replace(

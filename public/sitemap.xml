@@ -36,9 +36,17 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://compress.funadventure.ae/guides/uae-portal-compression.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/guides/uae-portal-compression.html" />
+    <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/guides/uae-portal-compression-ar.html" />
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://compress.funadventure.ae/guides/uae-portal-compression-ar.html</loc>
     <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/guides/uae-portal-compression-ar.html" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/guides/uae-portal-compression.html" />
     <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
