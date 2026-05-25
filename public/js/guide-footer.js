@@ -6,6 +6,43 @@
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.documentElement.dataset.theme = theme;
 
+    function injectThemeToggle() {
+        const meta = document.querySelector('.site-header-meta');
+        if (!meta || meta.querySelector('.guide-theme-toggle')) return;
+        const isDark = document.documentElement.classList.contains('dark');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'guide-theme-toggle theme-toggle-btn';
+        btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        btn.setAttribute('aria-pressed', String(isDark));
+        btn.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+        btn.innerHTML = `
+            <svg class="theme-icon theme-icon-sun icon-sm${isDark ? '' : ' is-hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                <path stroke-linecap="round" stroke-width="2" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <svg class="theme-icon theme-icon-moon icon-sm${isDark ? ' is-hidden' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>`;
+        btn.addEventListener('click', () => {
+            const nowDark = document.documentElement.classList.toggle('dark');
+            document.documentElement.dataset.theme = nowDark ? 'dark' : 'light';
+            localStorage.setItem('nexus-theme', nowDark ? 'dark' : 'light');
+            btn.setAttribute('aria-pressed', String(nowDark));
+            btn.setAttribute('aria-label', nowDark ? 'Switch to light theme' : 'Switch to dark theme');
+            btn.title = nowDark ? 'Switch to light theme' : 'Switch to dark theme';
+            btn.querySelector('.theme-icon-sun')?.classList.toggle('is-hidden', !nowDark);
+            btn.querySelector('.theme-icon-moon')?.classList.toggle('is-hidden', nowDark);
+        });
+        meta.appendChild(btn);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectThemeToggle);
+    } else {
+        injectThemeToggle();
+    }
+
     if (!document.getElementById('site-compliance-footer')) {
         const footer = document.createElement('footer');
         footer.id = 'site-compliance-footer';

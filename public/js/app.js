@@ -974,18 +974,24 @@
                 <p class="error-msg is-hidden" role="alert"></p>
             </div>
             <div class="file-actions result-actions">
+                <button type="button" class="icon-btn exif-info-btn" aria-label="EXIF info for ${escapeHtml(task.file.name)}" title="View metadata">ℹ️</button>
                 <button type="button" class="icon-btn compare-view-btn is-hidden" disabled aria-label="Compare ${escapeHtml(task.file.name)}">👁</button>
                 <button type="button" class="icon-btn rerun-btn is-hidden" disabled aria-label="Re-run ${escapeHtml(task.file.name)}">↻</button>
                 <a class="icon-btn download-btn is-hidden" download aria-label="Download ${escapeHtml(task.file.name)}">⬇</a>
                 <button type="button" class="icon-btn remove-btn" aria-label="Remove ${escapeHtml(task.file.name)}">✕</button>
             </div>
         `;
+        card._nexusFile = task.file;
 
         els['results-list'].prepend(card);
         const thumb = card.querySelector('.file-thumb-img');
         if (thumb && task.originalUrl) thumb.src = task.originalUrl;
         renderTableRow(task);
 
+        card.querySelector('.exif-info-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.NexusExif?.showExif?.(task.file);
+        });
         card.querySelector('.remove-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             removeTask(task.id);
@@ -1079,6 +1085,8 @@
         card.classList.add('result-card--ready');
         selectTask(task.id);
         syncWorkflowUI();
+        // Trigger PWA install prompt after first successful compression
+        setTimeout(() => window.__nexusShowPwaPrompt?.(), 1500);
         const compareBtn = card.querySelector('.compare-view-btn');
         if (compareBtn) {
             compareBtn.disabled = false;

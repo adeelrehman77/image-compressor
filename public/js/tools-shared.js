@@ -73,6 +73,8 @@ window.NexusTools = (function () {
         'images-to-pdf': 'js/tools/images-to-pdf.js',
         'pdf-suite': 'js/tools/pdf-suite.js',
         svg: 'js/tools/svg-optimizer.js',
+        'heic-converter': 'js/tools/heic-converter.js',
+        'format-converter': 'js/tools/format-converter.js',
     };
     const loadedTools = new Set();
     const scriptPromises = {};

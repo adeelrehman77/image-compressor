@@ -7,7 +7,7 @@
 
     function parseTool() {
         const hash = (location.hash || '').replace(/^#/, '').trim();
-        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'passport-studio') {
+        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'passport-studio' || hash === 'heic-converter' || hash === 'format-converter') {
             return hash;
         }
         return 'compress';
@@ -46,7 +46,7 @@
 
     function preloadToolsIdle() {
         const run = () => {
-            ['images-to-pdf', 'pdf-suite', 'svg'].forEach((tool) => {
+            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter'].forEach((tool) => {
                 window.NexusTools?.ensureTool?.(tool).catch(() => {});
             });
         };

@@ -101,6 +101,7 @@
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="stylesheet" href="css/app.css?v=2.1.0">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.1.0">
     <script src="js/ga-config.js?v=2.1.0" defer></script>
     <script src="js/gtm.js?v=2.1.0" defer></script>
 </head>
@@ -166,6 +167,14 @@
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
                         <span class="tool-tab__label" data-i18n="tabPassport">Passport Studio</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">UAE</span>
+                    </a>
+                    <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">📱</span>
+                        <span class="tool-tab__label">HEIC Converter</span>
+                    </a>
+                    <a href="#format-converter" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">🔄</span>
+                        <span class="tool-tab__label">Format Converter</span>
                     </a>
                 </div>
             </nav>
@@ -838,6 +847,152 @@
         </div>
     </div>
 
+    <div id="tool-panel-heic-converter" class="tool-panel is-hidden" data-tool-panel="heic-converter" role="tabpanel" aria-labelledby="tab-heic-converter" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">📱 <span class="compress-hero__accent">HEIC Converter</span></span></h1>
+                    <p class="compress-hero__sub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
+                </div>
+                <span class="compress-hero__badge">Free · Private</span>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">
+                                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                            </div>
+                            <p class="drop-title">Drop HEIC / HEIF files here</p>
+                            <p class="drop-sub">Add files from your iPhone or iPad — batch conversion supported</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">HEIC</span>
+                                <span class="fmt-tag">HEIF</span>
+                            </div>
+                            <div class="drop-actions">
+                                <label class="btn-primary is-clickable">
+                                    <span>Choose files</span>
+                                    <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="heic-file-list" class="heic-file-list is-hidden" aria-label="HEIC files to convert" aria-live="polite"></div>
+                    <div id="heic-status" class="tool-status" aria-live="polite"></div>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚙️</span>
+                                <span>Output settings</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="heic-output-format">Output format</label>
+                            <select id="heic-output-format" class="field-select">
+                                <option value="image/jpeg">JPEG</option>
+                                <option value="image/png">PNG</option>
+                                <option value="image/webp">WebP</option>
+                            </select>
+                            <p class="field-hint">JPEG is best for photos; PNG keeps transparency; WebP gives the smallest files.</p>
+                            <button type="button" id="heic-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
+                            <button type="button" id="heic-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">ℹ️</span>
+                                <span>How it works</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Uses the <strong>heic2any</strong> library to decode Apple HEIC/HEIF files directly in your browser. Files are never uploaded — conversion is 100% local and private.</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <div id="tool-panel-format-converter" class="tool-panel is-hidden" data-tool-panel="format-converter" role="tabpanel" aria-labelledby="tab-format-converter" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line">🔄 <span class="compress-hero__accent">Format Converter</span></span></h1>
+                    <p class="compress-hero__sub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
+                </div>
+                <span class="compress-hero__badge">Free · Private</span>
+            </header>
+            <div class="app-grid compress-app-grid">
+                <div class="main-col compress-main-col">
+                    <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">
+                                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                            </div>
+                            <p class="drop-title">Drop images here to convert</p>
+                            <p class="drop-sub">Supports JPEG, PNG, WebP, AVIF, and GIF — batch conversion in one click</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                                <span class="fmt-tag">WebP</span>
+                                <span class="fmt-tag">AVIF</span>
+                                <span class="fmt-tag">GIF</span>
+                            </div>
+                            <div class="drop-actions">
+                                <label class="btn-primary is-clickable">
+                                    <span>Choose files</span>
+                                    <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="Images to convert" aria-live="polite"></div>
+                    <div id="fmt-status" class="tool-status" aria-live="polite"></div>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚙️</span>
+                                <span>Output settings</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="fmt-output-format">Convert to</label>
+                            <select id="fmt-output-format" class="field-select">
+                                <option value="image/webp">WebP — best for web</option>
+                                <option value="image/avif">AVIF — smallest files</option>
+                                <option value="image/jpeg">JPEG — universal</option>
+                                <option value="image/png">PNG — lossless</option>
+                            </select>
+                            <p class="field-hint">WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%.</p>
+                            <button type="button" id="fmt-convert-btn" class="btn-primary btn-block field-label-spaced-sm" disabled>Convert all</button>
+                            <button type="button" id="fmt-download-zip-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden">Download ZIP</button>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">ℹ️</span>
+                                <span>How it works</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-hint">Uses the browser's built-in <strong>OffscreenCanvas API</strong> to re-encode images client-side. No server involved, no account required — files are converted and downloaded directly in your browser.</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
     <div class="below-app max-width-wrap">
         <aside class="ad-slot ad-slot--primary glass-panel" data-nexus-ad="primary" aria-label="Advertisement"></aside>
 
@@ -881,6 +1036,8 @@
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
                 <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">Passport Studio</a>
+                <a href="#heic-converter" class="seo-tool-chip">HEIC Converter</a>
+                <a href="#format-converter" class="seo-tool-chip">Format Converter</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -1009,9 +1166,36 @@
         syncFromHash();
     })();
     </script>
+    <div id="pwa-install-banner" class="pwa-install-banner is-hidden" role="complementary" aria-label="Install NexusCompress">
+        <div class="pwa-install-banner__content">
+            <span class="pwa-install-banner__icon" aria-hidden="true">📲</span>
+            <div class="pwa-install-banner__text">
+                <strong>Install NexusCompress</strong>
+                <span>Add to your home screen for instant access</span>
+            </div>
+        </div>
+        <div class="pwa-install-banner__actions">
+            <button type="button" id="pwa-install-btn" class="btn-primary pwa-install-banner__install">Install</button>
+            <button type="button" id="pwa-dismiss-btn" class="pwa-install-banner__dismiss" aria-label="Dismiss install prompt">✕</button>
+        </div>
+    </div>
+
+    <div id="exif-modal" class="exif-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="exif-modal-title" hidden>
+        <div class="exif-modal-backdrop" data-exif-close tabindex="-1" aria-hidden="true"></div>
+        <div class="exif-modal-panel glass-panel">
+            <header class="exif-modal-header">
+                <h2 id="exif-modal-title" class="exif-modal-title">Image metadata</h2>
+                <button type="button" id="exif-modal-close" class="btn-icon exif-modal-close" aria-label="Close metadata viewer">×</button>
+            </header>
+            <div id="exif-modal-body" class="exif-modal-body"></div>
+        </div>
+    </div>
+
     <script src="js/tools-shared.js?v=2.1.0" defer></script>
     <script src="js/tools-router.js?v=2.1.0" defer></script>
     <script src="js/passport-studio.js?v=2.1.0" defer></script>
+    <script src="js/pwa-install.js?v=2.1.0" defer></script>
+    <script src="js/exif-viewer.js?v=2.1.0" defer></script>
     <script src="js/ads-config.js?v=2.1.0"></script>
     <script src="js/ads.js?v=2.1.0" defer></script>
     <script src="js/locale-ui.js?v=2.1.0" defer></script>

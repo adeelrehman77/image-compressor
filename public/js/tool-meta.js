@@ -6,6 +6,8 @@ window.__NEXUS_TOOL_META = {
         'pdf-suite': 'PDF merge & split — local only',
         svg: 'SVG optimizer for the web',
         'passport-studio': 'Passport & visa photos — ICAO ready',
+        'heic-converter': 'HEIC to JPEG/PNG/WebP — free & private',
+        'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
     },
     titles: {
         compress: 'Free Online Image Compressor | NexusCompress',
@@ -13,6 +15,8 @@ window.__NEXUS_TOOL_META = {
         'pdf-suite': 'PDF Merge & Split — Free Online | NexusCompress',
         svg: 'SVG Optimizer — Free Online | NexusCompress',
         'passport-studio': 'Passport & Visa Photo Studio — Free Online | NexusCompress',
+        'heic-converter': 'HEIC Converter — Free Online | NexusCompress',
+        'format-converter': 'Image Format Converter — Free Online | NexusCompress',
     },
     descriptions: {
         compress:
@@ -24,6 +28,10 @@ window.__NEXUS_TOOL_META = {
         svg: 'NexusCompress — optimize SVG vector files online. Strip metadata and bloat client-side — free, private, no install.',
         'passport-studio':
             'NexusCompress — create passport and visa photos for India Passport Seva, VFS, and UAE Emirates ID. Free, private, ICAO-ready exports.',
+        'heic-converter':
+            'NexusCompress — convert iPhone HEIC and HEIF photos to JPEG, PNG, or WebP in your browser. No uploads, batch conversion, free.',
+        'format-converter':
+            'NexusCompress — convert JPEG, PNG, WebP, AVIF, and GIF images to any modern format in your browser. Free, private, no server uploads.',
     },
     seo: {
         compress: {
@@ -86,11 +94,35 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Your passport and visa photos stay on your device. Crop, check warnings, and export portal-ready JPEGs locally — free, with no account and no server-side storage of identity documents.',
         },
+        'heic-converter': {
+            h1: 'NexusCompress — HEIC / HEIF Converter',
+            title1: 'Convert iPhone photos instantly',
+            intro1:
+                'HEIC and HEIF files from iPhones often cannot be opened on Windows or shared online. Drop your photos here to convert them to JPEG, PNG, or WebP in seconds — no cloud upload, no account, entirely in your browser.',
+            title2: 'Batch convert and download as ZIP',
+            intro2:
+                'Add as many HEIC files as you need, choose your output format once, and download all converted images in a single ZIP file. Files stay on your device throughout the entire process.',
+            title3: 'Free, private, no software to install',
+            intro3:
+                'The conversion runs client-side using the heic2any library — no data leaves your browser. Works on Windows, Mac, and Linux without installing iTunes or any codec pack.',
+        },
+        'format-converter': {
+            h1: 'NexusCompress — Image Format Converter',
+            title1: 'Switch formats without quality loss',
+            intro1:
+                'Convert JPEG, PNG, WebP, AVIF, or GIF images to any modern format at high quality (92%). WebP and AVIF give you smaller files; PNG keeps full transparency; JPEG maximises compatibility.',
+            title2: 'Batch conversion with size comparison',
+            intro2:
+                'Drop multiple images at once, pick a single output format, and convert everything in one click. Each file shows original size, output size, and percentage saved so you can see the benefit immediately.',
+            title3: 'All in-browser — nothing uploaded',
+            intro3:
+                'Conversion uses the browser\'s built-in OffscreenCanvas API — no server involved, no account required, and no files are ever transmitted. Download individually or grab all results as a ZIP.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();
