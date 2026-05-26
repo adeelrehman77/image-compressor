@@ -81,10 +81,16 @@
         /* applied via applyToolState in setTool */
     }
 
+    function scrollActiveTabIntoView(tool) {
+        const tab = document.querySelector(`.tool-nav-link[data-tool="${tool}"]`);
+        tab?.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+    }
+
     function setTool(id) {
         const tool = TAGLINES[id] ? id : 'compress';
         window.__NEXUS_TOOL_SHELL?.applyToolState?.(tool);
         window.NexusSentry?.setTool(tool);
+        scrollActiveTabIntoView(tool);
     }
 
     async function activateTool(tool) {

@@ -317,6 +317,15 @@ html:not(.dark) .legal-page a.btn-primary:hover {
     .compress-main-col {
         order: 1;
     }
+
+    /* ID Photo Studio: presets must appear before the locked drop zone */
+    .passport-workspace .compress-app-grid .compress-sidebar {
+        order: 1;
+    }
+
+    .passport-workspace .compress-app-grid .compress-main-col {
+        order: 2;
+    }
 }
 
 .compress-main-col {

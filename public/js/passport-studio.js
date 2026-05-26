@@ -476,10 +476,12 @@
         els.previewWrap?.addEventListener(
             'touchmove',
             (e) => {
+                if (!state.dragging) return;
+                e.preventDefault();
                 const t = e.touches[0];
                 if (t) onPanMove(t.clientX, t.clientY);
             },
-            { passive: true }
+            { passive: false }
         );
         els.previewWrap?.addEventListener('touchend', onPanEnd);
 

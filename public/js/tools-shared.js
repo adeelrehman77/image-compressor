@@ -201,30 +201,54 @@ window.NexusTools = (function () {
         }
     }
 
+    const MOBILE_SETTINGS_MQ = window.matchMedia('(max-width: 780px)');
+
+    function setSettingsCardExpanded(card, expanded) {
+        const btn = card.querySelector('[data-settings-toggle]');
+        const body = card.querySelector('.settings-card__body');
+        if (!btn || !body) return;
+        btn.setAttribute('aria-expanded', String(expanded));
+        body.classList.toggle('is-collapsed', !expanded);
+        btn.querySelector('.settings-chevron')?.classList.toggle('is-open', expanded);
+    }
+
     function expandSettingsCard(target) {
         const card = typeof target === 'string'
             ? (document.getElementById(target)?.closest('[data-settings-card]') || document.getElementById(target))
             : (target?.closest?.('[data-settings-card]') || target);
         if (!card) return;
-        const btn = card.querySelector('[data-settings-toggle]');
-        const body = card.querySelector('.settings-card__body');
-        btn?.setAttribute('aria-expanded', 'true');
-        body?.classList.remove('is-collapsed');
-        btn?.querySelector('.settings-chevron')?.classList.add('is-open');
+        setSettingsCardExpanded(card, true);
+    }
+
+    function applySettingsCardDefaults() {
+        const mobile = MOBILE_SETTINGS_MQ.matches;
+        document.querySelectorAll('[data-settings-card]').forEach((card) => {
+            const btn = card.querySelector('[data-settings-toggle]');
+            if (!btn) return;
+            let expanded;
+            if (card.hasAttribute('data-default-collapsed-mobile')) {
+                expanded = !mobile;
+            } else if (card.hasAttribute('data-default-open')) {
+                expanded = true;
+            } else {
+                expanded = btn.getAttribute('aria-expanded') === 'true';
+            }
+            setSettingsCardExpanded(card, expanded);
+        });
     }
 
     function initSettingsCards() {
+        applySettingsCardDefaults();
+        MOBILE_SETTINGS_MQ.addEventListener('change', applySettingsCardDefaults);
+
         document.querySelectorAll('[data-settings-toggle]').forEach((btn) => {
             if (btn.dataset.settingsBound === '1') return;
             btn.dataset.settingsBound = '1';
             btn.addEventListener('click', () => {
                 const card = btn.closest('[data-settings-card]');
                 if (!card) return;
-                const body = card.querySelector('.settings-card__body');
                 const expanded = btn.getAttribute('aria-expanded') === 'true';
-                btn.setAttribute('aria-expanded', String(!expanded));
-                body?.classList.toggle('is-collapsed', expanded);
-                btn.querySelector('.settings-chevron')?.classList.toggle('is-open', !expanded);
+                setSettingsCardExpanded(card, !expanded);
             });
         });
     }

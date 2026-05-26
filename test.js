@@ -147,6 +147,45 @@ createTestImage().then(() => {
             );
             console.log('Compare View modal test passed.');
 
+            await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
+            await page.goto(`http://localhost:${PORT}/#photo-studio`, { waitUntil: 'networkidle2', timeout: 30000 });
+            const photoStudioRoute = await page.evaluate(() => ({
+                hash: location.hash,
+                tabSelected: document.getElementById('tab-passport-studio')?.getAttribute('aria-selected'),
+                panelHidden: document.getElementById('tool-panel-passport-studio')?.classList.contains('is-hidden'),
+                title: document.title,
+            }));
+            if (
+                photoStudioRoute.hash !== '#photo-studio' ||
+                photoStudioRoute.tabSelected !== 'true' ||
+                photoStudioRoute.panelHidden !== false ||
+                !photoStudioRoute.title.includes('Passport')
+            ) {
+                throw new Error(`#photo-studio routing failed: ${JSON.stringify(photoStudioRoute)}`);
+            }
+            console.log('#photo-studio mobile routing test passed.');
+
+            const passportLayout = await page.evaluate(() => {
+                const sidebar = document.querySelector('#tool-panel-passport-studio .passport-sidebar');
+                const dropZone = document.querySelector('#passport-drop-zone');
+                if (!sidebar || !dropZone) return null;
+                return sidebar.getBoundingClientRect().top < dropZone.getBoundingClientRect().top;
+            });
+            if (!passportLayout) {
+                throw new Error('Passport presets should appear before drop zone on mobile');
+            }
+            console.log('Passport mobile preset order test passed.');
+
+            const compressionExpanded = await page.evaluate(async () => {
+                await window.__NEXUS_NAVIGATE_TOOL('compress');
+                return document.querySelector('#panel-compress [data-default-collapsed-mobile] [data-settings-toggle]')
+                    ?.getAttribute('aria-expanded');
+            });
+            if (compressionExpanded !== 'false') {
+                throw new Error(`Compression settings should be collapsed on mobile, got: ${compressionExpanded}`);
+            }
+            console.log('Mobile compression settings collapse test passed.');
+
             const hasBuiltCss = fs.existsSync(path.join(DIST, 'css', 'app.css'));
             if (!hasBuiltCss) {
                 console.error('Missing dist/css/app.css');

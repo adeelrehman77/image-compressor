@@ -126,6 +126,7 @@ window.__NEXUS_TOOL_META = {
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();
+        if (h === 'photo-studio') h = 'passport-studio';
         return VALID[h] ? h : 'compress';
     }
 
