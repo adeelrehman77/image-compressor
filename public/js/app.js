@@ -93,6 +93,13 @@
 
     document.addEventListener('DOMContentLoaded', init);
 
+    function hideFolderPickerOnIos() {
+        const ios =
+            /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (ios) document.getElementById('folder-input-label')?.classList.add('is-hidden');
+    }
+
     function init() {
         cacheElements();
         initCompareModal();
@@ -100,6 +107,7 @@
         initWorkers();
         loadSettings();
         bindEvents();
+        hideFolderPickerOnIos();
         window.__NEXUS_SYNC_UAE_BUTTONS = syncPresetButtons;
         syncPresetButtons();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
@@ -1031,9 +1039,14 @@
         if (thumb && task.originalUrl) thumb.src = task.originalUrl;
         renderTableRow(task);
 
-        card.querySelector('.exif-info-btn')?.addEventListener('click', (e) => {
+        card.querySelector('.exif-info-btn')?.addEventListener('click', async (e) => {
             e.stopPropagation();
-            window.NexusExif?.showExif?.(task.file);
+            try {
+                await window.NexusTools?.ensureExifViewer?.();
+                await window.NexusExif?.showExif?.(task.file);
+            } catch (err) {
+                toast('Could not load metadata viewer.', 'error');
+            }
         });
         card.querySelector('.remove-btn').addEventListener('click', (e) => {
             e.stopPropagation();

@@ -152,11 +152,10 @@
         document.body.classList.remove('compare-modal-open');
     }
 
-    window.NexusExif = { showExif, closeExif };
-
-    window.addEventListener('DOMContentLoaded', () => {
+    function bindExifModal() {
         const modal = document.getElementById('exif-modal');
-        if (!modal) return;
+        if (!modal || modal.dataset.exifBound === '1') return;
+        modal.dataset.exifBound = '1';
 
         document.getElementById('exif-modal-close')?.addEventListener('click', closeExif);
         modal.querySelector('[data-exif-close]')?.addEventListener('click', closeExif);
@@ -164,5 +163,13 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !modal.classList.contains('is-hidden')) closeExif();
         });
-    });
+    }
+
+    window.NexusExif = { showExif, closeExif };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindExifModal);
+    } else {
+        bindExifModal();
+    }
 })();

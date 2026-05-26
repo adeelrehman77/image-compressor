@@ -151,32 +151,32 @@
                 <div class="tool-tabs" role="tablist" aria-label="Studio tools">
                     <a href="./" id="tab-compress" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true" aria-controls="tool-panel-compress" tabindex="0">
                         <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
-                        <span class="tool-tab__label" data-i18n="tabCompress">ضاغط الصور</span>
+                        <span class="tool-tab__label" data-i18n="tabCompress" data-i18n-short="tabCompressShort">ضاغط الصور</span>
                     </a>
                     <a href="#images-to-pdf" id="tab-images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false" aria-controls="tool-panel-images-to-pdf" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📄</span>
-                        <span class="tool-tab__label" data-i18n="tabImagesToPdf">صور إلى PDF</span>
+                        <span class="tool-tab__label" data-i18n="tabImagesToPdf" data-i18n-short="tabImagesToPdfShort">صور إلى PDF</span>
                     </a>
                     <a href="#pdf-suite" id="tab-pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false" aria-controls="tool-panel-pdf-suite" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔗</span>
-                        <span class="tool-tab__label" data-i18n="tabPdfSuite">دمج PDF</span>
+                        <span class="tool-tab__label" data-i18n="tabPdfSuite" data-i18n-short="tabPdfSuiteShort">دمج PDF</span>
                     </a>
                     <a href="#svg" id="tab-svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false" aria-controls="tool-panel-svg" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
-                        <span class="tool-tab__label" data-i18n="tabSvg">تحسين SVG</span>
+                        <span class="tool-tab__label" data-i18n="tabSvg" data-i18n-short="tabSvgShort">تحسين SVG</span>
                     </a>
                     <a href="#photo-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
-                        <span class="tool-tab__label" data-i18n="tabPhotoStudio">استوديو صور الهوية</span>
+                        <span class="tool-tab__label" data-i18n="tabPhotoStudio" data-i18n-short="tabPhotoStudioShort">استوديو صور الهوية</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">الإمارات</span>
                     </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
-                        <span class="tool-tab__label" data-i18n="tabHeic">محوّل HEIC</span>
+                        <span class="tool-tab__label" data-i18n="tabHeic" data-i18n-short="tabHeicShort">محوّل HEIC</span>
                     </a>
                     <a href="#format-converter" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔄</span>
-                        <span class="tool-tab__label" data-i18n="tabFormat">محوّل الصيغ</span>
+                        <span class="tool-tab__label" data-i18n="tabFormat" data-i18n-short="tabFormatShort">محوّل الصيغ</span>
                     </a>
                 </div>
             </nav>
@@ -244,7 +244,7 @@
                                 <span data-i18n="chooseFiles">اختيار ملفات</span>
                                 <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
                             </label>
-                            <label class="btn-secondary is-clickable">
+                            <label class="btn-secondary is-clickable" id="folder-input-label">
                                 <span data-i18n="chooseFolder">اختيار مجلد</span>
                                 <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
                             </label>
@@ -1196,9 +1196,7 @@
 
     <script src="../js/tools-shared.js?v=2.1.0" defer></script>
     <script src="../js/tools-router.js?v=2.1.0" defer></script>
-    <script src="../js/passport-studio.js?v=2.1.0" defer></script>
     <script src="../js/pwa-install.js?v=2.1.0" defer></script>
-    <script src="../js/exif-viewer.js?v=2.1.0" defer></script>
     <script src="../js/ads-config.js?v=2.1.0"></script>
     <script src="../js/ads.js?v=2.1.0" defer></script>
     <script src="../js/locale-ui.js?v=2.1.0" defer></script>

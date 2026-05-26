@@ -18,8 +18,19 @@
         return s;
     }
 
+    var TOOL_TAB_SHORT_MQ = window.matchMedia('(max-width: 600px)');
+
+    function applyToolTabShortLabels() {
+        document.querySelectorAll('.tool-tab__label[data-i18n][data-i18n-short]').forEach(function (el) {
+            var key = TOOL_TAB_SHORT_MQ.matches && el.dataset.i18nShort ? el.dataset.i18nShort : el.dataset.i18n;
+            var val = t(key);
+            if (val) el.textContent = val;
+        });
+    }
+
     function applyI18n() {
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
+            if (el.dataset.i18nShort) return;
             var key = el.dataset.i18n;
             var val = t(key);
             if (!val) return;
@@ -29,6 +40,7 @@
                 el.textContent = val;
             }
         });
+        applyToolTabShortLabels();
 
         document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
             var key = el.dataset.i18nHtml;
@@ -76,6 +88,12 @@
     bindLangSwitch();
     bindLocaleLinks();
     patchMeta();
+
+    if (TOOL_TAB_SHORT_MQ.addEventListener) {
+        TOOL_TAB_SHORT_MQ.addEventListener('change', applyToolTabShortLabels);
+    } else {
+        TOOL_TAB_SHORT_MQ.addListener(applyToolTabShortLabels);
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         applyI18n();

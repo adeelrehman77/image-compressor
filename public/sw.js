@@ -1,11 +1,10 @@
-const CACHE = 'nexuscompress-v11';
+const CACHE = 'nexuscompress-v12';
 const ASSETS = [
     './css/app.css',
     './js/app.js',
     './js/tool-meta.js',
     './js/tools-router.js',
     './js/tools-shared.js',
-    './js/passport-studio.js',
     './js/worker.js',
     './js/sentry-init.js',
     './js/ga-config.js',

@@ -56,7 +56,16 @@
         }
     }
 
+    function shouldPreloadToolsIdle() {
+        if (window.matchMedia('(max-width: 780px)').matches) return false;
+        const conn = navigator.connection;
+        if (conn?.saveData) return false;
+        if (conn?.effectiveType && /(^2g$)|slow-2g/.test(conn.effectiveType)) return false;
+        return true;
+    }
+
     function preloadToolsIdle() {
+        if (!shouldPreloadToolsIdle()) return;
         const run = () => {
             ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter'].forEach((tool) => {
                 window.NexusTools?.ensureTool?.(tool).catch(() => {});
@@ -66,6 +75,20 @@
             requestIdleCallback(run, { timeout: 5000 });
         } else {
             setTimeout(run, 2000);
+        }
+    }
+
+    function bindHeaderHeight() {
+        const header = document.querySelector('.site-header');
+        if (!header) return;
+        const sync = () => {
+            document.documentElement.style.setProperty('--site-header-height', `${header.offsetHeight}px`);
+        };
+        sync();
+        if (typeof ResizeObserver !== 'undefined') {
+            new ResizeObserver(sync).observe(header);
+        } else {
+            window.addEventListener('resize', sync);
         }
     }
 
@@ -160,6 +183,7 @@
     }
 
     async function boot() {
+        bindHeaderHeight();
         await navigateToTool(parseTool());
         preloadToolsIdle();
     }

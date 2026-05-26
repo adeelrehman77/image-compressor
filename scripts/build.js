@@ -40,7 +40,6 @@ function bumpSwCache() {
     './js/tool-meta.js',
     './js/tools-router.js',
     './js/tools-shared.js',
-    './js/passport-studio.js',
     './js/worker.js',
     './js/sentry-init.js',
     './js/ga-config.js',
