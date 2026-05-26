@@ -100,6 +100,7 @@
         initWorkers();
         loadSettings();
         bindEvents();
+        window.__NEXUS_SYNC_UAE_BUTTONS = syncPresetButtons;
         syncPresetButtons();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
         scheduleIdle(registerServiceWorker, 6000);
@@ -268,10 +269,21 @@
     }
 
 
+    let activePhotoUaePreset = '';
+
     function syncPresetButtons() {
         const uaeVal = els['uae-preset']?.value || '';
+        const passportId = window.NexusPassportStudio?.getActivePresetId?.() || '';
         document.querySelectorAll('[data-uae-preset]').forEach((btn) => {
-            btn.classList.toggle('is-active', btn.dataset.uaePreset === uaeVal);
+            const action = btn.dataset.uaeAction || 'document';
+            if (action === 'photo') {
+                btn.classList.toggle(
+                    'is-active',
+                    passportId === 'uae-emirates' && btn.dataset.uaePreset === activePhotoUaePreset
+                );
+            } else {
+                btn.classList.toggle('is-active', btn.dataset.uaePreset === uaeVal);
+            }
         });
         const presetVal = els.preset?.value || 'custom';
         document.querySelectorAll('[data-preset]').forEach((btn) => {
@@ -330,17 +342,37 @@
         });
 
         document.querySelectorAll('[data-uae-preset]').forEach((btn) => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 const val = btn.dataset.uaePreset;
+                const action = btn.dataset.uaeAction || 'document';
+
+                if (action === 'photo') {
+                    const passportApi = window.NexusPassportStudio;
+                    if (!passportApi?.selectPreset) return;
+                    if (btn.classList.contains('is-active')) {
+                        activePhotoUaePreset = '';
+                        passportApi.clearPreset?.({ silent: true });
+                        toast('Portal preset cleared.', 'info');
+                    } else {
+                        activePhotoUaePreset = val;
+                        if (els['uae-preset']) els['uae-preset'].value = '';
+                        if (passportApi.getActivePresetId?.() !== 'uae-emirates') {
+                            passportApi.selectPreset('uae-emirates');
+                        }
+                    }
+                    syncPresetButtons();
+                    return;
+                }
+
                 if (els['uae-preset'].value === val) {
                     els['uae-preset'].value = '';
                     markCustomPreset();
                     toast('Portal preset cleared.', 'info');
+                    syncPresetButtons();
                     return;
                 }
-                els['uae-preset'].value = val;
-                applyUaePreset();
-                syncPresetButtons();
+                activePhotoUaePreset = '';
+                await goToCompressorWithUaePreset(val);
             });
         });
         document.querySelectorAll('[data-preset]').forEach((btn) => {
@@ -588,6 +620,16 @@
             const labels = { web: 'Website', email: 'Email', social: 'Social post', max: 'Full quality' };
             toast(`${labels[key] || key} preset applied.`, 'info');
         }
+    }
+
+    async function goToCompressorWithUaePreset(key) {
+        els['uae-preset'].value = key;
+        applyUaePreset({ silent: true });
+        syncPresetButtons();
+        if (window.__NEXUS_NAVIGATE_TOOL) {
+            await window.__NEXUS_NAVIGATE_TOOL('compress');
+        }
+        toast('Portal preset applied. Add your document scans when ready.', 'info');
     }
 
     function applyUaePreset(opts = {}) {

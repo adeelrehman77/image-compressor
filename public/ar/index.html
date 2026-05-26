@@ -165,9 +165,9 @@
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label" data-i18n="tabSvg">تحسين SVG</span>
                     </a>
-                    <a href="#passport-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
+                    <a href="#photo-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
-                        <span class="tool-tab__label" data-i18n="tabPassport">استوديو الجواز</span>
+                        <span class="tool-tab__label" data-i18n="tabPhotoStudio">استوديو صور الهوية</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">الإمارات</span>
                     </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
@@ -197,9 +197,9 @@
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
-            <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 رفع على بوابات الإمارات؟ هوية إماراتية، ICA، وصور جواز — مع حدود 200/500 ك.ب — بدون رفع للسحابة.</p>
+            <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 رفع حكومي في الإمارات؟ هوية إماراتية وICA وصور جواز — استخدم استوديو صور الهوية. مسح مستندات؟ MOHRE وRTA يفتحان الضاغط.</p>
             <div class="hero-callout__actions">
-                <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPassportStudio">فتح استوديو الجواز</a>
+                <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">فتح استوديو صور الهوية</a>
                 <a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">دليل بوابات الإمارات</a>
                 <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="إغلاق تنبيه الإمارات" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
             </div>
@@ -368,35 +368,10 @@
             </div>
 
             <aside class="compress-sidebar sidebar" id="panel-compress">
-                <div class="settings-card settings-card--uae" data-settings-card data-default-open="true">
-                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
-                        <span class="settings-card__header-left">
-                            <span class="settings-icon" aria-hidden="true">🇦🇪</span>
-                            <span data-i18n="uaePresets">إعدادات بوابات الإمارات</span>
-                            <span class="uae-label" data-i18n="popular">الأكثر استخداماً</span>
-                        </span>
-                        <span class="settings-chevron is-open" aria-hidden="true">▾</span>
-                    </button>
+                <div class="settings-card settings-card--uae-link" data-settings-card data-default-open="true">
                     <div class="settings-card__body">
-                        <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                            <option value="" data-i18n="uaePresetNone">بدون</option>
-                            <option value="emirates-id" data-i18n="uaeOptionEmiratesId">الهوية الإماراتية / نسخة الجواز — 200 ك.ب JPEG</option>
-                            <option value="ica-upload" data-i18n="uaeOptionIca">ICA / رفع التأشيرة — 200 ك.ب JPEG</option>
-                            <option value="mohre-portal" data-i18n="uaeOptionMohre">MOHRE / بوابة العمل — 500 ك.ب JPEG</option>
-                            <option value="rta-docs" data-i18n="uaeOptionRta">RTA / رفع المستندات — 500 ك.ب JPEG</option>
-                            <option value="portal-reg" data-i18n="uaeOptionPortalReg">بوابة عامة (WebP) — 500 ك.ب</option>
-                        </select>
-                        <div class="preset-grid" role="group" aria-label="UAE portal presets">
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span data-i18n="uaePresetEmiratesId">الهوية الإماراتية / نسخة الجواز</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 ك.ب JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span data-i18n="uaePresetIca">ICA / رفع التأشيرة</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 ك.ب JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span data-i18n="uaePresetMohre">MOHRE / بوابة العمل</span><span class="preset-size" data-i18n="uaePresetMohreSize">500 ك.ب JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span data-i18n="uaePresetRta">RTA / رفع المستندات</span><span class="preset-size" data-i18n="uaePresetRtaSize">500 ك.ب JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span data-i18n="uaePresetGeneral">بوابة عامة</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 ك.ب WebP</span></button>
-                        </div>
-                        <div class="uae-info-card">
-                            <p class="uae-info-title" data-i18n="uaeInfoTitle">🔒 مستندات الهوية تبقى خاصة</p>
-                            <p class="uae-info-body" data-i18n="uaeInfoBody">نسخ الجواز والتأشيرة تُعالج بالكامل في متصفحك. لا يُرفع شيء إلى أي خادم.</p>
-                        </div>
+                        <p class="field-hint uae-link-promo" data-i18n="compressorUaePromo">🇦🇪 رفع حكومي في الإمارات (هوية، ICA، MOHRE، RTA)؟ استخدم استوديو صور الهوية — صور الجواز والتأشيرة وإعدادات البوابات في مكان واحد.</p>
+                        <a href="#photo-studio" class="btn-secondary btn-block tool-nav-link uae-studio-link" data-tool="passport-studio" data-i18n="openPhotoStudio">فتح استوديو صور الهوية</a>
                     </div>
                 </div>
 
@@ -721,8 +696,8 @@
         <div id="passport-studio-workspace" class="tool-workspace passport-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
                 <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPassport">NexusCompress — <span class="compress-hero__accent">صور الجواز والتأشيرة</span></span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroPassportSub">مقاسات رسمية لجواز الهند، OCI، VFS، وبوابات الهوية والتأشيرة في الإمارات.</p>
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPassport">NexusCompress — <span class="compress-hero__accent">صور الهوية والجواز</span></span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroPassportSub">إعدادات بوابات الإمارات، قص الهوية الإماراتية، جواز الهند، OCI، وورق VFS — أدوات الصور الحكومية في استوديو واحد.</p>
                 </div>
                 <span class="compress-hero__badge uae-label">UAE · India</span>
             </header>
@@ -767,28 +742,46 @@
                 </div>
 
                 <aside class="compress-sidebar sidebar passport-sidebar">
+                    <div class="settings-card settings-card--uae" data-settings-card data-default-open="true">
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🇦🇪</span>
+                                <span data-i18n="uaePresets">إعدادات بوابات الإمارات</span>
+                                <span class="uae-label" data-i18n="popular">الأكثر استخداماً</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                <option value="" data-i18n="uaePresetNone">بدون</option>
+                                <option value="emirates-id" data-i18n="uaeOptionEmiratesId">الهوية الإماراتية / نسخة الجواز — 200 ك.ب JPEG</option>
+                                <option value="ica-upload" data-i18n="uaeOptionIca">ICA / رفع التأشيرة — 200 ك.ب JPEG</option>
+                                <option value="mohre-portal" data-i18n="uaeOptionMohre">MOHRE / بوابة العمل — 500 ك.ب JPEG</option>
+                                <option value="rta-docs" data-i18n="uaeOptionRta">RTA / رفع المستندات — 500 ك.ب JPEG</option>
+                                <option value="portal-reg" data-i18n="uaeOptionPortalReg">بوابة عامة (WebP) — 500 ك.ب</option>
+                            </select>
+                            <p class="field-hint field-label-spaced-sm" data-i18n="photoStudioPresetIntro">إعدادات الصور الشخصية تقص للمقاس الرسمي. إعدادات المستندات تفتح ضاغط الصور العام.</p>
+                            <div class="preset-grid" role="group" aria-label="UAE portal presets">
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id" data-uae-action="photo"><span data-i18n="uaePresetEmiratesId">الهوية الإماراتية / نسخة الجواز</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 ك.ب JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload" data-uae-action="photo"><span data-i18n="uaePresetIca">ICA / رفع التأشيرة</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 ك.ب JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal" data-uae-action="document"><span data-i18n="uaePresetMohre">MOHRE / بوابة العمل</span><span class="preset-size" data-i18n="uaePresetMohreSize">500 ك.ب JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs" data-uae-action="document"><span data-i18n="uaePresetRta">RTA / رفع المستندات</span><span class="preset-size" data-i18n="uaePresetRtaSize">500 ك.ب JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg" data-uae-action="document"><span data-i18n="uaePresetGeneral">بوابة عامة</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 ك.ب WebP</span></button>
+                            </div>
+                            <div class="uae-info-card">
+                                <p class="uae-info-title" data-i18n="uaeInfoTitle">🔒 مستندات الهوية تبقى خاصة</p>
+                                <p class="uae-info-body" data-i18n="uaeInfoBody">نسخ الجواز والتأشيرة تُعالج بالكامل في متصفحك. لا يُرفع شيء إلى أي خادم.</p>
+                            </div>
+                            <p class="field-hint field-label-spaced-sm" data-i18n="photoStudioDocHint">Compressing scanned documents (MOHRE, RTA, contracts)? MOHRE / RTA / General presets switch to the <strong>Image Compressor</strong> tab automatically.</p>
+                        </div>
+                    </div>
+
                     <select id="passport-preset-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
                         <option value="">Select Preset...</option>
                         <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
                         <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
                         <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
                     </select>
-
-                    <div class="settings-card settings-card--uae" data-settings-card>
-                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
-                            <span class="settings-card__header-left">
-                                <span class="settings-icon" aria-hidden="true">🇦🇪</span>
-                                <span data-i18n="passportUaePresets">إعدادات الإمارات</span>
-                                <span class="uae-label" data-i18n="tabPassportBadge">الإمارات</span>
-                            </span>
-                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
-                        </button>
-                        <div class="settings-card__body">
-                            <div class="preset-grid" role="group" aria-label="UAE passport presets">
-                                <button type="button" class="preset-btn preset-btn--uae" data-passport-preset="uae-emirates"><span data-i18n="passportPresetUae">الهوية الإماراتية والتأشيرة</span><span class="preset-size">35×45 mm</span></button>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
@@ -1037,13 +1030,13 @@
                 <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">صور إلى PDF</a>
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">دمج وتقسيم PDF</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">تحسين SVG</a>
-                <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">استوديو الجواز</a>
+                <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">استوديو صور الهوية</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">محوّل HEIC</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">محوّل الصيغ</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">رفع بوابات حكومة الإمارات (حدود 200 / 500 ك.ب)</h2>
-            <p data-i18n-html="seoUaeBody">استخدم <strong>إعدادات الخدمات الذكية في الإمارات</strong> من الشريط الجانبي للهوية الإماراتية وICA وMOHRE وRTA. فعّل <strong>حجم الملف المستهدف</strong> (مثلاً 200 ك.ب) وسيخفض NexusCompress الجودة تدريجياً حتى يلائم المسح — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.</p>
+            <p data-i18n-html="seoUaeBody">استخدم <strong>إعدادات بوابات الإمارات</strong> في تبويب <strong>استوديو صور الهوية</strong> لقص الهوية الإماراتية وICA. إعدادات MOHRE وRTA والبوابة العامة تفتح <strong>ضاغط الصور</strong> بحجم ملف مناسب — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.</p>
             <h2 class="seo-subheading" data-i18n="seoBatchHeading">تغيير الحجم، النسبة، والعلامة المائية</h2>
             <p data-i18n-html="seoBatchBody">غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">أدلة الضغط</h2>

@@ -5,12 +5,21 @@
     let internalNav = false;
     let activateGen = 0;
 
-    function parseTool() {
-        const hash = (location.hash || '').replace(/^#/, '').trim();
-        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'passport-studio' || hash === 'heic-converter' || hash === 'format-converter') {
+    function hashToTool(hash) {
+        if (hash === 'photo-studio' || hash === 'passport-studio') return 'passport-studio';
+        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'heic-converter' || hash === 'format-converter') {
             return hash;
         }
-        return 'compress';
+        return TAGLINES[hash] ? hash : null;
+    }
+
+    function parseTool() {
+        const hash = (location.hash || '').replace(/^#/, '').trim();
+        return hashToTool(hash) || 'compress';
+    }
+
+    function publicHash(tool) {
+        return tool === 'passport-studio' ? 'photo-studio' : tool;
     }
 
     function syncHash(tool) {
@@ -20,8 +29,11 @@
                 if (location.hash) {
                     history.replaceState(null, '', location.pathname + location.search);
                 }
-            } else if (location.hash !== `#${tool}`) {
-                location.hash = tool;
+            } else {
+                const hash = `#${publicHash(tool)}`;
+                if (location.hash !== hash) {
+                    location.hash = publicHash(tool);
+                }
             }
         } finally {
             internalNav = false;
@@ -120,9 +132,10 @@
             const chip = e.target.closest('a[href^="#"]');
             if (!chip) return;
             const hash = chip.getAttribute('href')?.replace(/^#/, '').trim();
-            if (hash && TAGLINES[hash]) {
+            const tool = hash ? hashToTool(hash) : null;
+            if (tool) {
                 e.preventDefault();
-                await navigateToTool(hash);
+                await navigateToTool(tool);
             }
         });
         document.querySelector('[data-tool-home]')?.addEventListener('click', async (e) => {
@@ -132,6 +145,8 @@
             }
         });
         document.querySelector('.hero-callout')?.addEventListener('click', onNavClick);
+        document.querySelector('#panel-compress')?.addEventListener('click', onNavClick);
+        window.__NEXUS_NAVIGATE_TOOL = navigateToTool;
         window.addEventListener('hashchange', () => {
             if (internalNav) return;
             navigateToTool(parseTool());

@@ -5,7 +5,7 @@ window.__NEXUS_TOOL_META = {
         'images-to-pdf': 'Images to PDF — UAE portal ready',
         'pdf-suite': 'PDF merge & split — local only',
         svg: 'SVG optimizer for the web',
-        'passport-studio': 'Passport & visa photos — ICAO ready',
+        'passport-studio': 'ID & passport photos — UAE & India presets',
         'heic-converter': 'HEIC to JPEG/PNG/WebP — free & private',
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
     },

@@ -163,9 +163,9 @@
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label" data-i18n="tabSvg">SVG Optimizer</span>
                     </a>
-                    <a href="#passport-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
+                    <a href="#photo-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
-                        <span class="tool-tab__label" data-i18n="tabPassport">Passport Studio</span>
+                        <span class="tool-tab__label" data-i18n="tabPhotoStudio">ID Photo Studio</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">UAE</span>
                     </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
@@ -197,7 +197,7 @@
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 UAE portal uploads? Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
             <div class="hero-callout__actions">
-                <a href="#passport-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPassportStudio">Open Passport Studio</a>
+                <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">Open ID Photo Studio</a>
                 <a href="guides/uae-portal-compression.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/uae-portal-compression.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
                 <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
             </div>
@@ -368,35 +368,10 @@
             </div>
 
             <aside class="compress-sidebar sidebar" id="panel-compress">
-                <div class="settings-card settings-card--uae" data-settings-card data-default-open="true">
-                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
-                        <span class="settings-card__header-left">
-                            <span class="settings-icon" aria-hidden="true">🇦🇪</span>
-                            <span data-i18n="uaePresets">UAE Portal Presets</span>
-                            <span class="uae-label" data-i18n="popular">Popular</span>
-                        </span>
-                        <span class="settings-chevron is-open" aria-hidden="true">▾</span>
-                    </button>
+                <div class="settings-card settings-card--uae-link" data-settings-card data-default-open="true">
                     <div class="settings-card__body">
-                        <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                            <option value="" data-i18n="uaePresetNone">None</option>
-                            <option value="emirates-id" data-i18n="uaeOptionEmiratesId">Emirates ID / passport copy — 200 KB JPEG</option>
-                            <option value="ica-upload" data-i18n="uaeOptionIca">ICA / visa upload — 200 KB JPEG</option>
-                            <option value="mohre-portal" data-i18n="uaeOptionMohre">MOHRE / labour portal — 500 KB JPEG</option>
-                            <option value="rta-docs" data-i18n="uaeOptionRta">RTA document upload — 500 KB JPEG</option>
-                            <option value="portal-reg" data-i18n="uaeOptionPortalReg">General portal (WebP) — 500 KB</option>
-                        </select>
-                        <div class="preset-grid" role="group" aria-label="UAE portal presets">
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id"><span data-i18n="uaePresetEmiratesId">Emirates ID / passport copy</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload"><span data-i18n="uaePresetIca">ICA / visa upload</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal"><span data-i18n="uaePresetMohre">MOHRE / labour portal</span><span class="preset-size" data-i18n="uaePresetMohreSize">500 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs"><span data-i18n="uaePresetRta">RTA document upload</span><span class="preset-size" data-i18n="uaePresetRtaSize">500 KB JPEG</span></button>
-                            <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg"><span data-i18n="uaePresetGeneral">General portal</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 KB WebP</span></button>
-                        </div>
-                        <div class="uae-info-card">
-                            <p class="uae-info-title" data-i18n="uaeInfoTitle">🔒 ID documents stay private</p>
-                            <p class="uae-info-body" data-i18n="uaeInfoBody">Passport &amp; visa copies are processed entirely in your browser. Nothing is uploaded to any server.</p>
-                        </div>
+                        <p class="field-hint uae-link-promo" data-i18n="compressorUaePromo">🇦🇪 UAE government uploads (Emirates ID, ICA, MOHRE, RTA)? Use the dedicated ID Photo Studio — passport photos, visa crops &amp; portal presets in one place.</p>
+                        <a href="#photo-studio" class="btn-secondary btn-block tool-nav-link uae-studio-link" data-tool="passport-studio" data-i18n="openPhotoStudio">Open ID Photo Studio</a>
                     </div>
                 </div>
 
@@ -767,28 +742,46 @@
                 </div>
 
                 <aside class="compress-sidebar sidebar passport-sidebar">
+                    <div class="settings-card settings-card--uae" data-settings-card data-default-open="true">
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🇦🇪</span>
+                                <span data-i18n="uaePresets">UAE Portal Presets</span>
+                                <span class="uae-label" data-i18n="popular">Popular</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <select id="uae-preset" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                <option value="" data-i18n="uaePresetNone">None</option>
+                                <option value="emirates-id" data-i18n="uaeOptionEmiratesId">Emirates ID / passport copy — 200 KB JPEG</option>
+                                <option value="ica-upload" data-i18n="uaeOptionIca">ICA / visa upload — 200 KB JPEG</option>
+                                <option value="mohre-portal" data-i18n="uaeOptionMohre">MOHRE / labour portal — 500 KB JPEG</option>
+                                <option value="rta-docs" data-i18n="uaeOptionRta">RTA document upload — 500 KB JPEG</option>
+                                <option value="portal-reg" data-i18n="uaeOptionPortalReg">General portal (WebP) — 500 KB</option>
+                            </select>
+                            <p class="field-hint field-label-spaced-sm" data-i18n="photoStudioPresetIntro">Portrait &amp; ID photo presets crop to official size. Document presets open the general compressor.</p>
+                            <div class="preset-grid" role="group" aria-label="UAE portal presets">
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="emirates-id" data-uae-action="photo"><span data-i18n="uaePresetEmiratesId">Emirates ID / passport copy</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="ica-upload" data-uae-action="photo"><span data-i18n="uaePresetIca">ICA / visa upload</span><span class="preset-size" data-i18n="uaePresetEmiratesIdSize">200 KB JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="mohre-portal" data-uae-action="document"><span data-i18n="uaePresetMohre">MOHRE / labour portal</span><span class="preset-size" data-i18n="uaePresetMohreSize">500 KB JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="rta-docs" data-uae-action="document"><span data-i18n="uaePresetRta">RTA document upload</span><span class="preset-size" data-i18n="uaePresetRtaSize">500 KB JPEG</span></button>
+                                <button type="button" class="preset-btn preset-btn--uae" data-uae-preset="portal-reg" data-uae-action="document"><span data-i18n="uaePresetGeneral">General portal</span><span class="preset-size" data-i18n="uaePresetGeneralSize">500 KB WebP</span></button>
+                            </div>
+                            <div class="uae-info-card">
+                                <p class="uae-info-title" data-i18n="uaeInfoTitle">🔒 ID documents stay private</p>
+                                <p class="uae-info-body" data-i18n="uaeInfoBody">Passport &amp; visa copies are processed entirely in your browser. Nothing is uploaded to any server.</p>
+                            </div>
+                            <p class="field-hint field-label-spaced-sm" data-i18n="photoStudioDocHint">Compressing scanned documents (MOHRE, RTA, contracts)? MOHRE / RTA / General presets switch to the <strong>Image Compressor</strong> tab automatically.</p>
+                        </div>
+                    </div>
+
                     <select id="passport-preset-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
                         <option value="">Select Preset...</option>
                         <option value="india-passport-seva">🇮🇳 India: Passport Seva Digital (630×810 px)</option>
                         <option value="india-oci-vfs">🇮🇳 India: OCI / e-Visa / VFS Print (2×2 inches / 51×51 mm)</option>
                         <option value="uae-emirates">🇦🇪 UAE: Emirates ID &amp; Visa (35×45 mm)</option>
                     </select>
-
-                    <div class="settings-card settings-card--uae" data-settings-card>
-                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
-                            <span class="settings-card__header-left">
-                                <span class="settings-icon" aria-hidden="true">🇦🇪</span>
-                                <span data-i18n="passportUaePresets">UAE Presets</span>
-                                <span class="uae-label" data-i18n="tabPassportBadge">UAE</span>
-                            </span>
-                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
-                        </button>
-                        <div class="settings-card__body">
-                            <div class="preset-grid" role="group" aria-label="UAE passport presets">
-                                <button type="button" class="preset-btn preset-btn--uae" data-passport-preset="uae-emirates"><span data-i18n="passportPresetUae">Emirates ID &amp; Visa</span><span class="preset-size">35×45 mm</span></button>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="settings-card" data-settings-card>
                         <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
@@ -1037,7 +1030,7 @@
                 <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">Images to PDF</a>
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
-                <a href="#passport-studio" class="seo-tool-chip" data-i18n="seoChipPassport">Passport Studio</a>
+                <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>

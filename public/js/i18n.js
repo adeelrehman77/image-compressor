@@ -12,6 +12,7 @@ window.__NEXUS_I18N = {
         tabPdfSuite: 'PDF Merge',
         tabSvg: 'SVG Optimizer',
         tabPassport: 'Passport Studio',
+        tabPhotoStudio: 'ID Photo Studio',
         tabPassportBadge: 'UAE',
         tabHeic: 'HEIC Converter',
         tabFormat: 'Format Converter',
@@ -229,9 +230,9 @@ window.__NEXUS_I18N = {
         heroPdfSub: 'Combine PDFs or extract pages — private, runs entirely in your browser.',
         heroSvg: 'NexusCompress — SVG <span class="compress-hero__accent">optimizer</span>',
         heroSvgSub: 'Strip metadata and bloat from vector files before you ship them.',
-        heroPassport: 'NexusCompress — Passport &amp; <span class="compress-hero__accent">visa photos</span>',
+        heroPassport: 'NexusCompress — ID &amp; <span class="compress-hero__accent">passport photos</span>',
         heroPassportSub:
-            'Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.',
+            'UAE portal presets, Emirates ID crops, India Passport Seva, OCI, and VFS print sheets — government photo tools in one studio.',
         stepAdd: 'Add files',
         stepConfigure: 'Configure',
         stepReview: 'Review & export',
@@ -241,8 +242,15 @@ window.__NEXUS_I18N = {
         chooseFolder: 'Choose folder',
         startCompression: 'Start compression',
         uaeCallout:
-            '🇦🇪 UAE portal uploads? Emirates ID, ICA & passport photos with size presets — no upload required.',
+            '🇦🇪 UAE government uploads? Emirates ID, ICA & passport photos — use ID Photo Studio. Document scans? MOHRE & RTA presets open the compressor.',
         openPassportStudio: 'Open Passport Studio',
+        openPhotoStudio: 'Open ID Photo Studio',
+        compressorUaePromo:
+            '🇦🇪 UAE government uploads (Emirates ID, ICA, MOHRE, RTA)? Use the dedicated ID Photo Studio — passport photos, visa crops & portal presets in one place.',
+        photoStudioPresetIntro:
+            'Portrait & ID photo presets crop to official size. Document presets open the general compressor.',
+        photoStudioDocHint:
+            'Compressing scanned documents (MOHRE, RTA, contracts)? MOHRE / RTA / General presets switch to the Image Compressor tab automatically.',
         uaePresets: 'UAE Portal Presets',
         popular: 'POPULAR',
         compressionSettings: 'Compression Settings',
@@ -314,10 +322,10 @@ window.__NEXUS_I18N = {
         seoChipItp: 'Images to PDF',
         seoChipPdf: 'PDF merge & split',
         seoChipSvg: 'SVG optimizer',
-        seoChipPassport: 'Passport Studio',
+        seoChipPassport: 'ID Photo Studio',
         seoUaeHeading: 'UAE government portal uploads (200 KB / 500 KB limits)',
         seoUaeBody:
-            'Use <strong>UAE Smart Services presets</strong> in the sidebar for Emirates ID, ICA, MOHRE, and RTA-style uploads. Set a <strong>target file size</strong> (e.g. 200 KB) and NexusCompress will shrink quality step-by-step until your scan fits — no uploads, so passport and visa copies stay on your device.',
+            'Use <strong>UAE Portal Presets</strong> in the <strong>ID Photo Studio</strong> tab for Emirates ID and ICA portrait crops. MOHRE, RTA, and general portal presets open the <strong>Image Compressor</strong> with the right file-size target — no uploads, so passport and visa copies stay on your device.',
         seoBatchHeading: 'Batch resize, aspect ratio & watermark',
         seoBatchBody:
             'Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.',
@@ -366,6 +374,7 @@ window.__NEXUS_I18N = {
         tabPdfSuite: 'دمج PDF',
         tabSvg: 'تحسين SVG',
         tabPassport: 'استوديو الجواز',
+        tabPhotoStudio: 'استوديو صور الهوية',
         tabPassportBadge: 'الإمارات',
         tabHeic: 'محوّل HEIC',
         tabFormat: 'محوّل الصيغ',
@@ -583,9 +592,9 @@ window.__NEXUS_I18N = {
         heroPdfSub: 'دمج ملفات PDF أو استخراج الصفحات — خاص بالكامل في متصفحك.',
         heroSvg: 'NexusCompress — <span class="compress-hero__accent">تحسين</span> SVG',
         heroSvgSub: 'إزالة البيانات الوصفية والزوائد من ملفات SVG قبل النشر.',
-        heroPassport: 'NexusCompress — <span class="compress-hero__accent">صور الجواز والتأشيرة</span>',
+        heroPassport: 'NexusCompress — <span class="compress-hero__accent">صور الهوية والجواز</span>',
         heroPassportSub:
-            'مقاسات رسمية لجواز الهند، OCI، VFS، وبوابات الهوية والتأشيرة في الإمارات.',
+            'إعدادات بوابات الإمارات، قص الهوية الإماراتية، جواز الهند، OCI، وورق VFS — أدوات الصور الحكومية في استوديو واحد.',
         stepAdd: 'إضافة ملفات',
         stepConfigure: 'الإعدادات',
         stepReview: 'مراجعة وتصدير',
@@ -595,8 +604,15 @@ window.__NEXUS_I18N = {
         chooseFolder: 'اختيار مجلد',
         startCompression: 'بدء الضغط',
         uaeCallout:
-            '🇦🇪 رفع على بوابات الإمارات؟ هوية إماراتية، ICA، وصور جواز — مع حدود 200/500 ك.ب — بدون رفع للسحابة.',
+            '🇦🇪 رفع حكومي في الإمارات؟ هوية إماراتية وICA وصور جواز — استخدم استوديو صور الهوية. مسح مستندات؟ MOHRE وRTA يفتحان الضاغط.',
         openPassportStudio: 'فتح استوديو الجواز',
+        openPhotoStudio: 'فتح استوديو صور الهوية',
+        compressorUaePromo:
+            '🇦🇪 رفع حكومي في الإمارات (هوية، ICA، MOHRE، RTA)؟ استخدم استوديو صور الهوية — صور الجواز والتأشيرة وإعدادات البوابات في مكان واحد.',
+        photoStudioPresetIntro:
+            'إعدادات الصور الشخصية تقص للمقاس الرسمي. إعدادات المستندات تفتح ضاغط الصور العام.',
+        photoStudioDocHint:
+            'ضغط مسح المستندات (MOHRE، RTA، عقود)؟ إعدادات MOHRE / RTA / العامة تنتقل تلقائياً إلى تبويب ضاغط الصور.',
         uaePresets: 'إعدادات بوابات الإمارات',
         popular: 'الأكثر استخداماً',
         compressionSettings: 'إعدادات الضغط',
@@ -669,10 +685,10 @@ window.__NEXUS_I18N = {
         seoChipItp: 'صور إلى PDF',
         seoChipPdf: 'دمج وتقسيم PDF',
         seoChipSvg: 'تحسين SVG',
-        seoChipPassport: 'استوديو الجواز',
+        seoChipPassport: 'استوديو صور الهوية',
         seoUaeHeading: 'رفع بوابات حكومة الإمارات (حدود 200 / 500 ك.ب)',
         seoUaeBody:
-            'استخدم <strong>إعدادات الخدمات الذكية في الإمارات</strong> من الشريط الجانبي للهوية الإماراتية وICA وMOHRE وRTA. فعّل <strong>حجم الملف المستهدف</strong> (مثلاً 200 ك.ب) وسيخفض NexusCompress الجودة تدريجياً حتى يلائم المسح — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.',
+            'استخدم <strong>إعدادات بوابات الإمارات</strong> في تبويب <strong>استوديو صور الهوية</strong> لقص الهوية الإماراتية وICA. إعدادات MOHRE وRTA والبوابة العامة تفتح <strong>ضاغط الصور</strong> بحجم ملف مناسب — بدون رفع، فتبقى نسخ الجواز والتأشيرة على جهازك.',
         seoBatchHeading: 'تغيير الحجم، النسبة، والعلامة المائية',
         seoBatchBody:
             'غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.',

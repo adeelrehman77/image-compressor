@@ -356,6 +356,24 @@
         state.croppedPortrait = null;
         resetTransform();
         if (state.bitmap) renderPreview();
+        window.__NEXUS_SYNC_UAE_BUTTONS?.();
+    }
+
+    function selectPreset(presetId, opts = {}) {
+        if (!els.presetSelect) return;
+        if (state.presetId === presetId && !opts.force) return;
+        els.presetSelect.value = presetId;
+        onPresetChange(opts);
+    }
+
+    function clearPreset(opts = {}) {
+        if (!els.presetSelect?.value) return;
+        els.presetSelect.value = '';
+        onPresetChange({ silent: opts.silent ?? true });
+    }
+
+    function getActivePresetId() {
+        return state.presetId || '';
     }
 
     function onPanStart(clientX, clientY) {
@@ -504,5 +522,12 @@
         bindPassportStudio();
     }
 
-    window.NexusPassportStudio = { updatePassportWarnings, generatePrintSheet, renderDigitalExport };
+    window.NexusPassportStudio = {
+        updatePassportWarnings,
+        generatePrintSheet,
+        renderDigitalExport,
+        selectPreset,
+        clearPreset,
+        getActivePresetId,
+    };
 })();
