@@ -56,19 +56,19 @@ function bumpSwCache() {
     fs.writeFileSync(swPath, sw);
 }
 
+const { buildArIndex } = require('./generate-ar-index');
+
 console.log('Building NexusCompress…');
 
 require('./sync-version').main();
+require('./sync-hero-links').main();
 require('./generate-sitemap');
-require('./generate-ar-index');
+
+// Dev preview copy (dist/ar is regenerated after patch-html below)
+buildArIndex();
 
 rimraf(distDir);
 copyDir(publicDir, distDir);
-
-const arDist = path.join(distDir, 'ar', 'index.html');
-if (!fs.existsSync(arDist)) {
-    throw new Error('build: public/ar/index.html was not copied to dist/ar/ — run generate-ar-index first');
-}
 writeVersionJson(publicDir);
 writeVersionJson(distDir);
 fs.mkdirSync(path.join(distDir, 'css'), { recursive: true });
@@ -87,6 +87,14 @@ syncPublicAssets();
 console.log('Copied font files → dist/css/files/ and public/css/files/');
 
 require('./patch-html').patchHtmlFiles(distDir);
+
+// Deploy truth: Arabic page generated from patched English dist (not a stale copied public/ar/)
+const distAr = path.join(distDir, 'ar', 'index.html');
+buildArIndex({
+    src: path.join(distDir, 'index.html'),
+    dest: distAr,
+});
+console.log(`Built deploy Arabic page → ${path.relative(root, distAr)}`);
 
 const appCss = path.join(distDir, 'css', 'app.css');
 const publicAppCss = path.join(publicDir, 'css', 'app.css');

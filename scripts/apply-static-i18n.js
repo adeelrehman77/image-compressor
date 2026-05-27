@@ -124,7 +124,7 @@ function applyArCompressHero(html, dict) {
     const line2 = dict.heroCompressL2 || 'فوراً. بخصوصية تامة.';
     const sub =
         dict.heroSubCompress ||
-        'تصغير JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم.';
+        'صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.';
     const h1 = `<h1 class="compress-hero__title">
                     <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix">${line1}</span></span>
                     <span class="compress-hero__line" data-i18n="heroCompressL2">${line2}</span>

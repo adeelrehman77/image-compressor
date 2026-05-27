@@ -721,7 +721,7 @@ window.__NEXUS_I18N = {
         heroCompressL1Suffix: ' — اضغط الصور.',
         heroCompressL2: 'فوراً. بخصوصية تامة.',
         heroSubCompress:
-            'صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم أبداً.',
+            'صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.',
         heroItp: 'NexusCompress — صور إلى <span class="compress-hero__accent">PDF</span>',
         heroItpSub:
             'دمج مسوح JPEG/PNG في ملف PDF واحد لبوابات الإمارات — يعمل محلياً في متصفحك.',

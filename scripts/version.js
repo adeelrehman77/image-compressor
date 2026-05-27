@@ -18,7 +18,7 @@ function getVersion() {
 }
 
 function swCacheId(version = getVersion()) {
-    return `nexuscompress-${String(version).replace(/\./g, '-')}`;
+    return `nexus-v${version}`;
 }
 
 function sentryRelease(version = getVersion()) {
