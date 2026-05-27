@@ -7,7 +7,8 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const distDir = path.join(root, 'dist');
-const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+const { getVersion } = require('./version');
+const pkgVersion = getVersion();
 
 function assertFile(rel, needles) {
     const file = path.join(distDir, rel);
@@ -26,7 +27,8 @@ assertFile('index.html', [
     'id="tab-image-cropper"',
     'data-pdf-tab="to-images"',
     'guides/best-image-format-uae-government-portals.html',
-    `data-app-version="${pkg.version}"`,
+    `data-app-version="${pkgVersion}"`,
+    `id="app-version"`,
 ]);
 
 assertFile('ar/index.html', [
@@ -35,7 +37,8 @@ assertFile('ar/index.html', [
     ' — اضغط الصور.',
     'دليل بوابات الإمارات',
     '../guides/uae-portal-compression-ar.html',
-    `data-app-version="${pkg.version}"`,
+    `data-app-version="${pkgVersion}"`,
+    `v${pkgVersion}`,
 ]);
 
 const worker = path.join(distDir, 'js/compress-worker.mjs');
@@ -43,4 +46,4 @@ if (!fs.existsSync(worker)) {
     throw new Error('verify-dist: missing js/compress-worker.mjs');
 }
 
-console.log(`verify-dist: OK (v${pkg.version}) — dist/index.html & dist/ar/index.html`);
+console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

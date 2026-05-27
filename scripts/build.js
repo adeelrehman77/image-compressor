@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { getVersion, writeVersionJson, swCacheId } = require('./version');
 
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
@@ -21,19 +22,13 @@ function copyDir(src, dest) {
     }
 }
 
-function writeVersionJson(targetDir) {
-    const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-    const payload = { version: pkg.version, builtAt: new Date().toISOString() };
-    fs.writeFileSync(path.join(targetDir, 'version.json'), `${JSON.stringify(payload, null, 2)}\n`);
-}
-
 function bumpSwCache() {
     const swPath = path.join(distDir, 'sw.js');
     if (!fs.existsSync(swPath)) return;
+    const version = getVersion();
+    const cache = swCacheId(version);
     let sw = fs.readFileSync(swPath, 'utf8');
-    const m = sw.match(/nexuscompress-v(\d+)/);
-    const next = m ? Number(m[1]) + 1 : 3;
-    sw = sw.replace(/nexuscompress-v\d+/, `nexuscompress-v${next}`);
+    sw = sw.replace(/const CACHE = '[^']+'/, `const CACHE = '${cache}'`);
     const assets = `const ASSETS = [
     './css/app.css',
     './js/app.js',
@@ -63,6 +58,7 @@ function bumpSwCache() {
 
 console.log('Building NexusCompress…');
 
+require('./sync-version').main();
 require('./generate-sitemap');
 require('./generate-ar-index');
 

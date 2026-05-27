@@ -1,4 +1,4 @@
-const CACHE = 'nexuscompress-v12';
+const CACHE = 'nexuscompress-2-2-0';
 const ASSETS = [
     './css/app.css',
     './js/app.js',

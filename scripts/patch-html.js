@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const { getVersion, syncHtmlVersionBadges } = require('./version');
 
 function readAppVersion() {
-    const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
-    return pkg.version || '2.1.0';
+    return getVersion();
 }
 
 function jsPrefix(htmlFile, publicRoot) {
@@ -85,11 +85,14 @@ function injectAppVersion(html, version) {
 
 function versionAssetUrls(html, version) {
     const q = `?v=${version}`;
-    let next = html.replace(/(<script src=")([^"?]+\.js)(")/gi, (_, pre, src, post) => {
+    let next = html.replace(/\?v=[\d.]+/g, q);
+    next = next.replace(/(<script src=")([^"?]+\.js)(")/gi, (_, pre, src, post) => {
+        if (/^https?:\/\//i.test(src)) return `${pre}${src}${post}`;
         if (src.includes('?v=')) return `${pre}${src}${post}`;
         return `${pre}${src}${q}${post}`;
     });
     next = next.replace(/(<link[^>]+href=")([^"?]+\.css)(")/gi, (_, pre, href, post) => {
+        if (/^https?:\/\//i.test(href)) return `${pre}${href}${post}`;
         if (href.includes('?v=')) return `${pre}${href}${post}`;
         return `${pre}${href}${q}${post}`;
     });
@@ -111,6 +114,7 @@ function patchHtmlFiles(dir, publicRoot = dir) {
         html = injectGtm(html, p, publicRoot);
         html = injectAppVersion(html, version);
         html = versionAssetUrls(html, version);
+        html = syncHtmlVersionBadges(html, version);
         html = html
             .replace(/href="\.\.\/css\/styles\.css"/g, 'href="../css/app.css"')
             .replace(/href="css\/styles\.css"/g, 'href="css/app.css"')
@@ -130,7 +134,14 @@ function patchHtmlFiles(dir, publicRoot = dir) {
     }
 }
 
-module.exports = { patchHtmlFiles, readAppVersion, injectAppVersion, versionAssetUrls };
+module.exports = {
+    patchHtmlFiles,
+    readAppVersion,
+    injectAppVersion,
+    versionAssetUrls,
+    injectSentry,
+    injectGtm,
+};
 
 if (require.main === module) {
     patchHtmlFiles(path.join(__dirname, '../public'));

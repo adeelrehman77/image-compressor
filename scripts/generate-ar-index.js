@@ -149,12 +149,12 @@ html = applyArCompressHero(html, ar);
 html = patchArGuideHrefs(html);
 html = patchArHeroGuideLink(html, ar);
 
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-const ver = pkg.version || '2.2.0';
+const { getVersion, versionBadgeAr } = require('./version');
+const ver = getVersion();
 html = html.replace(/data-app-version="[^"]*"/g, `data-app-version="${ver}"`);
 html = html.replace(
-    /(<span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">)v[\d.]+ — مجاني(<\/span>)/,
-    `$1v${ver} — مجاني$2`
+    /(<span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">)[^<]+(<\/span>)/,
+    `$1${versionBadgeAr(ver)}$2`
 );
 
 fs.mkdirSync(outDir, { recursive: true });
