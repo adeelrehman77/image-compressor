@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.8'
+            '2.2.9'
         );
     }
 

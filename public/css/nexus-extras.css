@@ -44,9 +44,9 @@ html .compare-overlay {
     padding: 0.75rem 1rem;
     background: var(--surface, #161922);
     border: 1px solid var(--surface-border, rgba(255,255,255,0.08));
-    border-radius: 12px;
+    border-radius: var(--radius-lg, 12px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    font-size: 0.875rem;
+    font-size: var(--text-base, 0.875rem);
     color: var(--text, #e8ecf4);
     max-width: calc(100vw - 2rem);
     white-space: nowrap;
@@ -60,9 +60,9 @@ html .compare-overlay {
     background: var(--accent, #9aa8e8);
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm, 6px);
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: var(--text-base, 0.875rem);
     font-weight: 600;
     white-space: nowrap;
     flex-shrink: 0;
@@ -114,7 +114,7 @@ html .compare-overlay {
     z-index: 1;
     background: var(--surface, #161922);
     border: 1px solid var(--surface-border, rgba(255,255,255,0.08));
-    border-radius: 14px;
+    border-radius: var(--radius-lg, 12px);
     padding: 1.5rem;
     max-width: 560px;
     width: 100%;
@@ -147,7 +147,7 @@ html .compare-overlay {
     line-height: 1;
     padding: 0.25rem;
     flex-shrink: 0;
-    border-radius: 6px;
+    border-radius: var(--radius-sm, 6px);
 }
 .exif-modal-close:hover {
     background: color-mix(in srgb, var(--text) 10%, transparent);
@@ -184,9 +184,9 @@ html .compare-overlay {
 .exif-strip-badge {
     background: color-mix(in srgb, var(--error, #e57373) 15%, transparent);
     color: var(--error, #e57373);
-    border-radius: 4px;
+    border-radius: var(--radius-xs, 4px);
     padding: 0.15rem 0.4rem;
-    font-size: 0.68rem;
+    font-size: var(--text-xs, 0.6875rem);
     font-weight: 700;
     white-space: nowrap;
 }
@@ -215,7 +215,7 @@ html .compare-overlay {
     padding: 0;
     list-style: none;
     border: 1px solid var(--surface-border);
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     overflow: hidden;
     background: var(--surface);
 }
@@ -227,7 +227,7 @@ html .compare-overlay {
     gap: 0.5rem;
     padding: 0.625rem 0.875rem;
     border-bottom: 1px solid var(--surface-border);
-    font-size: 0.82rem;
+    font-size: var(--text-ui, 0.8125rem);
 }
 .heic-file-item:last-child { border-bottom: none; }
 .heic-file-name {
@@ -261,7 +261,7 @@ html .compare-overlay {
 .guide-theme-toggle {
     background: color-mix(in srgb, var(--text) 6%, transparent);
     border: 1px solid var(--surface-border);
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     padding: 0.3rem 0.6rem;
     cursor: pointer;
     color: var(--text-muted);
@@ -281,8 +281,8 @@ html .compare-overlay {
     display: inline-flex;
     align-items: center;
     padding: 0.1rem 0.45rem;
-    border-radius: 6px;
-    font-size: 0.68rem;
+    border-radius: var(--radius-sm, 6px);
+    font-size: var(--text-xs, 0.6875rem);
     font-weight: 600;
     letter-spacing: 0.02em;
     background: color-mix(in srgb, var(--accent, #3dff8f) 18%, transparent);
@@ -320,7 +320,7 @@ html:not(.dark) .codec-badge {
     }
     .tool-tabs::-webkit-scrollbar-thumb {
         background: color-mix(in srgb, var(--accent) 50%, var(--surface-border));
-        border-radius: 4px;
+        border-radius: var(--radius-xs, 4px);
     }
 }
 
@@ -349,7 +349,7 @@ html:not(.dark) .codec-badge {
     gap: 0.15rem;
     max-width: 46%;
     padding: 0.35rem 0.55rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     background: color-mix(in srgb, var(--bg, #0b0c10) 72%, transparent);
     border: 1px solid var(--surface-border);
     font-size: 0.72rem;
@@ -417,7 +417,7 @@ html:not(.dark) .codec-badge {
     max-height: min(56vh, 520px);
     background: var(--surface);
     border: 1px solid var(--surface-border);
-    border-radius: 12px;
+    border-radius: var(--radius-lg, 12px);
     overflow: hidden;
 }
 .crop-stage-wrap .cropper-container { max-height: min(56vh, 520px); }
@@ -434,7 +434,7 @@ html:not(.dark) .codec-badge {
 .pdf2img-thumb {
     margin: 0;
     border: 1px solid var(--surface-border);
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     overflow: hidden;
     background: var(--surface);
 }
@@ -462,7 +462,7 @@ html:not(.dark) .codec-badge {
     gap: 0.65rem;
     padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     background: color-mix(in srgb, var(--accent) 12%, var(--surface));
     border: 1px solid var(--surface-border);
     font-size: 0.88rem;
@@ -482,7 +482,7 @@ html:not(.dark) .codec-badge {
 .pc-models-error {
     padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     background: color-mix(in srgb, #ef4444 10%, var(--surface));
     border: 1px solid color-mix(in srgb, #ef4444 35%, var(--surface-border));
     font-size: 0.88rem;
@@ -494,7 +494,7 @@ html:not(.dark) .codec-badge {
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
 }
 .pc-preview-canvas {
     position: absolute;
@@ -502,7 +502,7 @@ html:not(.dark) .codec-badge {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
 }
 .pc-bio-ring {
     position: absolute;
@@ -568,7 +568,7 @@ html:not(.dark) .codec-badge {
 }
 .pc-results-panel {
     padding: 1rem;
-    border-radius: 12px;
+    border-radius: var(--radius-lg, 12px);
     border: 1px solid var(--surface-border);
     background: var(--surface);
 }
@@ -629,7 +629,7 @@ html:not(.dark) .codec-badge {
     display: flex;
     gap: 0.55rem;
     padding: 0.55rem 0.65rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     background: color-mix(in srgb, var(--bg) 60%, var(--surface));
     border: 1px solid var(--surface-border);
     opacity: 0.35;
@@ -687,7 +687,7 @@ html:not(.dark) .codec-badge {
     color: var(--text);
     background: var(--surface);
     border: 1px solid var(--surface-border);
-    border-radius: 6px;
+    border-radius: var(--radius-sm, 6px);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--bg) 50%, transparent);
 }
 .pc-check-tip-wrap {
@@ -730,7 +730,7 @@ html:not(.dark) .codec-badge {
 .pc-manual-checklist {
     margin-top: 1rem;
     padding: 0.85rem 1rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     border: 1px dashed var(--surface-border);
 }
 .pc-manual-title { margin: 0 0 0.5rem; font-size: 0.9rem; }
@@ -750,19 +750,21 @@ html:not(.dark) .codec-badge {
 }
 
 /* ===== Secure Document Redactor ===== */
-.redactor-privacy-banner {
+.redactor-privacy-banner,
+.up-privacy-banner,
+.pc-privacy-banner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--privacy-banner-gap, 0.5rem);
     width: 100%;
     margin-bottom: 0.85rem;
-    padding: 0.55rem 0.85rem;
-    font-size: 0.82rem;
-    font-weight: 600;
+    padding: var(--privacy-banner-padding, 0.55rem 0.85rem);
+    font-size: var(--privacy-banner-font-size, var(--text-ui, 0.8125rem));
+    font-weight: var(--privacy-banner-font-weight, 600);
 }
 .rd-unsupported {
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     background: color-mix(in srgb, #ef4444 12%, var(--surface));
     border: 1px solid color-mix(in srgb, #ef4444 30%, var(--surface-border));
     margin-bottom: 1rem;
@@ -784,7 +786,7 @@ html:not(.dark) .codec-badge {
     overflow: auto;
     max-height: min(62vh, 680px);
     border: 1px solid var(--surface-border);
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     background: color-mix(in srgb, var(--bg) 70%, var(--surface));
 }
 .rd-stage-wrap--draw { touch-action: none; }
@@ -807,7 +809,7 @@ html:not(.dark) .codec-badge {
     gap: 0.2rem;
     min-width: 140px;
     padding: 0.35rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     background: var(--surface);
     border: 1px solid var(--surface-border);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
@@ -816,7 +818,7 @@ html:not(.dark) .codec-badge {
     text-align: left;
     padding: 0.4rem 0.55rem;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm, 6px);
     background: transparent;
     color: var(--text);
     font-size: 0.82rem;
@@ -839,7 +841,7 @@ html:not(.dark) .codec-badge {
 }
 .rd-sheet-btn {
     padding: 0.65rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     border: 1px solid var(--surface-border);
     background: var(--bg);
     color: var(--text);
@@ -899,20 +901,11 @@ html:not(.dark) .codec-badge {
 }
 
 /* ===== AI Image Upscaler ===== */
-.up-privacy-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    margin-bottom: 0.85rem;
-    padding: 0.55rem 0.85rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-}
+/* .up-privacy-banner — shared rule lives with .redactor-privacy-banner above */
 .up-model-progress {
     margin-bottom: 0.75rem;
     padding: 0.65rem 0.85rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     background: color-mix(in srgb, var(--bg) 60%, var(--surface));
     border: 1px solid var(--surface-border);
 }
@@ -921,7 +914,7 @@ html:not(.dark) .codec-badge {
 .up-model-error {
     margin-bottom: 0.75rem;
     padding: 0.65rem 0.85rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md, 10px);
     border: 1px solid color-mix(in srgb, #ef4444 30%, var(--surface-border));
     background: color-mix(in srgb, #ef4444 10%, var(--surface));
 }
@@ -930,7 +923,7 @@ html:not(.dark) .codec-badge {
 .up-preview-img {
     max-width: 100%;
     max-height: min(42vh, 360px);
-    border-radius: 8px;
+    border-radius: var(--radius-sm, 6px);
     border: 1px solid var(--surface-border);
 }
 .up-original-meta { margin-top: 0.35rem; }
@@ -941,7 +934,7 @@ html:not(.dark) .codec-badge {
     gap: 0;
     background: color-mix(in srgb, var(--bg) 50%, var(--surface));
     border: 1px solid var(--surface-border);
-    border-radius: 7px;
+    border-radius: var(--radius-sm, 6px);
     padding: 2px;
 }
 .up-factor-btns label.btn-segment {
@@ -952,7 +945,7 @@ html:not(.dark) .codec-badge {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-muted);
-    border-radius: 5px;
+    border-radius: var(--radius-xs, 4px);
     cursor: pointer;
     user-select: none;
 }
