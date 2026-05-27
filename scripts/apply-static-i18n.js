@@ -109,6 +109,23 @@ function applySeoIntro(html, seoCopy) {
     return out;
 }
 
+/** First compress-panel H1 + sub: fully Arabic in static HTML (SEO / no-JS). */
+function applyArCompressHero(html, dict) {
+    const line1 = dict.heroCompressL1Suffix || ' — ضغط الصور.';
+    const line2 = dict.heroCompressL2 || 'فوراً. بخصوصية تامة.';
+    const sub =
+        dict.heroSubCompress ||
+        'تصغير JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم.';
+    const h1 = `<h1 class="compress-hero__title">
+                    <span class="compress-hero__line"><span class="compress-hero__accent">NexusCompress</span><span data-i18n="heroCompressL1Suffix">${line1}</span></span>
+                    <span class="compress-hero__line" data-i18n="heroCompressL2">${line2}</span>
+                </h1>`;
+    return html.replace(
+        /(<div id="tool-panel-compress"[\s\S]*?<header class="compress-hero">\s*<div class="compress-hero__text">\s*)<h1 class="compress-hero__title">[\s\S]*?<\/h1>(\s*<p class="compress-hero__sub" data-i18n="heroSubCompress">)[^<]*(<\/p>)/,
+        `$1${h1}$2${sub}$3`
+    );
+}
+
 /** Arabic JSON-LD snippets for /ar/ page. */
 function patchArSchema(html) {
     return html
@@ -126,5 +143,6 @@ module.exports = {
     applyStaticI18n,
     patchArGuideHrefs,
     applySeoIntro,
+    applyArCompressHero,
     patchArSchema,
 };
