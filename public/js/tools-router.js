@@ -15,7 +15,8 @@
             hash === 'format-converter' ||
             hash === 'image-cropper' ||
             hash === 'photo-checker' ||
-            hash === 'redactor'
+            hash === 'redactor' ||
+            hash === 'ai-upscaler'
         ) {
             return hash;
         }
@@ -55,6 +56,9 @@
             await window.NexusTools?.ensureTool?.(tool);
             if (tool === 'photo-checker') {
                 await window.__NEXUS_PHOTO_CHECKER_ACTIVATE?.();
+            }
+            if (tool === 'ai-upscaler') {
+                await window.__NEXUS_UPSCALER_ACTIVATE?.();
             }
             if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
                 await window.NexusTools?.loadPdfLib?.();

@@ -11,6 +11,7 @@ window.__NEXUS_TOOL_META = {
         'image-cropper': 'Crop, rotate & flip images — free & private',
         'photo-checker': 'UAE portal photo compliance — 10 checks, 100% local',
         redactor: 'Redact ID & passport scans — 100% local',
+        'ai-upscaler': 'AI image upscaler 2×/4× — Real-ESRGAN in browser',
     },
     titles: {
         compress: 'Free Online Image Compressor | NexusCompress',
@@ -23,6 +24,7 @@ window.__NEXUS_TOOL_META = {
         'image-cropper': 'Image Cropper — Free Online | NexusCompress',
         'photo-checker': 'UAE Photo Compliance Checker — Free Online | NexusCompress',
         redactor: 'Secure Document Redactor — Free Online | NexusCompress',
+        'ai-upscaler': 'AI Image Upscaler — Free Online | NexusCompress',
     },
     descriptions: {
         compress:
@@ -44,6 +46,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — check Emirates ID, ICA & MOHRE photos before upload. 10 automated compliance tests with face AI — free, private, in-browser.',
         redactor:
             'NexusCompress — black out passport numbers, ID numbers, and MRZ lines on UAE documents before sharing. Free, private, in-browser redaction.',
+        'ai-upscaler':
+            'NexusCompress — upscale images 2× or 4× with Real-ESRGAN AI in your browser. Sharper detail, no uploads, ~5 MB model cached locally after first use.',
     },
     seo: {
         compress: {
@@ -154,11 +158,23 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Load PDF page 1 at 150 DPI, redact, and download JPEG or PNG. Optionally compress under 200 KB (ICA) or 500 KB (MOHRE) using the same MozJPEG pipeline as the main compressor.',
         },
+        'ai-upscaler': {
+            h1: 'NexusCompress — AI Image Upscaler',
+            title1: 'Sharper 2× and 4× enlargement',
+            intro1:
+                'Real-ESRGAN reconstructs realistic detail instead of stretching pixels — ideal for old photos, product shots, and AI-generated art you need at print size.',
+            title2: '100% in your browser',
+            intro2:
+                'The ~5 MB ONNX model downloads once, caches locally, then runs tile-by-tile in a Web Worker. Your images never leave your device — the same privacy model as every NexusCompress tool.',
+            title3: 'Works offline after first load',
+            intro3:
+                'Choose 2× or 4× upscale, export JPEG or PNG, optionally compress before download, and compare before/after with the built-in slider.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1, redactor: 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

@@ -26,6 +26,7 @@ function assertFile(rel, needles) {
 assertFile('index.html', [
     'id="tab-photo-checker"',
     'id="tab-redactor"',
+    'id="tab-ai-upscaler"',
     'id="tab-image-cropper"',
     'data-pdf-tab="to-images"',
     'guides/best-image-format-uae-government-portals.html',
@@ -46,6 +47,8 @@ assertFile('ar/index.html', [
     'فاحص الصور',
     'id="tab-redactor"',
     'تعتيم المستندات',
+    'id="tab-ai-upscaler"',
+    'تكبير بالذكاء الاصطناعي',
     'id="tab-image-cropper"',
     'data-pdf-tab="to-images"',
     ' — اضغط الصور.',
@@ -91,6 +94,16 @@ if (!fs.existsSync(photoChecker)) {
 const redactor = path.join(distDir, 'js/tools/document-redactor.js');
 if (!fs.existsSync(redactor)) {
     throw new Error('verify-dist: missing js/tools/document-redactor.js');
+}
+
+const upscalerWorker = path.join(distDir, 'js/upscaler-worker.mjs');
+if (!fs.existsSync(upscalerWorker)) {
+    throw new Error('verify-dist: missing js/upscaler-worker.mjs');
+}
+
+const aiUpscaler = path.join(distDir, 'js/tools/ai-upscaler.js');
+if (!fs.existsSync(aiUpscaler)) {
+    throw new Error('verify-dist: missing js/tools/ai-upscaler.js');
 }
 
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

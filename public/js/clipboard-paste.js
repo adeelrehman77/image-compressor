@@ -94,6 +94,10 @@
             await window.__NEXUS_REDACTOR_LOAD_FILE(file);
             return;
         }
+        if (tool === 'ai-upscaler' && window.__NEXUS_UPSCALER_LOAD_FILE) {
+            await window.__NEXUS_UPSCALER_LOAD_FILE(file);
+            return;
+        }
         if (tool === 'format-converter' && window.__NEXUS_FMT_ADD_FILES) {
             window.__NEXUS_FMT_ADD_FILES([file]);
             return;

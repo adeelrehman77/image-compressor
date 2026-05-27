@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.5">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.6">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.5" defer></script>
+    <script src="js/sentry-init.js?v=2.2.6" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.5" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.6" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.5"></script>
-    <script src="js/i18n.js?v=2.2.5"></script>
-    <script src="js/tool-meta.js?v=2.2.5"></script>
+    <script src="js/locale.js?v=2.2.6"></script>
+    <script src="js/i18n.js?v=2.2.6"></script>
+    <script src="js/tool-meta.js?v=2.2.6"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -100,10 +100,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.5">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.5">
-    <script src="js/ga-config.js?v=2.2.5" defer></script>
-    <script src="js/gtm.js?v=2.2.5" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.6">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.6">
+    <script src="js/ga-config.js?v=2.2.6" defer></script>
+    <script src="js/gtm.js?v=2.2.6" defer></script>
 </head>
 <body class="app-body">
 
@@ -177,6 +177,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">🔏</span>
                         <span class="tool-tab__label" data-i18n="tabRedactor" data-i18n-short="tabRedactorShort">Redactor</span>
                     </a>
+                    <a href="#ai-upscaler" id="tab-ai-upscaler" class="tool-tab tool-nav-link tool-tab--featured" data-tool="ai-upscaler" role="tab" aria-selected="false" aria-controls="tool-panel-ai-upscaler" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">🔬</span>
+                        <span class="tool-tab__label" data-i18n="tabUpscaler" data-i18n-short="tabUpscalerShort">AI Upscaler</span>
+                    </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
                         <span class="tool-tab__label" data-i18n="tabHeic" data-i18n-short="tabHeicShort">HEIC Converter</span>
@@ -204,7 +208,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.5 — Free</span>
+            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.6 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -1202,6 +1206,168 @@
         </div>
     </div>
 
+    <div id="tool-panel-ai-upscaler" class="tool-panel is-hidden" data-tool-panel="ai-upscaler" role="tabpanel" aria-labelledby="tab-ai-upscaler" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace up-workspace max-width-wrap">
+            <div class="up-privacy-banner chip chip-success" role="status">
+                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span data-i18n="upPrivacyBanner">🔒 Your image never leaves this device — AI upscaling runs entirely in your browser</span>
+            </div>
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroUpscalerHtml">🔬 <span class="compress-hero__accent">AI Image Upscaler</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroUpscalerSub">Upscale photos 2× or 4× with Real-ESRGAN — sharper detail, zero uploads, runs on your device.</p>
+                </div>
+                <span class="compress-hero__badge" data-i18n="upHeroBadge">AI · Local</span>
+            </header>
+            <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
+                <p id="up-model-label" class="up-model-label">Downloading AI model…</p>
+                <div class="progress-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill" style="width:0%"></div></div>
+            </div>
+            <p id="up-model-badge" class="up-model-badge chip chip-success is-hidden" aria-live="polite">Model ready ✓</p>
+            <div id="up-model-error" class="up-model-error is-hidden" role="alert">
+                <p data-i18n="upModelError">Could not load AI model. Check your connection and try again.</p>
+                <button type="button" id="up-model-retry" class="btn-secondary btn-sm is-hidden" data-i18n="upModelRetry">Retry</button>
+            </div>
+            <div class="app-grid compress-app-grid up-grid">
+                <div class="main-col compress-main-col">
+                    <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to upscale">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">🔬</div>
+                            <p class="drop-title" data-i18n="upDropTitle">Drop your image here</p>
+                            <p class="drop-sub" data-i18n="upDropSub">JPEG, PNG, or WebP — upscaled locally with Real-ESRGAN</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                                <span class="fmt-tag">WebP</span>
+                            </div>
+                            <label class="btn-primary is-clickable"><span data-i18n="upChooseImage">Choose image</span><input type="file" id="up-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"></label>
+                        </div>
+                    </section>
+                    <div id="up-upload-preview" class="up-upload-preview is-hidden">
+                        <img id="up-preview-img" class="up-preview-img" alt="" width="320" height="240">
+                        <p id="up-original-meta" class="up-original-meta field-hint"></p>
+                    </div>
+                    <div id="up-settings" class="up-settings is-hidden">
+                        <div class="glass-panel settings-card" data-settings-card data-default-open>
+                            <button type="button" class="settings-card__toggle" data-settings-toggle aria-expanded="true">
+                                <span data-i18n="upSettingsTitle">Upscale settings</span>
+                                <span class="settings-chevron is-open" aria-hidden="true"></span>
+                            </button>
+                            <div class="settings-card__body">
+                                <fieldset class="up-factor-fieldset">
+                                    <legend class="field-label" data-i18n="upFactorLabel">Upscale factor</legend>
+                                    <div class="up-factor-btns" role="group">
+                                        <label class="btn-segment is-active" data-up-factor-btn="2">
+                                            <input type="radio" name="up-factor" value="2" checked>
+                                            <span data-i18n="upFactor2">2× Upscale</span>
+                                        </label>
+                                        <label class="btn-segment" data-up-factor-btn="4">
+                                            <input type="radio" name="up-factor" value="4">
+                                            <span data-i18n="upFactor4">4× Upscale</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <label class="field-label" for="up-output-format" data-i18n="upOutputFormat">Output format</label>
+                                <select id="up-output-format" class="field-select">
+                                    <option value="image/jpeg" data-i18n="upFmtJpeg">JPEG (smaller file)</option>
+                                    <option value="image/png" data-i18n="upFmtPng">PNG (lossless)</option>
+                                </select>
+                                <div id="up-jpeg-quality-wrap" class="up-jpeg-quality-wrap">
+                                    <label class="field-label" for="up-jpeg-quality"><span data-i18n="upJpegQuality">JPEG quality</span> <span id="up-jpeg-quality-val">90%</span></label>
+                                    <input type="range" id="up-jpeg-quality" class="field-range" min="85" max="95" value="90" step="1">
+                                </div>
+                                <p class="field-hint" data-i18n-html="upPerfNoteHtml">640×480 → ~15–25 s on a laptop · 1200×900 → ~60–90 s · Mobile devices are typically 2–4× slower.</p>
+                                <p id="up-perf-warn" class="up-perf-warn field-hint is-hidden" role="status"></p>
+                                <button type="button" id="up-run-btn" class="btn-primary btn-block btn-lg up-run-btn" data-i18n="upRunBtn">Upscale image</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="up-processing" class="up-processing is-hidden" role="status" aria-live="polite">
+                        <p id="up-status" class="tool-status"></p>
+                        <div class="progress-track" aria-hidden="true"><div id="up-progress-bar" class="progress-fill" style="width:0%"></div></div>
+                        <p id="up-eta" class="up-eta field-hint"></p>
+                        <button type="button" id="up-cancel-btn" class="btn-secondary btn-block" data-i18n="upCancel">Cancel</button>
+                    </div>
+                    <p id="up-fallback-banner" class="up-fallback-banner chip chip-warn is-hidden" role="status"></p>
+                    <div id="up-results" class="up-results is-hidden">
+                        <div
+                            id="up-compare"
+                            class="compare-container compare-stage bg-checker is-hidden"
+                            role="slider"
+                            aria-label="Drag to compare original and upscaled"
+                            data-i18n-attr="aria-label"
+                            data-i18n="upCompareAria"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="50"
+                            tabindex="0"
+                        >
+                            <img id="up-compare-base" class="compare-img compare-base" alt="Upscaled preview">
+                            <div id="up-compare-overlay" class="compare-overlay">
+                                <img id="up-compare-top" class="compare-img compare-top" alt="Original">
+                            </div>
+                            <div id="up-compare-handle" class="compare-handle" aria-hidden="true"></div>
+                            <div class="compare-stage-labels">
+                                <div id="up-compare-label-before" class="compare-stage-label compare-stage-label--before"></div>
+                                <span class="compare-drag-hint" aria-hidden="true" data-i18n="compareDragHint">← drag →</span>
+                                <div id="up-compare-label-after" class="compare-stage-label compare-stage-label--after"></div>
+                            </div>
+                        </div>
+                        <p id="up-result-size" class="field-hint up-result-size"></p>
+                        <button type="button" id="up-download-btn" class="btn-primary btn-block" data-i18n="upDownload">Download upscaled image</button>
+                        <label class="field-check up-compress-check">
+                            <input type="checkbox" id="up-compress-toggle">
+                            <span data-i18n="upCompressToggle">Compress before download</span>
+                        </label>
+                        <button type="button" id="up-reset-btn" class="btn-secondary btn-block" data-i18n="upReset">Upscale another image</button>
+                    </div>
+                </div>
+            </div>
+            <section class="up-seo-block seo-tool-panel-block" aria-labelledby="up-seo-h2">
+                <h2 id="up-seo-h2">AI Image Upscaler — Enlarge photos without losing quality</h2>
+                <p>NexusCompress uses a Real-ESRGAN neural network to upscale images 2× or 4× with AI-reconstructed detail — not just stretched pixels. The entire process runs in your browser. Your photos are never uploaded to any server.</p>
+                <h3>How is AI upscaling different from regular resizing?</h3>
+                <p>Standard resizing (bicubic, Lanczos) simply interpolates between existing pixels, producing a larger but often blurry result. Real-ESRGAN uses a neural network trained on millions of image pairs to hallucinate realistic detail — reconstructing textures, sharpening edges, and reducing compression artifacts in the process.</p>
+                <h3>What is the best use case for AI upscaling?</h3>
+                <p>AI upscaling works best on photos, portraits, and natural images. It is particularly effective for rescuing old low-resolution photos, upscaling AI-generated images for print, enhancing product photos from suppliers, and improving scanned document clarity before portal uploads.</p>
+                <h3>Does the upscaler work offline?</h3>
+                <p>Once the AI model has been downloaded on first use (~5 MB), it is cached in your browser. All subsequent upscaling runs entirely offline — no internet connection is needed.</p>
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {
+                            "@type": "Question",
+                            "name": "How is AI upscaling different from regular resizing?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Standard resizing interpolates between existing pixels and often looks blurry. Real-ESRGAN uses a neural network to reconstruct realistic detail, sharpen edges, and reduce compression artifacts — all in your browser on NexusCompress."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "What is the best use case for AI upscaling?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "AI upscaling works best on photos, portraits, and natural images — rescuing old low-res photos, upscaling AI-generated art for print, enhancing product photos, and improving scanned documents before UAE portal uploads."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Does the NexusCompress AI upscaler work offline?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "After the ~5 MB Real-ESRGAN model downloads once, it is cached in your browser. Subsequent upscaling runs entirely offline with no server uploads."
+                            }
+                        }
+                    ]
+                }
+                </script>
+            </section>
+        </div>
+    </div>
+
     <div id="tool-panel-heic-converter" class="tool-panel is-hidden" data-tool-panel="heic-converter" role="tabpanel" aria-labelledby="tab-heic-converter" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
@@ -1490,6 +1656,7 @@
                 <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
                 <a href="#photo-checker" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">Photo Checker</a>
                 <a href="#redactor" class="seo-tool-chip" data-i18n="seoChipRedactor">Redactor</a>
+                <a href="#ai-upscaler" class="seo-tool-chip" data-i18n="seoChipUpscaler">AI Upscaler</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>
@@ -1568,7 +1735,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.5</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.6</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1653,13 +1820,15 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.5" defer></script>
-    <script src="js/tools-router.js?v=2.2.5" defer></script>
-    <script src="js/pwa-install.js?v=2.2.5" defer></script>
-    <script src="js/ads-config.js?v=2.2.5"></script>
-    <script src="js/ads.js?v=2.2.5" defer></script>
-    <script src="js/locale-ui.js?v=2.2.5" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.5" defer></script>
-    <script src="js/app.js?v=2.2.5" defer></script>
+    <script src="js/tools-shared.js?v=2.2.6" defer></script>
+    <script src="js/tools-router.js?v=2.2.6" defer></script>
+    <script src="js/pwa-install.js?v=2.2.6" defer></script>
+    <script src="js/ads-config.js?v=2.2.6"></script>
+    <script src="js/ads.js?v=2.2.6" defer></script>
+    <script src="js/locale-ui.js?v=2.2.6" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.6" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
+    <script src="js/compare-slider.js?v=2.2.6" defer></script>
+    <script src="js/app.js?v=2.2.6" defer></script>
 </body>
 </html>

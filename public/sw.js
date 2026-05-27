@@ -1,11 +1,22 @@
-const CACHE = 'nexus-v2.2.5-68aa93b';
+const CACHE = 'nexus-v2.2.6-8ba6b4f';
 const FACE_MODEL_CACHE = 'nexus-face-models-v1';
+const UPSCALER_MODEL_CACHE = 'nexus-esrgan-model-v1';
 
 function isFaceApiCdnRequest(url) {
     return (
         url.hostname === 'cdn.jsdelivr.net' &&
         (url.pathname.includes('/face-api.js@') || url.pathname.includes('/@vladmandic/face-api/model/'))
     );
+}
+
+function isUpscalerCdnRequest(url) {
+    return (
+        url.hostname === 'cdn.jsdelivr.net' && url.pathname.includes('/onnxruntime-web@')
+    );
+}
+
+function isUpscalerModelRequest(url) {
+    return url.hostname === 'huggingface.co' && url.pathname.includes('realesrgan-x4.onnx');
 }
 const ASSETS = [
     './css/app.css',
@@ -56,6 +67,22 @@ self.addEventListener('fetch', (e) => {
     if (isFaceApiCdnRequest(url)) {
         e.respondWith(
             caches.open(FACE_MODEL_CACHE).then((cache) =>
+                cache.match(e.request).then(
+                    (cached) =>
+                        cached ||
+                        fetch(e.request).then((res) => {
+                            if (res.ok) cache.put(e.request, res.clone());
+                            return res;
+                        })
+                )
+            )
+        );
+        return;
+    }
+
+    if (isUpscalerCdnRequest(url) || isUpscalerModelRequest(url)) {
+        e.respondWith(
+            caches.open(UPSCALER_MODEL_CACHE).then((cache) =>
                 cache.match(e.request).then(
                     (cached) =>
                         cached ||
