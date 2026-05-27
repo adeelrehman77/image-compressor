@@ -1,6 +1,6 @@
 {
   "name": "nexuscompress",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "description": "Client-side image optimizer with CLI",
   "main": "cli.js",
   "bin": {
@@ -18,7 +18,8 @@
     "start": "npm run preview",
     "test": "SKIP_VERSION_BUMP=1 npm run build && node test.js",
     "compress": "node cli.js",
-    "pages:deploy": "npm run build && npx wrangler deploy",
+    "predeploy": "rm -rf dist && npm run build && node scripts/verify-dist.js",
+    "deploy": "wrangler deploy",
     "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/generate-icons.js && node scripts/generate-og.js"
   },
   "keywords": [

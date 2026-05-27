@@ -23,6 +23,15 @@ function assertFile(rel, needles) {
     }
 }
 
+const enHtmlRaw = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8');
+
+// Guard: tokens.css must be linked (Phase 2 design tokens)
+if (!enHtmlRaw.includes('tokens.css')) throw new Error('verify-dist: dist/index.html missing tokens.css link');
+// Guard: old version strings must not appear
+if (enHtmlRaw.includes('v2.1.0')) throw new Error('verify-dist: dist/index.html still contains old version string v2.1.0');
+// Guard: old wrong UAE portal link must not appear
+if (enHtmlRaw.includes('uae-portal-compression.html"')) throw new Error('verify-dist: dist/index.html contains wrong UAE portal link (uae-portal-compression.html)');
+
 assertFile('index.html', [
     'id="tab-photo-checker"',
     'id="tab-redactor"',
@@ -35,8 +44,7 @@ assertFile('index.html', [
     `id="app-version"`,
 ]);
 
-const enHtml = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8');
-if (enHtml.includes('دليل بوابات الإمارات') && !enHtml.includes('lang="ar"')) {
+if (enHtmlRaw.includes('دليل بوابات الإمارات') && !enHtmlRaw.includes('lang="ar"')) {
     throw new Error('verify-dist: dist/index.html must not contain Arabic hero guide label');
 }
 
