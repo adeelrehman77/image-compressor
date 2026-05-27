@@ -138,13 +138,22 @@
         const heroBadge = document.getElementById('compress-version-badge');
         if (!el && !heroBadge) return;
         try {
-            const res = await fetch('version.json');
+            const res = await fetch(`version.json?${Date.now()}`, { cache: 'no-store' });
             if (res.ok) {
-                const { version } = await res.json();
-                const label = `v${version}`;
-                if (el) el.textContent = label;
-                if (heroBadge) heroBadge.textContent = `${label} — ${tf('badgeFree', null, 'Free')}`;
-                window.NexusSentry?.setAppVersion?.(version);
+                const data = await res.json();
+                const { version, buildId } = data;
+                const label = buildId ? `v${version} (${buildId})` : `v${version}`;
+                if (el) {
+                    el.textContent = label;
+                    el.title = data.builtAt ? `Built ${data.builtAt}` : '';
+                }
+                if (heroBadge) {
+                    heroBadge.textContent = `${label} — ${tf('badgeFree', null, 'Free')}`;
+                    heroBadge.title = data.builtAt || '';
+                }
+                document.documentElement.dataset.appVersion = version;
+                document.documentElement.dataset.buildId = buildId || '';
+                window.NexusSentry?.setAppVersion?.(`${version}+${buildId || 'local'}`);
             }
         } catch {
             if (el) el.textContent = 'v2';
@@ -265,7 +274,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.0';
+        return window.NexusTools?.appVersion?.() || '2.2.2';
     }
 
     function initWorkers() {

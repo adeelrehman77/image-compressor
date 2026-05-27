@@ -3,9 +3,7 @@
  * Bump package.json semver (patch | minor | major), then sync all assets.
  * Usage: npm run version:patch | version:minor | version:major
  */
-const fs = require('fs');
-const path = require('path');
-const { pkgPath, readPackage } = require('./version');
+const { readPackage, writePackage, bumpPatchVersion } = require('./version');
 const { main: syncVersion } = require('./sync-version');
 
 const level = process.argv[2] || 'patch';
@@ -32,8 +30,10 @@ function bump(ver, lvl) {
 }
 
 const pkg = readPackage();
-const next = bump(pkg.version, level);
-pkg.version = next;
-fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+const next = level === 'patch' ? bumpPatchVersion() : (() => {
+    pkg.version = bump(pkg.version, level);
+    writePackage(pkg);
+    return pkg.version;
+})();
 console.log(`bump-version: ${level} → v${next}`);
 syncVersion();

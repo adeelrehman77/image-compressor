@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /**
- * Single source of truth: package.json "version".
- * Used by build, patch-html, sync-version, and verify-dist.
+ * Versioning: package.json semver + per-build buildId.
+ * BUMP_ON_BUILD=1 (default in npm run build) auto-increments patch on each build.
+ * SKIP_VERSION_BUMP=1 skips bump (e.g. npm test).
  */
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
 const pkgPath = path.join(root, 'package.json');
@@ -13,12 +15,60 @@ function readPackage() {
     return JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 }
 
+function writePackage(pkg) {
+    fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+}
+
 function getVersion() {
     return readPackage().version || '0.0.0';
 }
 
-function swCacheId(version = getVersion()) {
-    return `nexus-v${version}`;
+function bumpPatchVersion() {
+    const pkg = readPackage();
+    const parts = String(pkg.version || '0.0.0').split('.').map((n) => parseInt(n, 10) || 0);
+    while (parts.length < 3) parts.push(0);
+    parts[2] += 1;
+    pkg.version = parts.join('.');
+    writePackage(pkg);
+    return pkg.version;
+}
+
+function shouldBumpOnBuild() {
+    if (process.env.SKIP_VERSION_BUMP === '1') return false;
+    if (process.env.BUMP_ON_BUILD === '1') return true;
+    if (process.env.CI === 'true' || process.env.CI === '1') return true;
+    return false;
+}
+
+/** Call at start of production build — returns active semver (bumped when enabled). */
+function autoBumpForBuild() {
+    if (!shouldBumpOnBuild()) return getVersion();
+    const next = bumpPatchVersion();
+    console.log(`version: auto-bump patch → v${next}`);
+    return next;
+}
+
+function getGitShortSha() {
+    try {
+        return execSync('git rev-parse --short HEAD', { cwd: root, encoding: 'utf8' }).trim();
+    } catch {
+        return '';
+    }
+}
+
+/** Unique per build — used in version.json and SW cache even if semver unchanged. */
+function getBuildId() {
+    if (process.env.BUILD_ID) return String(process.env.BUILD_ID).replace(/[^a-zA-Z0-9._-]/g, '');
+    const sha = getGitShortSha();
+    if (sha) return sha;
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}-${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}`;
+}
+
+function swCacheId(version = getVersion(), buildId = getBuildId()) {
+    const safe = String(buildId).replace(/\./g, '-');
+    return `nexus-v${version}-${safe}`;
 }
 
 function sentryRelease(version = getVersion()) {
@@ -33,10 +83,16 @@ function versionBadgeAr(version = getVersion()) {
     return `v${version} — مجاني`;
 }
 
-function writeVersionJson(targetDir, version = getVersion()) {
-    const payload = { version, builtAt: new Date().toISOString() };
+function writeVersionJson(targetDir, meta = {}) {
+    const version = meta.version || getVersion();
+    const payload = {
+        version,
+        buildId: meta.buildId || getBuildId(),
+        builtAt: meta.builtAt || new Date().toISOString(),
+    };
     fs.mkdirSync(targetDir, { recursive: true });
     fs.writeFileSync(path.join(targetDir, 'version.json'), `${JSON.stringify(payload, null, 2)}\n`);
+    return payload;
 }
 
 function replaceInFile(filePath, replacements) {
@@ -91,11 +147,11 @@ function syncJsSources(version = getVersion()) {
     return n;
 }
 
-function syncServiceWorker(version = getVersion()) {
+function syncServiceWorker(version = getVersion(), buildId = getBuildId()) {
     const swPath = path.join(root, 'public/sw.js');
     if (!fs.existsSync(swPath)) return false;
     let sw = fs.readFileSync(swPath, 'utf8');
-    const cache = swCacheId(version);
+    const cache = swCacheId(version, buildId);
     const next = sw.replace(/const CACHE = '[^']+'/, `const CACHE = '${cache}'`);
     if (next === sw) return false;
     fs.writeFileSync(swPath, next);
@@ -123,7 +179,13 @@ module.exports = {
     root,
     pkgPath,
     readPackage,
+    writePackage,
     getVersion,
+    bumpPatchVersion,
+    shouldBumpOnBuild,
+    autoBumpForBuild,
+    getBuildId,
+    getGitShortSha,
     swCacheId,
     sentryRelease,
     versionBadgeEn,

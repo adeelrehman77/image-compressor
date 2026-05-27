@@ -1,15 +1,14 @@
 {
   "name": "nexuscompress",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "Client-side image optimizer with CLI",
   "main": "cli.js",
   "bin": {
     "nexus-compress": "./cli.js"
   },
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "BUMP_ON_BUILD=1 node scripts/build.js",
     "build:css": "postcss src/styles/main.css -o public/css/app.css && node scripts/sync-version.js && node scripts/sync-public-assets.js",
-    "prebuild": "node scripts/sync-version.js",
     "version:sync": "node scripts/sync-version.js",
     "version:patch": "node scripts/bump-version.js patch",
     "version:minor": "node scripts/bump-version.js minor",
@@ -17,7 +16,7 @@
     "dev": "npm run build:css && node scripts/dev-server.js",
     "preview": "npm run build && node scripts/preview-server.js",
     "start": "npm run preview",
-    "test": "npm run build && node test.js",
+    "test": "SKIP_VERSION_BUMP=1 npm run build && node test.js",
     "compress": "node cli.js",
     "pages:deploy": "npm run build && npx wrangler deploy",
     "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/generate-icons.js && node scripts/generate-og.js"

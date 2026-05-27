@@ -8,6 +8,7 @@ const path = require('path');
 const {
     root,
     getVersion,
+    getBuildId,
     writeVersionJson,
     syncJsSources,
     syncServiceWorker,
@@ -40,12 +41,13 @@ function patchPublicHtml(version) {
 
 function main() {
     const version = getVersion();
+    const buildId = getBuildId();
     const jsFiles = syncJsSources(version);
-    const sw = syncServiceWorker(version);
+    const sw = syncServiceWorker(version, buildId);
     patchPublicHtml(version);
-    writeVersionJson(publicDir, version);
+    writeVersionJson(publicDir, { version, buildId });
 
-    console.log(`sync-version: v${version} (i18n/JS: ${jsFiles} file(s), SW cache: ${sw ? 'updated' : 'ok'})`);
+    console.log(`sync-version: v${version} · build ${buildId} (i18n/JS: ${jsFiles} file(s), SW cache: ${sw ? 'updated' : 'ok'})`);
 }
 
 if (require.main === module) {

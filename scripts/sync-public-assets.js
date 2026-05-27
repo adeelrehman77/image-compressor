@@ -48,33 +48,22 @@ function copyFontFiles(destDir, cssPath) {
     return copied;
 }
 
-function writeVersionJson(destPath) {
-    const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-    fs.writeFileSync(
-        destPath,
-        JSON.stringify({ version: pkg.version, builtAt: new Date().toISOString() }, null, 2)
-    );
-    return pkg.version;
-}
-
-function syncPublicAssets() {
+function syncPublicAssets(versionMeta) {
     const cssPath = path.join(publicDir, 'css', 'app.css');
     const fontsDest = path.join(publicDir, 'css', 'files');
     const fontsCopied = copyFontFiles(fontsDest, cssPath);
-    const version = writeVersionJson(path.join(publicDir, 'version.json'));
-    return { fontsCopied, version };
+    return { fontsCopied };
 }
 
 function syncDistAssets(distDir) {
     const cssPath = path.join(distDir, 'css', 'app.css');
     const fontsCopied = copyFontFiles(path.join(distDir, 'css', 'files'), cssPath);
-    const version = writeVersionJson(path.join(distDir, 'version.json'));
-    return { fontsCopied, version };
+    return { fontsCopied };
 }
 
-module.exports = { syncPublicAssets, syncDistAssets, copyFontFiles, writeVersionJson, extractFontFilesFromCss };
+module.exports = { syncPublicAssets, syncDistAssets, copyFontFiles, extractFontFilesFromCss };
 
 if (require.main === module) {
-    const { fontsCopied, version } = syncPublicAssets();
-    console.log(`Synced public assets → ${fontsCopied} font files, version ${version}`);
+    const { fontsCopied } = syncPublicAssets();
+    console.log(`Synced public assets → ${fontsCopied} font files`);
 }

@@ -57,10 +57,19 @@ if (/compress images\. Instantly/i.test(arHtml) || /Shrink JPEG, PNG, WebP &amp;
     throw new Error('verify-dist: dist/ar/index.html still contains English compress hero');
 }
 
+const versionJson = JSON.parse(fs.readFileSync(path.join(distDir, 'version.json'), 'utf8'));
+if (versionJson.version !== pkgVersion) {
+    throw new Error(`verify-dist: version.json (${versionJson.version}) !== package.json (${pkgVersion})`);
+}
+if (!versionJson.buildId) {
+    throw new Error('verify-dist: version.json missing buildId');
+}
+
 const sw = fs.readFileSync(path.join(distDir, 'sw.js'), 'utf8');
 const { swCacheId } = require('./version');
-if (!sw.includes(`const CACHE = '${swCacheId(pkgVersion)}'`)) {
-    throw new Error(`verify-dist: dist/sw.js cache must be ${swCacheId(pkgVersion)}`);
+const expectedCache = swCacheId(pkgVersion, versionJson.buildId);
+if (!sw.includes(`const CACHE = '${expectedCache}'`)) {
+    throw new Error(`verify-dist: dist/sw.js cache must be ${expectedCache}`);
 }
 
 const worker = path.join(distDir, 'js/compress-worker.mjs');

@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { getVersion, writeVersionJson, swCacheId } = require('./version');
+const { autoBumpForBuild, getVersion, getBuildId, writeVersionJson, swCacheId } = require('./version');
 
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
@@ -22,11 +22,11 @@ function copyDir(src, dest) {
     }
 }
 
-function bumpSwCache() {
+function bumpSwCache(buildId) {
     const swPath = path.join(distDir, 'sw.js');
     if (!fs.existsSync(swPath)) return;
     const version = getVersion();
-    const cache = swCacheId(version);
+    const cache = swCacheId(version, buildId);
     let sw = fs.readFileSync(swPath, 'utf8');
     sw = sw.replace(/const CACHE = '[^']+'/, `const CACHE = '${cache}'`);
     const assets = `const ASSETS = [
@@ -60,6 +60,10 @@ const { buildArIndex } = require('./generate-ar-index');
 
 console.log('Building NexusCompress…');
 
+const buildVersion = autoBumpForBuild();
+const buildId = getBuildId();
+console.log(`Release: v${buildVersion} · build ${buildId}`);
+
 require('./sync-version').main();
 require('./sync-hero-links').main();
 require('./generate-sitemap');
@@ -69,8 +73,9 @@ buildArIndex();
 
 rimraf(distDir);
 copyDir(publicDir, distDir);
-writeVersionJson(publicDir);
-writeVersionJson(distDir);
+const versionMeta = { version: buildVersion, buildId, builtAt: new Date().toISOString() };
+writeVersionJson(publicDir, versionMeta);
+writeVersionJson(distDir, versionMeta);
 fs.mkdirSync(path.join(distDir, 'css'), { recursive: true });
 const legacyCss = path.join(distDir, 'css', 'styles.css');
 if (fs.existsSync(legacyCss)) fs.unlinkSync(legacyCss);
@@ -83,6 +88,8 @@ execSync('npx postcss src/styles/main.css -o dist/css/app.css', {
 
 const { syncDistAssets, syncPublicAssets } = require('./sync-public-assets');
 syncDistAssets(distDir);
+writeVersionJson(publicDir, versionMeta);
+writeVersionJson(distDir, versionMeta);
 syncPublicAssets();
 console.log('Copied font files → dist/css/files/ and public/css/files/');
 
@@ -103,10 +110,9 @@ if (fs.existsSync(appCss)) {
     fs.copyFileSync(appCss, publicAppCss);
 }
 
-bumpSwCache();
+bumpSwCache(buildId);
 
 require('./verify-dist');
 
-const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-console.log(`Done → dist/ (v${pkg.version})`);
+console.log(`Done → dist/ (v${buildVersion} · build ${buildId})`);
 console.log('Deploy: npx wrangler deploy  (output: dist/)');

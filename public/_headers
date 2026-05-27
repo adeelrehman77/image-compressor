@@ -32,6 +32,9 @@
 /guides/*
   Cache-Control: public, max-age=86400
 
+/version.json
+  Cache-Control: no-cache, must-revalidate
+
 /sitemap.xml
   Cache-Control: public, max-age=3600
 
