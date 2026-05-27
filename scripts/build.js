@@ -68,6 +68,11 @@ require('./generate-ar-index');
 
 rimraf(distDir);
 copyDir(publicDir, distDir);
+
+const arDist = path.join(distDir, 'ar', 'index.html');
+if (!fs.existsSync(arDist)) {
+    throw new Error('build: public/ar/index.html was not copied to dist/ar/ — run generate-ar-index first');
+}
 writeVersionJson(publicDir);
 writeVersionJson(distDir);
 fs.mkdirSync(path.join(distDir, 'css'), { recursive: true });
@@ -96,5 +101,8 @@ if (fs.existsSync(appCss)) {
 
 bumpSwCache();
 
+require('./verify-dist');
+
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 console.log(`Done → dist/ (v${pkg.version})`);
+console.log('Deploy: npx wrangler deploy  (output: dist/)');
