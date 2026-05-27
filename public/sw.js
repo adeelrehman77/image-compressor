@@ -1,4 +1,4 @@
-const CACHE = 'nexus-v2.2.4-deecb40';
+const CACHE = 'nexus-v2.2.5-68aa93b';
 const FACE_MODEL_CACHE = 'nexus-face-models-v1';
 
 function isFaceApiCdnRequest(url) {

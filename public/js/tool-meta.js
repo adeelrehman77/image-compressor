@@ -10,6 +10,7 @@ window.__NEXUS_TOOL_META = {
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
         'image-cropper': 'Crop, rotate & flip images — free & private',
         'photo-checker': 'UAE portal photo compliance — 10 checks, 100% local',
+        redactor: 'Redact ID & passport scans — 100% local',
     },
     titles: {
         compress: 'Free Online Image Compressor | NexusCompress',
@@ -21,6 +22,7 @@ window.__NEXUS_TOOL_META = {
         'format-converter': 'Image Format Converter — Free Online | NexusCompress',
         'image-cropper': 'Image Cropper — Free Online | NexusCompress',
         'photo-checker': 'UAE Photo Compliance Checker — Free Online | NexusCompress',
+        redactor: 'Secure Document Redactor — Free Online | NexusCompress',
     },
     descriptions: {
         compress:
@@ -40,6 +42,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — crop, rotate, and flip JPEG, PNG, and WebP images in your browser. UAE ID presets, custom ratios, send to compressor.',
         'photo-checker':
             'NexusCompress — check Emirates ID, ICA & MOHRE photos before upload. 10 automated compliance tests with face AI — free, private, in-browser.',
+        redactor:
+            'NexusCompress — black out passport numbers, ID numbers, and MRZ lines on UAE documents before sharing. Free, private, in-browser redaction.',
     },
     seo: {
         compress: {
@@ -138,11 +142,23 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Failed checks link straight to ID Photo Studio with your photo loaded — crop to 35×45 mm, align your face, and export a portal-ready JPEG under 200 KB.',
         },
+        redactor: {
+            h1: 'NexusCompress — Secure Document Redactor',
+            title1: 'Share less, stay safe',
+            intro1:
+                'Black out passport numbers, Emirates ID numbers, dates of birth, MRZ lines, and bank details on scans before sending to employers, landlords, or agencies — without uploading files to a cloud service.',
+            title2: 'Pixel-perfect permanent redaction',
+            intro2:
+                'Draw boxes or use UAE document presets, then export at full resolution. Black fill replaces image data permanently; optional blur uses local convolution only.',
+            title3: 'PDF first page + portal compression',
+            intro3:
+                'Load PDF page 1 at 150 DPI, redact, and download JPEG or PNG. Optionally compress under 200 KB (ICA) or 500 KB (MOHRE) using the same MozJPEG pipeline as the main compressor.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1, redactor: 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

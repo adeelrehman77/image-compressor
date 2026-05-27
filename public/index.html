@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.4">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.5">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.4" defer></script>
+    <script src="js/sentry-init.js?v=2.2.5" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.4" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.5" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.4"></script>
-    <script src="js/i18n.js?v=2.2.4"></script>
-    <script src="js/tool-meta.js?v=2.2.4"></script>
+    <script src="js/locale.js?v=2.2.5"></script>
+    <script src="js/i18n.js?v=2.2.5"></script>
+    <script src="js/tool-meta.js?v=2.2.5"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -100,10 +100,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.4">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.4">
-    <script src="js/ga-config.js?v=2.2.4" defer></script>
-    <script src="js/gtm.js?v=2.2.4" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.5">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.5">
+    <script src="js/ga-config.js?v=2.2.5" defer></script>
+    <script src="js/gtm.js?v=2.2.5" defer></script>
 </head>
 <body class="app-body">
 
@@ -173,6 +173,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">✅</span>
                         <span class="tool-tab__label" data-i18n="tabPhotoChecker" data-i18n-short="tabPhotoCheckerShort">Photo Checker</span>
                     </a>
+                    <a href="#redactor" id="tab-redactor" class="tool-tab tool-nav-link" data-tool="redactor" role="tab" aria-selected="false" aria-controls="tool-panel-redactor" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">🔏</span>
+                        <span class="tool-tab__label" data-i18n="tabRedactor" data-i18n-short="tabRedactorShort">Redactor</span>
+                    </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
                         <span class="tool-tab__label" data-i18n="tabHeic" data-i18n-short="tabHeicShort">HEIC Converter</span>
@@ -200,7 +204,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.4 — Free</span>
+            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.5 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -1026,6 +1030,178 @@
         </div>
     </div>
 
+    <div id="tool-panel-redactor" class="tool-panel is-hidden" data-tool-panel="redactor" role="tabpanel" aria-labelledby="tab-redactor" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace redactor-workspace max-width-wrap">
+            <div class="redactor-privacy-banner chip chip-success" role="status">
+                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span data-i18n="rdPrivacyBanner">🔒 Your document never leaves this device — all redaction happens in your browser</span>
+            </div>
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroRedactorHtml">🔏 <span class="compress-hero__accent">Secure Document Redactor</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroRedactorSub">Black out passport numbers, ID numbers, MRZ lines &amp; bank details before sharing with employers, landlords, or agencies.</p>
+                </div>
+                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
+            </header>
+            <div id="rd-unsupported" class="rd-unsupported is-hidden" role="alert">
+                <p data-i18n="rdUnsupported">Your browser does not support this tool (Canvas API required). Please update your browser.</p>
+            </div>
+            <div class="app-grid compress-app-grid redactor-grid">
+                <div class="main-col compress-main-col">
+                    <section id="rd-drop-zone" class="drop-zone" tabindex="0" data-i18n="rdDropAria" data-i18n-attr="aria-label" aria-label="Drop a document to redact">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">🔏</div>
+                            <p class="drop-title" data-i18n="rdDropTitle">Drop your document scan here</p>
+                            <p class="drop-sub" data-i18n="rdDropSub">Redact sensitive fields before sharing — 100% local</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                                <span class="fmt-tag">PDF</span>
+                            </div>
+                            <p class="drop-sub field-hint" data-i18n="rdFormatsLabel">JPEG · PNG · PDF (first page)</p>
+                            <label class="btn-primary is-clickable"><span data-i18n="rdChooseDoc">Choose document</span><input type="file" id="rd-file-input" class="is-hidden" accept="image/jpeg,image/png,application/pdf"></label>
+                        </div>
+                    </section>
+                    <div id="rd-editor" class="rd-editor is-hidden">
+                        <div class="rd-toolbar">
+                            <button type="button" id="rd-undo-btn" class="btn-secondary btn-sm" disabled data-i18n="rdUndo">Undo</button>
+                            <button type="button" id="rd-redo-btn" class="btn-secondary btn-sm" disabled data-i18n="rdRedo">Redo</button>
+                            <button type="button" id="rd-clear-btn" class="btn-secondary btn-sm" data-i18n="rdClearAll">Clear all</button>
+                            <button type="button" id="rd-mode-toggle" class="btn-secondary btn-sm rd-mode-toggle" data-i18n="rdModeDraw">Draw mode</button>
+                            <button type="button" id="rd-new-doc-btn" class="btn-secondary btn-sm" data-i18n="rdNewDoc">New document</button>
+                        </div>
+                        <p class="rd-mobile-hint is-hidden-desktop" data-i18n="rdMobileHint">Tap and drag to draw a redaction box</p>
+                        <div id="rd-stage-wrap" class="rd-stage-wrap rd-stage-wrap--draw">
+                            <div id="rd-stage" class="rd-stage">
+                                <canvas id="rd-display" class="rd-display" aria-label="Document redaction canvas"></canvas>
+                            </div>
+                            <div id="rd-box-menu" class="rd-box-menu is-hidden" role="menu">
+                                <button type="button" data-rd-box-action="black" role="menuitem" data-i18n="rdBlackFill">■ Black fill</button>
+                                <button type="button" data-rd-box-action="blur" role="menuitem" title="Black fill is more secure than blur" data-i18n="rdBlur">⬛ Blur</button>
+                                <button type="button" data-rd-box-action="delete" role="menuitem" data-i18n="rdDeleteBox">✕ Delete this box</button>
+                            </div>
+                        </div>
+                        <p id="rd-pdf-note" class="rd-pdf-note is-hidden field-hint" data-i18n-html="rdPdfNoteHtml">PDF → exported as <strong>JPEG</strong> after redaction. Only the first page is loaded. For multi-page documents, use <strong>PDF Merge → Images</strong> first, then redact each page.</p>
+                    </div>
+                    <div id="rd-bottom-sheet" class="rd-bottom-sheet is-hidden" role="dialog" aria-label="Redaction options">
+                        <button type="button" data-rd-box-action="black" class="rd-sheet-btn" data-i18n="rdBlackFill">■ Black fill</button>
+                        <button type="button" data-rd-box-action="blur" class="rd-sheet-btn" data-i18n="rdBlur">⬛ Blur</button>
+                        <button type="button" data-rd-box-action="delete" class="rd-sheet-btn" data-i18n="rdDeleteBox">✕ Delete this box</button>
+                    </div>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚡</span>
+                                <span data-i18n="rdQuickPresets">Quick redact presets</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="rd-doc-type" data-i18n="rdDocType">Document type</label>
+                            <select id="rd-doc-type" class="field-select">
+                                <option value="emirates-id-front" data-i18n="rdDocEmiratesFront">Emirates ID (front)</option>
+                                <option value="emirates-id-back" data-i18n="rdDocEmiratesBack">Emirates ID (back)</option>
+                                <option value="uae-passport" data-i18n="rdDocPassport">UAE Passport (data page)</option>
+                                <option value="uae-residence-visa" data-i18n="rdDocVisa">UAE Residence Visa</option>
+                                <option value="tenancy-contract" data-i18n="rdDocTenancy">Tenancy Contract</option>
+                                <option value="bank-statement" data-i18n="rdDocBank">Bank Statement</option>
+                                <option value="salary-certificate" data-i18n="rdDocSalary">Salary Certificate</option>
+                            </select>
+                            <p class="field-hint" data-i18n="rdPresetHint">Click a field to add a preset redaction box — drag corners by drawing a new box to adjust.</p>
+                            <div id="rd-preset-buttons" class="rd-preset-buttons"></div>
+                        </div>
+                    </div>
+                    <div id="rd-export-card" class="settings-card is-hidden" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⬇️</span>
+                                <span data-i18n="rdExportTitle">Export</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <button type="button" id="rd-preview-btn" class="btn-secondary btn-block" data-i18n="rdPreview">Preview redacted document</button>
+                            <label class="field-label field-label-spaced-sm" for="rd-output-format" data-i18n="rdOutputFormat">Output format</label>
+                            <select id="rd-output-format" class="field-select">
+                                <option value="image/jpeg" data-i18n="rdFmtJpeg">JPEG (90% quality) — portal uploads</option>
+                                <option value="image/png" data-i18n="rdFmtPng">PNG — lossless archive</option>
+                            </select>
+                            <label class="rd-compress-row field-label-spaced-sm">
+                                <input type="checkbox" id="rd-compress-toggle">
+                                <span data-i18n="rdCompressToggle">Also compress before download</span>
+                            </label>
+                            <select id="rd-compress-portal" class="field-select field-label-spaced-sm">
+                                <option value="ica" data-i18n="rdCompressIca">Target under 200 KB (ICA / Emirates ID)</option>
+                                <option value="mohre" data-i18n="rdCompressMohre">Target under 500 KB (MOHRE)</option>
+                            </select>
+                            <button type="button" id="rd-download-btn" class="btn-primary btn-block field-label-spaced-sm rd-download-btn" data-i18n="rdDownload">Download redacted document</button>
+                            <p id="rd-file-size" class="rd-file-size is-hidden" aria-live="polite"></p>
+                            <p class="field-hint rd-permanent-note" data-i18n="rdPermanent">✓ Redaction is permanent — the hidden data cannot be recovered from the downloaded file</p>
+                            <p class="field-hint rd-blur-tip" data-i18n="rdBlurTip">ℹ️ Black fill is more secure than blur — blurred data can sometimes be recovered with specialist tools</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <section class="rd-seo-block seo-tool-panel-block" aria-labelledby="rd-seo-h2">
+                <h2 id="rd-seo-h2">Secure Document Redactor — Hide sensitive information before sharing</h2>
+                <p>UAE residents regularly need to share passport copies, Emirates ID scans, and visa documents with employers, landlords, property agents, and government services. This free browser-based redactor lets you black out passport numbers, ID numbers, dates of birth, and MRZ lines before sharing — so you share only what is necessary.</p>
+                <h3>What information should I redact on my Emirates ID?</h3>
+                <p>When sharing an Emirates ID copy with a landlord or employer, consider redacting your ID number, date of birth, and the MRZ lines on the back. Keep your name and photo visible for identity verification purposes.</p>
+                <h3>Is blur redaction secure?</h3>
+                <p>Black fill is more secure than blur. Blurred text can sometimes be partially recovered using image processing techniques. For maximum security, always use black fill over passport numbers, ID numbers, and MRZ lines.</p>
+                <h3>Does this tool upload my documents?</h3>
+                <p>No. All redaction is performed entirely inside your browser using the HTML5 Canvas API. Your documents are never sent to any server, stored anywhere, or seen by anyone. The tool works even without an internet connection once the page has loaded.</p>
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {
+                            "@type": "Question",
+                            "name": "What information should I redact on my Emirates ID?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "When sharing an Emirates ID copy with a landlord or employer, consider redacting your ID number, date of birth, and the MRZ lines on the back. Keep your name and photo visible for identity verification purposes."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Is blur redaction secure?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Black fill is more secure than blur. Blurred text can sometimes be partially recovered using image processing techniques. For maximum security, always use black fill over passport numbers, ID numbers, and MRZ lines."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Does this tool upload my documents?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "No. All redaction is performed entirely inside your browser using the HTML5 Canvas API. Your documents are never sent to any server."
+                            }
+                        }
+                    ]
+                }
+                </script>
+            </section>
+        </div>
+    </div>
+
+    <div id="rd-preview-modal" class="compare-modal rd-preview-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="rd-preview-title" hidden>
+        <div class="compare-modal-backdrop" data-rd-preview-close tabindex="-1" aria-hidden="true"></div>
+        <div class="compare-modal-panel glass-panel">
+            <header class="compare-modal-header">
+                <h2 id="rd-preview-title" data-i18n="rdPreviewTitle">Redacted preview</h2>
+                <button type="button" class="btn-icon compare-modal-close" data-rd-preview-close data-i18n="rdPreviewClose" data-i18n-attr="aria-label" aria-label="Close preview">×</button>
+            </header>
+            <div class="rd-preview-body">
+                <img id="rd-preview-img" class="rd-preview-img" alt="Redacted document preview">
+            </div>
+        </div>
+    </div>
+
     <div id="tool-panel-heic-converter" class="tool-panel is-hidden" data-tool-panel="heic-converter" role="tabpanel" aria-labelledby="tab-heic-converter" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
@@ -1313,6 +1489,7 @@
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
                 <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
                 <a href="#photo-checker" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">Photo Checker</a>
+                <a href="#redactor" class="seo-tool-chip" data-i18n="seoChipRedactor">Redactor</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>
@@ -1391,7 +1568,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.4</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.5</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1476,13 +1653,13 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.4" defer></script>
-    <script src="js/tools-router.js?v=2.2.4" defer></script>
-    <script src="js/pwa-install.js?v=2.2.4" defer></script>
-    <script src="js/ads-config.js?v=2.2.4"></script>
-    <script src="js/ads.js?v=2.2.4" defer></script>
-    <script src="js/locale-ui.js?v=2.2.4" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.4" defer></script>
-    <script src="js/app.js?v=2.2.4" defer></script>
+    <script src="js/tools-shared.js?v=2.2.5" defer></script>
+    <script src="js/tools-router.js?v=2.2.5" defer></script>
+    <script src="js/pwa-install.js?v=2.2.5" defer></script>
+    <script src="js/ads-config.js?v=2.2.5"></script>
+    <script src="js/ads.js?v=2.2.5" defer></script>
+    <script src="js/locale-ui.js?v=2.2.5" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.5" defer></script>
+    <script src="js/app.js?v=2.2.5" defer></script>
 </body>
 </html>

@@ -25,6 +25,7 @@ function assertFile(rel, needles) {
 
 assertFile('index.html', [
     'id="tab-photo-checker"',
+    'id="tab-redactor"',
     'id="tab-image-cropper"',
     'data-pdf-tab="to-images"',
     'guides/best-image-format-uae-government-portals.html',
@@ -43,6 +44,8 @@ const { AR_HERO_SUB } = require('./generate-ar-index');
 assertFile('ar/index.html', [
     'id="tab-photo-checker"',
     'فاحص الصور',
+    'id="tab-redactor"',
+    'تعتيم المستندات',
     'id="tab-image-cropper"',
     'data-pdf-tab="to-images"',
     ' — اضغط الصور.',
@@ -83,6 +86,11 @@ if (!fs.existsSync(worker)) {
 const photoChecker = path.join(distDir, 'js/tools/photo-checker.js');
 if (!fs.existsSync(photoChecker)) {
     throw new Error('verify-dist: missing js/tools/photo-checker.js');
+}
+
+const redactor = path.join(distDir, 'js/tools/document-redactor.js');
+if (!fs.existsSync(redactor)) {
+    throw new Error('verify-dist: missing js/tools/document-redactor.js');
 }
 
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

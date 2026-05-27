@@ -16,6 +16,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://compress.funadventure.ae/#redactor</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://compress.funadventure.ae/ar/</loc>
     <xhtml:link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/ar/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/" />

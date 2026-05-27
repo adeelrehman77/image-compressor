@@ -39,6 +39,7 @@ function bumpSwCache(buildId) {
     './js/compress-worker.mjs',
     './js/clipboard-paste.js',
     './js/tools/photo-checker.js',
+    './js/tools/document-redactor.js',
     './js/sentry-init.js',
     './js/ga-config.js',
     './js/gtm.js',

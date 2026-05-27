@@ -14,7 +14,8 @@
             hash === 'heic-converter' ||
             hash === 'format-converter' ||
             hash === 'image-cropper' ||
-            hash === 'photo-checker'
+            hash === 'photo-checker' ||
+            hash === 'redactor'
         ) {
             return hash;
         }
