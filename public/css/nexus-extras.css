@@ -489,12 +489,69 @@ html:not(.dark) .codec-badge {
 }
 .pc-preview-wrap { margin-top: 0.875rem; }
 .pc-preview-stage { max-width: 360px; margin: 0 auto; }
-.pc-preview-inner { position: relative; }
+.pc-preview-inner { position: relative; line-height: 0; }
 .pc-preview-img {
     display: block;
     width: 100%;
     height: auto;
     border-radius: 8px;
+}
+.pc-preview-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border-radius: 8px;
+}
+.pc-bio-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 72%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(34, 197, 94, 0.85);
+    background: transparent;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+}
+.pc-bio-label-outside {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(34, 197, 94, 0.95);
+    text-align: center;
+}
+.pc-bio-label-outside--hair { margin-bottom: 0.35rem; }
+.pc-bio-label-outside--chin { margin-top: 0.35rem; }
+.pc-scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 197, 94, 0.35) 15%,
+        rgba(34, 197, 94, 0.95) 50%,
+        rgba(34, 197, 94, 0.35) 85%,
+        transparent
+    );
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+}
+.pc-scan-line.is-active {
+    opacity: 1;
+    animation: pc-scan-sweep 1.5s ease-in-out infinite;
+}
+@keyframes pc-scan-sweep {
+    0% { top: 0; }
+    100% { top: calc(100% - 2px); }
 }
 .pc-actions {
     margin-top: 1rem;
@@ -543,6 +600,13 @@ html:not(.dark) .codec-badge {
     background: color-mix(in srgb, #ef4444 18%, transparent);
     color: #dc2626;
 }
+.pc-verdict-badge--review {
+    background: color-mix(in srgb, #f59e0b 18%, transparent);
+    color: #d97706;
+}
+.pc-score--pass { color: #16a34a; }
+.pc-score--review { color: #d97706; }
+.pc-score--fail { color: #dc2626; }
 @keyframes pc-verdict-in {
     from { opacity: 0; transform: scale(0.92); }
     to { opacity: 1; transform: scale(1); }
@@ -579,8 +643,76 @@ html:not(.dark) .codec-badge {
     to { opacity: 1; transform: translateY(0); }
 }
 .pc-check-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.35; }
-.pc-check-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
-.pc-check-name { font-weight: 600; font-size: 0.82rem; }
+.pc-check-name {
+    font-weight: 600;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+.pc-check-tip-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    line-height: 1;
+    cursor: help;
+    flex-shrink: 0;
+}
+.pc-check-tip-btn:hover,
+.pc-check-tip-btn:focus-visible {
+    color: var(--text);
+    outline: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    outline-offset: 1px;
+}
+.pc-check-tip-popup {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    margin-top: 0.25rem;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--bg) 50%, transparent);
+}
+.pc-check-tip-wrap {
+    position: relative;
+    display: inline-flex;
+}
+.pc-check-tip-wrap.is-open .pc-check-tip-popup {
+    display: block;
+}
+@media (hover: hover) {
+    .pc-check-tip-wrap:hover .pc-check-tip-popup {
+        display: block;
+    }
+}
+.pc-check-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+.pc-check-item--warn {
+    border-color: color-mix(in srgb, #f59e0b 35%, var(--surface-border));
+    background: color-mix(in srgb, #f59e0b 6%, var(--surface));
+}
 .pc-check-msg { font-size: 0.78rem; color: var(--text-muted); line-height: 1.35; }
 .pc-check-note {
     margin: 0.2rem 0 0;

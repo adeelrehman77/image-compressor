@@ -4,7 +4,7 @@
 (function () {
     const DSN =
         'https://92bde2e109b37e9c307e082b3a4d0250@o4509034368598016.ingest.us.sentry.io/4511433026699264';
-    const DEFAULT_RELEASE = 'nexuscompress@2.2.7';
+    const DEFAULT_RELEASE = 'nexuscompress@2.2.8';
     const BUNDLE_SRC = 'vendor/sentry.bundle.min.js';
     const queue = [];
 

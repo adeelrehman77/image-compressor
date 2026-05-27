@@ -750,10 +750,10 @@ html:not(.dark) .ambient-bg {
 
     #passport-studio-workspace:not(:has(#passport-editor:not(.is-hidden))) .workspace-header {
         display: none;
-    }
+}
 
     .sidebar-mobile-fold__summary {
-        display: flex;
+    display: flex;
     }
 }
 
@@ -895,7 +895,7 @@ html:not(.dark) .ambient-bg {
     .settings-customize--desktop .settings-customize__summary {
         pointer-events: none;
         cursor: default;
-        color: var(--text-muted);
+    color: var(--text-muted);
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;

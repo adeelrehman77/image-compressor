@@ -35,6 +35,24 @@
         fileSize: 'pcFixFileSize',
     };
 
+    const CRITICAL_CHECKS = new Set(['faceDetected', 'eyesOpen', 'fileFormat']);
+    const STAGGER_MS = 120;
+    const CHECK_TIP_KEYS = {
+        faceDetected: 'pcTip_faceDetected',
+        faceSize: 'pcTip_faceSize',
+        faceCentered: 'pcTip_faceCentered',
+        eyesOpen: 'pcTip_eyesOpen',
+        headTilt: 'pcTip_headTilt',
+        fileFormat: 'pcTip_fileFormat',
+        fileSize: 'pcTip_fileSize',
+        dimensions: 'pcTip_dimensions',
+        background: 'pcTip_background',
+        glasses: 'pcTip_glasses',
+    };
+
+    let previewResizeObserver = null;
+    let lastGuideLines = null;
+
     let modelsPromise = null;
     let modelsReady = false;
     let modelsFailed = false;
@@ -74,6 +92,27 @@
         const vertical = dist(p[1], p[5]) + dist(p[2], p[4]);
         const horizontal = dist(p[0], p[3]) || 1;
         return vertical / (2 * horizontal);
+    }
+
+    function faceHeightWithHair(box) {
+        const hairAllowance = box.height * 0.15;
+        return box.height + hairAllowance;
+    }
+
+    function faceSizeRatio(box, imgH) {
+        return faceHeightWithHair(box) / imgH;
+    }
+
+    function getHairChinLines(box, lm) {
+        const hairAllowance = box.height * 0.15;
+        let chinY = box.y + box.height;
+        try {
+            const jaw = lm.getJawOutline();
+            if (jaw?.length) chinY = Math.max(...jaw.map((p) => p.y));
+        } catch {
+            /* use box bottom */
+        }
+        return { hairY: box.y - hairAllowance, chinY };
     }
 
     function isJpegOrPng(file) {
@@ -131,6 +170,12 @@
         }
         currentFile = null;
         imageEl = null;
+        lastGuideLines = null;
+        setScanActive(false);
+        if (previewResizeObserver) {
+            previewResizeObserver.disconnect();
+            previewResizeObserver = null;
+        }
     }
 
     function setPreviewVisible(visible) {
@@ -161,6 +206,11 @@
         if (!imageEl) return;
         imageEl.src = previewUrl;
         imageEl.alt = file.name;
+        imageEl.onload = () => {
+            lastGuideLines = null;
+            syncPreviewCanvas(imageEl, null);
+        };
+        bindPreviewResize(imageEl);
         setPreviewVisible(true);
         resetResults();
         document.getElementById('pc-status').textContent = tf(
@@ -289,27 +339,31 @@
 
             push('faceDetected', 'pass', tf('pcPassFace', null, 'One face detected'));
 
-            const faceRatio = box.height / h;
-            if (faceRatio >= 0.65 && faceRatio <= 0.85) {
-                push('faceSize', 'pass', tf('pcPassFaceSize', null, 'Face fills 65–85% of photo height'));
-            } else if (faceRatio < 0.65) {
+            const faceRatio = faceSizeRatio(box, h);
+            if (faceRatio >= 0.55 && faceRatio <= 0.85) {
                 push(
                     'faceSize',
-                    'fail',
+                    'pass',
+                    tf('pcPassFaceSize', null, 'Face fills 55–85% of photo height (including hair)')
+                );
+            } else if (faceRatio < 0.55) {
+                push(
+                    'faceSize',
+                    'warn',
                     tf(
-                        'pcFailFaceSmall',
+                        'pcWarnFaceSmall',
                         null,
-                        'Face is too small — move closer or crop tighter. Face should fill at least 65% of the photo height'
+                        'Face may be slightly small — try cropping tighter for best results. Use ID Photo Studio to get the exact crop.'
                     )
                 );
             } else {
                 push(
                     'faceSize',
-                    'fail',
+                    'warn',
                     tf(
-                        'pcFailFaceLarge',
+                        'pcWarnFaceLarge',
                         null,
-                        'Face is too close — the top of the head may be cut off'
+                        'Face may be too close — the top of the head could be cut off. Try ID Photo Studio to adjust.'
                     )
                 );
             }
@@ -321,9 +375,9 @@
             } else {
                 push(
                     'faceCentered',
-                    'fail',
+                    'warn',
                     tf(
-                        'pcFailCentered',
+                        'pcWarnCentered',
                         null,
                         'Face is not centred — reposition so the face is in the middle of the photo'
                     )
@@ -355,8 +409,8 @@
             } else {
                 push(
                     'headTilt',
-                    'fail',
-                    tf('pcFailTilt', null, 'Head is tilted — keep your head straight and level')
+                    'warn',
+                    tf('pcWarnTilt', null, 'Head is tilted — keep your head straight and level for best results')
                 );
             }
 
@@ -410,37 +464,35 @@
         } else {
             push(
                 'fileSize',
-                'fail',
+                'warn',
                 tf(
-                    'pcFailFileSize',
+                    'pcWarnFileSize',
                     { size: sizeKb.toFixed(0), limit: portal.limitKb, portal: portalLabel },
                     `File is ${sizeKb.toFixed(0)} KB — exceeds the ${portal.limitKb} KB limit for ${portalLabel}. Compress it using the Image Compressor`
                 )
             );
         }
 
-        if (w >= 300 && h >= 300) {
-            if (w >= 600 && h >= 800) {
-                push('dimensions', 'pass', tf('pcPassDimensions', { w, h }, `${w}×${h} px — meets recommended size`));
-            } else {
-                push(
-                    'dimensions',
-                    'warn',
-                    tf(
-                        'pcWarnDimensions',
-                        { w, h },
-                        `Image is ${w}×${h} px — 600×800 px or larger is recommended for portal uploads`
-                    )
-                );
-            }
+        if (w >= 600 && h >= 800) {
+            push('dimensions', 'pass', tf('pcPassDimensions', { w, h }, `${w}×${h} px — meets recommended size`));
+        } else if (w >= 300 && h >= 300) {
+            push(
+                'dimensions',
+                'warn',
+                tf(
+                    'pcWarnDimensions',
+                    { w, h },
+                    `Image is ${w}×${h} px — 600×800 px or larger is recommended for portal uploads`
+                )
+            );
         } else {
             push(
                 'dimensions',
-                'fail',
+                'warn',
                 tf(
-                    'pcFailDimensions',
+                    'pcWarnDimensionsSmall',
                     { w, h },
-                    `Image is too small (${w}×${h} px) — use at least 600×800 px for portal uploads`
+                    `Image is small (${w}×${h} px) — 600×800 px or larger is recommended for portal uploads`
                 )
             );
         }
@@ -463,9 +515,9 @@
             } else {
                 push(
                     'background',
-                    'fail',
+                    'warn',
                     tf(
-                        'pcFailBackground',
+                        'pcWarnBackgroundDark',
                         null,
                         'Background appears dark or coloured — use a plain white background'
                     )
@@ -478,6 +530,74 @@
         return checks.sort((a, b) => CHECK_IDS.indexOf(a.id) - CHECK_IDS.indexOf(b.id));
     }
 
+    function bindPreviewResize(img) {
+        if (previewResizeObserver) previewResizeObserver.disconnect();
+        if (!img || typeof ResizeObserver === 'undefined') return;
+        previewResizeObserver = new ResizeObserver(() => syncPreviewCanvas(img, lastGuideLines));
+        previewResizeObserver.observe(img);
+    }
+
+    function syncPreviewCanvas(img, lines) {
+        const canvas = document.getElementById('pc-preview-canvas');
+        if (!canvas || !img) return;
+        const w = img.clientWidth;
+        const h = img.clientHeight;
+        if (!w || !h) return;
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, w, h);
+        if (!lines) return;
+        const natW = img.naturalWidth || w;
+        const natH = img.naturalHeight || h;
+        const sy = h / natH;
+        const hairY = lines.hairY * sy;
+        const chinY = lines.chinY * sy;
+        ctx.strokeStyle = 'rgba(34, 197, 94, 0.9)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([6, 4]);
+        [hairY, chinY].forEach((y) => {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+        });
+    }
+
+    function updatePreviewGuide(detection, img) {
+        if (detection?.length === 1 && img) {
+            const box = detection[0].detection.box;
+            lastGuideLines = getHairChinLines(box, detection[0].landmarks);
+        } else {
+            lastGuideLines = null;
+        }
+        syncPreviewCanvas(img, lastGuideLines);
+    }
+
+    function setScanActive(active) {
+        const line = document.getElementById('pc-scan-line');
+        if (!line) return;
+        line.classList.toggle('is-hidden', !active);
+        line.classList.toggle('is-active', active);
+    }
+
+    function computeVerdict(checks) {
+        if (checks.some((c) => CRITICAL_CHECKS.has(c.id) && c.status === 'fail')) return 'fail';
+        const warnCount = checks.filter((c) => c.status === 'warn').length;
+        if (warnCount > 1) return 'review';
+        return 'pass';
+    }
+
+    function scrollToResults() {
+        const panel = document.getElementById('pc-results-panel');
+        if (!panel || panel.classList.contains('is-hidden')) return;
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const sidebar = document.querySelector('.pc-results-sidebar');
+        if (sidebar && window.matchMedia('(max-width: 780px)').matches) {
+            sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
     function iconForStatus(status) {
         if (status === 'pass') return '✅';
         if (status === 'fail') return '❌';
@@ -488,10 +608,15 @@
         const li = document.createElement('li');
         li.className = `pc-check-item pc-check-item--${check.status}`;
         if (!visible) li.classList.add('pc-check-item--pending');
+        const tipKey = CHECK_TIP_KEYS[check.id];
+        const tipText = tipKey ? tf(tipKey, null, '') : '';
+        const tipBtn = tipText
+            ? `<span class="pc-check-tip-wrap"><button type="button" class="pc-check-tip-btn" aria-label="${tf('pcTipAria', null, 'What this check means')}">ℹ️</button><span class="pc-check-tip-popup" role="tooltip">${tipText}</span></span>`
+            : '';
         li.innerHTML = `
             <span class="pc-check-icon" aria-hidden="true">${iconForStatus(check.status)}</span>
             <div class="pc-check-body">
-                <span class="pc-check-name">${check.name}</span>
+                <span class="pc-check-name">${check.name}${tipBtn}</span>
                 <span class="pc-check-msg">${check.message}</span>
             </div>`;
         if (check.id === 'glasses' && visible) {
@@ -499,6 +624,17 @@
             note.className = 'pc-check-note';
             note.textContent = tf('pcGlassesNote', null, 'Glasses detection is approximate');
             li.querySelector('.pc-check-body')?.appendChild(note);
+        }
+        const tipWrap = li.querySelector('.pc-check-tip-wrap');
+        if (tipWrap) {
+            const btn = tipWrap.querySelector('.pc-check-tip-btn');
+            btn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.pc-check-tip-wrap.is-open').forEach((el) => {
+                    if (el !== tipWrap) el.classList.remove('is-open');
+                });
+                tipWrap.classList.toggle('is-open');
+            });
         }
         return li;
     }
@@ -516,6 +652,7 @@
         badge.textContent = '';
         badge.className = 'pc-verdict-badge';
         score.textContent = '';
+        score.className = 'pc-score';
 
         checks.forEach((check, i) => {
             const li = renderCheckRow(check, false);
@@ -523,26 +660,34 @@
             setTimeout(() => {
                 li.classList.remove('pc-check-item--pending');
                 li.classList.add('pc-check-item--reveal');
-            }, i * 150);
+            }, i * STAGGER_MS);
         });
 
-        const summaryDelay = checks.length * 150 + 200;
+        const summaryDelay = checks.length * STAGGER_MS + 200;
         setTimeout(() => {
-            const fail = checks.some((c) => c.status === 'fail');
-            badge.textContent = fail
-                ? `❌ ${tf('pcFail', null, 'FAIL')}`
-                : `✅ ${tf('pcPass', null, 'PASS')}`;
-            badge.classList.add(fail ? 'pc-verdict-badge--fail' : 'pc-verdict-badge--pass');
-            score.textContent = tf(
-                'pcScore',
-                { passed, total },
-                `${passed} / ${total} checks passed`
-            );
-            updateCta(checks, !fail);
+            const verdict = computeVerdict(checks);
+            if (verdict === 'fail') {
+                badge.textContent = `❌ ${tf('pcFail', null, 'FAIL')}`;
+                badge.classList.add('pc-verdict-badge--fail');
+                score.textContent = tf('pcScoreFail', { passed, total }, `${passed} / ${total} ❌`);
+                score.classList.add('pc-score--fail');
+            } else if (verdict === 'review') {
+                badge.textContent = `⚠️ ${tf('pcReview', null, 'REVIEW')}`;
+                badge.classList.add('pc-verdict-badge--review');
+                score.textContent = tf('pcScoreReview', { passed, total }, `${passed} / ${total} ⚠️`);
+                score.classList.add('pc-score--review');
+            } else {
+                badge.textContent = `✅ ${tf('pcPass', null, 'PASS')}`;
+                badge.classList.add('pc-verdict-badge--pass');
+                score.textContent = tf('pcScorePass', { passed, total }, `${passed} / ${total} ✅`);
+                score.classList.add('pc-score--pass');
+            }
+            updateCta(checks, verdict);
+            scrollToResults();
         }, summaryDelay);
     }
 
-    function updateCta(checks, overallPass) {
+    function updateCta(checks, verdict) {
         const wrap = document.getElementById('pc-cta-wrap');
         const btn = document.getElementById('pc-cta-btn');
         const fixesEl = document.getElementById('pc-studio-fixes');
@@ -552,9 +697,26 @@
         fixesEl?.classList.add('is-hidden');
         fixesEl.textContent = '';
 
-        if (overallPass) {
+        if (verdict === 'pass') {
             btn.textContent = tf('pcSendStudio', null, 'Send to ID Photo Studio →');
             btn.dataset.action = 'pass';
+        } else if (verdict === 'review') {
+            btn.textContent = tf(
+                'pcCtaReview',
+                null,
+                'Photo may be accepted — send to ID Photo Studio to optimise →'
+            );
+            btn.dataset.action = 'review';
+            const fixLines = [];
+            checks.forEach((c) => {
+                if (c.status === 'warn' && STUDIO_FIX_KEYS[c.id]) {
+                    fixLines.push(tf(STUDIO_FIX_KEYS[c.id], null, c.name));
+                }
+            });
+            if (fixLines.length) {
+                fixesEl.classList.remove('is-hidden');
+                fixesEl.innerHTML = `<strong>${tf('pcStudioCanFix', null, 'ID Photo Studio can help with:')}</strong><ul>${fixLines.map((l) => `<li>${l}</li>`).join('')}</ul>`;
+            }
         } else {
             btn.textContent = tf('pcFixStudio', null, 'Fix in ID Photo Studio →');
             btn.dataset.action = 'fail';
@@ -584,11 +746,20 @@
 
         const portalId = document.getElementById('pc-portal-select')?.value || 'emirates-ica';
 
-        await new Promise((r) => {
-            if (imageEl.complete) r();
-            else imageEl.onload = r;
-        });
+        if (imageEl.decode) {
+            try {
+                await imageEl.decode();
+            } catch {
+                /* fall through */
+            }
+        } else if (!imageEl.complete) {
+            await new Promise((r) => {
+                const done = () => r();
+                imageEl.addEventListener('load', done, { once: true });
+            });
+        }
 
+        setScanActive(true);
         let detection = null;
         const modelsOk = modelsReady || (await loadModels());
         if (modelsOk) {
@@ -599,6 +770,8 @@
                 toast(tf('pcDetectError', null, 'Face detection failed. Try another photo.'), 'error');
             }
         }
+        setScanActive(false);
+        updatePreviewGuide(detection, imageEl);
 
         const checks = buildChecks(currentFile, imageEl, portalId, detection);
         const passed = checks.filter((c) => c.status === 'pass').length;
@@ -652,6 +825,10 @@
         document.getElementById('pc-run-btn')?.addEventListener('click', () => runCheck());
         document.getElementById('pc-reset-btn')?.addEventListener('click', resetAll);
         document.getElementById('pc-cta-btn')?.addEventListener('click', sendToPassportStudio);
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.pc-check-tip-wrap.is-open').forEach((el) => el.classList.remove('is-open'));
+        });
     });
 
     window.__NEXUS_PHOTO_CHECKER_LOAD_FILE = loadPhotoFile;
