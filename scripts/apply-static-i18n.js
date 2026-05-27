@@ -109,9 +109,18 @@ function applySeoIntro(html, seoCopy) {
     return out;
 }
 
+/** Hero UAE guide: Arabic href + label on /ar/ static page. */
+function patchArHeroGuideLink(html, dict) {
+    const label = dict.uaeGuideLink || 'دليل بوابات الإمارات';
+    return html.replace(
+        /<a\b[^>]*class="hero-callout__link hero-callout__link--muted"[^>]*>[^<]*<\/a>/,
+        `<a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">${label}</a>`
+    );
+}
+
 /** First compress-panel H1 + sub: fully Arabic in static HTML (SEO / no-JS). */
 function applyArCompressHero(html, dict) {
-    const line1 = dict.heroCompressL1Suffix || ' — ضغط الصور.';
+    const line1 = dict.heroCompressL1Suffix || ' — اضغط الصور.';
     const line2 = dict.heroCompressL2 || 'فوراً. بخصوصية تامة.';
     const sub =
         dict.heroSubCompress ||
@@ -144,5 +153,6 @@ module.exports = {
     patchArGuideHrefs,
     applySeoIntro,
     applyArCompressHero,
+    patchArHeroGuideLink,
     patchArSchema,
 };

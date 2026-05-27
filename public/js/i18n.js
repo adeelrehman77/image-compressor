@@ -595,10 +595,10 @@ window.__NEXUS_I18N = {
         tableActions: 'إجراءات',
         cancel: 'إلغاء',
         passportDropTitle: 'أضف صورة شخصية',
-        heroCompressL1Suffix: ' — ضغط الصور.',
+        heroCompressL1Suffix: ' — اضغط الصور.',
         heroCompressL2: 'فوراً. بخصوصية تامة.',
         heroSubCompress:
-            'تصغير JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم.',
+            'صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا تُرفع ملفاتك إلى أي خادم أبداً.',
         heroItp: 'NexusCompress — صور إلى <span class="compress-hero__accent">PDF</span>',
         heroItpSub:
             'دمج مسوح JPEG/PNG في ملف PDF واحد لبوابات الإمارات — يعمل محلياً في متصفحك.',

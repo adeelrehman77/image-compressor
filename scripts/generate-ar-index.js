@@ -15,6 +15,7 @@ const {
     patchArGuideHrefs,
     applySeoIntro,
     applyArCompressHero,
+    patchArHeroGuideLink,
     patchArSchema,
 } = require('./apply-static-i18n');
 
@@ -146,6 +147,7 @@ html = applyStaticI18n(html, ar);
 html = applySeoIntro(html, seoAr.compress);
 html = applyArCompressHero(html, ar);
 html = patchArGuideHrefs(html);
+html = patchArHeroGuideLink(html, ar);
 
 fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(out, html);
