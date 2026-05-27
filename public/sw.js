@@ -1,4 +1,12 @@
-const CACHE = 'nexus-v2.2.3-f6044ce';
+const CACHE = 'nexus-v2.2.4-deecb40';
+const FACE_MODEL_CACHE = 'nexus-face-models-v1';
+
+function isFaceApiCdnRequest(url) {
+    return (
+        url.hostname === 'cdn.jsdelivr.net' &&
+        (url.pathname.includes('/face-api.js@') || url.pathname.includes('/@vladmandic/face-api/model/'))
+    );
+}
 const ASSETS = [
     './css/app.css',
     './js/app.js',
@@ -45,7 +53,23 @@ self.addEventListener('fetch', (e) => {
 
     const url = new URL(e.request.url);
 
-    // Never intercept third-party (analytics, ads, Sentry CDN, etc.)
+    if (isFaceApiCdnRequest(url)) {
+        e.respondWith(
+            caches.open(FACE_MODEL_CACHE).then((cache) =>
+                cache.match(e.request).then(
+                    (cached) =>
+                        cached ||
+                        fetch(e.request).then((res) => {
+                            if (res.ok) cache.put(e.request, res.clone());
+                            return res;
+                        })
+                )
+            )
+        );
+        return;
+    }
+
+    // Never intercept other third-party (analytics, ads, Sentry CDN, etc.)
     if (url.origin !== self.location.origin) return;
 
     if (isDocumentRequest(e.request) || url.pathname.endsWith('version.json')) {

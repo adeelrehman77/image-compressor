@@ -86,6 +86,10 @@
             await window.__NEXUS_CROPPER_LOAD_FILE(file);
             return;
         }
+        if (tool === 'photo-checker' && window.__NEXUS_PHOTO_CHECKER_LOAD_FILE) {
+            await window.__NEXUS_PHOTO_CHECKER_LOAD_FILE(file);
+            return;
+        }
         if (tool === 'format-converter' && window.__NEXUS_FMT_ADD_FILES) {
             window.__NEXUS_FMT_ADD_FILES([file]);
             return;

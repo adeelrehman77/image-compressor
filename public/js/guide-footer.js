@@ -12,7 +12,7 @@
         const prefix = path.includes('/guides/') || path.includes('/ar/') ? '../' : '';
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = `${prefix}css/nexus-extras.css?v=2.2.3`;
+        link.href = `${prefix}css/nexus-extras.css?v=2.2.4`;
         link.dataset.nexusExtras = '1';
         document.head.appendChild(link);
     }

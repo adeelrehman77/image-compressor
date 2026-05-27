@@ -7,7 +7,15 @@
 
     function hashToTool(hash) {
         if (hash === 'photo-studio' || hash === 'passport-studio') return 'passport-studio';
-        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'heic-converter' || hash === 'format-converter' || hash === 'image-cropper') {
+        if (
+            hash === 'images-to-pdf' ||
+            hash === 'pdf-suite' ||
+            hash === 'svg' ||
+            hash === 'heic-converter' ||
+            hash === 'format-converter' ||
+            hash === 'image-cropper' ||
+            hash === 'photo-checker'
+        ) {
             return hash;
         }
         return TAGLINES[hash] ? hash : null;
@@ -44,6 +52,9 @@
         if (tool === 'compress') return;
         try {
             await window.NexusTools?.ensureTool?.(tool);
+            if (tool === 'photo-checker') {
+                await window.__NEXUS_PHOTO_CHECKER_ACTIVATE?.();
+            }
             if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
                 await window.NexusTools?.loadPdfLib?.();
             }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.3">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.4">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.3" defer></script>
+    <script src="js/sentry-init.js?v=2.2.4" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.3" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.4" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.3"></script>
-    <script src="js/i18n.js?v=2.2.3"></script>
-    <script src="js/tool-meta.js?v=2.2.3"></script>
+    <script src="js/locale.js?v=2.2.4"></script>
+    <script src="js/i18n.js?v=2.2.4"></script>
+    <script src="js/tool-meta.js?v=2.2.4"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -100,10 +100,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.3">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.3">
-    <script src="js/ga-config.js?v=2.2.3" defer></script>
-    <script src="js/gtm.js?v=2.2.3" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.4">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.4">
+    <script src="js/ga-config.js?v=2.2.4" defer></script>
+    <script src="js/gtm.js?v=2.2.4" defer></script>
 </head>
 <body class="app-body">
 
@@ -169,6 +169,10 @@
                         <span class="tool-tab__label" data-i18n="tabPhotoStudio" data-i18n-short="tabPhotoStudioShort">ID Photo Studio</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">UAE</span>
                     </a>
+                    <a href="#photo-checker" id="tab-photo-checker" class="tool-tab tool-nav-link tool-tab--featured" data-tool="photo-checker" role="tab" aria-selected="false" aria-controls="tool-panel-photo-checker" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">✅</span>
+                        <span class="tool-tab__label" data-i18n="tabPhotoChecker" data-i18n-short="tabPhotoCheckerShort">Photo Checker</span>
+                    </a>
                     <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
                         <span class="tool-tab__label" data-i18n="tabHeic" data-i18n-short="tabHeicShort">HEIC Converter</span>
@@ -196,7 +200,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.3 — Free</span>
+            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.4 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -901,6 +905,127 @@
         </div>
     </div>
 
+    <div id="tool-panel-photo-checker" class="tool-panel is-hidden" data-tool-panel="photo-checker" role="tabpanel" aria-labelledby="tab-photo-checker" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace photo-checker-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPhotoCheckerHtml">✅ <span class="compress-hero__accent">UAE Photo Compliance Checker</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroPhotoCheckerSub">10 automated checks for ICA, Emirates ID &amp; MOHRE portal photos — 100% in your browser, nothing uploaded.</p>
+                </div>
+                <span class="compress-hero__badge uae-label" data-i18n="pcHeroBadge">UAE · AI</span>
+            </header>
+            <div class="app-grid compress-app-grid photo-checker-grid">
+                <div class="main-col compress-main-col">
+                    <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
+                        <span class="pc-models-loading__spinner" aria-hidden="true"></span>
+                        <span data-i18n="pcModelsLoading">Loading AI models… (first time only, ~1.5 MB)</span>
+                    </div>
+                    <div id="pc-models-error" class="pc-models-error is-hidden" role="alert">
+                        <p data-i18n="pcModelsError">AI models could not load. Check your connection and try again, or use the manual checklist below.</p>
+                    </div>
+                    <section id="pc-drop-zone" class="drop-zone" tabindex="0" data-i18n="pcDropAria" data-i18n-attr="aria-label" aria-label="Drop a passport or ID photo to check">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">✅</div>
+                            <p class="drop-title" data-i18n="pcDropTitle">Drop your portal photo here</p>
+                            <p class="drop-sub" data-i18n="pcDropSub">JPEG or PNG only — analysed locally with face detection AI</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                            </div>
+                            <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">Choose photo</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png"></label>
+                        </div>
+                    </section>
+                    <div id="pc-preview-wrap" class="pc-preview-wrap is-hidden">
+                        <div class="passport-preview-stage pc-preview-stage" data-aspect="35-45">
+                            <div class="passport-preview-wrap pc-preview-inner" id="pc-preview-inner">
+                                <img id="pc-preview-img" class="pc-preview-img" alt="" width="320" height="400">
+                                <div class="passport-biometric-overlay pc-face-overlay" aria-hidden="true">
+                                    <span class="passport-bio-label passport-bio-label--hair" data-i18n="passportBioHair">Top of Hair</span>
+                                    <div class="passport-bio-ring"></div>
+                                    <span class="passport-bio-label passport-bio-label--chin" data-i18n="passportBioChin">Bottom of Chin</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="passport-bio-hint" data-i18n="pcPreviewHint">Face overlay shows what the AI analyses — same guidance as ID Photo Studio.</p>
+                    </div>
+                    <div id="pc-actions" class="pc-actions is-hidden">
+                        <label class="field-label" for="pc-portal-select" data-i18n="pcPortalLabel">Check against</label>
+                        <select id="pc-portal-select" class="field-select pc-portal-select">
+                            <option value="emirates-ica" data-i18n="pcPortalEmirates">Emirates ID / ICA (200 KB)</option>
+                            <option value="mohre-worker" data-i18n="pcPortalMohreWorker">MOHRE worker photo (200 KB)</option>
+                            <option value="uae-visa" data-i18n="pcPortalUaeVisa">UAE visa photo (200 KB)</option>
+                            <option value="mohre-doc" data-i18n="pcPortalMohreDoc">MOHRE document (500 KB)</option>
+                        </select>
+                        <button type="button" id="pc-run-btn" class="btn-primary btn-block" data-i18n="pcCheckPhoto">Check this photo</button>
+                        <button type="button" id="pc-reset-btn" class="btn-secondary btn-block is-hidden" data-i18n="pcCheckAnother">Check another photo</button>
+                    </div>
+                    <p id="pc-status" class="tool-status" aria-live="polite"></p>
+                    <div id="pc-manual-checklist" class="pc-manual-checklist is-hidden">
+                        <h3 class="pc-manual-title" data-i18n="pcManualTitle">Manual checklist (if AI unavailable)</h3>
+                        <ul class="pc-manual-list" data-i18n-html="pcManualListHtml"></ul>
+                    </div>
+                </div>
+                <aside class="compress-sidebar sidebar pc-results-sidebar">
+                    <div id="pc-results-empty" class="pc-results-empty glass-panel">
+                        <p data-i18n="pcResultsEmpty">Upload a photo and run the compliance check to see your report here.</p>
+                    </div>
+                    <div id="pc-results-panel" class="pc-results-panel is-hidden">
+                        <header class="pc-results-header">
+                            <h2 class="pc-results-title" data-i18n="pcReportTitle">Compliance Report</h2>
+                            <span id="pc-verdict-badge" class="pc-verdict-badge" aria-live="polite"></span>
+                        </header>
+                        <p id="pc-score" class="pc-score" aria-live="polite"></p>
+                        <ol id="pc-check-list" class="pc-check-list" aria-label="Compliance checks"></ol>
+                        <div id="pc-cta-wrap" class="pc-cta-wrap is-hidden">
+                            <p id="pc-studio-fixes" class="pc-studio-fixes is-hidden"></p>
+                            <button type="button" id="pc-cta-btn" class="btn-primary btn-block"></button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <section class="pc-seo-block seo-tool-panel-block" aria-labelledby="pc-seo-h2">
+                <h2 id="pc-seo-h2">UAE Photo Compliance Checker — Will your photo be rejected?</h2>
+                <p>ICA, Emirates ID, and MOHRE portals automatically reject photos that don't meet their biometric specifications. This free tool checks your photo against the exact requirements before you upload — so you don't lose time to a failed submission.</p>
+                <h3>What does the checker verify?</h3>
+                <p>The checker runs 10 automated tests: face detection, face size (65–85% of frame), horizontal centering, eyes open, head tilt under 5 degrees, correct file format, file size under portal limit, minimum image dimensions, white background, and glasses detection. All checks run in your browser — your photo is never uploaded.</p>
+                <h3>Which UAE portals does it check against?</h3>
+                <p>The checker supports Emirates ID / ICA (200 KB limit), MOHRE worker photos (200 KB), UAE visa photos (200 KB), and MOHRE document uploads (500 KB).</p>
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {
+                            "@type": "Question",
+                            "name": "Will my Emirates ID photo be rejected?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Emirates ID and ICA portals reject photos that fail biometric rules. NexusCompress runs 10 automated checks — face size, centering, eyes open, head tilt, white background, file size, format, and more — entirely in your browser before you upload."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "What is the file size limit for UAE portal photos?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Emirates ID, ICA, MOHRE worker photos, and UAE visa uploads typically require JPEG files under 200 KB. MOHRE document scans often allow up to 500 KB. Use the portal selector in the Photo Checker to match your submission."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Does this tool upload my photo?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "No. The UAE Photo Compliance Checker uses face-api.js locally in your browser. Your passport or ID photo never leaves your device — the same privacy model as all NexusCompress tools."
+                            }
+                        }
+                    ]
+                }
+                </script>
+            </section>
+        </div>
+    </div>
+
     <div id="tool-panel-heic-converter" class="tool-panel is-hidden" data-tool-panel="heic-converter" role="tabpanel" aria-labelledby="tab-heic-converter" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
             <header class="tool-hero compress-hero">
@@ -1187,6 +1312,7 @@
                 <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
                 <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
                 <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
+                <a href="#photo-checker" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">Photo Checker</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
             </nav>
@@ -1265,7 +1391,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.3</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.4</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1350,13 +1476,13 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.3" defer></script>
-    <script src="js/tools-router.js?v=2.2.3" defer></script>
-    <script src="js/pwa-install.js?v=2.2.3" defer></script>
-    <script src="js/ads-config.js?v=2.2.3"></script>
-    <script src="js/ads.js?v=2.2.3" defer></script>
-    <script src="js/locale-ui.js?v=2.2.3" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.3" defer></script>
-    <script src="js/app.js?v=2.2.3" defer></script>
+    <script src="js/tools-shared.js?v=2.2.4" defer></script>
+    <script src="js/tools-router.js?v=2.2.4" defer></script>
+    <script src="js/pwa-install.js?v=2.2.4" defer></script>
+    <script src="js/ads-config.js?v=2.2.4"></script>
+    <script src="js/ads.js?v=2.2.4" defer></script>
+    <script src="js/locale-ui.js?v=2.2.4" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.4" defer></script>
+    <script src="js/app.js?v=2.2.4" defer></script>
 </body>
 </html>

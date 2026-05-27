@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.3'
+            '2.2.4'
         );
     }
 
@@ -77,6 +77,7 @@ window.NexusTools = (function () {
         'heic-converter': 'js/tools/heic-converter.js',
         'format-converter': 'js/tools/format-converter.js',
         'image-cropper': 'js/tools/image-cropper.js',
+        'photo-checker': 'js/tools/photo-checker.js',
     };
     let exifViewerPromise = null;
     const loadedTools = new Set();

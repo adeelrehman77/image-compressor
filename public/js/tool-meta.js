@@ -9,6 +9,7 @@ window.__NEXUS_TOOL_META = {
         'heic-converter': 'HEIC to JPEG/PNG/WebP — free & private',
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
         'image-cropper': 'Crop, rotate & flip images — free & private',
+        'photo-checker': 'UAE portal photo compliance — 10 checks, 100% local',
     },
     titles: {
         compress: 'Free Online Image Compressor | NexusCompress',
@@ -18,6 +19,8 @@ window.__NEXUS_TOOL_META = {
         'passport-studio': 'Passport & Visa Photo Studio — Free Online | NexusCompress',
         'heic-converter': 'HEIC Converter — Free Online | NexusCompress',
         'format-converter': 'Image Format Converter — Free Online | NexusCompress',
+        'image-cropper': 'Image Cropper — Free Online | NexusCompress',
+        'photo-checker': 'UAE Photo Compliance Checker — Free Online | NexusCompress',
     },
     descriptions: {
         compress:
@@ -35,6 +38,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — convert JPEG, PNG, WebP, AVIF, and GIF images to any modern format in your browser. Free, private, no server uploads.',
         'image-cropper':
             'NexusCompress — crop, rotate, and flip JPEG, PNG, and WebP images in your browser. UAE ID presets, custom ratios, send to compressor.',
+        'photo-checker':
+            'NexusCompress — check Emirates ID, ICA & MOHRE photos before upload. 10 automated compliance tests with face AI — free, private, in-browser.',
     },
     seo: {
         compress: {
@@ -121,11 +126,23 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Conversion uses the browser\'s built-in OffscreenCanvas API — no server involved, no account required, and no files are ever transmitted. Download individually or grab all results as a ZIP.',
         },
+        'photo-checker': {
+            h1: 'NexusCompress — UAE Photo Compliance Checker',
+            title1: 'Know before you upload',
+            intro1:
+                'ICA, Emirates ID, and MOHRE portals reject photos that fail strict biometric rules. Run 10 automated checks on your portrait before submitting — face size, centreing, eyes open, white background, file size, and more.',
+            title2: 'Powered by local face AI',
+            intro2:
+                'face-api.js runs entirely in your browser. Models load only when you open this tab (~1.5 MB once), then stay cached. Your passport photo never touches a server.',
+            title3: 'Fix issues in one click',
+            intro3:
+                'Failed checks link straight to ID Photo Studio with your photo loaded — crop to 35×45 mm, align your face, and export a portal-ready JPEG under 200 KB.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

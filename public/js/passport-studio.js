@@ -524,6 +524,12 @@
         bindPassportStudio();
     }
 
+    async function loadPhoto(file, presetId = 'uae-emirates') {
+        if (!file) return;
+        selectPreset(presetId, { force: true });
+        await onPhotoSelected(file);
+    }
+
     window.NexusPassportStudio = {
         updatePassportWarnings,
         generatePrintSheet,
@@ -531,5 +537,6 @@
         selectPreset,
         clearPreset,
         getActivePresetId,
+        loadPhoto,
     };
 })();
