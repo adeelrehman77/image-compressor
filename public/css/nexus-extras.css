@@ -483,8 +483,8 @@ html:not(.dark) .codec-badge {
     padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
     border-radius: var(--radius-md, 10px);
-    background: color-mix(in srgb, #ef4444 10%, var(--surface));
-    border: 1px solid color-mix(in srgb, #ef4444 35%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-error) 10%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--color-error) 35%, var(--surface-border));
     font-size: 0.88rem;
 }
 .pc-preview-wrap { margin-top: 0.875rem; }
@@ -593,20 +593,20 @@ html:not(.dark) .codec-badge {
     animation: pc-verdict-in 0.35s ease forwards;
 }
 .pc-verdict-badge--pass {
-    background: color-mix(in srgb, #22c55e 18%, transparent);
-    color: #16a34a;
+    background: color-mix(in srgb, var(--color-success) 18%, transparent);
+    color: color-mix(in srgb, var(--color-success) 70%, #000);
 }
 .pc-verdict-badge--fail {
-    background: color-mix(in srgb, #ef4444 18%, transparent);
-    color: #dc2626;
+    background: color-mix(in srgb, var(--color-error) 18%, transparent);
+    color: color-mix(in srgb, var(--color-error) 70%, #000);
 }
 .pc-verdict-badge--review {
-    background: color-mix(in srgb, #f59e0b 18%, transparent);
-    color: #d97706;
+    background: color-mix(in srgb, var(--color-warn) 18%, transparent);
+    color: color-mix(in srgb, var(--color-warn) 70%, #000);
 }
-.pc-score--pass { color: #16a34a; }
-.pc-score--review { color: #d97706; }
-.pc-score--fail { color: #dc2626; }
+.pc-score--pass { color: color-mix(in srgb, var(--color-success) 70%, #000); }
+.pc-score--review { color: color-mix(in srgb, var(--color-warn) 70%, #000); }
+.pc-score--fail { color: color-mix(in srgb, var(--color-error) 70%, #000); }
 @keyframes pc-verdict-in {
     from { opacity: 0; transform: scale(0.92); }
     to { opacity: 1; transform: scale(1); }
@@ -710,8 +710,8 @@ html:not(.dark) .codec-badge {
     min-width: 0;
 }
 .pc-check-item--warn {
-    border-color: color-mix(in srgb, #f59e0b 35%, var(--surface-border));
-    background: color-mix(in srgb, #f59e0b 6%, var(--surface));
+    border-color: color-mix(in srgb, var(--color-warn) 35%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-warn) 6%, var(--surface));
 }
 .pc-check-msg { font-size: 0.78rem; color: var(--text-muted); line-height: 1.35; }
 .pc-check-note {
@@ -765,8 +765,8 @@ html:not(.dark) .codec-badge {
 .rd-unsupported {
     padding: 1rem;
     border-radius: var(--radius-md, 10px);
-    background: color-mix(in srgb, #ef4444 12%, var(--surface));
-    border: 1px solid color-mix(in srgb, #ef4444 30%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-error) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--color-error) 30%, var(--surface-border));
     margin-bottom: 1rem;
 }
 .redactor-grid { align-items: start; }
@@ -867,7 +867,7 @@ html:not(.dark) .codec-badge {
     color: var(--accent);
     margin-top: 0.35rem;
 }
-.rd-permanent-note { color: color-mix(in srgb, #22c55e 80%, var(--text-muted)); }
+.rd-permanent-note { color: color-mix(in srgb, var(--color-success) 80%, var(--text-muted)); }
 .rd-pdf-note { margin-top: 0.65rem; }
 .rd-preview-body {
     max-height: 70vh;
@@ -915,8 +915,8 @@ html:not(.dark) .codec-badge {
     margin-bottom: 0.75rem;
     padding: 0.65rem 0.85rem;
     border-radius: var(--radius-md, 10px);
-    border: 1px solid color-mix(in srgb, #ef4444 30%, var(--surface-border));
-    background: color-mix(in srgb, #ef4444 10%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--color-error) 30%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-error) 10%, var(--surface));
 }
 .up-model-error p { margin: 0 0 0.5rem; font-size: 0.85rem; }
 .up-upload-preview { margin-top: 0.875rem; text-align: center; }
@@ -964,8 +964,8 @@ html:not(.dark) .codec-badge {
     margin-top: 0.75rem;
     font-size: 0.82rem;
     font-weight: 600;
-    border-color: color-mix(in srgb, #f59e0b 35%, var(--surface-border));
-    background: color-mix(in srgb, #f59e0b 12%, var(--surface));
+    border-color: color-mix(in srgb, var(--color-warn) 35%, var(--surface-border));
+    background: color-mix(in srgb, var(--color-warn) 12%, var(--surface));
 }
 .up-results { margin-top: 1rem; }
 .up-results .compare-stage { max-height: min(52vh, 520px); margin-bottom: 0.75rem; }
@@ -980,4 +980,573 @@ html:not(.dark) .codec-badge {
 .up-seo-block p { color: var(--text-muted); line-height: 1.55; margin: 0 0 0.75rem; }
 @media (max-width: 780px) {
     .up-results .compare-stage { max-height: min(45vh, 400px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHASE 2 — Visual design polish  (v2.2.9)
+   FIX 1: Tool headers  |  FIX 2: Drop zones  |  FIX 3: Buttons
+   FIX 4: Settings cards  |  FIX 5: Chips  |  FIX 6: Layout grid
+   FIX 7: Nav tabs  |  FIX 9: Light mode  |  FIX 10: Micro-interactions
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── FIX 1: Standardised tool panel headers ──────────────────────────── */
+.tool-header {
+    margin-bottom: var(--space-6, 1.5rem);
+}
+.tool-header-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3, 0.75rem);
+    margin-bottom: var(--space-2, 0.5rem);
+}
+.tool-emoji {
+    font-size: 2.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    /* keep emoji colorful — prevent gradient inheriting */
+    -webkit-text-fill-color: initial;
+    background: none;
+    background-clip: initial;
+    -webkit-background-clip: initial;
+}
+.tool-heading {
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: var(--text-3xl, 1.75rem);
+    font-weight: var(--weight-black, 800);
+    color: var(--color-success, var(--color-success)); /* fallback if clip unsupported */
+    background: linear-gradient(135deg,
+        var(--color-success-lt, var(--color-success-lt)),
+        var(--color-success, var(--color-success))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    line-height: 1.2;
+    overflow: visible;
+    /* Prevent descender clip */
+    padding-bottom: 0.06em;
+}
+/* Light mode: slightly darker gradient for better contrast on white */
+html:not(.dark) .tool-heading {
+    background: linear-gradient(135deg,
+        var(--color-success, var(--color-success)),
+        color-mix(in srgb, var(--color-success, var(--color-success)) 70%, #000)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.tool-subtitle {
+    font-size: var(--text-base, 0.875rem);
+    color: var(--muted, var(--text-muted));
+    margin: 0 0 var(--space-3, 0.75rem);
+    max-width: 580px;
+    line-height: 1.55;
+}
+.tool-badges {
+    display: flex;
+    gap: var(--space-2, 0.5rem);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Hide old hero on panels that now use .tool-header */
+.tool-panel .tool-hero.compress-hero {
+    display: none;
+}
+/* Keep compress panel's own hero visible (it has workflow/callout below it) */
+#tool-panel-compress .compress-hero {
+    display: block;
+}
+
+/* ── FIX 2: Standardised drop zones ─────────────────────────────────── */
+/* Override existing drop-zone with unified spec.
+   Supports both old class names (.drop-icon/.drop-title/.drop-sub/.fmt-tag)
+   and new aliases (.drop-zone-icon/.drop-zone-title/.drop-zone-subtitle/.drop-zone-format-tag) */
+
+.drop-zone,
+.tool-drop-zone {
+    border: var(--drop-border-width, 2px) dashed color-mix(in srgb, var(--surface-border) 80%, transparent);
+    border-radius: var(--drop-radius, var(--radius-xl));
+    padding: var(--drop-padding-y, 2.5rem) var(--drop-padding-x, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3, 0.75rem);
+    text-align: center;
+    background: color-mix(in srgb, var(--bg) 50%, var(--surface));
+    transition: border-color var(--transition-base, 0.2s ease),
+                background var(--transition-base, 0.2s ease);
+    cursor: pointer;
+    min-height: 220px;
+}
+.drop-zone:hover,
+.drop-zone.drag-active,
+.tool-drop-zone:hover,
+.tool-drop-zone.drag-active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+}
+
+/* Drop zone inner elements — old AND new class names */
+.drop-icon,
+.drop-zone-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-lg, 12px);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin: 0;
+}
+.drop-title,
+.drop-zone-title {
+    font-family: var(--font-display, inherit);
+    font-size: var(--text-lg, 1.05rem);
+    font-weight: var(--weight-semibold, 600);
+    color: var(--text);
+    margin: 0;
+    line-height: 1.4;
+    overflow: visible;
+}
+.drop-sub,
+.drop-zone-subtitle {
+    font-size: var(--text-sm, 0.75rem);
+    color: var(--muted, var(--text-muted));
+    margin: 0;
+    max-width: 38ch;
+    line-height: 1.5;
+}
+.drop-formats,
+.drop-zone-formats {
+    display: flex;
+    gap: var(--space-2, 0.5rem);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.fmt-tag,
+.drop-zone-format-tag {
+    font-size: var(--text-xs, 0.6875rem);
+    font-weight: var(--weight-semibold, 600);
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+    color: var(--muted, var(--text-muted));
+    border: 1px solid var(--border, var(--surface-border));
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.drop-paste-hint,
+.drop-zone-paste-hint {
+    font-size: var(--text-xs, 0.6875rem);
+    color: var(--muted, var(--text-muted));
+    opacity: 0.7;
+    margin: 0;
+}
+
+/* ── FIX 3: Standardised primary & secondary buttons ─────────────────── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2, 0.5rem);
+    padding: var(--btn-padding-y, 0.65rem) var(--btn-padding-x, var(--space-6, 1.5rem));
+    background: var(--accent);
+    color: #000;
+    font-size: var(--btn-font-size, var(--text-base, 0.875rem));
+    font-weight: var(--btn-font-weight, var(--weight-bold, 700));
+    border-radius: var(--btn-radius, var(--radius-pill));
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: var(--btn-min-height, 44px);
+    line-height: var(--btn-line-height, 1.5);
+    text-decoration: none;
+}
+.btn-primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent) 85%, #fff);
+    transform: translateY(-1px);
+}
+.btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+}
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+.btn-primary.btn-full,
+.btn-primary.btn-block {
+    width: 100%;
+    justify-content: center;
+}
+
+html:not(.dark) .btn-primary { color: #fff; }
+
+/* Secondary button */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2, 0.5rem);
+    padding: 0.6rem var(--space-5, 1.25rem);
+    background: transparent;
+    color: var(--text);
+    font-size: var(--text-sm, 0.75rem);
+    font-weight: var(--weight-medium, 500);
+    border-radius: var(--btn-radius, var(--radius-pill));
+    border: 1px solid var(--border, var(--surface-border));
+    cursor: pointer;
+    min-height: 38px;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.btn-secondary:hover:not(:disabled) {
+    background: var(--surface-2, color-mix(in srgb, var(--text) 6%, transparent));
+    border-color: var(--accent);
+}
+
+/* Update transition to include transform */
+.btn-primary,
+.btn-secondary {
+    transition: background var(--transition-fast, 0.15s ease),
+                filter var(--transition-fast, 0.15s ease),
+                transform var(--transition-fast, 0.15s ease),
+                opacity var(--transition-fast, 0.15s ease),
+                border-color var(--transition-fast, 0.15s ease) !important;
+}
+
+/* ── FIX 4: Standardised settings cards ─────────────────────────────── */
+.settings-card {
+    background: var(--surface);
+    border: 1px solid var(--border, var(--surface-border));
+    border-radius: var(--card-radius, var(--radius-xl));
+    overflow: hidden;
+}
+.settings-card__header,
+.settings-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--card-header-padding, 0.875rem 1rem);
+    cursor: pointer;
+    user-select: none;
+    font-weight: var(--weight-semibold, 600);
+    font-size: var(--text-base, 0.875rem);
+    gap: var(--space-3, 0.75rem);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast, 0.15s ease),
+                background var(--transition-fast, 0.15s ease);
+    background: transparent;
+    color: var(--text);
+    border: none;
+    border-bottom: 1px solid var(--border, var(--surface-border));
+    width: 100%;
+    font-family: inherit;
+    text-align: left;
+    line-height: 1.5;
+    overflow: visible;
+}
+.settings-card__body,
+.settings-card-body {
+    padding: var(--card-body-padding, var(--space-5, 1.25rem));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4, 1rem);
+}
+.settings-card__body.is-collapsed,
+.settings-card-body.is-collapsed {
+    display: none;
+}
+/* Settings fields within cards */
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 0.5rem);
+}
+.settings-label,
+.field-label {
+    font-size: var(--text-sm, 0.75rem);
+    font-weight: var(--weight-medium, 500);
+    color: var(--muted, var(--text-muted));
+}
+.settings-hint,
+.field-hint {
+    font-size: var(--text-xs, 0.6875rem);
+    color: var(--muted, var(--text-muted));
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+/* ── FIX 5: Standardised chips & badges ─────────────────────────────── */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1, 0.25rem);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs, 0.6875rem);
+    font-weight: var(--weight-semibold, 600);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    line-height: 1.5;
+    overflow: visible;
+}
+.chip-success {
+    background: var(--color-success-bg, color-mix(in srgb, var(--color-success) 12%, transparent));
+    color: var(--color-success-lt, var(--color-success-lt));
+    border: 1px solid color-mix(in srgb, var(--color-success, var(--color-success)) 30%, transparent);
+}
+html:not(.dark) .chip-success {
+    color: color-mix(in srgb, var(--color-success, var(--color-success)) 75%, #000);
+}
+.chip-ai {
+    background: var(--color-ai-bg, color-mix(in srgb, #818cf8 12%, transparent));
+    color: var(--color-ai-lt, #a5b4fc);
+    border: 1px solid color-mix(in srgb, var(--color-ai, #818cf8) 30%, transparent);
+}
+html:not(.dark) .chip-ai {
+    color: color-mix(in srgb, var(--color-ai, #818cf8) 80%, #000);
+}
+.chip-uae {
+    background: var(--color-warn-bg, color-mix(in srgb, var(--color-warn) 12%, transparent));
+    color: var(--color-warn-lt, var(--color-warn-lt));
+    border: 1px solid color-mix(in srgb, var(--color-warn, var(--color-warn)) 25%, transparent);
+}
+html:not(.dark) .chip-uae {
+    color: color-mix(in srgb, var(--color-warn, var(--color-warn)) 70%, #000);
+}
+.chip-neutral {
+    background: var(--surface-2, color-mix(in srgb, var(--text) 6%, transparent));
+    color: var(--muted, var(--text-muted));
+    border: 1px solid var(--border, var(--surface-border));
+}
+
+/* ── FIX 6: Standardised two-column tool layout ─────────────────────── */
+.tool-layout,
+.compress-app-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-6, 1.5rem);
+    align-items: start;
+}
+.tool-layout.tool-layout-wide {
+    grid-template-columns: 1fr 360px;
+}
+.tool-layout.tool-layout-single {
+    grid-template-columns: 1fr;
+    max-width: 700px;
+}
+@media (max-width: 780px) {
+    .tool-layout,
+    .tool-layout.tool-layout-wide,
+    .compress-app-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── FIX 7: Nav tab scroll with edge fade ────────────────────────────── */
+.tool-tabs {
+    display: flex;
+    gap: var(--space-1, 0.25rem);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 20px,
+        #000 calc(100% - 20px),
+        transparent
+    );
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 20px,
+        #000 calc(100% - 20px),
+        transparent
+    );
+}
+.tool-tabs::-webkit-scrollbar { display: none; }
+
+.tool-tab {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    padding: 0.45rem var(--space-4, 1rem);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm, 0.75rem);
+    font-weight: var(--weight-medium, 500);
+    white-space: nowrap;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted, var(--text-muted));
+    cursor: pointer;
+    transition: all var(--transition-fast, 0.15s ease);
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 0.5rem);
+    text-decoration: none;
+    line-height: 1.55;
+    overflow: visible;
+}
+.tool-tab:hover:not(.active) {
+    background: var(--surface-2, color-mix(in srgb, var(--text) 6%, transparent));
+    color: var(--text);
+    border-color: var(--border, var(--surface-border));
+}
+.tool-tab.active,
+.tool-nav-link.active {
+    background: var(--accent);
+    color: #000;
+    font-weight: var(--weight-bold, 700);
+    border-color: transparent;
+    box-shadow: none;
+}
+html:not(.dark) .tool-tab.active,
+html:not(.dark) .tool-nav-link.active {
+    color: #fff;
+}
+/* Badge inside active tab */
+.tool-tab.active .tool-tab__badge,
+.tool-nav-link.active .tool-tab__badge {
+    background: rgba(0,0,0,0.2);
+    color: inherit;
+}
+
+/* ── FIX 9: Light mode audit fixes ──────────────────────────────────── */
+/* Redactor canvas area */
+html:not(.dark) .rd-stage-wrap {
+    background: #f8fafc;
+    border-color: rgba(15,23,42,0.12);
+}
+/* AI Upscaler progress bar */
+html:not(.dark) .up-model-progress {
+    background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+}
+/* Photo Checker results panel */
+html:not(.dark) .pc-results-panel {
+    box-shadow: 0 2px 12px rgba(15,23,42,0.06);
+}
+/* EXIF modal on light */
+html:not(.dark) .exif-modal-panel {
+    box-shadow: 0 12px 40px rgba(15,23,42,0.12);
+}
+/* Privacy banners light mode */
+html:not(.dark) .redactor-privacy-banner,
+html:not(.dark) .up-privacy-banner,
+html:not(.dark) .pc-privacy-banner {
+    background: var(--color-success-bg, color-mix(in srgb, var(--color-success) 8%, transparent));
+    border-color: color-mix(in srgb, var(--color-success) 20%, transparent);
+}
+/* Verdict badges readable in light mode */
+html:not(.dark) .pc-verdict-badge--pass {
+    color: color-mix(in srgb, var(--color-success, var(--color-success)) 70%, #000);
+}
+html:not(.dark) .pc-verdict-badge--fail {
+    color: color-mix(in srgb, var(--color-error, var(--color-error)) 70%, #000);
+}
+html:not(.dark) .pc-verdict-badge--review {
+    color: color-mix(in srgb, var(--color-warn, var(--color-warn)) 70%, #000);
+}
+
+/* ── FIX 10: Micro-interactions & polish ─────────────────────────────── */
+
+/* Unified focus rings */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm, 6px);
+}
+/* Pill-shaped focusable elements get pill outline */
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.tool-tab:focus-visible,
+.chip:focus-visible {
+    border-radius: var(--radius-pill);
+    outline-offset: 3px;
+}
+
+/* Panel fade-in animation */
+.tool-panel {
+    animation: panelFadeIn 0.18s ease both;
+}
+.tool-panel.is-hidden {
+    animation: none;
+}
+@keyframes panelFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Consistent form inputs */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select,
+textarea,
+.field-input {
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    border: 1px solid var(--border, var(--surface-border));
+    border-radius: var(--radius-sm, 6px);
+    padding: 0.5rem var(--space-3, 0.75rem);
+    font-size: var(--text-sm, 0.75rem);
+    color: var(--text);
+    font-family: inherit;
+    width: 100%;
+    transition: border-color var(--transition-fast, 0.15s ease);
+    min-height: 38px;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus,
+.field-input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Range sliders */
+input[type="range"],
+.custom-slider {
+    accent-color: var(--accent);
+    height: 4px;
+}
+
+/* Skeleton loading state */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--surface) 25%,
+        color-mix(in srgb, var(--surface) 60%, var(--border, var(--surface-border))) 50%,
+        var(--surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s infinite;
+    border-radius: var(--radius-sm, 6px);
+}
+@keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+    .tool-panel  { animation: none; }
+    .skeleton    { animation: none; }
+    .btn-primary:hover { transform: none; }
 }

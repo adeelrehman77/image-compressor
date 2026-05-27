@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.9">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.10">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.9" defer></script>
+    <script src="js/sentry-init.js?v=2.2.10" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.9" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.10" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.9"></script>
-    <script src="js/i18n.js?v=2.2.9"></script>
-    <script src="js/tool-meta.js?v=2.2.9"></script>
+    <script src="js/locale.js?v=2.2.10"></script>
+    <script src="js/i18n.js?v=2.2.10"></script>
+    <script src="js/tool-meta.js?v=2.2.10"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -100,11 +100,11 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.9">
-    <link rel="stylesheet" href="css/tokens.css?v=2.2.9">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.9">
-    <script src="js/ga-config.js?v=2.2.9" defer></script>
-    <script src="js/gtm.js?v=2.2.9" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.10">
+    <link rel="stylesheet" href="css/tokens.css?v=2.2.10">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.10">
+    <script src="js/ga-config.js?v=2.2.10" defer></script>
+    <script src="js/gtm.js?v=2.2.10" defer></script>
 </head>
 <body class="app-body">
 
@@ -209,7 +209,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.9 — Free</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.10 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -540,12 +540,16 @@
 
     <div id="tool-panel-images-to-pdf" class="tool-panel is-hidden" data-tool-panel="images-to-pdf" role="tabpanel" aria-labelledby="tab-images-to-pdf" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroItp">NexusCompress — Images to <span class="compress-hero__accent">PDF</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroItpSub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally in your browser.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">📄</span>
+                    <h2 class="tool-heading" data-i18n="heroItpTitle">Images to PDF</h2>
                 </div>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroItpSub">Merge JPEG/PNG scans into one PDF for UAE portal uploads — runs locally in your browser.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone tool-drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="Drop images here or choose files">
@@ -592,12 +596,16 @@
 
     <div id="tool-panel-pdf-suite" class="tool-panel is-hidden" data-tool-panel="pdf-suite" role="tabpanel" aria-labelledby="tab-pdf-suite" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPdf">NexusCompress — PDF <span class="compress-hero__accent">merge &amp; split</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroPdfSub">Combine PDFs or extract pages — private, runs entirely in your browser.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🔗</span>
+                    <h2 class="tool-heading" data-i18n="heroPdfTitle">PDF Merge &amp; Split</h2>
                 </div>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroPdfSub">Combine PDFs or extract pages — private, runs entirely in your browser.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="PDF tools">
@@ -714,12 +722,16 @@
 
     <div id="tool-panel-svg" class="tool-panel is-hidden" data-tool-panel="svg" role="tabpanel" aria-labelledby="tab-svg" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroSvg">NexusCompress — SVG <span class="compress-hero__accent">optimizer</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroSvgSub">Strip metadata and bloat from vector files before you ship them.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">✏️</span>
+                    <h2 class="tool-heading" data-i18n="heroSvgTitle">SVG Optimizer</h2>
                 </div>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroSvgSub">Strip metadata and bloat from vector files before you ship them.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone tool-drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="Drop an SVG file here or choose one">
@@ -766,13 +778,17 @@
 
     <div id="tool-panel-passport-studio" class="tool-panel is-hidden" data-tool-panel="passport-studio" role="tabpanel" aria-labelledby="tab-passport-studio" aria-hidden="true" tabindex="-1">
         <div id="passport-studio-workspace" class="tool-workspace passport-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPassport">NexusCompress — Passport &amp; <span class="compress-hero__accent">visa photos</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroPassportSub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🪪</span>
+                    <h2 class="tool-heading" data-i18n="heroPassportTitle">ID Photo Studio</h2>
                 </div>
-                <span class="compress-hero__badge uae-label">UAE · India</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroPassportSub">Official dimensions for India Passport Seva, OCI, VFS print sheets, and UAE smart-portal uploads.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-uae">UAE · India</span>
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="passport-drop-zone" class="drop-zone passport-drop-zone passport-drop-zone--locked" tabindex="-1" aria-label="Upload passport portrait — select a preset first">
@@ -920,13 +936,17 @@
                 <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 <span data-i18n="pcPrivacyBanner">🔒 Photo analysis runs entirely in your browser — nothing is uploaded</span>
             </div>
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroPhotoCheckerHtml">✅ <span class="compress-hero__accent">UAE Photo Compliance Checker</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroPhotoCheckerSub">10 automated checks for ICA, Emirates ID &amp; MOHRE portal photos — 100% in your browser, nothing uploaded.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">✅</span>
+                    <h2 class="tool-heading" data-i18n="heroPhotoCheckerTitle">UAE Photo Compliance Checker</h2>
                 </div>
-                <span class="compress-hero__badge uae-label" data-i18n="pcHeroBadge">UAE · AI</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroPhotoCheckerSub">10 automated checks for ICA, Emirates ID &amp; MOHRE portal photos — 100% in your browser, nothing uploaded.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-uae">UAE</span>
+                    <span class="chip chip-ai" data-i18n="pcHeroBadge">AI</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid photo-checker-grid">
                 <div class="main-col compress-main-col">
                     <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
@@ -1045,13 +1065,16 @@
                 <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 <span data-i18n="rdPrivacyBanner">🔒 Your document never leaves this device — all redaction happens in your browser</span>
             </div>
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroRedactorHtml">🔏 <span class="compress-hero__accent">Secure Document Redactor</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroRedactorSub">Black out passport numbers, ID numbers, MRZ lines &amp; bank details before sharing with employers, landlords, or agencies.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🔏</span>
+                    <h2 class="tool-heading" data-i18n="heroRedactorTitle">Secure Document Redactor</h2>
                 </div>
-                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroRedactorSub">Black out passport numbers, ID numbers, MRZ lines &amp; bank details before sharing with employers, landlords, or agencies.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div id="rd-unsupported" class="rd-unsupported is-hidden" role="alert">
                 <p data-i18n="rdUnsupported">Your browser does not support this tool (Canvas API required). Please update your browser.</p>
             </div>
@@ -1217,13 +1240,16 @@
                 <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 <span data-i18n="upPrivacyBanner">🔒 Your image never leaves this device — AI upscaling runs entirely in your browser</span>
             </div>
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroUpscalerHtml">🔬 <span class="compress-hero__accent">AI Image Upscaler</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroUpscalerSub">Upscale photos 2× or 4× with Real-ESRGAN — sharper detail, zero uploads, runs on your device.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🔬</span>
+                    <h2 class="tool-heading" data-i18n="heroUpscalerTitle">AI Image Upscaler</h2>
                 </div>
-                <span class="compress-hero__badge" data-i18n="upHeroBadge">AI · Local</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroUpscalerSub">Upscale photos 2× or 4× with Real-ESRGAN — sharper detail, zero uploads, runs on your device.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-ai" data-i18n="upHeroBadge">AI · Local</span>
+                </div>
+            </div>
             <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
                 <p id="up-model-label" class="up-model-label">Downloading AI model…</p>
                 <div class="progress-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill" style="width:0%"></div></div>
@@ -1375,13 +1401,16 @@
 
     <div id="tool-panel-heic-converter" class="tool-panel is-hidden" data-tool-panel="heic-converter" role="tabpanel" aria-labelledby="tab-heic-converter" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroHeicHtml">📱 <span class="compress-hero__accent">HEIC Converter</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroHeicSub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">📱</span>
+                    <h2 class="tool-heading" data-i18n="heroHeicTitle">HEIC Converter</h2>
                 </div>
-                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroHeicSub">Convert iPhone HEIC &amp; HEIF photos to JPEG, PNG, or WebP — entirely in your browser, no uploads.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
@@ -1446,13 +1475,16 @@
 
     <div id="tool-panel-format-converter" class="tool-panel is-hidden" data-tool-panel="format-converter" role="tabpanel" aria-labelledby="tab-format-converter" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroFmtHtml">🔄 <span class="compress-hero__accent">Format Converter</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroFmtSub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🔄</span>
+                    <h2 class="tool-heading" data-i18n="heroFmtTitle">Format Converter</h2>
                 </div>
-                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroFmtSub">Convert JPEG, PNG, WebP, AVIF &amp; GIF to any modern format — batch, in-browser, nothing uploaded.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
@@ -1521,13 +1553,16 @@
 
     <div id="tool-panel-image-cropper" class="tool-panel is-hidden" data-tool-panel="image-cropper" role="tabpanel" aria-labelledby="tab-image-cropper" aria-hidden="true" tabindex="-1">
         <div class="tool-workspace max-width-wrap">
-            <header class="tool-hero compress-hero">
-                <div class="compress-hero__text">
-                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroCropperHtml">✂️ <span class="compress-hero__accent">Image Cropper</span></span></h1>
-                    <p class="compress-hero__sub" data-i18n="heroCropperSub">Crop, rotate, and flip images in your browser — then download or send to the compressor.</p>
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">✂️</span>
+                    <h2 class="tool-heading" data-i18n="heroCropperTitle">Image Cropper</h2>
                 </div>
-                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
-            </header>
+                <p class="tool-subtitle" data-i18n="heroCropperSub">Crop, rotate, and flip images in your browser — then download or send to the compressor.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
             <div class="app-grid compress-app-grid cropper-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to crop">
@@ -1740,7 +1775,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.9</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.10</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1825,15 +1860,15 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.9" defer></script>
-    <script src="js/tools-router.js?v=2.2.9" defer></script>
-    <script src="js/pwa-install.js?v=2.2.9" defer></script>
-    <script src="js/ads-config.js?v=2.2.9"></script>
-    <script src="js/ads.js?v=2.2.9" defer></script>
-    <script src="js/locale-ui.js?v=2.2.9" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.9" defer></script>
+    <script src="js/tools-shared.js?v=2.2.10" defer></script>
+    <script src="js/tools-router.js?v=2.2.10" defer></script>
+    <script src="js/pwa-install.js?v=2.2.10" defer></script>
+    <script src="js/ads-config.js?v=2.2.10"></script>
+    <script src="js/ads.js?v=2.2.10" defer></script>
+    <script src="js/locale-ui.js?v=2.2.10" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.10" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="js/compare-slider.js?v=2.2.9" defer></script>
-    <script src="js/app.js?v=2.2.9" defer></script>
+    <script src="js/compare-slider.js?v=2.2.10" defer></script>
+    <script src="js/app.js?v=2.2.10" defer></script>
 </body>
 </html>
