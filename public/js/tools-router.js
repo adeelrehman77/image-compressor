@@ -7,7 +7,7 @@
 
     function hashToTool(hash) {
         if (hash === 'photo-studio' || hash === 'passport-studio') return 'passport-studio';
-        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'heic-converter' || hash === 'format-converter') {
+        if (hash === 'images-to-pdf' || hash === 'pdf-suite' || hash === 'svg' || hash === 'heic-converter' || hash === 'format-converter' || hash === 'image-cropper') {
             return hash;
         }
         return TAGLINES[hash] ? hash : null;
@@ -67,7 +67,7 @@
     function preloadToolsIdle() {
         if (!shouldPreloadToolsIdle()) return;
         const run = () => {
-            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter'].forEach((tool) => {
+            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter', 'image-cropper'].forEach((tool) => {
                 window.NexusTools?.ensureTool?.(tool).catch(() => {});
             });
         };

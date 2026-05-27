@@ -11,8 +11,12 @@ const PORT = process.env.PORT || 3000;
 app.use(
     express.static(publicDir, {
         setHeaders(res, filePath) {
-            if (filePath.endsWith('.js')) {
+            if (filePath.endsWith('.mjs')) {
                 res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
+            } else if (filePath.endsWith('.js')) {
+                res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
+            } else if (filePath.endsWith('.wasm')) {
+                res.setHeader('Content-Type', 'application/wasm');
             }
         },
     })

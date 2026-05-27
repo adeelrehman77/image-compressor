@@ -108,6 +108,7 @@
         loadSettings();
         bindEvents();
         hideFolderPickerOnIos();
+        window.__NEXUS_COMPRESS_ADD_FILES = handleFiles;
         window.__NEXUS_SYNC_UAE_BUTTONS = syncPresetButtons;
         syncPresetButtons();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
@@ -171,6 +172,7 @@
             'compress-preview-base', 'compress-preview-overlay', 'compress-preview-handle',
             'compress-preview-top', 'compress-preview-stats', 'compress-preview-actions',
             'compress-preview-rerun', 'compress-preview-download',
+            'compare-label-original', 'compare-label-compressed', 'compare-drag-hint',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
         });
@@ -267,9 +269,9 @@
     }
 
     function initWorkers() {
-        const workerUrl = window.NexusTools?.assetUrl?.('js/worker.js') || `js/worker.js?v=${getAppVersion()}`;
+        const workerUrl = window.NexusTools?.assetUrl?.('js/compress-worker.mjs') || `js/compress-worker.mjs?v=${getAppVersion()}`;
         for (let i = 0; i < WORKER_POOL_SIZE; i++) {
-            const w = new Worker(workerUrl);
+            const w = new Worker(workerUrl, { type: 'module' });
             w.busy = false;
             w.onmessage = (e) => handleWorkerMessage(w, e);
             workers.push(w);
@@ -934,6 +936,8 @@
         task.compressedSize = blob.size;
         task.savedRatio = savedRatio;
         task.outputType = outputType;
+        task.codecEngine = data.codecEngine || 'Canvas';
+        task.codecLabel = data.codecLabel || data.codecEngine || 'Canvas';
         task.dimensions = `${originalWidth}×${originalHeight} → ${width}×${height}`;
         task.newName = newName;
 
@@ -1018,6 +1022,7 @@
                 <div class="file-name result-name" title="${escapeHtml(task.file.name)}">${escapeHtml(task.file.name)}</div>
                 <div class="file-meta">
                     <span class="status-badge status-ready">Ready</span>
+                    <span class="codec-badge is-hidden" aria-hidden="true"></span>
                     <span class="file-meta-sizes is-hidden">${formatBytes(task.originalSize)} → <strong class="compressed-size">…</strong></span>
                 </div>
                 <div class="file-progress" aria-hidden="true"><div class="file-progress-fill file-progress-fill--active"></div></div>
@@ -1118,6 +1123,14 @@
             savingsBadge.textContent = task.savedRatio < 0
                 ? `+${Math.abs(task.savedRatio).toFixed(0)}% larger`
                 : `${task.savedRatio.toFixed(0)}% saved`;
+        }
+
+        const codecBadge = card.querySelector('.codec-badge');
+        if (codecBadge && task.codecLabel && task.codecLabel !== 'Canvas') {
+            codecBadge.textContent = `⚡ ${task.codecLabel}`;
+            codecBadge.classList.remove('is-hidden');
+        } else if (codecBadge) {
+            codecBadge.classList.add('is-hidden');
         }
 
         card.querySelector('.file-meta-sizes')?.classList.remove('is-hidden');
@@ -1261,6 +1274,7 @@
             if (topImg) topImg.src = task.originalUrl;
 
             previewCompareCleanup = setupCompareSlider(compareEl, overlay, handle, topImg);
+            updateCompareLabels(task);
 
             const savedLabel = task.savedRatio < 0
                 ? `${Math.abs(task.savedRatio).toFixed(1)}% larger`
@@ -1717,6 +1731,38 @@
         btn.setAttribute('aria-label', label);
         btn.setAttribute('title', label);
         btn.setAttribute('aria-pressed', String(theme === 'light'));
+    }
+
+    function mimeFormatLabel(mime) {
+        const map = {
+            'image/jpeg': 'JPEG',
+            'image/png': 'PNG',
+            'image/webp': 'WebP',
+            'image/avif': 'AVIF',
+        };
+        return map[mime] || (mime && mime.split('/')[1] ? mime.split('/')[1].toUpperCase() : 'IMG');
+    }
+
+    function updateCompareLabels(task) {
+        const origEl = els['compare-label-original'];
+        const compEl = els['compare-label-compressed'];
+        const hint = els['compare-drag-hint'];
+        if (!origEl || !compEl) return;
+
+        const origFmt = mimeFormatLabel(task.file.type);
+        const outFmt = mimeFormatLabel(task.outputType || task.blob?.type);
+        const savedPct = task.savedRatio < 0
+            ? `+${Math.abs(task.savedRatio).toFixed(0)}%`
+            : `−${task.savedRatio.toFixed(0)}%`;
+
+        origEl.innerHTML = `<span class="compare-label__title">${tf('compareOriginal', null, 'Original')}</span><span class="compare-label__meta">${formatBytes(task.originalSize)} · ${origFmt}</span>`;
+        compEl.innerHTML = `<span class="compare-label__title">${tf('compareCompressed', null, 'Compressed')}</span><span class="compare-label__meta">${formatBytes(task.compressedSize)} (${savedPct}) · ${outFmt}</span>`;
+
+        if (hint) {
+            const mobile = window.matchMedia('(max-width: 780px)').matches;
+            hint.classList.toggle('is-hidden', !mobile);
+            hint.textContent = tf('compareDragHint', null, '← drag →');
+        }
     }
 
     function setupCompareSlider(container, overlay, handle, overlayImg) {

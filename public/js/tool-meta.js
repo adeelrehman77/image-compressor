@@ -8,6 +8,7 @@ window.__NEXUS_TOOL_META = {
         'passport-studio': 'ID & passport photos — UAE & India presets',
         'heic-converter': 'HEIC to JPEG/PNG/WebP — free & private',
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
+        'image-cropper': 'Crop, rotate & flip images — free & private',
     },
     titles: {
         compress: 'Free Online Image Compressor | NexusCompress',
@@ -32,6 +33,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — convert iPhone HEIC and HEIF photos to JPEG, PNG, or WebP in your browser. No uploads, batch conversion, free.',
         'format-converter':
             'NexusCompress — convert JPEG, PNG, WebP, AVIF, and GIF images to any modern format in your browser. Free, private, no server uploads.',
+        'image-cropper':
+            'NexusCompress — crop, rotate, and flip JPEG, PNG, and WebP images in your browser. UAE ID presets, custom ratios, send to compressor.',
     },
     seo: {
         compress: {
@@ -122,7 +125,7 @@ window.__NEXUS_TOOL_META = {
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

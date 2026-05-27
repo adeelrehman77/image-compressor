@@ -41,6 +41,8 @@ function bumpSwCache() {
     './js/tools-router.js',
     './js/tools-shared.js',
     './js/worker.js',
+    './js/compress-worker.mjs',
+    './js/clipboard-paste.js',
     './js/sentry-init.js',
     './js/ga-config.js',
     './js/gtm.js',

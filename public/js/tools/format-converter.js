@@ -225,5 +225,7 @@
             if (!dlAllBtn) return;
             dlAllBtn.classList.toggle('is-hidden', !fileItems.some((f) => f.status === 'done'));
         }
+
+        window.__NEXUS_FMT_ADD_FILES = addFiles;
     });
 })();

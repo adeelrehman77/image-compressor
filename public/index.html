@@ -176,6 +176,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">🔄</span>
                         <span class="tool-tab__label" data-i18n="tabFormat" data-i18n-short="tabFormatShort">Format Converter</span>
                     </a>
+                    <a href="#image-cropper" id="tab-image-cropper" class="tool-tab tool-nav-link" data-tool="image-cropper" role="tab" aria-selected="false" aria-controls="tool-panel-image-cropper" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">✂️</span>
+                        <span class="tool-tab__label" data-i18n="tabCropper" data-i18n-short="tabCropperShort">Image Cropper</span>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -231,6 +235,7 @@
                         </div>
                         <p class="drop-title" data-i18n="dropTitle">Drop your images here</p>
                         <p class="drop-sub" data-i18n="dropSub">Add files to the queue · adjust compression settings · then start when ready</p>
+                        <p class="drop-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
                         <div class="drop-formats" aria-hidden="true">
                             <span class="fmt-tag">JPEG</span>
                             <span class="fmt-tag">PNG</span>
@@ -317,8 +322,11 @@
                                 <img id="compress-preview-top" class="compare-img compare-top" alt="Original">
                             </div>
                             <div id="compress-preview-handle" class="compare-handle" aria-hidden="true"></div>
-                            <span class="compare-stage-label compare-stage-label--before" data-i18n="previewBefore">Before</span>
-                            <span class="compare-stage-label compare-stage-label--after" data-i18n="previewAfter">After</span>
+                            <div class="compare-stage-labels">
+                                <div id="compare-label-original" class="compare-stage-label compare-stage-label--before"></div>
+                                <span id="compare-drag-hint" class="compare-drag-hint is-hidden" aria-hidden="true" data-i18n="compareDragHint">← drag →</span>
+                                <div id="compare-label-compressed" class="compare-stage-label compare-stage-label--after"></div>
+                            </div>
                         </div>
                         <dl class="compress-preview-stats" id="compress-preview-stats"></dl>
                     </div>
@@ -581,6 +589,7 @@
                     <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="PDF tools">
                         <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true" data-i18n="pdfTabMerge">Merge</button>
                         <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false" data-i18n="pdfTabSplit">Split</button>
+                        <button type="button" class="pdf-tab" data-pdf-tab="to-images" role="tab" aria-selected="false" data-i18n="pdfTabToImages">🖼️ PDF → Images</button>
                     </div>
                     <div id="pdf-panel-merge" class="pdf-tab-panel">
                         <section class="drop-zone tool-drop-zone" id="pdf-merge-drop" tabindex="0" data-i18n="pdfMergeDropAria" data-i18n-attr="aria-label" aria-label="Drop PDF files to merge">
@@ -606,6 +615,28 @@
                             </div>
                         </section>
                         <p id="pdf-split-info" class="tool-status"></p>
+                    </div>
+                    <div id="pdf-panel-to-images" class="pdf-tab-panel is-hidden">
+                        <section class="drop-zone tool-drop-zone" id="pdf2img-drop" tabindex="0" data-i18n="pdf2imgDropAria" data-i18n-attr="aria-label" aria-label="Drop a PDF to extract pages as images">
+                            <div class="drop-zone-inner">
+                                <div class="drop-icon" aria-hidden="true">🖼️</div>
+                                <p class="drop-title" data-i18n="pdf2imgTitle">PDF to Images</p>
+                                <p class="drop-sub" data-i18n="pdf2imgSub">Extract every page as JPEG or PNG — runs in your browser</p>
+                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
+                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">Choose PDF</span><input type="file" id="pdf2img-input" class="is-hidden" accept="application/pdf"></label>
+                            </div>
+                        </section>
+                        <p id="pdf2img-info" class="tool-status"></p>
+                        <div id="pdf2img-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
+                            <div class="zip-progress-header">
+                                <span id="pdf2img-progress-label" data-i18n="pdf2imgExtracting">Extracting…</span>
+                                <span id="pdf2img-progress-pct">0%</span>
+                            </div>
+                            <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div id="pdf2img-progress-bar" class="batch-progress-bar"></div>
+                            </div>
+                        </div>
+                        <div id="pdf2img-thumbs" class="pdf2img-thumbs is-hidden" aria-label="Page previews"></div>
                     </div>
                 </div>
                 <aside class="compress-sidebar sidebar">
@@ -633,6 +664,33 @@
                         <div class="settings-card__body">
                             <p class="field-hint" data-i18n="pdfSplitHint">Each page exports as a separate PDF. Multiple pages download as a ZIP.</p>
                             <button type="button" id="pdf-split-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="pdfDownloadPages">Download pages</button>
+                        </div>
+                    </div>
+                    <div id="pdf-sidebar-to-images" class="settings-card is-hidden" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🖼️</span>
+                                <span data-i18n="pdf2imgSettings">Extract settings</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="pdf2img-format" data-i18n="pdf2imgFormatLabel">Output format</label>
+                            <select id="pdf2img-format" class="field-input">
+                                <option value="image/jpeg" data-i18n="pdf2imgFmtJpeg">JPEG (90% quality)</option>
+                                <option value="image/png" data-i18n="pdf2imgFmtPng">PNG</option>
+                            </select>
+                            <label class="field-label field-label-spaced-sm" for="pdf2img-range-mode" data-i18n="pdf2imgRangeLabel">Page range</label>
+                            <select id="pdf2img-range-mode" class="field-input">
+                                <option value="all" data-i18n="pdf2imgRangeAll">All pages</option>
+                                <option value="custom" data-i18n="pdf2imgRangeCustom">Custom range</option>
+                            </select>
+                            <label class="field-label field-label-spaced-sm is-hidden" id="pdf2img-range-wrap" for="pdf2img-range">
+                                <span data-i18n="pdf2imgRangeHint">e.g. 1-3, 5, 7-9</span>
+                                <input type="text" id="pdf2img-range" class="field-input" placeholder="1-3, 5, 7-9" autocomplete="off">
+                            </label>
+                            <button type="button" id="pdf2img-extract-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="pdf2imgDownload">Download images</button>
+                            <button type="button" id="pdf2img-compress-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden" data-i18n="pdf2imgSendCompress">Send all to Compressor</button>
                         </div>
                     </div>
                 </aside>
@@ -988,6 +1046,103 @@
         </div>
     </div>
 
+    <div id="tool-panel-image-cropper" class="tool-panel is-hidden" data-tool-panel="image-cropper" role="tabpanel" aria-labelledby="tab-image-cropper" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace max-width-wrap">
+            <header class="tool-hero compress-hero">
+                <div class="compress-hero__text">
+                    <h1 class="compress-hero__title"><span class="compress-hero__line" data-i18n-html="heroCropperHtml">✂️ <span class="compress-hero__accent">Image Cropper</span></span></h1>
+                    <p class="compress-hero__sub" data-i18n="heroCropperSub">Crop, rotate, and flip images in your browser — then download or send to the compressor.</p>
+                </div>
+                <span class="compress-hero__badge" data-i18n="badgeFreePrivate">Free · Private</span>
+            </header>
+            <div class="app-grid compress-app-grid cropper-app-grid">
+                <div class="main-col compress-main-col">
+                    <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to crop">
+                        <div class="drop-zone-inner">
+                            <div class="drop-icon" aria-hidden="true">✂️</div>
+                            <p class="drop-title" data-i18n="cropDropTitle">Drop an image to crop</p>
+                            <p class="drop-sub" data-i18n="cropDropSub">JPEG, PNG, or WebP — or paste from clipboard (Ctrl+V / ⌘V)</p>
+                            <div class="drop-formats" aria-hidden="true">
+                                <span class="fmt-tag">JPEG</span>
+                                <span class="fmt-tag">PNG</span>
+                                <span class="fmt-tag">WebP</span>
+                            </div>
+                            <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">Choose file</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp"></label>
+                        </div>
+                    </section>
+                    <div id="crop-workspace" class="crop-workspace is-hidden">
+                        <div class="crop-toolbar">
+                            <button type="button" id="crop-rotate-left" class="btn-secondary btn-sm" data-i18n="cropRotateLeft">↺ 90°</button>
+                            <button type="button" id="crop-rotate-right" class="btn-secondary btn-sm" data-i18n="cropRotateRight">↻ 90°</button>
+                            <button type="button" id="crop-flip-h" class="btn-secondary btn-sm" data-i18n="cropFlipH">Flip H</button>
+                            <button type="button" id="crop-flip-v" class="btn-secondary btn-sm" data-i18n="cropFlipV">Flip V</button>
+                            <button type="button" id="crop-reset" class="btn-secondary btn-sm" data-i18n="cropReset">Reset</button>
+                            <span id="crop-dimensions" class="crop-dimensions" aria-live="polite">—</span>
+                        </div>
+                        <div class="crop-stage-wrap">
+                            <img id="crop-image" class="crop-image" alt="Image to crop">
+                        </div>
+                    </div>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">📐</span>
+                                <span data-i18n="cropAspectTitle">Crop ratio</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <select id="crop-aspect" class="field-select">
+                                <option value="free" data-i18n="cropAspectFree">Freeform</option>
+                                <option value="1" data-i18n="cropAspect1">1:1 (square)</option>
+                                <option value="1.7777777778" data-i18n="cropAspect169">16:9</option>
+                                <option value="1.3333333333" data-i18n="cropAspect43">4:3</option>
+                                <option value="1.5" data-i18n="cropAspect32">3:2</option>
+                                <option value="0.5625" data-i18n="cropAspect916">9:16 (portrait)</option>
+                                <option value="0.7777777777777778" data-i18n="cropAspectUae35">35×45 mm (visa/ID)</option>
+                                <option value="1" data-i18n="cropAspectPassport">51×51 mm (passport)</option>
+                                <option value="0.7070707071" data-i18n="cropAspectA4">A4</option>
+                                <option value="custom" data-i18n="cropAspectCustom">Custom (px)</option>
+                            </select>
+                            <div id="crop-custom-size" class="crop-custom-size is-hidden">
+                                <label class="field-label" for="crop-custom-w" data-i18n="cropCustomW">Width (px)</label>
+                                <input type="number" id="crop-custom-w" class="field-input" min="1" value="800">
+                                <label class="field-label field-label-spaced-sm" for="crop-custom-h" data-i18n="cropCustomH">Height (px)</label>
+                                <input type="number" id="crop-custom-h" class="field-input" min="1" value="600">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⚙️</span>
+                                <span data-i18n="outputSettings">Output settings</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="crop-output-format" data-i18n="cropOutputFormat">Output format</label>
+                            <select id="crop-output-format" class="field-select">
+                                <option value="image/jpeg">JPEG</option>
+                                <option value="image/png">PNG</option>
+                                <option value="image/webp">WebP</option>
+                            </select>
+                            <label class="field-label field-label-spaced-sm" for="crop-quality" data-i18n="cropQuality">Quality (JPEG/WebP)</label>
+                            <div class="range-row">
+                                <input type="range" id="crop-quality" min="60" max="100" value="90">
+                                <span id="crop-quality-val" class="range-val">90%</span>
+                            </div>
+                            <button type="button" id="crop-download-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="cropDownload">Crop &amp; Download</button>
+                            <button type="button" id="crop-compress-btn" class="btn-secondary btn-block field-label-spaced-sm" disabled data-i18n="cropSendCompress">Crop &amp; Send to Compressor</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
     <div class="below-app max-width-wrap">
         <aside class="ad-slot ad-slot--primary glass-panel" data-nexus-ad="primary" aria-label="Advertisement"></aside>
 
@@ -1200,6 +1355,7 @@
     <script src="js/ads-config.js?v=2.1.0"></script>
     <script src="js/ads.js?v=2.1.0" defer></script>
     <script src="js/locale-ui.js?v=2.1.0" defer></script>
+    <script src="js/clipboard-paste.js?v=2.1.0" defer></script>
     <script src="js/app.js?v=2.1.0" defer></script>
 </body>
 </html>

@@ -72,10 +72,11 @@ window.NexusTools = (function () {
     const TOOL_SCRIPTS = {
         'passport-studio': 'js/passport-studio.js',
         'images-to-pdf': 'js/tools/images-to-pdf.js',
-        'pdf-suite': 'js/tools/pdf-suite.js',
+        'pdf-suite': ['js/tools/pdf-suite.js', 'js/tools/pdf-to-images.js'],
         svg: 'js/tools/svg-optimizer.js',
         'heic-converter': 'js/tools/heic-converter.js',
         'format-converter': 'js/tools/format-converter.js',
+        'image-cropper': 'js/tools/image-cropper.js',
     };
     let exifViewerPromise = null;
     const loadedTools = new Set();
@@ -115,10 +116,72 @@ window.NexusTools = (function () {
         return scriptPromises[src];
     }
 
+    function loadExternalScript(src) {
+        const key = `ext:${src}`;
+        if (scriptPromises[key]) return scriptPromises[key];
+        scriptPromises[key] = new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src;
+            s.crossOrigin = 'anonymous';
+            s.onload = () => resolve();
+            s.onerror = () => reject(new Error(`Failed to load ${src}`));
+            document.body.appendChild(s);
+        });
+        return scriptPromises[key];
+    }
+
+    function loadExternalStylesheet(href) {
+        if (document.querySelector(`link[data-nexus-href="${href}"]`)) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.dataset.nexusHref = href;
+            link.onload = () => resolve();
+            link.onerror = () => reject(new Error(`Failed to load ${href}`));
+            document.head.appendChild(link);
+        });
+    }
+
+    let cropperPromise = null;
+
+    async function ensureCropper() {
+        if (typeof Cropper !== 'undefined') return;
+        if (!cropperPromise) {
+            cropperPromise = (async () => {
+                await loadExternalStylesheet(
+                    'https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css'
+                );
+                await loadExternalScript(
+                    'https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js'
+                );
+            })();
+        }
+        await cropperPromise;
+    }
+
+    let pdfJsPromise = null;
+
+    function loadPdfJs() {
+        if (pdfJsPromise) return pdfJsPromise;
+        pdfJsPromise = (async () => {
+            const pdfjs = await import(
+                'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs'
+            );
+            pdfjs.GlobalWorkerOptions.workerSrc =
+                'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs';
+            return pdfjs;
+        })();
+        return pdfJsPromise;
+    }
+
     async function ensureTool(toolId) {
-        const src = TOOL_SCRIPTS[toolId];
-        if (!src || loadedTools.has(toolId)) return;
-        await loadScript(src);
+        const entry = TOOL_SCRIPTS[toolId];
+        if (!entry || loadedTools.has(toolId)) return;
+        const sources = Array.isArray(entry) ? entry : [entry];
+        for (const src of sources) {
+            await loadScript(src);
+        }
         loadedTools.add(toolId);
     }
 
@@ -285,5 +348,9 @@ window.NexusTools = (function () {
         bindDropZone,
         initSettingsCards,
         expandSettingsCard,
+        ensureCropper,
+        loadPdfJs,
+        loadExternalScript,
+        loadExternalStylesheet,
     };
 })();
