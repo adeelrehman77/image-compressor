@@ -1,4 +1,4 @@
-const CACHE = 'nexus-v2.2.2-c2249eb';
+const CACHE = 'nexus-v2.2.3-f6044ce';
 const ASSETS = [
     './css/app.css',
     './js/app.js',
