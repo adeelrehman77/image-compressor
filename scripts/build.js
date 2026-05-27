@@ -72,6 +72,7 @@ console.log(`Release: v${buildVersion} · build ${buildId}`);
 require('./sync-version').main();
 require('./sync-hero-links').main();
 require('./generate-sitemap');
+require('./download-esrgan-model');
 
 // Dev preview copy (dist/ar is regenerated after patch-html below)
 buildArIndex();

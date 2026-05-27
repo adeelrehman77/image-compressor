@@ -8,9 +8,15 @@
     const ORT_MODULE =
         'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.bundle.min.mjs';
     const ORT_WASM_PATH = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/';
-    const MODEL_URL =
-        'https://huggingface.co/Xenova/real-esrgan-x4/resolve/main/realesrgan-x4.onnx';
-    const MODEL_CACHE = 'nexus-esrgan-model-v1';
+    const MODEL_REL = 'models/realesrgan-x4.onnx';
+    const MODEL_CACHE = 'nexus-esrgan-model-v2';
+
+    function getModelUrl() {
+        const rel =
+            window.NexusTools?.resolveAsset?.(MODEL_REL) ||
+            `${window.__NEXUS_ASSET_PREFIX != null ? window.__NEXUS_ASSET_PREFIX : ''}${MODEL_REL}`;
+        return new URL(rel, window.location.href).href;
+    }
 
     const TILE = 128;
     const OVERLAP = 16;
@@ -55,20 +61,29 @@
     }
 
     async function fetchModelWithProgress(onProgress) {
+        const modelUrl = getModelUrl();
         const cache = await caches.open(MODEL_CACHE);
-        const cached = await cache.match(MODEL_URL);
+        const cached = await cache.match(modelUrl);
         if (cached) {
             const buf = await cached.arrayBuffer();
-            onProgress?.(buf.byteLength, buf.byteLength, true);
-            return buf;
+            if (buf.byteLength >= 4_000_000) {
+                onProgress?.(buf.byteLength, buf.byteLength, true);
+                return buf;
+            }
+            await cache.delete(modelUrl);
         }
 
-        const res = await fetch(MODEL_URL);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const res = await fetch(modelUrl);
+        if (!res.ok) {
+            throw new Error(`Model fetch failed: HTTP ${res.status} (${modelUrl})`);
+        }
         const total = Number(res.headers.get('content-length')) || 0;
         if (!res.body || !total) {
             const buf = await res.arrayBuffer();
-            await cache.put(MODEL_URL, new Response(buf.slice(0)));
+            if (buf.byteLength < 4_000_000) {
+                throw new Error(`Model file too small (${buf.byteLength} bytes)`);
+            }
+            await cache.put(modelUrl, new Response(buf.slice(0)));
             onProgress?.(buf.byteLength, buf.byteLength, false);
             return buf;
         }
@@ -89,7 +104,10 @@
             buf.set(c, offset);
             offset += c.length;
         }
-        await cache.put(MODEL_URL, new Response(buf));
+        if (loaded < 4_000_000) {
+            throw new Error(`Model file too small (${loaded} bytes)`);
+        }
+        await cache.put(modelUrl, new Response(buf));
         onProgress?.(loaded, total, false);
         return buf.buffer;
     }
@@ -145,7 +163,12 @@
             setModelUi('ready');
             return true;
         } catch (err) {
-            window.NexusSentry?.captureException?.(err, { tool: 'ai-upscaler', action: 'load-model' });
+            console.error('[ai-upscaler] model load failed:', err);
+            window.NexusSentry?.captureException?.(err, {
+                tool: 'ai-upscaler',
+                action: 'load-model',
+                modelUrl: getModelUrl(),
+            });
             setModelUi('error');
             return false;
         } finally {

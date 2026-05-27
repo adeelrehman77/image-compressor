@@ -1,4 +1,4 @@
-const CACHE = 'nexus-v2.2.6-8ba6b4f';
+const CACHE = 'nexus-v2.2.7-ee557ef';
 const FACE_MODEL_CACHE = 'nexus-face-models-v1';
 const UPSCALER_MODEL_CACHE = 'nexus-esrgan-model-v1';
 
@@ -15,9 +15,6 @@ function isUpscalerCdnRequest(url) {
     );
 }
 
-function isUpscalerModelRequest(url) {
-    return url.hostname === 'huggingface.co' && url.pathname.includes('realesrgan-x4.onnx');
-}
 const ASSETS = [
     './css/app.css',
     './js/app.js',
@@ -80,7 +77,7 @@ self.addEventListener('fetch', (e) => {
         return;
     }
 
-    if (isUpscalerCdnRequest(url) || isUpscalerModelRequest(url)) {
+    if (isUpscalerCdnRequest(url)) {
         e.respondWith(
             caches.open(UPSCALER_MODEL_CACHE).then((cache) =>
                 cache.match(e.request).then(

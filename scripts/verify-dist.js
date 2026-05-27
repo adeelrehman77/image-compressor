@@ -106,4 +106,9 @@ if (!fs.existsSync(aiUpscaler)) {
     throw new Error('verify-dist: missing js/tools/ai-upscaler.js');
 }
 
+const esrganModel = path.join(distDir, 'models/realesrgan-x4.onnx');
+if (!fs.existsSync(esrganModel) || fs.statSync(esrganModel).size < 4_000_000) {
+    throw new Error('verify-dist: missing or incomplete models/realesrgan-x4.onnx');
+}
+
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);
