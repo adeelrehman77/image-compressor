@@ -312,7 +312,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.26';
+        return window.NexusTools?.appVersion?.() || '2.2.27';
     }
 
     function initWorkers() {
@@ -1154,6 +1154,28 @@
             const t = state.tasks.get(task.id);
             if (t?.status === 'done') printSingle(t);
         });
+
+        function setActionTooltip(el, key, fallback) {
+            if (!el) return;
+            const label = tf(key, null, fallback);
+            el.title = label;
+            el.setAttribute('aria-label', label);
+        }
+
+        const previewBtn = card.querySelector('.compare-view-btn');
+        const rerunBtn = card.querySelector('.rerun-btn');
+        const downloadBtn = card.querySelector('.download-btn');
+        const removeBtn = card.querySelector('.remove-btn');
+        const printBtn = card.querySelector('.print-btn');
+        const exifBtn = card.querySelector('.exif-info-btn');
+
+        setActionTooltip(previewBtn, 'actionPreview', 'Preview');
+        setActionTooltip(rerunBtn, 'actionRerun', 'Re-compress');
+        setActionTooltip(downloadBtn, 'actionDownload', 'Download');
+        setActionTooltip(removeBtn, 'actionRemove', 'Remove');
+        setActionTooltip(printBtn, 'actionPrint', 'Print');
+        setActionTooltip(exifBtn, 'actionExif', 'View metadata');
+
         card.addEventListener('click', () => selectTask(task.id));
     }
 

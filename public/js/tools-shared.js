@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.26'
+            '2.2.27'
         );
     }
 
@@ -339,6 +339,10 @@ window.NexusTools = (function () {
     function applySettingsCardDefaults() {
         const mobile = MOBILE_SETTINGS_MQ.matches;
         document.querySelectorAll('[data-settings-card]').forEach((card) => {
+            if (card.id === 'compress-quick-presets-card' || card.hasAttribute('data-always-open')) {
+                setSettingsCardExpanded(card, true);
+                return;
+            }
             const { toggle } = getSettingsCardParts(card);
             let expanded;
             if (card.hasAttribute('data-default-collapsed-mobile')) {

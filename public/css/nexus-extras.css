@@ -2312,6 +2312,30 @@ html:not(.dark) .result-savings-badge { color: var(--success, #1d6b52); }
     color: var(--text-muted);
 }
 
+.result-actions button[title],
+.result-actions a[title] {
+    position: relative;
+}
+.result-actions button[title]:hover::after,
+.result-actions a[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    color: var(--text);
+    font-size: var(--text-xs, 0.6875rem);
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm, 6px);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .empty-state-friendly {
     display: flex; flex-direction: column; align-items: center;
     justify-content: center; gap: 0.5rem;
