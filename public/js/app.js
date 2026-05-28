@@ -312,7 +312,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.22';
+        return window.NexusTools?.appVersion?.() || '2.2.23';
     }
 
     function initWorkers() {
@@ -1234,13 +1234,13 @@
         card.querySelector('.rerun-btn')?.classList.remove('is-hidden');
         card.querySelector('.rerun-btn') && (card.querySelector('.rerun-btn').disabled = false);
         card.querySelector('.print-btn')?.classList.remove('is-hidden');
-        // Savings badge (prominent %)
-        const savingsBadge = card.querySelector('.result-savings-badge');
-        if (savingsBadge) {
+        // Prominent % badge on card row
+        const resultSavingsBadge = card.querySelector('.result-savings-badge');
+        if (resultSavingsBadge) {
             const pct = Math.round(task.savedRatio);
-            savingsBadge.textContent = pct > 0 ? `−${pct}%` : `+${Math.abs(pct)}%`;
-            savingsBadge.classList.toggle('is-minimal', pct < 5);
-            savingsBadge.classList.remove('is-hidden');
+            resultSavingsBadge.textContent = pct > 0 ? `−${pct}%` : `+${Math.abs(pct)}%`;
+            resultSavingsBadge.classList.toggle('is-minimal', pct < 5);
+            resultSavingsBadge.classList.remove('is-hidden');
         }
         card.classList.remove('result-card--processing');
         card.classList.add('result-card--ready');
