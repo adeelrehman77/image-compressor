@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.16">
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.17">
 <head>
     <meta charset="UTF-8">
-    <script src="../js/sentry-init.js?v=2.2.16" defer></script>
+    <script src="../js/sentry-init.js?v=2.2.17" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="../css/app.css?v=2.2.16" as="style">
+    <link rel="preload" href="../css/app.css?v=2.2.17" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
-    <script src="../js/locale.js?v=2.2.16"></script>
-    <script src="../js/i18n.js?v=2.2.16"></script>
-    <script src="../js/tool-meta.js?v=2.2.16"></script>
+    <script src="../js/locale.js?v=2.2.17"></script>
+    <script src="../js/i18n.js?v=2.2.17"></script>
+    <script src="../js/tool-meta.js?v=2.2.17"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -67,11 +67,11 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <link rel="stylesheet" href="../css/app.css?v=2.2.16">
-    <link rel="stylesheet" href="../css/tokens.css?v=2.2.16">
-    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.16">
-    <script src="../js/ga-config.js?v=2.2.16" defer></script>
-    <script src="../js/gtm.js?v=2.2.16" defer></script>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.17">
+    <link rel="stylesheet" href="../css/tokens.css?v=2.2.17">
+    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.17">
+    <script src="../js/ga-config.js?v=2.2.17" defer></script>
+    <script src="../js/gtm.js?v=2.2.17" defer></script>
 </head>
 <body class="app-body">
 
@@ -96,9 +96,9 @@
                     <span class="lang-switch__sep" aria-hidden="true">·</span>
                     <a href="/ar/" class="lang-switch__link" data-locale-link="ar" hreflang="ar-AE">العربية</a>
                 </nav>
-                <span class="chip chip-success">
+                <span class="chip chip-success" title="الملفات على جهازك — لا يُرفع شيء" data-i18n="filesPrivateTitle" data-i18n-attr="title">
                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                    <span data-i18n="filesPrivate">ملفاتك تبقى على جهازك</span>
+                    <span class="hide-mobile" data-i18n="filesPrivate">ملفاتك تبقى على جهازك</span>
                 </span>
                 <a href="../privacy.html" class="chip chip-muted" data-i18n="privacyPolicy">سياسة الخصوصية</a>
                 <button type="button" id="theme-toggle" class="theme-toggle-btn" data-i18n="themeToggleLight" data-i18n-attr="aria-label" aria-label="التبديل إلى الوضع الفاتح" aria-pressed="false" title="Switch to light theme">
@@ -178,7 +178,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.16 — مجاني</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.17 — مجاني</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -355,10 +355,16 @@
             </div>
 
             <aside class="compress-sidebar sidebar" id="panel-compress">
-                <div class="settings-card settings-card--uae-link" data-settings-card data-default-open="true">
-                    <div class="settings-card__body">
-                        <p class="field-hint uae-link-promo" data-i18n="compressorUaePromo">🇦🇪 رفع حكومي في الإمارات (هوية، ICA، MOHRE، RTA)؟ استخدم استوديو صور الهوية — صور الجواز والتأشيرة وإعدادات البوابات في مكان واحد.</p>
-                        <a href="#photo-studio" class="btn-secondary btn-block tool-nav-link uae-studio-link" data-tool="passport-studio" data-i18n="openPhotoStudio">فتح استوديو صور الهوية</a>
+                <div class="settings-card" data-settings-card data-default-open="true">
+                    <div class="settings-card-header open" aria-hidden="true">
+                        <span>⚡ <span data-i18n="quickPresets">إعدادات سريعة</span></span>
+                    </div>
+                    <div class="settings-card-body">
+                        <button type="button" class="btn-secondary btn-full btn-block" data-compress-quick="emirates-id" data-i18n="compressQuickEmirates">🇦🇪 الهوية الإماراتية / ICA (200 ك.ب)</button>
+                        <button type="button" class="btn-secondary btn-full btn-block" data-compress-quick="mohre" data-i18n="compressQuickMohre">🏢 مستند MOHRE (500 ك.ب)</button>
+                        <button type="button" class="btn-secondary btn-full btn-block" data-compress-quick="whatsapp" data-i18n="compressQuickWhatsapp">💬 واتساب (300 ك.ب)</button>
+                        <button type="button" class="btn-secondary btn-full btn-block" data-compress-quick="web" data-i18n="compressQuickWeb">🌐 موقع / WebP (150 ك.ب)</button>
+                        <button type="button" class="btn-secondary btn-full btn-block" data-compress-quick="email" data-i18n="compressQuickEmail">📧 مرفق بريد (800 ك.ب)</button>
                     </div>
                 </div>
 
@@ -1147,8 +1153,8 @@
                 <p data-i18n="upModelError">تعذّر تحميل نموذج الذكاء الاصطناعي. تحقق من اتصالك وحاول مرة أخرى.</p>
                 <button type="button" id="up-model-retry" class="btn-secondary btn-sm is-hidden" data-i18n="upModelRetry">إعادة المحاولة</button>
             </div>
-            <div class="tool-layout up-grid">
-                <div class="main-col compress-main-col">
+            <div class="tool-layout" id="ai-upscaler-layout">
+                <div class="up-main-col compress-main-col">
                     <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للتكبير">
                         <div class="drop-zone-icon" aria-hidden="true">🔬</div>
                         <p class="drop-zone-title" data-i18n="upDropTitle">أسقط صورتك هنا</p>
@@ -1164,41 +1170,6 @@
                     <div id="up-upload-preview" class="up-upload-preview is-hidden">
                         <img id="up-preview-img" class="up-preview-img" alt="" width="320" height="240">
                         <p id="up-original-meta" class="up-original-meta field-hint"></p>
-                    </div>
-                    <div id="up-settings" class="up-settings is-hidden">
-                        <div class="glass-panel settings-card" data-settings-card data-default-open>
-                            <button type="button" class="settings-card__toggle" data-settings-toggle aria-expanded="true">
-                                <span data-i18n="upSettingsTitle">إعدادات التكبير</span>
-                                <span class="settings-chevron is-open" aria-hidden="true"></span>
-                            </button>
-                            <div class="settings-card__body">
-                                <fieldset class="up-factor-fieldset">
-                                    <legend class="field-label" data-i18n="upFactorLabel">معامل التكبير</legend>
-                                    <div class="up-factor-btns" role="group">
-                                        <label class="btn-segment is-active" data-up-factor-btn="2">
-                                            <input type="radio" name="up-factor" value="2" checked>
-                                            <span data-i18n="upFactor2">تكبير ٢×</span>
-                                        </label>
-                                        <label class="btn-segment" data-up-factor-btn="4">
-                                            <input type="radio" name="up-factor" value="4">
-                                            <span data-i18n="upFactor4">تكبير ٤×</span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <label class="field-label" for="up-output-format" data-i18n="upOutputFormat">صيغة الإخراج</label>
-                                <select id="up-output-format" class="field-select settings-select">
-                                    <option value="image/jpeg" data-i18n="upFmtJpeg">JPEG (ملف أصغر)</option>
-                                    <option value="image/png" data-i18n="upFmtPng">PNG (بدون فقد)</option>
-                                </select>
-                                <div id="up-jpeg-quality-wrap" class="up-jpeg-quality-wrap">
-                                    <label class="field-label" for="up-jpeg-quality"><span data-i18n="upJpegQuality">جودة JPEG</span> <span id="up-jpeg-quality-val">90%</span></label>
-                                    <input type="range" id="up-jpeg-quality" class="field-range settings-input" min="85" max="95" value="90" step="1">
-                                </div>
-                                <p class="field-hint" data-i18n-html="upPerfNoteHtml">640×480 → ~15–25 ثانية على الحاسوب · 1200×900 → ~60–90 ثانية · الأجهزة المحمولة أبطأ عادة 2–4×.</p>
-                                <p id="up-perf-warn" class="up-perf-warn field-hint is-hidden" role="status"></p>
-                                <button type="button" id="up-run-btn" class="btn-primary btn-block btn-lg up-run-btn" data-i18n="upRunBtn">تكبير الصورة</button>
-                            </div>
-                        </div>
                     </div>
                     <div id="up-processing" class="up-processing is-hidden" role="status" aria-live="polite">
                         <p id="up-status" class="tool-status"></p>
@@ -1240,6 +1211,44 @@
                         <button type="button" id="up-reset-btn" class="btn-secondary btn-block" data-i18n="upReset">تكبير صورة أخرى</button>
                     </div>
                 </div>
+                <aside class="up-sidebar-col compress-sidebar sidebar">
+                    <div id="up-settings" class="up-settings is-hidden">
+                        <div class="settings-card" data-settings-card data-default-open>
+                            <div class="settings-card-header open">
+                                <span data-i18n="upSettingsTitle">إعدادات التكبير</span>
+                            </div>
+                            <div class="settings-card-body">
+                                <fieldset class="up-factor-fieldset settings-field">
+                                    <legend class="settings-field-label" data-i18n="upFactorLabel">معامل التكبير</legend>
+                                    <div class="up-factor-btns" role="group">
+                                        <label class="btn-segment is-active" data-up-factor-btn="2">
+                                            <input type="radio" name="up-factor" value="2" checked>
+                                            <span data-i18n="upFactor2">تكبير ٢×</span>
+                                        </label>
+                                        <label class="btn-segment" data-up-factor-btn="4">
+                                            <input type="radio" name="up-factor" value="4">
+                                            <span data-i18n="upFactor4">تكبير ٤×</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <div class="settings-field">
+                                    <label class="settings-field-label" for="up-output-format" data-i18n="upOutputFormat">صيغة الإخراج</label>
+                                    <select id="up-output-format" class="field-select settings-select">
+                                        <option value="image/jpeg" data-i18n="upFmtJpeg">JPEG (ملف أصغر)</option>
+                                        <option value="image/png" data-i18n="upFmtPng">PNG (بدون فقد)</option>
+                                    </select>
+                                </div>
+                                <div id="up-jpeg-quality-wrap" class="up-jpeg-quality-wrap settings-field">
+                                    <label class="settings-field-label" for="up-jpeg-quality"><span data-i18n="upJpegQuality">جودة JPEG</span> <span id="up-jpeg-quality-val">90%</span></label>
+                                    <input type="range" id="up-jpeg-quality" class="field-range settings-input" min="85" max="95" value="90" step="1">
+                                </div>
+                                <p class="field-hint" data-i18n-html="upPerfNoteHtml">640×480 → ~15–25 ثانية على الحاسوب · 1200×900 → ~60–90 ثانية · الأجهزة المحمولة أبطأ عادة 2–4×.</p>
+                                <p id="up-perf-warn" class="up-perf-warn field-hint is-hidden" role="status"></p>
+                                <button type="button" id="up-run-btn" class="btn-primary btn-block btn-lg up-run-btn" data-i18n="upRunBtn">تكبير الصورة</button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
             <section class="up-seo-block seo-tool-panel-block" aria-labelledby="up-seo-h2">
                 <h2 id="up-seo-h2">AI Image Upscaler — Enlarge photos without losing quality</h2>
@@ -1260,7 +1269,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">📱</span>
-                    <h2 class="tool-heading" data-i18n="heroHeicTitle">HEIC Converter</h2>
+                    <h2 class="tool-heading" data-i18n="heroHeicTitle">محوّل HEIC</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroHeicSub">حوّل صور iPhone بصيغة HEIC وHEIF إلى JPEG أو PNG أو WebP — بالكامل في متصفحك، بدون رفع.</p>
                 <div class="tool-badges">
@@ -1625,7 +1634,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.16</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.17</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
             <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
@@ -1710,15 +1719,15 @@
         </div>
     </div>
 
-    <script src="../js/tools-shared.js?v=2.2.16" defer></script>
-    <script src="../js/tools-router.js?v=2.2.16" defer></script>
-    <script src="../js/pwa-install.js?v=2.2.16" defer></script>
-    <script src="../js/ads-config.js?v=2.2.16"></script>
-    <script src="../js/ads.js?v=2.2.16" defer></script>
-    <script src="../js/locale-ui.js?v=2.2.16" defer></script>
-    <script src="../js/clipboard-paste.js?v=2.2.16" defer></script>
+    <script src="../js/tools-shared.js?v=2.2.17" defer></script>
+    <script src="../js/tools-router.js?v=2.2.17" defer></script>
+    <script src="../js/pwa-install.js?v=2.2.17" defer></script>
+    <script src="../js/ads-config.js?v=2.2.17"></script>
+    <script src="../js/ads.js?v=2.2.17" defer></script>
+    <script src="../js/locale-ui.js?v=2.2.17" defer></script>
+    <script src="../js/clipboard-paste.js?v=2.2.17" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="../js/compare-slider.js?v=2.2.16" defer></script>
-    <script src="../js/app.js?v=2.2.16" defer></script>
+    <script src="../js/compare-slider.js?v=2.2.17" defer></script>
+    <script src="../js/app.js?v=2.2.17" defer></script>
 </body>
 </html>

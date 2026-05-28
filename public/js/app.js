@@ -69,6 +69,39 @@
         },
     };
 
+    /** Sidebar quick presets on Image Compressor (target size + format). */
+    const COMPRESSOR_QUICK = {
+        'emirates-id': UAE_PRESETS['emirates-id'],
+        mohre: UAE_PRESETS['mohre-portal'],
+        whatsapp: {
+            quality: 78,
+            format: 'image/jpeg',
+            maxWidth: 1600,
+            maxHeight: null,
+            targetSizeKb: 300,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+        web: {
+            quality: 85,
+            format: 'image/webp',
+            maxWidth: 1920,
+            maxHeight: null,
+            targetSizeKb: 150,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+        email: {
+            quality: 72,
+            format: 'image/jpeg',
+            maxWidth: 1920,
+            maxHeight: null,
+            targetSizeKb: 800,
+            scalePercent: 100,
+            aspectRatio: '',
+        },
+    };
+
     const state = {
         tasks: new Map(),
         compressedFiles: new Map(),
@@ -274,7 +307,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.16';
+        return window.NexusTools?.appVersion?.() || '2.2.17';
     }
 
     function initWorkers() {
@@ -408,6 +441,32 @@
                 if (els['uae-preset']) els['uae-preset'].value = '';
                 applyPreset();
                 syncPresetButtons();
+            });
+        });
+
+        document.querySelectorAll('[data-compress-quick]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const key = btn.dataset.compressQuick;
+                const p = COMPRESSOR_QUICK[key];
+                if (!p) return;
+                els.preset.value = 'custom';
+                if (key === 'emirates-id' || key === 'mohre') {
+                    els['uae-preset'].value = key === 'emirates-id' ? 'emirates-id' : 'mohre-portal';
+                } else if (els['uae-preset']) {
+                    els['uae-preset'].value = '';
+                }
+                applyCompressionValues(p);
+                updateFormatForTargetSize();
+                saveSettings();
+                syncPresetButtons();
+                const labels = {
+                    'emirates-id': 'Emirates ID / ICA',
+                    mohre: 'MOHRE document',
+                    whatsapp: 'WhatsApp',
+                    web: 'Website / WebP',
+                    email: 'Email attachment',
+                };
+                toast(`${labels[key] || key} preset applied.`, 'info');
             });
         });
 

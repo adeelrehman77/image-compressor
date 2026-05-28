@@ -1902,3 +1902,62 @@ html:not(.dark) .pc-privacy-banner {
     left: 0;
     background: linear-gradient(to right, var(--bg), transparent);
 }
+
+/* QA: mobile header chip label */
+@media (max-width: 480px) {
+    .hide-mobile { display: none; }
+}
+
+/* QA: AI Upscaler drop zone — neutral border until hover/drag */
+#up-drop-zone.drop-zone,
+#up-drop-zone {
+    border-color: var(--border, var(--surface-border));
+    background: var(--surface);
+}
+#up-drop-zone.drop-zone:hover,
+#up-drop-zone.drop-zone.drag-active,
+#up-drop-zone.drop-zone.drag-over,
+#up-drop-zone:hover,
+#up-drop-zone.drag-active,
+#up-drop-zone.drag-over {
+    border-color: var(--accent, #22c55e);
+    background: color-mix(in srgb, var(--accent, #22c55e) 5%, var(--surface));
+}
+#up-drop-zone:focus-visible {
+    outline: 2px solid var(--accent, #22c55e);
+    outline-offset: 2px;
+}
+
+/* QA: upscaler two-column layout */
+#ai-upscaler-layout.tool-layout {
+    grid-template-columns: 1fr 300px;
+}
+.up-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+.up-sidebar-col {
+    position: sticky;
+    top: calc(var(--site-header-height, 7.5rem) + 0.75rem);
+}
+.up-upload-preview {
+    margin-top: 0;
+}
+
+/* QA: compressor sidebar quick presets card */
+.settings-card > .settings-card-header.open {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border, var(--surface-border));
+    cursor: default;
+    user-select: none;
+}
+.settings-card > .settings-card-body .btn-secondary + .btn-secondary {
+    margin-top: 0.5rem;
+}
