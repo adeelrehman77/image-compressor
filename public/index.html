@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.18">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.19">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.18" defer></script>
+    <script src="js/sentry-init.js?v=2.2.19" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.18" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.19" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.18"></script>
-    <script src="js/i18n.js?v=2.2.18"></script>
-    <script src="js/tool-meta.js?v=2.2.18"></script>
+    <script src="js/locale.js?v=2.2.19"></script>
+    <script src="js/i18n.js?v=2.2.19"></script>
+    <script src="js/tool-meta.js?v=2.2.19"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -66,15 +66,66 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.18">
-    <link rel="stylesheet" href="css/tokens.css?v=2.2.18">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.18">
-    <script src="js/ga-config.js?v=2.2.18" defer></script>
-    <script src="js/gtm.js?v=2.2.18" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.19">
+    <link rel="stylesheet" href="css/tokens.css?v=2.2.19">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.19">
+    <script src="js/ga-config.js?v=2.2.19" defer></script>
+    <script src="js/gtm.js?v=2.2.19" defer></script>
 </head>
 <body class="app-body">
 
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+
+    <!-- Feature 1: Goal Picker — shown on first visit only, hidden by goal-picker.js if nexus-onboarded set -->
+    <div id="goal-picker" class="goal-picker-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="goal-picker-heading">
+        <div class="goal-picker-panel">
+            <h2 id="goal-picker-heading" data-i18n="goalPickerTitle">What do you want to do?</h2>
+            <p data-i18n="goalPickerSub">We'll set everything up for you.</p>
+            <div class="goal-picker-grid">
+                <button class="goal-card" data-goal="whatsapp">
+                    <span class="goal-card__icon">💬</span>
+                    <span class="goal-card__title" data-i18n="goalWhatsapp">Make photo smaller for WhatsApp</span>
+                    <span class="goal-card__hint" data-i18n="goalWhatsappHint">Shrinks to under 300 KB — stays sharp on any phone</span>
+                </button>
+                <button class="goal-card" data-goal="portal">
+                    <span class="goal-card__icon">🏛️</span>
+                    <span class="goal-card__title" data-i18n="goalPortal">Upload to UAE government portal</span>
+                    <span class="goal-card__hint" data-i18n="goalPortalHint">Emirates ID, ICA, MOHRE, RTA — correct size automatically</span>
+                </button>
+                <button class="goal-card" data-goal="passport">
+                    <span class="goal-card__icon">📸</span>
+                    <span class="goal-card__title" data-i18n="goalPassport">Prepare a passport or ID photo</span>
+                    <span class="goal-card__hint" data-i18n="goalPassportHint">Correct crop, dimensions, and file size limit</span>
+                </button>
+                <button class="goal-card" data-goal="print">
+                    <span class="goal-card__icon">🖨️</span>
+                    <span class="goal-card__title" data-i18n="goalPrint">Print passport photos at home</span>
+                    <span class="goal-card__hint" data-i18n="goalPrintHint">4×6 print sheet, multiple copies, crop guides</span>
+                </button>
+                <button class="goal-card" data-goal="redact">
+                    <span class="goal-card__icon">🔒</span>
+                    <span class="goal-card__title" data-i18n="goalRedact">Hide sensitive info before sharing</span>
+                    <span class="goal-card__hint" data-i18n="goalRedactHint">Black out passport numbers, ID numbers, MRZ lines</span>
+                </button>
+                <button class="goal-card" data-goal="heic">
+                    <span class="goal-card__icon">📱</span>
+                    <span class="goal-card__title" data-i18n="goalHeic">Convert iPhone photos (HEIC)</span>
+                    <span class="goal-card__hint" data-i18n="goalHeicHint">Turn HEIC files into JPEG, PNG, or WebP instantly</span>
+                </button>
+                <button class="goal-card" data-goal="email">
+                    <span class="goal-card__icon">📧</span>
+                    <span class="goal-card__title" data-i18n="goalEmail">Send photos by email</span>
+                    <span class="goal-card__hint" data-i18n="goalEmailHint">Under 1 MB, loads fast in any inbox</span>
+                </button>
+                <button class="goal-card" data-goal="website">
+                    <span class="goal-card__icon">🌐</span>
+                    <span class="goal-card__title" data-i18n="goalWebsite">Compress images for a website</span>
+                    <span class="goal-card__hint" data-i18n="goalWebsiteHint">WebP format, smaller files, better SEO scores</span>
+                </button>
+            </div>
+            <button class="goal-picker-skip btn-ghost" id="goal-picker-skip" data-i18n="goalPickerSkip">Skip — take me to the full studio →</button>
+        </div>
+    </div>
 
     <div class="ambient-bg" aria-hidden="true"></div>
     <div class="grid-overlay" aria-hidden="true"></div>
@@ -177,7 +228,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.18 — Free</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.19 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -321,6 +372,15 @@
 
                 <section id="results-container" class="results-section is-hidden">
                     <div class="results-section__body">
+                        <!-- Feature 4: Success banner -->
+                        <div id="compress-success-banner" class="compress-success-banner is-hidden" role="status">
+                            <span class="compress-success-banner__icon">✅</span>
+                            <div class="compress-success-banner__text">
+                                <strong id="compress-success-title" data-i18n="successTitle">Done!</strong>
+                                <span id="compress-success-detail"></span>
+                            </div>
+                            <button class="btn-ghost compress-success-banner__close" id="compress-success-close" aria-label="Dismiss">×</button>
+                        </div>
                         <div id="zip-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
                             <div class="zip-progress-header">
                                 <div class="zip-progress-label-group">
@@ -356,6 +416,13 @@
             </div>
 
             <aside class="compress-sidebar sidebar" id="panel-compress">
+                <!-- Feature 2: Simple / Advanced mode toggle -->
+                <div class="mode-toggle" role="group" aria-label="Compression mode">
+                    <button type="button" id="mode-btn-simple" class="mode-toggle__btn active" data-i18n="modeSimple">Simple</button>
+                    <button type="button" id="mode-btn-advanced" class="mode-toggle__btn" data-i18n="modeAdvanced">Advanced</button>
+                </div>
+                <p class="simple-mode-msg" data-i18n="simpleModeMsg">We'll compress your photo automatically. Works great for WhatsApp, email, and portal uploads.</p>
+                <p class="advanced-mode-note is-hidden" data-i18n="simpleModeNote">Advanced mode — for full control over quality, format, and file size</p>
                 <div class="settings-card" id="compress-quick-presets-card" data-settings-card data-default-open="true">
                     <div class="settings-card__header" aria-expanded="true">
                         <div class="settings-card__header-left">
@@ -371,9 +438,33 @@
                         <button type="button" class="btn-secondary btn-block preset-btn" data-preset="web" data-i18n="presetWeb">🌐 Website / WebP</button>
                         <button type="button" class="btn-secondary btn-block preset-btn" data-preset="email" data-i18n="presetEmail">📧 Email attachment</button>
                     </div>
+                    <!-- Feature 5: How it works -->
+                    <div class="how-it-works">
+                        <div class="how-step">
+                            <span class="how-step__num">1</span>
+                            <div>
+                                <strong data-i18n="howStep1Title">Drop your photo</strong>
+                                <p data-i18n="howStep1Desc">Drag it onto the page, or tap "Choose files" to browse.</p>
+                            </div>
+                        </div>
+                        <div class="how-step">
+                            <span class="how-step__num">2</span>
+                            <div>
+                                <strong data-i18n="howStep2Title">Choose a preset (optional)</strong>
+                                <p data-i18n="howStep2Desc">Pick WhatsApp, Portal, or Email — or just leave it on automatic.</p>
+                            </div>
+                        </div>
+                        <div class="how-step">
+                            <span class="how-step__num">3</span>
+                            <div>
+                                <strong data-i18n="howStep3Title">Download</strong>
+                                <p data-i18n="howStep3Desc">Your compressed photo downloads automatically. Nothing was uploaded.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true">
+                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true" data-mode-advanced>
                     <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="false">
                         <span class="settings-card__header-left">
                             <span class="settings-icon" aria-hidden="true">⚙️</span>
@@ -469,7 +560,7 @@
                     </div>
                 </div>
 
-                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true">
+                <div class="settings-card" data-settings-card data-default-collapsed-mobile="true" data-mode-advanced>
                     <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="false">
                         <span class="settings-card__header-left">
                             <span class="settings-icon" aria-hidden="true">🏷️</span>
@@ -526,6 +617,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="imagesToPdfToolDesc">📄 Turn a collection of photos into a single PDF document.</p>
             <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="Drop images here or choose files">
@@ -579,6 +671,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="pdfMergeToolDesc">🔗 Combine multiple PDFs into one file, or split a PDF into separate pages.</p>
             <div class="tool-layout tool-layout-wide">
                 <div class="main-col compress-main-col">
                     <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="PDF tools">
@@ -699,6 +792,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="svgToolDesc">📐 Make SVG files smaller for use on websites — keeps the quality perfectly.</p>
             <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="Drop an SVG file here or choose one">
@@ -754,6 +848,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="cropperToolDesc">✂️ Crop, rotate, or flip any image — includes UAE visa and passport size presets.</p>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="passport-drop-zone" class="drop-zone passport-drop-zone passport-drop-zone--locked" tabindex="-1" aria-label="Upload passport portrait — select a preset first">
@@ -912,6 +1007,7 @@
                     <span class="chip chip-ai" data-i18n="pcHeroBadge">AI</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="photoCheckerToolDesc">✅ Check if your photo will be accepted by UAE portals before you try to upload it.</p>
             <div class="tool-layout photo-checker-grid">
                 <div class="main-col compress-main-col">
                     <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
@@ -1008,6 +1104,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="redactorToolDesc">🔒 Black out sensitive information on documents before sharing — passport numbers, ID, MRZ lines.</p>
             <div id="rd-unsupported" class="rd-unsupported is-hidden" role="alert">
                 <p data-i18n="rdUnsupported">Your browser does not support this tool (Canvas API required). Please update your browser.</p>
             </div>
@@ -1149,6 +1246,7 @@
                     <span class="chip chip-ai" data-i18n="upHeroBadge">AI · Local</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="upscalerToolDesc">🔬 Make small or blurry images sharper and larger using AI — no uploads, runs on your device.</p>
             <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
                 <p id="up-model-label" class="up-model-label">Downloading AI model…</p>
                 <div class="progress-track progress-bar-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill progress-bar-fill" style="width:0%"></div></div>
@@ -1281,6 +1379,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="heicToolDesc">📱 Got photos from an iPhone or iPad? Convert them to JPEG or WebP so they work everywhere.</p>
             <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
@@ -1352,6 +1451,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="formatToolDesc">🔄 Change any image from one format to another — JPEG, PNG, WebP, AVIF, or GIF.</p>
             <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
@@ -1427,6 +1527,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
                 </div>
             </div>
+            <p class="tool-desc" data-i18n="cropperToolDesc">✂️ Crop, rotate, or flip any image — includes UAE visa and passport size presets.</p>
             <div class="tool-layout tool-layout-wide cropper-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to crop">
@@ -1639,7 +1740,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.18</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.19</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1724,15 +1825,16 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.18" defer></script>
-    <script src="js/tools-router.js?v=2.2.18" defer></script>
-    <script src="js/pwa-install.js?v=2.2.18" defer></script>
-    <script src="js/ads-config.js?v=2.2.18"></script>
-    <script src="js/ads.js?v=2.2.18" defer></script>
-    <script src="js/locale-ui.js?v=2.2.18" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.18" defer></script>
+    <script src="js/tools-shared.js?v=2.2.19" defer></script>
+    <script src="js/tools-router.js?v=2.2.19" defer></script>
+    <script src="js/pwa-install.js?v=2.2.19" defer></script>
+    <script src="js/ads-config.js?v=2.2.19"></script>
+    <script src="js/ads.js?v=2.2.19" defer></script>
+    <script src="js/locale-ui.js?v=2.2.19" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.19" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="js/compare-slider.js?v=2.2.18" defer></script>
-    <script src="js/app.js?v=2.2.18" defer></script>
+    <script src="js/compare-slider.js?v=2.2.19" defer></script>
+    <script src="js/app.js?v=2.2.19" defer></script>
+    <script src="js/goal-picker.js?v=2.2.19" defer></script>
 </body>
 </html>

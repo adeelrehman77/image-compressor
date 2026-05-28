@@ -143,6 +143,8 @@
         hideFolderPickerOnIos();
         window.__NEXUS_COMPRESS_ADD_FILES = handleFiles;
         window.__NEXUS_SYNC_UAE_BUTTONS = syncPresetButtons;
+        window.__NEXUS_APPLY_COMPRESSION_VALUES = applyCompressionValues;
+        window.__NEXUS_SAVE_SETTINGS = saveSettings;
         syncPresetButtons();
         applyTheme(localStorage.getItem('nexus-theme') || 'dark');
         scheduleIdle(registerServiceWorker, 6000);
@@ -215,6 +217,7 @@
             'compress-preview-top', 'compress-preview-stats', 'compress-preview-actions',
             'compress-preview-rerun', 'compress-preview-download',
             'compare-label-original', 'compare-label-compressed', 'compare-drag-hint',
+            'compress-success-banner', 'compress-success-title', 'compress-success-detail', 'compress-success-close',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
         });
@@ -307,7 +310,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.18';
+        return window.NexusTools?.appVersion?.() || '2.2.19';
     }
 
     function initWorkers() {
@@ -516,6 +519,7 @@
         els['memory-guard-dismiss']?.addEventListener('click', () => {
             els['memory-guard-notice']?.classList.add('is-hidden');
         });
+        els['compress-success-close']?.addEventListener('click', hideSuccessBanner);
         els['clear-all-btn'].addEventListener('click', clearAll);
         els['start-compress-btn']?.addEventListener('click', startCompression);
         els['compress-preview-rerun']?.addEventListener('click', () => {
@@ -1448,6 +1452,7 @@
             if (btn) {
                 btn.classList.add('is-hidden');
             }
+            showSuccessBanner(done);
         }
 
         if (state.selectedTaskId) {
@@ -1580,6 +1585,7 @@
         state.selectedTaskId = null;
         state.cancelled = false;
         clearPreviewCompare();
+        hideSuccessBanner();
         updateBatchUI();
         updateBatchDownloadBtn();
         hideResultsIfEmpty();
@@ -1614,6 +1620,49 @@
         els['batch-summary'].classList.remove('is-hidden');
         els['clear-all-btn'].classList.remove('is-hidden');
         els['view-toggle-wrap']?.classList.remove('is-hidden');
+    }
+
+    function hideSuccessBanner() {
+        els['compress-success-banner']?.classList.add('is-hidden');
+    }
+
+    function showSuccessBanner(doneTasks) {
+        const banner = els['compress-success-banner'];
+        const titleEl = els['compress-success-title'];
+        const detailEl = els['compress-success-detail'];
+        if (!banner || !detailEl) return;
+
+        const titleText = tf('successTitle', null, 'Done!');
+        if (titleEl) titleEl.textContent = titleText;
+
+        let detail = '';
+        if (doneTasks.length === 1) {
+            const t = doneTasks[0];
+            const sizeStr = formatBytes(t.compressedSize);
+            const pct = Math.max(0, Math.round(t.savedRatio));
+            detail = tf('successSingle', { size: sizeStr, pct }, `Your photo is now ${sizeStr} — reduced by ${pct}%.`);
+            if (t.compressedSize < 200 * 1024) {
+                detail += tf('successPortalReady', null, ' ✓ Ready to upload to UAE portals.');
+            }
+        } else {
+            let savedBytes = 0;
+            let ratioSum = 0;
+            doneTasks.forEach((t) => {
+                savedBytes += Math.max(0, t.originalSize - t.compressedSize);
+                ratioSum += t.savedRatio || 0;
+            });
+            const avgPct = Math.max(0, Math.round(ratioSum / doneTasks.length));
+            const savedStr = formatBytes(savedBytes);
+            const n = doneTasks.length;
+            detail = tf('successBatch', { n, saved: savedStr, pct: avgPct }, `${n} photos compressed — saved ${savedStr} total (${avgPct}% smaller on average).`);
+            const allUnder200 = doneTasks.every((t) => t.compressedSize < 200 * 1024);
+            if (allUnder200) {
+                detail += tf('successPortalReady', null, ' ✓ Ready to upload to UAE portals.');
+            }
+        }
+
+        detailEl.textContent = detail;
+        banner.classList.remove('is-hidden');
     }
 
     function hideResultsIfEmpty() {
