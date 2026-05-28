@@ -6,6 +6,17 @@
     const MIN_QUALITY = 0.35;
     const QUALITY_STEP = 0.05;
 
+    // Print layout definitions: px at 300 DPI
+    const mmToPxPrint = (mm) => Math.round((mm / 25.4) * SHEET_DPI);
+    const A4_W = Math.round((210 / 25.4) * SHEET_DPI);  // 2480px
+    const A4_H = Math.round((297 / 25.4) * SHEET_DPI);  // 3508px
+    const PRINT_LAYOUTS = {
+        '4x6-4': { sheetW: SHEET_W, sheetH: SHEET_H, cols: 2, rows: 2, label: '4×6 in — 4 photos' },
+        '4x6-6': { sheetW: SHEET_W, sheetH: SHEET_H, cols: 3, rows: 2, label: '4×6 in — 6 photos' },
+        'a4-8':  { sheetW: A4_W, sheetH: A4_H, cols: 2, rows: 4, label: 'A4 — 8 photos' },
+        'a4-12': { sheetW: A4_W, sheetH: A4_H, cols: 3, rows: 4, label: 'A4 — 12 photos' },
+    };
+
     function tf(key, vars, fallback) {
         var s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
         if (s) return s;
@@ -252,6 +263,102 @@
         }
     }
 
+    async function printPhotoSheet() {
+        const preset = getPreset();
+        if (!preset || !state.bitmap) throw new Error('Load a photo and select a preset first.');
+
+        const layoutKey = document.getElementById('passport-print-layout')?.value || '4x6-4';
+        const showCropMarks = document.getElementById('passport-crop-marks')?.checked || false;
+        const layout = PRINT_LAYOUTS[layoutKey] || PRINT_LAYOUTS['4x6-4'];
+
+        const portrait = state.croppedPortrait || (await refreshCroppedPortrait());
+        const portraitBitmap = await createImageBitmap(portrait);
+        const { photoW, photoH } = preset.print;
+        const { sheetW, sheetH, cols, rows } = layout;
+
+        let sheet = null;
+        try {
+            if (typeof OffscreenCanvas !== 'undefined') {
+                sheet = new OffscreenCanvas(sheetW, sheetH);
+            } else {
+                sheet = document.createElement('canvas');
+                sheet.width = sheetW;
+                sheet.height = sheetH;
+            }
+            const ctx = sheet.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, sheetW, sheetH);
+
+            const gridW = cols * photoW;
+            const gridH = rows * photoH;
+            const offsetX = Math.round((sheetW - gridW) / 2);
+            const offsetY = Math.round((sheetH - gridH) / 2);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = offsetX + col * photoW;
+                    const y = offsetY + row * photoH;
+                    ctx.drawImage(portraitBitmap, x, y, photoW, photoH);
+                    ctx.strokeStyle = BORDER_COLOR;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x + 0.5, y + 0.5, photoW - 1, photoH - 1);
+                    if (showCropMarks) {
+                        const mark = 12;
+                        ctx.strokeStyle = '#888';
+                        ctx.lineWidth = 1;
+                        // corner crop marks
+                        ctx.beginPath();
+                        ctx.moveTo(x - mark, y); ctx.lineTo(x, y);
+                        ctx.moveTo(x, y - mark); ctx.lineTo(x, y);
+                        ctx.moveTo(x + photoW, y); ctx.lineTo(x + photoW + mark, y);
+                        ctx.moveTo(x + photoW, y - mark); ctx.lineTo(x + photoW, y);
+                        ctx.moveTo(x - mark, y + photoH); ctx.lineTo(x, y + photoH);
+                        ctx.moveTo(x, y + photoH); ctx.lineTo(x, y + photoH + mark);
+                        ctx.moveTo(x + photoW, y + photoH); ctx.lineTo(x + photoW + mark, y + photoH);
+                        ctx.moveTo(x + photoW, y + photoH); ctx.lineTo(x + photoW, y + photoH + mark);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            const dataUrl = await new Promise((resolve) => {
+                if (sheet instanceof OffscreenCanvas) {
+                    sheet.convertToBlob({ type: 'image/jpeg', quality: 0.95 }).then((b) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.readAsDataURL(b);
+                    });
+                } else {
+                    resolve(sheet.toDataURL('image/jpeg', 0.95));
+                }
+            });
+
+            const frame = document.getElementById('print-frame');
+            if (!frame) { portraitBitmap.close(); releaseCanvas(sheet); return; }
+
+            const cropClass = showCropMarks ? ' show-crop-marks' : '';
+            frame.innerHTML = `
+                <div class="print-photo-sheet">
+                    ${Array.from({ length: cols * rows }).map(() =>
+                        `<div class="print-photo-cell${cropClass}">
+                            <img src="${dataUrl}" style="width:${photoW / SHEET_DPI * 96}px;height:${photoH / SHEET_DPI * 96}px" alt="Passport photo">
+                        </div>`
+                    ).join('')}
+                </div>`;
+            window.print();
+            setTimeout(() => { frame.innerHTML = ''; }, 500);
+
+            setStatus(
+                tf('passportStatusPrintReady',
+                    { count: cols * rows, dpi: SHEET_DPI, w: sheetW, h: sheetH },
+                    `Print sheet ready — ${cols * rows} photos.`)
+            );
+        } finally {
+            portraitBitmap.close();
+            releaseCanvas(sheet);
+        }
+    }
+
     function clearPassportPhoto() {
         clearBitmap();
         resetTransform();
@@ -411,6 +518,7 @@
         els.zoom = document.getElementById('passport-zoom');
         els.exportBtn = document.getElementById('passport-export-digital');
         els.printBtn = document.getElementById('passport-print-sheet');
+        els.printSheetBtn = document.getElementById('passport-print-window');
         els.clearBtn = document.getElementById('passport-clear-photo');
         els.replaceInput = document.getElementById('passport-photo-replace');
 
@@ -514,6 +622,18 @@
                 window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'print-sheet' });
             } finally {
                 els.printBtn.disabled = false;
+            }
+        });
+
+        els.printSheetBtn?.addEventListener('click', async () => {
+            els.printSheetBtn.disabled = true;
+            try {
+                await printPhotoSheet();
+            } catch (err) {
+                setStatus(err.message || 'Print sheet failed.');
+                window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'print-window' });
+            } finally {
+                els.printSheetBtn.disabled = false;
             }
         });
     }

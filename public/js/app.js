@@ -218,6 +218,7 @@
             'compress-preview-rerun', 'compress-preview-download',
             'compare-label-original', 'compare-label-compressed', 'compare-drag-hint',
             'compress-success-banner', 'compress-success-title', 'compress-success-detail', 'compress-success-close',
+            'print-contact-btn', 'mobile-action-bar', 'mobile-action-count', 'mobile-action-compress', 'mobile-action-download',
         ].forEach((id) => {
             els[id] = document.getElementById(id);
         });
@@ -310,7 +311,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.19';
+        return window.NexusTools?.appVersion?.() || '2.2.20';
     }
 
     function initWorkers() {
@@ -520,6 +521,9 @@
             els['memory-guard-notice']?.classList.add('is-hidden');
         });
         els['compress-success-close']?.addEventListener('click', hideSuccessBanner);
+        els['print-contact-btn']?.addEventListener('click', printContactSheet);
+        els['mobile-action-compress']?.addEventListener('click', startCompression);
+        els['mobile-action-download']?.addEventListener('click', downloadAllZip);
         els['clear-all-btn'].addEventListener('click', clearAll);
         els['start-compress-btn']?.addEventListener('click', startCompression);
         els['compress-preview-rerun']?.addEventListener('click', () => {
@@ -1059,12 +1063,13 @@
             tool: 'compress',
         });
         updateTaskStatus(task.id, tf('statusFailed', null, 'Failed'), 'error');
+        const friendlyMsg = getFriendlyError(error);
         const errEl = document.querySelector(`#${task.id} .error-msg`);
         if (errEl) {
-            errEl.textContent = error || tf('compressionFailed', null, 'Compression failed');
+            errEl.textContent = friendlyMsg;
             errEl.classList.remove('is-hidden');
         }
-        toast(`${task.file.name}: ${error}`, 'error');
+        toast(`${task.file.name}: ${friendlyMsg}`, 'error');
         syncWorkflowUI();
     }
 
@@ -1095,6 +1100,7 @@
                     <span class="codec-badge is-hidden" aria-hidden="true"></span>
                     <span class="file-meta-sizes is-hidden">${formatBytes(task.originalSize)} → <strong class="compressed-size">…</strong></span>
                 </div>
+                <span class="result-savings-badge is-hidden"></span>
                 <div class="file-progress" aria-hidden="true"><div class="file-progress-fill file-progress-fill--active"></div></div>
                 <p class="dim-line dim-text visually-hidden" aria-hidden="true">—</p>
                 <p class="error-msg is-hidden" role="alert"></p>
@@ -1104,6 +1110,7 @@
                 <button type="button" class="icon-btn compare-view-btn is-hidden" disabled aria-label="Compare ${escapeHtml(task.file.name)}">👁</button>
                 <button type="button" class="icon-btn rerun-btn is-hidden" disabled aria-label="Re-run ${escapeHtml(task.file.name)}">↻</button>
                 <a class="icon-btn download-btn is-hidden" download aria-label="Download ${escapeHtml(task.file.name)}">⬇</a>
+                <button type="button" class="btn-print print-btn is-hidden" aria-label="Print ${escapeHtml(task.file.name)}">${tf('printSingle', null, '🖨️ Print')}</button>
                 <button type="button" class="icon-btn remove-btn" aria-label="Remove ${escapeHtml(task.file.name)}">✕</button>
             </div>
         `;
@@ -1140,6 +1147,11 @@
             e.stopPropagation();
             const dl = e.currentTarget;
             if (dl?.download) window.NexusTools?.trackDownload?.(dl.download, 'compress');
+        });
+        card.querySelector('.print-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const t = state.tasks.get(task.id);
+            if (t?.status === 'done') printSingle(t);
         });
         card.addEventListener('click', () => selectTask(task.id));
     }
@@ -1220,6 +1232,15 @@
         card.querySelector('.download-btn')?.classList.remove('is-hidden');
         card.querySelector('.rerun-btn')?.classList.remove('is-hidden');
         card.querySelector('.rerun-btn') && (card.querySelector('.rerun-btn').disabled = false);
+        card.querySelector('.print-btn')?.classList.remove('is-hidden');
+        // Savings badge (prominent %)
+        const savingsBadge = card.querySelector('.result-savings-badge');
+        if (savingsBadge) {
+            const pct = Math.round(task.savedRatio);
+            savingsBadge.textContent = pct > 0 ? `−${pct}%` : `+${Math.abs(pct)}%`;
+            savingsBadge.classList.toggle('is-minimal', pct < 5);
+            savingsBadge.classList.remove('is-hidden');
+        }
         card.classList.remove('result-card--processing');
         card.classList.add('result-card--ready');
         selectTask(task.id);
@@ -1461,6 +1482,35 @@
                 updatePreviewStage(selected);
             }
         }
+
+        // Sync mobile action bar
+        const mobileBar = els['mobile-action-bar'];
+        if (mobileBar) {
+            if (!all.length) {
+                mobileBar.classList.add('is-hidden');
+            } else {
+                mobileBar.classList.remove('is-hidden');
+                const countEl = els['mobile-action-count'];
+                if (countEl) countEl.textContent = `${all.length} file${all.length !== 1 ? 's' : ''}`;
+                const mobileCompress = els['mobile-action-compress'];
+                const mobileDl = els['mobile-action-download'];
+                if (pending.length && !active.length) {
+                    mobileCompress?.classList.remove('is-hidden');
+                    if (mobileCompress) { mobileCompress.disabled = false; mobileCompress.textContent = tf('startCompression', null, 'Start compression'); }
+                    mobileDl?.classList.add('is-hidden');
+                } else if (active.length) {
+                    mobileCompress?.classList.remove('is-hidden');
+                    if (mobileCompress) { mobileCompress.disabled = true; mobileCompress.textContent = tf('compressing', null, 'Compressing…'); }
+                    mobileDl?.classList.add('is-hidden');
+                } else if (done.length >= 2) {
+                    mobileCompress?.classList.add('is-hidden');
+                    mobileDl?.classList.remove('is-hidden');
+                } else {
+                    mobileCompress?.classList.add('is-hidden');
+                    mobileDl?.classList.add('is-hidden');
+                }
+            }
+        }
     }
 
     function updateTaskStatus(id, text, type) {
@@ -1700,6 +1750,63 @@
     function updateBatchDownloadBtn() {
         const n = state.compressedFiles.size;
         els['download-all-btn'].classList.toggle('is-hidden', n < 2);
+        els['print-contact-btn']?.classList.toggle('is-hidden', n < 2);
+    }
+
+    function printSingle(task) {
+        const frame = document.getElementById('print-frame');
+        if (!frame || !task.compressedUrl) return;
+        const pct = Math.max(0, task.savedRatio).toFixed(1);
+        frame.innerHTML = `
+            <div class="print-single">
+                <img src="${task.compressedUrl}" alt="${escapeHtml(task.file.name)}">
+                <p class="print-caption">
+                    <strong>${escapeHtml(task.file.name)}</strong><br>
+                    ${formatBytes(task.originalSize)} → ${formatBytes(task.compressedSize)} (${pct}% saved)
+                </p>
+            </div>`;
+        window.print();
+        setTimeout(() => { frame.innerHTML = ''; }, 500);
+    }
+
+    function printContactSheet() {
+        const done = [...state.tasks.values()].filter((t) => t.status === 'done');
+        if (done.length < 2) return;
+        const frame = document.getElementById('print-frame');
+        if (!frame) return;
+        const now = new Date().toLocaleDateString();
+        const headerText = tf('printSheetHeader', { n: done.length }, `${done.length} images compressed`);
+        const items = done.map((t) => {
+            const name = t.file.name.length > 22 ? t.file.name.slice(0, 19) + '…' : t.file.name;
+            const pct = Math.max(0, t.savedRatio).toFixed(0);
+            return `<div class="print-contact-item">
+                <img src="${t.compressedUrl}" alt="${escapeHtml(t.file.name)}">
+                <div class="print-contact-meta">
+                    <span>${escapeHtml(name)}</span>
+                    <span>${formatBytes(t.compressedSize)} (−${pct}%)</span>
+                </div>
+            </div>`;
+        }).join('');
+        frame.innerHTML = `
+            <div class="print-contact-sheet">
+                <div class="print-sheet-header">
+                    <span>${escapeHtml(headerText)}</span>
+                    <span>${escapeHtml(now)} · NexusCompress</span>
+                </div>
+                <div class="print-contact-grid">${items}</div>
+                <div class="print-sheet-footer">compress.funadventure.ae — private, browser-based</div>
+            </div>`;
+        window.print();
+        setTimeout(() => { frame.innerHTML = ''; }, 500);
+    }
+
+    function getFriendlyError(err) {
+        const msg = (err?.message || String(err)).toLowerCase();
+        if (msg.includes('too large') || msg.includes('size')) return tf('errTooLarge', null, 'This file is too large. Try a smaller image (under 25 MB).');
+        if (msg.includes('decode') || msg.includes('invalid') || msg.includes('format')) return tf('errBadFile', null, "We couldn't read this image. Make sure it's a valid JPEG, PNG, WebP, or AVIF file.");
+        if (msg.includes('memory') || msg.includes('oom')) return tf('errMemory', null, 'Your device ran out of memory. Close other browser tabs and try again.');
+        if (msg.includes('network') || msg.includes('fetch')) return tf('errNetwork', null, 'Connection lost. Check your internet and try again.');
+        return tf('errGeneric', null, 'Something went wrong. Please try again — your files were not uploaded anywhere.');
     }
 
     function resetZipUi() {

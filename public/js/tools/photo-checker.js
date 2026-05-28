@@ -127,6 +127,16 @@
         await loadExternalScript(FACE_API_JS);
     }
 
+    function setLoadStep(prefix, step) {
+        [1, 2, 3].forEach((n) => {
+            const el = document.getElementById(`${prefix}-step-${n}`);
+            if (!el) return;
+            el.classList.remove('is-active', 'is-done');
+            if (n < step) el.classList.add('is-done');
+            else if (n === step) el.classList.add('is-active');
+        });
+    }
+
     async function loadModels() {
         if (modelsReady) return true;
         if (modelsFailed) return false;
@@ -134,15 +144,18 @@
 
         const loadingEl = document.getElementById('pc-models-loading');
         loadingEl?.classList.remove('is-hidden');
+        setLoadStep('pc', 1);
 
         modelsPromise = (async () => {
             try {
                 await loadFaceApiScript();
+                setLoadStep('pc', 2);
                 await Promise.all([
                     faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_BASE),
                     faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_BASE),
                     faceapi.nets.faceExpressionNet.loadFromUri(MODEL_BASE),
                 ]);
+                setLoadStep('pc', 3);
                 modelsReady = true;
                 return true;
             } catch (err) {

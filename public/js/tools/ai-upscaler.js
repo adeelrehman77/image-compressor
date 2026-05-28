@@ -112,6 +112,16 @@
         return buf.buffer;
     }
 
+    function setUpLoadStep(step) {
+        [1, 2, 3].forEach((n) => {
+            const el = document.getElementById(`up-step-${n}`);
+            if (!el) return;
+            el.classList.remove('is-active', 'is-done');
+            if (n < step) el.classList.add('is-done');
+            else if (n === step) el.classList.add('is-active');
+        });
+    }
+
     function setModelUi(state, extra = {}) {
         const wrap = document.getElementById('up-model-progress');
         const badge = document.getElementById('up-model-badge');
@@ -121,22 +131,26 @@
             wrap?.classList.remove('is-hidden');
             err?.classList.add('is-hidden');
             badge?.classList.add('is-hidden');
+            if (extra.cached) {
+                setUpLoadStep(3);
+            } else if (extra.loaded != null && extra.total && extra.loaded >= extra.total) {
+                setUpLoadStep(2);
+            } else {
+                setUpLoadStep(1);
+            }
             if (extra.loaded != null && extra.total) {
                 const bar = document.getElementById('up-model-bar');
-                const lbl = document.getElementById('up-model-label');
                 const pct = Math.min(100, (extra.loaded / extra.total) * 100);
                 if (bar) bar.style.width = `${pct}%`;
-                if (lbl) {
-                    lbl.textContent = extra.cached
-                        ? tf('upModelCached', null, 'Model ready ✓ (cached)')
-                        : tf('upModelDownloading', { loaded: formatMb(extra.loaded), total: formatMb(extra.total) }, `Downloading AI model… ${formatMb(extra.loaded)} / ${formatMb(extra.total)}`);
-                }
             }
         } else if (state === 'ready') {
-            wrap?.classList.add('is-hidden');
-            err?.classList.add('is-hidden');
-            badge?.classList.remove('is-hidden');
-            if (badge) badge.textContent = tf('upModelReady', null, 'Model ready ✓');
+            setUpLoadStep(3);
+            setTimeout(() => {
+                wrap?.classList.add('is-hidden');
+                err?.classList.add('is-hidden');
+                badge?.classList.remove('is-hidden');
+                if (badge) badge.textContent = tf('upModelReady', null, 'Model ready ✓');
+            }, 600);
         } else if (state === 'error') {
             wrap?.classList.add('is-hidden');
             badge?.classList.add('is-hidden');
@@ -156,9 +170,11 @@
         setModelUi('loading');
         try {
             await loadOrtScript();
+            setUpLoadStep(1);
             modelBuffer = await fetchModelWithProgress((loaded, total, cached) => {
                 setModelUi('loading', { loaded, total, cached });
             });
+            setUpLoadStep(2);
             modelReady = true;
             setModelUi('ready');
             return true;
