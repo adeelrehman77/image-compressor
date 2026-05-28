@@ -101,6 +101,7 @@ In ad copy use:
 | CSP errors for `googletagmanager.com` | Deploy latest `public/_headers`; hard refresh / unregister service worker |
 | GTM Preview debug badge CSS blocked | CSP `style-src` needs `googletagmanager.com` + `fonts.googleapis.com`; `font-src` needs `fonts.gstatic.com` |
 | Tag Assistant blocked | CSP `connect-src` must include `googletagmanager.com` (already in repo) |
+| CSP blocks `www.google.ae/pagead` or `csi.gstatic.com` | Deploy latest `public/_headers` (`connect-src` includes `google.ae`, `*.gstatic.com`) |
 | Double page views | Remove any extra gtag/GTM snippets; use GTM only |
 | Realtime = 0 | Publish GTM container; check ad blocker; confirm tags have **All Pages** trigger |
 | GA stream still yellow | Wait 24–48h after first Realtime hits |
