@@ -307,7 +307,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.17';
+        return window.NexusTools?.appVersion?.() || '2.2.18';
     }
 
     function initWorkers() {
@@ -430,6 +430,30 @@
         document.querySelectorAll('[data-preset]').forEach((btn) => {
             btn.addEventListener('click', () => {
                 const val = btn.dataset.preset;
+                // Quick (target-size) presets route through COMPRESSOR_QUICK
+                if (COMPRESSOR_QUICK[val]) {
+                    const p = COMPRESSOR_QUICK[val];
+                    els.preset.value = 'custom';
+                    if (val === 'emirates-id' || val === 'mohre') {
+                        if (els['uae-preset']) els['uae-preset'].value = val === 'emirates-id' ? 'emirates-id' : 'mohre-portal';
+                    } else if (els['uae-preset']) {
+                        els['uae-preset'].value = '';
+                    }
+                    applyCompressionValues(p);
+                    updateFormatForTargetSize();
+                    saveSettings();
+                    syncPresetButtons();
+                    const labels = {
+                        'emirates-id': 'Emirates ID / ICA',
+                        mohre: 'MOHRE document',
+                        whatsapp: 'WhatsApp',
+                        web: 'Website / WebP',
+                        email: 'Email attachment',
+                    };
+                    toast(`${labels[val] || val} preset applied.`, 'info');
+                    return;
+                }
+                // Standard quality presets
                 if (els.preset.value === val) {
                     els.preset.value = 'custom';
                     if (els['uae-preset']) els['uae-preset'].value = '';
@@ -441,32 +465,6 @@
                 if (els['uae-preset']) els['uae-preset'].value = '';
                 applyPreset();
                 syncPresetButtons();
-            });
-        });
-
-        document.querySelectorAll('[data-compress-quick]').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const key = btn.dataset.compressQuick;
-                const p = COMPRESSOR_QUICK[key];
-                if (!p) return;
-                els.preset.value = 'custom';
-                if (key === 'emirates-id' || key === 'mohre') {
-                    els['uae-preset'].value = key === 'emirates-id' ? 'emirates-id' : 'mohre-portal';
-                } else if (els['uae-preset']) {
-                    els['uae-preset'].value = '';
-                }
-                applyCompressionValues(p);
-                updateFormatForTargetSize();
-                saveSettings();
-                syncPresetButtons();
-                const labels = {
-                    'emirates-id': 'Emirates ID / ICA',
-                    mohre: 'MOHRE document',
-                    whatsapp: 'WhatsApp',
-                    web: 'Website / WebP',
-                    email: 'Email attachment',
-                };
-                toast(`${labels[key] || key} preset applied.`, 'info');
             });
         });
 

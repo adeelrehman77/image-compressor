@@ -16,12 +16,8 @@ html:not(.dark) .btn-primary {
 }
 
 /* ===== Dark mode smooth transitions ===== */
-html, html *, html *::before, html *::after {
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+html body:not([data-no-transition]) *:not(button):not(a):not(input):not(select):not(summary) {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 /* Exclude elements that should not animate (images, SVG strokes, etc.) */
 html img, html svg, html canvas, html video,
@@ -254,7 +250,7 @@ html .compare-overlay {
     display: flex;
     gap: 0.375rem;
     align-items: center;
-    margin-left: auto;
+    margin-inline-start: auto;
 }
 
 /* ===== Theme toggle button (guide/docs/privacy pages) ===== */

@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   NexusCompress — Design Tokens  (v2.2.9, Phase 2 expanded)
+   NexusCompress — Design Tokens  (v2.2.17, Phase 2 expanded)
    Defines a named scale on top of the base variables in styles.css and
    redesign.css. Use these throughout tool-specific CSS (nexus-extras.css,
    inline overrides) so future changes are one-line edits here.
@@ -116,4 +116,14 @@
     --transition-fast:   0.15s ease;
     --transition-normal: 0.2s ease;
     --transition-base:   0.2s ease;
+}
+
+/* ── Dark mode semantic colour overrides ── */
+html.dark {
+    --color-success:    #5cb896;
+    --color-success-lt: #7dd3b8;
+    --color-error:      #e57373;
+    --color-error-lt:   #ef9a9a;
+    --color-warn:       #d4a24a;
+    --color-warn-lt:    #e0bc7a;
 }
