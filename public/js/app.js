@@ -142,6 +142,7 @@
         bindEvents();
         hideFolderPickerOnIos();
         window.__NEXUS_COMPRESS_ADD_FILES = handleFiles;
+        window.__NEXUS_SYNC_WORKFLOW_UI = syncWorkflowUI;
         window.__NEXUS_SYNC_UAE_BUTTONS = syncPresetButtons;
         window.__NEXUS_APPLY_COMPRESSION_VALUES = applyCompressionValues;
         window.__NEXUS_SAVE_SETTINGS = saveSettings;
@@ -311,7 +312,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.21';
+        return window.NexusTools?.appVersion?.() || '2.2.22';
     }
 
     function initWorkers() {
@@ -1403,7 +1404,7 @@
         const workspace = document.querySelector('.compress-workspace');
         workspace?.classList.toggle('compress-workspace--active', active);
         els['drop-zone']?.closest('.compress-main-col')?.classList.toggle('has-files', active);
-        const dropTitle = els['drop-zone']?.querySelector('.drop-title');
+        const dropTitle = els['drop-zone']?.querySelector('.drop-zone-title');
         if (dropTitle) {
             dropTitle.textContent = active
                 ? tf('dropTitleMore', null, 'Add more files')
@@ -1412,6 +1413,18 @@
     }
 
     function syncWorkflowUI() {
+        [
+            'compress-workflow-bar',
+            'start-compress-btn',
+            'compress-preview-stage',
+            'drop-zone',
+            'batch-summary',
+            'download-all-btn',
+            'clear-all-btn',
+        ].forEach((id) => {
+            document.getElementById(id)?.removeAttribute('data-mode-advanced');
+        });
+
         const all = [...state.tasks.values()].filter((t) => t.status !== 'removed');
         const pending = all.filter((t) => t.status === 'pending');
         const active = all.filter((t) => t.status === 'processing' || t.status === 'queued');

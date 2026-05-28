@@ -2095,6 +2095,43 @@ html:not(.dark) .pc-privacy-banner {
     opacity: 0.75;
 }
 
+/* Standardise all settings card toggle buttons */
+.settings-card__toggle,
+.settings-card-header .settings-card__toggle,
+.settings-card__header .settings-card__toggle {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.15s, transform 0.2s;
+}
+.settings-card__toggle:hover {
+    opacity: 1;
+}
+
+.settings-card-header button,
+.settings-card__header button {
+    font-size: 0.85rem;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+}
+
+.settings-card__header .settings-chevron,
+.settings-card-header .settings-chevron {
+    font-size: 0.85rem;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    FEATURE 3 — Tool Descriptions
 ═══════════════════════════════════════════════════════════════════════ */

@@ -31,12 +31,30 @@
         window.__NEXUS_SAVE_SETTINGS?.();
     }
 
+    var WORKFLOW_MAIN_IDS = [
+        'compress-workflow-bar',
+        'start-compress-btn',
+        'compress-preview-stage',
+        'drop-zone',
+        'batch-summary',
+        'download-all-btn',
+        'clear-all-btn',
+    ];
+
+    function stripModeAdvancedFromWorkflow() {
+        WORKFLOW_MAIN_IDS.forEach(function (id) {
+            document.getElementById(id)?.removeAttribute('data-mode-advanced');
+        });
+    }
+
     function updateSidebarMode(simple) {
         var sidebar = document.getElementById('panel-compress');
         if (!sidebar) return;
 
-        // Show/hide advanced cards
-        var advancedCards = sidebar.querySelectorAll('[data-mode-advanced]');
+        stripModeAdvancedFromWorkflow();
+
+        // Only hide advanced settings cards in the sidebar — never main workflow UI
+        var advancedCards = sidebar.querySelectorAll('.settings-card[data-mode-advanced]');
         advancedCards.forEach(function (el) {
             el.classList.toggle('is-hidden', simple);
         });
@@ -60,6 +78,7 @@
         localStorage.setItem(MODE_KEY, simple ? 'simple' : 'advanced');
         updateSidebarMode(simple);
         if (simple) applySimpleDefaults();
+        window.__NEXUS_SYNC_WORKFLOW_UI?.();
     }
 
     function initModeToggle() {

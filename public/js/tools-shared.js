@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.21'
+            '2.2.22'
         );
     }
 
@@ -279,13 +279,53 @@ window.NexusTools = (function () {
 
     const MOBILE_SETTINGS_MQ = window.matchMedia('(max-width: 780px)');
 
+    function getSettingsCardParts(card) {
+        const body = card.querySelector('.settings-card__body') || card.querySelector('.settings-card-body');
+        let toggle = card.querySelector('[data-settings-toggle]');
+        if (!toggle) {
+            toggle = card.querySelector('.settings-card__toggle');
+        }
+        if (!toggle) {
+            const legacyHeader = card.querySelector('.settings-card-header');
+            const bemHeader = card.querySelector('.settings-card__header');
+            const header = legacyHeader || bemHeader;
+            if (header) {
+                toggle =
+                    header.matches('button, [data-settings-toggle]')
+                        ? header
+                        : header.querySelector('button.settings-card__toggle, .settings-card__toggle, button');
+            }
+        }
+        const header =
+            toggle?.closest('.settings-card__header, .settings-card-header') ||
+            card.querySelector('.settings-card__header, .settings-card-header') ||
+            toggle;
+        return { toggle, body, header };
+    }
+
+    function updateSettingsCardIcon(card, toggle, expanded) {
+        const chevron = toggle?.querySelector('.settings-chevron') || card.querySelector('.settings-chevron');
+        if (chevron) {
+            chevron.classList.toggle('is-open', expanded);
+            return;
+        }
+        const iconBtn =
+            toggle?.classList?.contains('settings-card__toggle')
+                ? toggle
+                : card.querySelector('.settings-card__toggle');
+        if (iconBtn) {
+            iconBtn.textContent = expanded ? '▲' : '▼';
+        }
+    }
+
     function setSettingsCardExpanded(card, expanded) {
-        const btn = card.querySelector('[data-settings-toggle]');
-        const body = card.querySelector('.settings-card__body');
-        if (!btn || !body) return;
-        btn.setAttribute('aria-expanded', String(expanded));
+        const { toggle, body, header } = getSettingsCardParts(card);
+        if (!body) return;
+        const ariaHost = header || toggle;
+        if (ariaHost) ariaHost.setAttribute('aria-expanded', String(expanded));
+        if (toggle && toggle !== ariaHost) toggle.setAttribute('aria-expanded', String(expanded));
         body.classList.toggle('is-collapsed', !expanded);
-        btn.querySelector('.settings-chevron')?.classList.toggle('is-open', expanded);
+        updateSettingsCardIcon(card, toggle, expanded);
     }
 
     function expandSettingsCard(target) {
@@ -299,17 +339,31 @@ window.NexusTools = (function () {
     function applySettingsCardDefaults() {
         const mobile = MOBILE_SETTINGS_MQ.matches;
         document.querySelectorAll('[data-settings-card]').forEach((card) => {
-            const btn = card.querySelector('[data-settings-toggle]');
-            if (!btn) return;
+            const { toggle } = getSettingsCardParts(card);
             let expanded;
             if (card.hasAttribute('data-default-collapsed-mobile')) {
                 expanded = !mobile;
             } else if (card.hasAttribute('data-default-open')) {
                 expanded = true;
+            } else if (toggle) {
+                expanded = toggle.getAttribute('aria-expanded') === 'true';
             } else {
-                expanded = btn.getAttribute('aria-expanded') === 'true';
+                expanded = !card.querySelector('.settings-card__body.is-collapsed, .settings-card-body.is-collapsed');
             }
             setSettingsCardExpanded(card, expanded);
+        });
+    }
+
+    function bindSettingsCardToggle(el) {
+        if (!el || el.dataset.settingsBound === '1') return;
+        el.dataset.settingsBound = '1';
+        el.addEventListener('click', () => {
+            const card = el.closest('[data-settings-card]');
+            if (!card) return;
+            const { toggle, header } = getSettingsCardParts(card);
+            const ariaHost = header || toggle || el;
+            const expanded = ariaHost.getAttribute('aria-expanded') === 'true';
+            setSettingsCardExpanded(card, !expanded);
         });
     }
 
@@ -317,15 +371,19 @@ window.NexusTools = (function () {
         applySettingsCardDefaults();
         MOBILE_SETTINGS_MQ.addEventListener('change', applySettingsCardDefaults);
 
-        document.querySelectorAll('[data-settings-toggle]').forEach((btn) => {
-            if (btn.dataset.settingsBound === '1') return;
-            btn.dataset.settingsBound = '1';
-            btn.addEventListener('click', () => {
-                const card = btn.closest('[data-settings-card]');
-                if (!card) return;
-                const expanded = btn.getAttribute('aria-expanded') === 'true';
-                setSettingsCardExpanded(card, !expanded);
-            });
+        document.querySelectorAll('[data-settings-toggle]').forEach(bindSettingsCardToggle);
+        document.querySelectorAll('.settings-card__toggle').forEach((btn) => {
+            if (!btn.closest('[data-settings-card]')) return;
+            bindSettingsCardToggle(btn);
+        });
+        document.querySelectorAll('.settings-card-header, .settings-card__header').forEach((header) => {
+            if (!header.closest('[data-settings-card]')) return;
+            if (header.matches('button, [data-settings-toggle]')) {
+                bindSettingsCardToggle(header);
+                return;
+            }
+            const innerToggle = header.querySelector('.settings-card__toggle, button');
+            if (innerToggle) bindSettingsCardToggle(innerToggle);
         });
     }
 
