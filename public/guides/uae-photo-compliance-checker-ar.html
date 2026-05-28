@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.15">
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/sentry-init.js?v=2.2.15" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="description" content="هل تُرفض صورة الهوية الإماراتية أو ICA؟ تعرّف على 10 فحوصات الامتثال وحدود حجم الملف وكيفية الفحص محلياً قبل الرفع.">
+    <meta name="application-name" content="NexusCompress">
+    <link rel="canonical" href="https://compress.funadventure.ae/guides/uae-photo-compliance-checker-ar.html">
+    <link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/guides/uae-photo-compliance-checker-ar.html">
+    <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/guides/uae-photo-compliance-checker.html">
+    <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/guides/uae-photo-compliance-checker.html">
+    <meta property="og:title" content="أسئلة فاحص امتثال صور الإمارات | NexusCompress">
+    <meta property="og:locale" content="ar_AE">
+    <meta property="og:image" content="https://compress.funadventure.ae/og-image.png">
+    <meta name="robots" content="index, follow">
+    <title>أسئلة فاحص امتثال صور الإمارات | NexusCompress</title>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.15">
+    <link rel="icon" href="../icons/icon-192.png" type="image/png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ar","mainEntity":[
+      {"@type":"Question","name":"هل تُرفض صورة الهوية الإماراتية؟","acceptedAnswer":{"@type":"Answer","text":"بوابات ICA والهوية الإماراتية ترفض الصور التي لا تلبي قواعد القياسات الحيوية. يشغّل NexusCompress 10 فحوصات آلية — حجم الوجه، التوسيط، العيون، ميل الرأس، الخلفية، حجم الملف، الصيغة، والمزيد — في متصفحك قبل الرفع."}},
+      {"@type":"Question","name":"ما حد حجم ملف صور بوابات الإمارات؟","acceptedAnswer":{"@type":"Answer","text":"صور الهوية الإماراتية وICA وعامل MOHRE والتأشيرة عادة JPEG أقل من 200 ك.ب. مستندات MOHRE غالباً حتى 500 ك.ب. اختر البوابة في فاحص الصور."}},
+      {"@type":"Question","name":"هل يُرفع فاحص الصور صورتي؟","acceptedAnswer":{"@type":"Answer","text":"لا. يعمل face-api.js محلياً في متصفحك. صورتك لا تغادر جهازك أبداً."}}
+    ]}
+    </script>
+    <script src="../js/ga-config.js?v=2.2.15" defer></script>
+    <script src="../js/gtm.js?v=2.2.15" defer></script>
+</head>
+<body class="app-body">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="../ar/" class="site-logo">
+                <span class="logo-dot" aria-hidden="true"></span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
+                    <span class="site-logo-tag">دليل الإمارات</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <a href="../ar/" class="chip chip-success">← NexusCompress</a>
+                <a href="uae-photo-compliance-checker.html" class="chip chip-muted" hreflang="en">English</a>
+            </div>
+        </div>
+    </header>
+    <article class="guide-page max-width-wrap glass-panel">
+        <nav class="guide-breadcrumb" aria-label="Breadcrumb"><a href="../ar/">الرئيسية</a> · <a href="index.html">الأدلة</a> · امتثال الصور</nav>
+        <h1>NexusCompress · أسئلة فاحص امتثال صور الإمارات</h1>
+        <p class="guide-lead">بوابات ICA والهوية وMOHRE ترفض الصور التي لا تلبي القواعد الحيوية. استخدم <a href="../ar/#photo-checker">فاحص الصور</a> محلياً قبل الرفع — دون رفع إلى أي خادم.</p>
+
+        <h2>ماذا يفحص الأداة</h2>
+        <ul>
+            <li>وجه واحد (لا صور جماعية)</li>
+            <li>حجم الوجه 55–85% من الإطار (مع الشعر)</li>
+            <li>توسيط أفقي</li>
+            <li>عيون مفتوحة ورأس مستوٍ</li>
+            <li>JPEG وحد الحجم حسب البوابة</li>
+            <li>أبعاد دنيا وخلفية بيضاء</li>
+            <li>اكتشاف تقريبي للنظارات</li>
+        </ul>
+
+        <p><a href="../ar/#photo-checker" class="btn-primary guide-cta">فتح فاحص الصور →</a></p>
+
+        <h2>أسئلة شائعة</h2>
+        <div class="guide-faq">
+            <div class="guide-faq-item">
+                <h3>هل تُرفض صورة الهوية الإماراتية؟</h3>
+                <p>تُرفض الصور التي تفشل القواعد الحيوية. شغّل 10 فحوصات في متصفحك قبل التقديم.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>ما حد حجم الملف؟</h3>
+                <p>غالباً <strong>200 ك.ب</strong> JPEG للهوية والتأشيرة؛ مستندات MOHRE حتى <strong>500 ك.ب</strong>.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>هل تُرفع صورتي؟</h3>
+                <p>لا. كل المعالجة محلية في متصفحك.</p>
+            </div>
+        </div>
+
+        <p class="guide-related">
+            ذات صلة:
+            <a href="resize-photo-uae-visa-application-ar.html">مقاس صورة التأشيرة</a> ·
+            <a href="compress-image-for-mohre-portal-ar.html">ضغط MOHRE</a>
+        </p>
+    </article>
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="../ar/">الضاغط</a> · <a href="index.html">الأدلة</a> · <a href="../privacy.html">الخصوصية</a></p>
+    </footer>
+    <script src="../js/guide-footer.js?v=2.2.15"></script>
+</body>
+</html>

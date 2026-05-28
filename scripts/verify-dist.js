@@ -8,6 +8,12 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const distDir = path.join(root, 'dist');
 const { getVersion } = require('./version');
+const {
+    countFaqPage,
+    assertHashDocumentHasNoFaqSchema,
+    assertToolPanelsHaveNoFaqSchema,
+    DEDICATED_FAQ_GUIDES,
+} = require('./seo-faq-policy');
 const pkgVersion = getVersion();
 
 function assertFile(rel, needles) {
@@ -31,6 +37,13 @@ if (!enHtmlRaw.includes('tokens.css')) throw new Error('verify-dist: dist/index.
 if (enHtmlRaw.includes('v2.1.0')) throw new Error('verify-dist: dist/index.html still contains old version string v2.1.0');
 // Guard: old wrong UAE portal link must not appear
 if (enHtmlRaw.includes('uae-portal-compression.html"')) throw new Error('verify-dist: dist/index.html contains wrong UAE portal link (uae-portal-compression.html)');
+
+assertHashDocumentHasNoFaqSchema(enHtmlRaw, 'dist/index.html');
+assertToolPanelsHaveNoFaqSchema(enHtmlRaw, 'dist/index.html');
+
+if (!enHtmlRaw.includes('guides/nexuscompress-image-compressor-faq.html')) {
+    throw new Error('verify-dist: dist/index.html missing compressor FAQ guide link');
+}
 
 assertFile('index.html', [
     'id="tab-photo-checker"',
@@ -70,6 +83,9 @@ assertFile('ar/index.html', [
 ]);
 
 const arHtml = fs.readFileSync(path.join(distDir, 'ar/index.html'), 'utf8');
+assertHashDocumentHasNoFaqSchema(arHtml, 'dist/ar/index.html');
+assertToolPanelsHaveNoFaqSchema(arHtml, 'dist/ar/index.html');
+
 if (/compress images\. Instantly/i.test(arHtml) || /Shrink JPEG, PNG, WebP &amp; AVIF in your browser/i.test(arHtml)) {
     throw new Error('verify-dist: dist/ar/index.html still contains English compress hero');
 }
@@ -117,6 +133,18 @@ if (!fs.existsSync(aiUpscaler)) {
 const esrganModel = path.join(distDir, 'models/realesrgan-x4.onnx');
 if (!fs.existsSync(esrganModel) || fs.statSync(esrganModel).size < 4_000_000) {
     throw new Error('verify-dist: missing or incomplete models/realesrgan-x4.onnx');
+}
+
+for (const rel of DEDICATED_FAQ_GUIDES) {
+    const file = path.join(distDir, rel);
+    if (!fs.existsSync(file)) {
+        throw new Error(`verify-dist: missing ${rel}`);
+    }
+    const html = fs.readFileSync(file, 'utf8');
+    const faqCount = countFaqPage(html);
+    if (faqCount !== 1) {
+        throw new Error(`verify-dist: ${rel} must have exactly one FAQPage (found ${faqCount})`);
+    }
 }
 
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

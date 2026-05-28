@@ -2,6 +2,16 @@
     const META = window.__NEXUS_TOOL_META || {};
     const TAGLINES = META.taglines || {};
 
+    /** Hash SPA shares one URL with / — FAQPage must live on /guides/ only (see scripts/seo-faq-policy.js). */
+    function stripFaqJsonLdFromHashDocument() {
+        document.querySelectorAll('script[type="application/ld+json"]').forEach(function (script) {
+            if (/FAQPage/.test(script.textContent || '')) {
+                script.remove();
+            }
+        });
+    }
+    stripFaqJsonLdFromHashDocument();
+
     let internalNav = false;
     let activateGen = 0;
 

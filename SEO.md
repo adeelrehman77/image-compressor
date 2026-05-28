@@ -7,7 +7,8 @@
 - [x] Open Graph + Twitter Card + **og:image** (1200×630)
 - [x] H1 and crawlable body copy (intro + FAQ)
 - [x] FAQ accordion with long-tail keywords
-- [x] FAQPage + WebApplication + WebSite JSON-LD
+- [x] WebApplication + WebSite JSON-LD on `/` and `/ar/` (no `FAQPage` — hash routes share one URL)
+- [x] FAQPage JSON-LD only on dedicated `/guides/*-faq.html` URLs (one per page; enforced by `scripts/seo-faq-policy.js` + `verify-dist.js`)
 - [x] `robots.txt` and auto-generated `sitemap.xml` (7 URLs)
 - [x] **4 guide pages** + guides index (internal links from homepage)
 - [x] Mobile-friendly viewport

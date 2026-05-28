@@ -121,4 +121,4 @@ bumpSwCache(buildId);
 require('./verify-dist');
 
 console.log(`Done → dist/ (v${buildVersion} · build ${buildId})`);
-console.log('Deploy: npx wrangler deploy  (output: dist/)');
+console.log('Deploy: upload dist/ via your usual pipeline (output: dist/)');

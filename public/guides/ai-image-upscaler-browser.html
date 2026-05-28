@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.15">
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/sentry-init.js?v=2.2.15" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <meta name="description" content="AI image upscaling with Real-ESRGAN in your browser — 2× or 4× enlargement with no uploads. How it differs from normal resize and when to use it.">
+    <meta name="application-name" content="NexusCompress">
+    <meta name="keywords" content="AI image upscaler, Real-ESRGAN browser, upscale photo offline, private image enlarger">
+    <link rel="canonical" href="https://compress.funadventure.ae/guides/ai-image-upscaler-browser.html">
+    <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/guides/ai-image-upscaler-browser.html">
+    <link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/guides/ai-image-upscaler-browser-ar.html">
+    <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/guides/ai-image-upscaler-browser.html">
+    <meta property="og:title" content="AI Image Upscaler FAQ — Browser &amp; Private | NexusCompress">
+    <meta property="og:description" content="Real-ESRGAN upscaling in your browser: 2×/4× detail, offline after first download, no server uploads.">
+    <meta property="og:image" content="https://compress.funadventure.ae/og-image.png">
+    <meta property="og:url" content="https://compress.funadventure.ae/guides/ai-image-upscaler-browser.html">
+    <meta name="robots" content="index, follow">
+    <title>AI Image Upscaler FAQ — Browser &amp; Private | NexusCompress</title>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.15">
+    <link rel="icon" href="../icons/icon-192.png" type="image/png">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"How is AI upscaling different from regular resizing?","acceptedAnswer":{"@type":"Answer","text":"Standard resizing interpolates between existing pixels and often looks blurry. Real-ESRGAN uses a neural network to reconstruct realistic detail, sharpen edges, and reduce compression artifacts — all in your browser on NexusCompress."}},
+      {"@type":"Question","name":"What is the best use case for AI upscaling?","acceptedAnswer":{"@type":"Answer","text":"AI upscaling works best on photos, portraits, and natural images — rescuing old low-res photos, upscaling AI-generated art for print, enhancing product photos, and improving scanned documents before UAE portal uploads."}},
+      {"@type":"Question","name":"Does the NexusCompress AI upscaler work offline?","acceptedAnswer":{"@type":"Answer","text":"After the ~5 MB Real-ESRGAN model downloads once, it is cached in your browser. Subsequent upscaling runs entirely offline with no server uploads."}}
+    ]}
+    </script>
+    <script src="../js/ga-config.js?v=2.2.15" defer></script>
+    <script src="../js/gtm.js?v=2.2.15" defer></script>
+</head>
+<body class="app-body">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K59TSM95" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="../" class="site-logo">
+                <span class="logo-dot" aria-hidden="true"></span>
+                <span class="site-logo-text">
+                    <span class="site-logo-name site-logo-name--brand">NexusCompress</span>
+                    <span class="site-logo-tag">AI guide</span>
+                </span>
+            </a>
+            <div class="site-header-meta">
+                <a href="../" class="chip chip-success">← NexusCompress</a>
+                <a href="ai-image-upscaler-browser-ar.html" class="chip chip-muted" hreflang="ar-AE">العربية</a>
+            </div>
+        </div>
+    </header>
+    <article class="guide-page max-width-wrap glass-panel">
+        <nav class="guide-breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> · <a href="index.html">Guides</a> · AI upscaler</nav>
+        <h1>NexusCompress · AI image upscaler FAQ</h1>
+        <p class="guide-lead">Enlarge photos 2× or 4× with Real-ESRGAN — not stretched pixels. The <a href="../#ai-upscaler">AI Upscaler</a> runs entirely in your browser; images are never uploaded to a server.</p>
+
+        <h2>AI upscale vs normal resize</h2>
+        <p>Bicubic or Lanczos resizing only interpolates between existing pixels, which often looks soft or blurry when enlarged. Real-ESRGAN is trained on image pairs to reconstruct plausible detail — textures, edges, and fine structure — on your device via ONNX Runtime Web.</p>
+
+        <h2>Best use cases</h2>
+        <ul>
+            <li>Old low-resolution family photos</li>
+            <li>Product images from suppliers</li>
+            <li>AI-generated art before printing</li>
+            <li>Scanned documents before portal upload</li>
+        </ul>
+
+        <h2>Privacy &amp; offline use</h2>
+        <p>The model file (~5 MB) downloads once and is cached locally. After that, upscaling can run without an internet connection. Inference runs in a Web Worker so the page stays responsive.</p>
+
+        <h2>How to upscale</h2>
+        <ol>
+            <li>Open <a href="../#ai-upscaler">AI Upscaler</a>.</li>
+            <li>Upload JPEG, PNG, or WebP.</li>
+            <li>Choose 2× or 4× and export JPEG or PNG.</li>
+            <li>Use the before/after slider to compare results.</li>
+        </ol>
+
+        <p><a href="../#ai-upscaler" class="btn-primary guide-cta">Open AI Upscaler →</a></p>
+
+        <h2>Frequently asked questions</h2>
+        <div class="guide-faq">
+            <div class="guide-faq-item">
+                <h3>How is AI upscaling different from regular resizing?</h3>
+                <p>Standard resizing interpolates pixels; Real-ESRGAN reconstructs detail with a neural network — in your browser on NexusCompress.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>What is the best use case for AI upscaling?</h3>
+                <p>Photos, portraits, product shots, old scans, and AI-generated images you need at print resolution.</p>
+            </div>
+            <div class="guide-faq-item">
+                <h3>Does the upscaler work offline?</h3>
+                <p>Yes, after the model is cached on first use. No further uploads are required.</p>
+            </div>
+        </div>
+
+        <p class="guide-related">
+            Related:
+            <a href="compress-jpeg-without-losing-quality.html">Compress JPEG without losing quality</a> ·
+            <a href="jpeg-vs-webp.html">JPEG vs WebP</a>
+        </p>
+    </article>
+    <footer class="site-footer">
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="../">Compressor</a> · <a href="index.html">Guides</a> · <a href="../privacy.html">Privacy Policy</a></p>
+    </footer>
+    <script src="../js/guide-footer.js?v=2.2.15"></script>
+</body>
+</html>
