@@ -249,6 +249,7 @@ When adding new tools or guides, add entries with:
 - ONNX model self-hosted at `public/models/realesrgan-x4.onnx` (~4.87 MB)
 - Worker: `public/js/upscaler-worker.mjs`
 - Model loaded lazily on tab open, cached via Cache API key `nexus-esrgan-model-v2`
+- Tiled inference (128×128) in worker; main thread stitches into a Float32 buffer capped at ~4M output pixels (`MAX_ACCUM_OUTPUT_PIXELS`). Larger inputs are pre-scaled before AI, then bicubic-resized to the requested output size.
 
 ### Photo Checker (face-api.js)
 - Models loaded from jsDelivr CDN lazily on tab open

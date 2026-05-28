@@ -223,7 +223,13 @@ window.__NEXUS_I18N = {
         upModelRetry: 'Retry',
         upOriginalMeta: 'Original: {w} × {h} px · {size}',
         upUpscaledMeta: 'Upscaled: {w}×{h} px · {size}',
-        upLargeWarn: 'Large images may take longer. For best results, upscale images under 1200px wide.',
+        upLargeWarn: 'For best results, use images under 1200px on the longest side. Large images may take several minutes.',
+        upLargeConfirm:
+            'This image is {w}×{h}px. For best results use images under 1200px on the longest side. Processing may take several minutes. Continue?',
+        upMemScale:
+            'Image scaled to {w}×{h}px for AI processing (device memory limit). Final output size is unchanged.',
+        upFallbackOom:
+            'Image too large for AI memory on this device — using standard resize. Try 2× or a smaller image.',
         upSettingsTitle: 'Upscale settings',
         upFactorLabel: 'Upscale factor',
         upFactor2: '2× Upscale',
@@ -252,7 +258,7 @@ window.__NEXUS_I18N = {
         seoChipUpscaler: 'AI Upscaler',
         badgeFreePrivate: 'Free · Private',
         badgeFree: 'Free',
-        versionBadgeDefault: 'v2.2.27 — Free',
+        versionBadgeDefault: 'v2.2.29 — Free',
         statusAddFiles: 'Add files to begin',
         dismissUaeCallout: 'Dismiss UAE callout',
         uaePresetNone: 'None',
@@ -976,7 +982,13 @@ window.__NEXUS_I18N = {
         upModelRetry: 'إعادة المحاولة',
         upOriginalMeta: 'الأصلية: {w} × {h} بكسل · {size}',
         upUpscaledMeta: 'المكبّرة: {w}×{h} بكسل · {size}',
-        upLargeWarn: 'الصور الكبيرة قد تستغرق وقتاً أطول. للحصول على أفضل النتائج، كبّر صوراً أقل من 1200 بكسل عرضاً.',
+        upLargeWarn: 'للحصول على أفضل النتائج، استخدم صوراً أقل من 1200 بكسل في أطول جانب. الصور الكبيرة قد تستغرق عدة دقائق.',
+        upLargeConfirm:
+            'هذه الصورة {w}×{h} بكسل. للحصول على أفضل النتائج استخدم صوراً أقل من 1200 بكسل في أطول جانب. قد تستغرق المعالجة عدة دقائق. هل تتابع؟',
+        upMemScale:
+            'تم تصغير الصورة إلى {w}×{h} بكسل للمعالجة بالذكاء الاصطناعي (حد ذاكرة الجهاز). حجم الإخراج النهائي كما هو.',
+        upFallbackOom:
+            'الصورة كبيرة جداً لذاكرة الذكاء الاصطناعي على هذا الجهاز — يُستخدم تكبير عادي. جرّب 2× أو صورة أصغر.',
         upSettingsTitle: 'إعدادات التكبير',
         upFactorLabel: 'معامل التكبير',
         upFactor2: 'تكبير ٢×',
@@ -1005,7 +1017,7 @@ window.__NEXUS_I18N = {
         seoChipUpscaler: 'تكبير بالذكاء الاصطناعي',
         badgeFreePrivate: 'مجاني · خاص',
         badgeFree: 'مجاني',
-        versionBadgeDefault: 'v2.2.27 — مجاني',
+        versionBadgeDefault: 'v2.2.29 — مجاني',
         statusAddFiles: 'أضف ملفات للبدء',
         dismissUaeCallout: 'إغلاق تنبيه الإمارات',
         uaePresetNone: 'بدون',

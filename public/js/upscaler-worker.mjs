@@ -90,10 +90,12 @@ self.onmessage = async (e) => {
             return;
         }
     } catch (err) {
+        console.error('[upscaler-worker]', err);
         self.postMessage({
             type: 'error',
             message: err?.message || String(err),
             tileIndex: msg.tileIndex,
+            stack: err?.stack,
         });
     }
 };

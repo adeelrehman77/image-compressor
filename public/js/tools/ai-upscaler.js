@@ -22,6 +22,9 @@
     const OVERLAP = 16;
     const STRIDE = TILE - OVERLAP;
     const MODEL_SCALE = 4;
+    /** Max pixels in 4× stitch buffer (~80 MB acc + weight); larger images are pre-scaled. */
+    const MAX_ACCUM_OUTPUT_PIXELS = 4_000_000;
+    const LARGE_IMAGE_CONFIRM_PX = 1200;
 
     let ortReady = false;
     let modelReady = false;
@@ -45,6 +48,71 @@
 
     function yieldUi() {
         return new Promise((r) => setTimeout(r, 0));
+    }
+
+    function isMemoryError(err) {
+        const msg = (err?.message || String(err)).toLowerCase();
+        return (
+            msg === 'oom' ||
+            msg === 'oom-plan' ||
+            msg.includes('memory') ||
+            msg.includes('allocate') ||
+            msg.includes('allocation') ||
+            msg.includes('array buffer') ||
+            msg.includes('out of memory') ||
+            err?.name === 'RangeError'
+        );
+    }
+
+    function planUpscale(origW, origH, factor) {
+        const targetOutW = origW * factor;
+        const targetOutH = origH * factor;
+        let procScale = factor === 2 ? 0.5 : 1;
+        let procW = Math.max(TILE, Math.round(origW * procScale));
+        let procH = Math.max(TILE, Math.round(origH * procScale));
+        let modelOutPx = procW * MODEL_SCALE * procH * MODEL_SCALE;
+        let memScaled = false;
+
+        if (modelOutPx > MAX_ACCUM_OUTPUT_PIXELS) {
+            const shrink = Math.sqrt(MAX_ACCUM_OUTPUT_PIXELS / modelOutPx);
+            procScale *= shrink;
+            procW = Math.max(TILE, Math.round(origW * procScale));
+            procH = Math.max(TILE, Math.round(origH * procScale));
+            modelOutPx = procW * MODEL_SCALE * procH * MODEL_SCALE;
+            memScaled = true;
+        }
+
+        return {
+            procW,
+            procH,
+            targetOutW,
+            targetOutH,
+            modelOutW: procW * MODEL_SCALE,
+            modelOutH: procH * MODEL_SCALE,
+            needsResize: procW !== origW || procH !== origH,
+            memScaled,
+        };
+    }
+
+    async function resizeBitmap(bitmap, width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(bitmap, 0, 0, width, height);
+        return createImageBitmap(canvas);
+    }
+
+    function confirmLargeUpscale(w, h) {
+        if (Math.max(w, h) <= LARGE_IMAGE_CONFIRM_PX) return Promise.resolve(true);
+        const msg = tf(
+            'upLargeConfirm',
+            { w, h },
+            `This image is ${w}×${h}px. For best results use images under ${LARGE_IMAGE_CONFIRM_PX}px on the longest side. Processing may take several minutes. Continue?`
+        );
+        return Promise.resolve(window.confirm(msg));
     }
 
     function formatMb(bytes) {
@@ -210,6 +278,7 @@
                     resolve();
                 } else if (e.data.type === 'error') {
                     w.removeEventListener('message', onMsg);
+                    console.error('[ai-upscaler] worker init failed:', e.data);
                     reject(new Error(e.data.message));
                 }
             };
@@ -232,6 +301,7 @@
                     resolve(e.data);
                 } else if (e.data.type === 'error') {
                     w.removeEventListener('message', onMsg);
+                    console.error('[ai-upscaler] worker tile failed:', e.data, { tileIndex });
                     reject(new Error(e.data.message));
                 }
             };
@@ -288,8 +358,15 @@
                 `Original: ${w} × ${h} px · ${formatBytes(file.size)}`
             );
         }
-        if (Math.max(w, h) > 1200) {
-            toast(tf('upLargeWarn', null, 'Large images may take longer. For best results, upscale images under 1200px wide.'), 'warn');
+        if (Math.max(w, h) > LARGE_IMAGE_CONFIRM_PX) {
+            toast(
+                tf(
+                    'upLargeWarn',
+                    null,
+                    'For best results, use images under 1200px on the longest side. Large images may take several minutes.'
+                ),
+                'warn'
+            );
         }
         showSection('upload');
         document.getElementById('up-upload-preview')?.classList.remove('is-hidden');
@@ -387,17 +464,34 @@
         return ctx.getImageData(0, 0, outW, outH);
     }
 
-    async function upscaleAi(bitmap, factor, onProgress) {
+    async function upscaleAi(bitmap, factor, onProgress, targetOutW, targetOutH) {
         const w = bitmap.width;
         const h = bitmap.height;
         const outW4 = w * MODEL_SCALE;
         const outH4 = h * MODEL_SCALE;
-        const acc = {
-            width: outW4,
-            height: outH4,
-            pixels: new Float32Array(outW4 * outH4 * 4),
-        };
-        const weight = new Float32Array(outW4 * outH4);
+        const outPx = outW4 * outH4;
+        if (outPx > MAX_ACCUM_OUTPUT_PIXELS) {
+            throw new Error('oom-plan');
+        }
+
+        let acc;
+        let weight;
+        try {
+            acc = {
+                width: outW4,
+                height: outH4,
+                pixels: new Float32Array(outPx * 4),
+            };
+            weight = new Float32Array(outPx);
+        } catch (allocErr) {
+            console.error('[ai-upscaler] accumulation buffer allocation failed:', allocErr, {
+                outW4,
+                outH4,
+                outPx,
+                estMb: Math.round((outPx * 20) / (1024 * 1024)),
+            });
+            throw new Error('oom');
+        }
 
         const tiles = [];
         for (let ty = 0; ty < h; ty += STRIDE) {
@@ -429,8 +523,15 @@
             try {
                 result = await runWorkerTile(tileData.data, TILE, TILE, i, total);
             } catch (err) {
-                const msg = (err?.message || '').toLowerCase();
-                if (msg.includes('memory') || msg.includes('wasm') || msg.includes('allocate')) {
+                console.error('[ai-upscaler] tile inference failed:', err, {
+                    tileIndex: i,
+                    totalTiles: total,
+                    tx,
+                    ty,
+                    tw,
+                    th,
+                });
+                if (isMemoryError(err)) {
                     throw new Error('oom');
                 }
                 throw err;
@@ -459,11 +560,13 @@
 
         onProgress?.('stitch', 0, 0, null);
         let finalRgba = finalizeAccum(acc, weight);
-        if (factor === 2) {
-            finalRgba = downscaleBicubic(outW4, outH4, finalRgba, 0.5).data;
+        const destW = targetOutW ?? outW4;
+        const destH = targetOutH ?? outH4;
+        if (outW4 !== destW || outH4 !== destH) {
+            finalRgba = downscaleBicubic(outW4, outH4, finalRgba, destW / outW4).data;
         }
         onProgress?.('final', 0, 0, null);
-        return finalRgba;
+        return { rgba: finalRgba, width: destW, height: destH };
     }
 
     function setProcessingUi(phase, tileCur, tileTotal, etaSec = null) {
@@ -516,36 +619,82 @@
         aborted = false;
         document.getElementById('up-fallback-banner')?.classList.add('is-hidden');
         performanceWarning(w, h);
+
+        const proceed = await confirmLargeUpscale(w, h);
+        if (!proceed) return;
+
         showSection('processing');
 
         const ok = await ensureModel();
         let imageData;
         let usedFallback = false;
-        const outW = factor === 2 ? w * 2 : w * MODEL_SCALE;
-        const outH = factor === 2 ? h * 2 : h * MODEL_SCALE;
+        const outW = w * factor;
+        const outH = h * factor;
+        const plan = planUpscale(w, h, factor);
+        let workingBitmap = sourceBitmap;
+        let workingBitmapOwned = false;
+
+        if (plan.needsResize) {
+            workingBitmap = await resizeBitmap(sourceBitmap, plan.procW, plan.procH);
+            workingBitmapOwned = true;
+            toast(
+                tf(
+                    'upMemScale',
+                    { w: plan.procW, h: plan.procH },
+                    `Image scaled to ${plan.procW}×${plan.procH}px for AI processing (device memory limit). Output will still be ${outW}×${outH}px.`
+                ),
+                'warn'
+            );
+        }
 
         try {
             if (!ok) throw new Error('no-model');
-            const rgba = await upscaleAi(sourceBitmap, factor, (phase, cur, total, eta) => {
-                setProcessingUi(phase, cur, total, eta);
-            });
-            imageData = new ImageData(rgba, outW, outH);
+            const result = await upscaleAi(
+                workingBitmap,
+                factor,
+                (phase, cur, total, eta) => {
+                    setProcessingUi(phase, cur, total, eta);
+                },
+                outW,
+                outH
+            );
+            imageData = new ImageData(result.rgba, result.width, result.height);
         } catch (err) {
             if (aborted) {
                 restoreUploadUi();
                 return;
             }
+            console.error('[ai-upscaler] inference failed, using bicubic fallback:', err, {
+                input: `${w}×${h}`,
+                factor,
+                plan,
+                modelReady: ok,
+            });
+            window.NexusSentry?.captureException?.(err, {
+                tool: 'ai-upscaler',
+                action: 'inference',
+                inputW: w,
+                inputH: h,
+                factor,
+                memScaled: plan.memScaled,
+            });
             usedFallback = true;
             const banner = document.getElementById('up-fallback-banner');
             banner?.classList.remove('is-hidden');
             if (banner) {
-                banner.textContent = tf(
-                    'upFallbackBanner',
-                    null,
-                    'AI model unavailable — using standard resize instead. Result quality will be lower.'
-                );
+                banner.textContent = isMemoryError(err)
+                    ? tf(
+                          'upFallbackOom',
+                          null,
+                          'Image too large for AI memory on this device — using standard resize. Try 2× or a smaller image.'
+                      )
+                    : tf(
+                          'upFallbackBanner',
+                          null,
+                          'AI model unavailable — using standard resize instead. Result quality will be lower.'
+                      );
             }
-            if (err?.message === 'oom') {
+            if (isMemoryError(err)) {
                 toast(
                     tf('upOom', null, 'This image is too large for your device. Try a smaller input image or use 2× instead of 4×.'),
                     'error'
@@ -553,6 +702,8 @@
             }
             imageData = bicubicFallback(sourceBitmap, factor);
             setProcessingUi('final');
+        } finally {
+            if (workingBitmapOwned) workingBitmap?.close?.();
         }
 
         if (aborted) {
@@ -561,8 +712,8 @@
         }
 
         const canvas = document.createElement('canvas');
-        canvas.width = outW;
-        canvas.height = outH;
+        canvas.width = imageData.width;
+        canvas.height = imageData.height;
         canvas.getContext('2d').putImageData(imageData, 0, 0);
 
         const format = document.getElementById('up-output-format')?.value || 'image/jpeg';
@@ -585,7 +736,7 @@
         if (resultUrl) URL.revokeObjectURL(resultUrl);
         resultUrl = URL.createObjectURL(resultBlob);
 
-        showResults(outW, outH, usedFallback);
+        showResults(imageData.width, imageData.height, usedFallback);
     }
 
     function compressBlob(blob, quality) {
