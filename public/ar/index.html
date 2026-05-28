@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.19">
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.20">
 <head>
     <meta charset="UTF-8">
-    <script src="../js/sentry-init.js?v=2.2.19" defer></script>
+    <script src="../js/sentry-init.js?v=2.2.20" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="../css/app.css?v=2.2.19" as="style">
+    <link rel="preload" href="../css/app.css?v=2.2.20" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
-    <script src="../js/locale.js?v=2.2.19"></script>
-    <script src="../js/i18n.js?v=2.2.19"></script>
-    <script src="../js/tool-meta.js?v=2.2.19"></script>
+    <script src="../js/locale.js?v=2.2.20"></script>
+    <script src="../js/i18n.js?v=2.2.20"></script>
+    <script src="../js/tool-meta.js?v=2.2.20"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -67,11 +67,11 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <link rel="stylesheet" href="../css/app.css?v=2.2.19">
-    <link rel="stylesheet" href="../css/tokens.css?v=2.2.19">
-    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.19">
-    <script src="../js/ga-config.js?v=2.2.19" defer></script>
-    <script src="../js/gtm.js?v=2.2.19" defer></script>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.20">
+    <link rel="stylesheet" href="../css/tokens.css?v=2.2.20">
+    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.20">
+    <script src="../js/ga-config.js?v=2.2.20" defer></script>
+    <script src="../js/gtm.js?v=2.2.20" defer></script>
 </head>
 <body class="app-body">
 
@@ -229,7 +229,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.19 — مجاني</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.20 — مجاني</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -322,6 +322,7 @@
                                     <button type="button" id="view-table" class="view-btn" aria-pressed="false" data-i18n="viewTable">جدول</button>
                                 </div>
                                 <button type="button" id="clear-all-btn" class="btn-danger is-hidden" data-i18n="clearAll">مسح الكل</button>
+                                <button type="button" id="print-contact-btn" class="btn-print is-hidden" data-i18n="printContactSheet">🖨️ طباعة ورقة الاتصال</button>
                                 <button type="button" id="download-all-btn" class="btn-primary is-hidden">
                                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                     <span data-i18n="downloadZip">تحميل ZIP</span>
@@ -330,7 +331,11 @@
                         </div>
                     </header>
                     <div id="compress-preview-empty" class="compress-preview-empty">
-                        <p data-i18n="previewSelectFile">اختر ملفاً من قائمة الانتظار أدناه للمعاينة هنا.</p>
+                        <div class="empty-state-friendly">
+                            <div class="empty-state-friendly__icon">🖼️</div>
+                            <p class="empty-state-friendly__title" data-i18n="emptyPreviewTitle">لم تُحدَّد صورة بعد</p>
+                            <p class="empty-state-friendly__hint" data-i18n="emptyPreviewHint">أضف ملفاً وحدّده لرؤية مقارنة قبل/بعد هنا.</p>
+                        </div>
                     </div>
                     <div id="compress-preview-body" class="compress-preview-body is-hidden">
                         <div id="compress-preview-pending" class="compress-preview-pending is-hidden">
@@ -982,6 +987,18 @@
                             <button type="button" id="passport-export-digital" class="btn-primary btn-block" data-i18n="passportDownloadDigital">تحميل الصورة الرقمية</button>
                             <button type="button" id="passport-print-sheet" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="passportPrintSheet">إنشاء ورقة طباعة 4×6</button>
                             <p class="field-hint" data-i18n="passportPrintHint">ورقة الطباعة جاهزة لـ Walgreens وCVS والمختبرات المحلية بدقة 300 DPI.</p>
+                            <label class="field-label field-label-spaced-sm" for="passport-print-layout" data-i18n="printLayout">تخطيط الطباعة</label>
+                            <select id="passport-print-layout" class="field-input">
+                                <option value="4x6-4" data-i18n="printLayout4x6_4">4×6 بوصة — 4 صور</option>
+                                <option value="4x6-6" data-i18n="printLayout4x6_6">4×6 بوصة — 6 صور</option>
+                                <option value="a4-8" data-i18n="printLayoutA4_8">A4 — 8 صور</option>
+                                <option value="a4-12" data-i18n="printLayoutA4_12">A4 — 12 صور</option>
+                            </select>
+                            <label class="checkbox-row field-label-spaced-sm">
+                                <input type="checkbox" id="passport-crop-marks">
+                                <span data-i18n="printShowCropMarks">إظهار علامات القص</span>
+                            </label>
+                            <button type="button" id="passport-print-window" class="btn-print btn-block field-label-spaced-sm" data-i18n="printPhotoSheet">🖨️ طباعة ورقة الصور</button>
                         </div>
                     </div>
                 </aside>
@@ -1010,8 +1027,15 @@
             <div class="tool-layout photo-checker-grid">
                 <div class="main-col compress-main-col">
                     <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
-                        <span class="pc-models-loading__spinner" aria-hidden="true"></span>
-                        <span data-i18n="pcModelsLoading">جاري تحميل نماذج الذكاء الاصطناعي… (أول مرة فقط، ~1.5 م.ب)</span>
+                        <div class="ai-loading-state">
+                            <div class="ai-loading-spinner"></div>
+                            <div class="ai-loading-steps">
+                                <p class="ai-loading-step is-active" id="pc-step-1" data-i18n="aiStep1">⬇️ جارٍ تحميل نموذج الذكاء الاصطناعي…</p>
+                                <p class="ai-loading-step" id="pc-step-2" data-i18n="aiStep2">🧠 جارٍ تحميل الشبكة العصبية…</p>
+                                <p class="ai-loading-step" id="pc-step-3" data-i18n="aiStep3">✅ جاهز</p>
+                            </div>
+                            <p class="ai-loading-note" data-i18n="aiLoadingFirstTime">المرة الأولى فقط — يُخزَّن النموذج بعد ذلك (~2 ميغا)</p>
+                        </div>
                     </div>
                     <div id="pc-models-error" class="pc-models-error is-hidden" role="alert">
                         <p data-i18n="pcModelsError">تعذّر تحميل النماذج. تحقق من الاتصال أو استخدم القائمة اليدوية أدناه.</p>
@@ -1059,7 +1083,11 @@
                 </div>
                 <aside class="compress-sidebar sidebar pc-results-sidebar">
                     <div id="pc-results-empty" class="pc-results-empty glass-panel">
-                        <p data-i18n="pcResultsEmpty">ارفع صورة وشغّل الفحص لعرض التقرير هنا.</p>
+                        <div class="empty-state-friendly">
+                            <div class="empty-state-friendly__icon">✅</div>
+                            <p class="empty-state-friendly__title" data-i18n="emptyCheckerTitle">لم تُفحص صورة بعد</p>
+                            <p class="empty-state-friendly__hint" data-i18n="emptyCheckerHint">ارفع صورة جواز أو هوية لإجراء الفحص العشري.</p>
+                        </div>
                     </div>
                     <div id="pc-results-panel" class="pc-results-panel is-hidden">
                         <header class="pc-results-header">
@@ -1109,6 +1137,11 @@
             </div>
             <div class="tool-layout tool-layout-wide redactor-grid">
                 <div class="main-col compress-main-col">
+                    <div class="empty-state-friendly" id="rd-empty-state">
+                        <div class="empty-state-friendly__icon">🔒</div>
+                        <p class="empty-state-friendly__title" data-i18n="emptyRedactorTitle">لم يُحمَّل مستند بعد</p>
+                        <p class="empty-state-friendly__hint" data-i18n="emptyRedactorHint">أسقط مسح مستند للبدء في تعتيم الحقول الحساسة.</p>
+                    </div>
                     <section id="rd-drop-zone" class="drop-zone" tabindex="0" data-i18n="rdDropAria" data-i18n-attr="aria-label" aria-label="أسقط مستنداً للتعتيم">
                         <div class="drop-zone-icon" aria-hidden="true">🔏</div>
                         <p class="drop-zone-title" data-i18n="rdDropTitle">أسقط مسح المستند هنا</p>
@@ -1247,7 +1280,15 @@
             </div>
             <p class="tool-desc" data-i18n="upscalerToolDesc">🔬 اجعل الصور الصغيرة أو الضبابية أوضح وأكبر باستخدام الذكاء الاصطناعي.</p>
             <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
-                <p id="up-model-label" class="up-model-label">Downloading AI model…</p>
+                <div class="ai-loading-state">
+                    <div class="ai-loading-spinner"></div>
+                    <div class="ai-loading-steps">
+                        <p class="ai-loading-step is-active" id="up-step-1" data-i18n="aiStep1">⬇️ جارٍ تحميل نموذج الذكاء الاصطناعي…</p>
+                        <p class="ai-loading-step" id="up-step-2" data-i18n="aiStep2">🧠 جارٍ تحميل الشبكة العصبية…</p>
+                        <p class="ai-loading-step" id="up-step-3" data-i18n="aiStep3">✅ جاهز</p>
+                    </div>
+                    <p class="ai-loading-note" id="up-model-label" data-i18n="aiLoadingFirstTime">المرة الأولى فقط — يُخزَّن النموذج بعد ذلك (~2 ميغا)</p>
+                </div>
                 <div class="progress-track progress-bar-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill progress-bar-fill" style="width:0%"></div></div>
             </div>
             <p id="up-model-badge" class="up-model-badge chip chip-success is-hidden" aria-live="polite">Model ready ✓</p>
@@ -1257,6 +1298,11 @@
             </div>
             <div class="tool-layout" id="ai-upscaler-layout">
                 <div class="up-main-col compress-main-col">
+                    <div class="empty-state-friendly" id="up-empty-state">
+                        <div class="empty-state-friendly__icon">🔬</div>
+                        <p class="empty-state-friendly__title" data-i18n="emptyUpscalerTitle">لم تُرفع صورة بعد</p>
+                        <p class="empty-state-friendly__hint" data-i18n="emptyUpscalerHint">أسقط صورة لتكبيرها ٢× أو ٤× بالذكاء الاصطناعي.</p>
+                    </div>
                     <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للتكبير">
                         <div class="drop-zone-icon" aria-hidden="true">🔬</div>
                         <p class="drop-zone-title" data-i18n="upDropTitle">أسقط صورتك هنا</p>
@@ -1739,7 +1785,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.19</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.20</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
             <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
@@ -1824,16 +1870,28 @@
         </div>
     </div>
 
-    <script src="../js/tools-shared.js?v=2.2.19" defer></script>
-    <script src="../js/tools-router.js?v=2.2.19" defer></script>
-    <script src="../js/pwa-install.js?v=2.2.19" defer></script>
-    <script src="../js/ads-config.js?v=2.2.19"></script>
-    <script src="../js/ads.js?v=2.2.19" defer></script>
-    <script src="../js/locale-ui.js?v=2.2.19" defer></script>
-    <script src="../js/clipboard-paste.js?v=2.2.19" defer></script>
+    <script src="../js/tools-shared.js?v=2.2.20" defer></script>
+    <script src="../js/tools-router.js?v=2.2.20" defer></script>
+    <script src="../js/pwa-install.js?v=2.2.20" defer></script>
+    <script src="../js/ads-config.js?v=2.2.20"></script>
+    <script src="../js/ads.js?v=2.2.20" defer></script>
+    <script src="../js/locale-ui.js?v=2.2.20" defer></script>
+    <script src="../js/clipboard-paste.js?v=2.2.20" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="../js/compare-slider.js?v=2.2.19" defer></script>
-    <script src="../js/app.js?v=2.2.19" defer></script>
-    <script src="../js/goal-picker.js?v=2.2.19" defer></script>
+    <script src="../js/compare-slider.js?v=2.2.20" defer></script>
+    <!-- Print frame: hidden normally, shown during window.print() via @media print -->
+    <div id="print-frame"></div>
+
+    <!-- Mobile action bar: sticky bottom, visible < 760px only -->
+    <div id="mobile-action-bar" class="mobile-action-bar is-hidden">
+        <div class="mobile-action-bar__inner">
+            <span id="mobile-action-count" class="mobile-action-bar__count"></span>
+            <button type="button" id="mobile-action-compress" class="btn-primary" data-i18n="startCompression">بدء الضغط</button>
+            <a id="mobile-action-download" class="btn-secondary is-hidden" data-i18n="downloadZip">تحميل ZIP</a>
+        </div>
+    </div>
+
+    <script src="../js/app.js?v=2.2.20" defer></script>
+    <script src="../js/goal-picker.js?v=2.2.20" defer></script>
 </body>
 </html>
