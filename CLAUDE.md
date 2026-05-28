@@ -237,6 +237,12 @@ When adding new tools or guides, add entries with:
 - Mobile bar: `#mobile-action-bar` sticky bottom — visible < 760px only, synced in `syncWorkflowUI()` inside `app.js`
 - Friendly errors: `getFriendlyError(err)` helper in `app.js` — uses i18n `errGeneric/errTooLarge/errBadFile/errMemory/errNetwork`
 
+## HEIC Converter — CSP
+
+- **Do not use `heic2any` from CDN** — its libheif worker calls `eval()` and is blocked by `public/_headers` CSP (no `unsafe-eval`).
+- Use **self-hosted** `public/vendor/heic-to-csp.min.js` from npm `heic-to` package (`dist/csp/`, built with `DYNAMIC_EXECUTION=0`).
+- Vendored via `scripts/vendor-heic-to.js` on `postinstall`; loaded with dynamic `import()` in `public/js/tools/heic-converter.js`.
+
 ## AI Tools — Special Notes
 
 ### AI Upscaler

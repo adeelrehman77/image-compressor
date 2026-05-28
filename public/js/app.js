@@ -312,7 +312,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.23';
+        return window.NexusTools?.appVersion?.() || '2.2.25';
     }
 
     function initWorkers() {

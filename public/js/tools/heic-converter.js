@@ -1,28 +1,28 @@
 (function () {
     'use strict';
 
-    const { toast, formatBytes, downloadBlob, loadJsZip, bindDropZone, runWhenReady } = window.NexusTools;
+    const { toast, formatBytes, downloadBlob, loadJsZip, bindDropZone, runWhenReady, assetUrl } = window.NexusTools;
 
     function tf(key, vars, fallback) {
         const s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
         return s || fallback || key;
     }
 
-    let heic2anyLoaded = false;
-    let heic2anyPromise = null;
+    let heicModulePromise = null;
 
-    function loadHeic2Any() {
-        if (heic2anyLoaded && typeof heic2any !== 'undefined') return Promise.resolve();
-        if (heic2anyPromise) return heic2anyPromise;
-        heic2anyPromise = new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
-            s.crossOrigin = 'anonymous';
-            s.onload = () => { heic2anyLoaded = true; resolve(); };
-            s.onerror = () => reject(new Error(tf('heicLibLoadFail', null, 'Failed to load HEIC converter library. Check your internet connection.')));
-            document.head.appendChild(s);
+    /** CSP-safe libheif build (no unsafe-eval); lazy-loaded from vendor/. */
+    function loadHeicTo() {
+        if (heicModulePromise) return heicModulePromise;
+        const src = assetUrl('vendor/heic-to-csp.min.js');
+        const abs = new URL(src, window.location.href).href;
+        heicModulePromise = import(abs).catch((err) => {
+            heicModulePromise = null;
+            throw new Error(
+                tf('heicLibLoadFail', null, 'Failed to load HEIC converter library. Check your internet connection.')
+                + (err?.message ? ` (${err.message})` : '')
+            );
         });
-        return heic2anyPromise;
+        return heicModulePromise;
     }
 
     function escapeHtml(str) {
@@ -128,8 +128,9 @@
 
         async function convertAll() {
             if (convertBtn) convertBtn.disabled = true;
+            let heicTo;
             try {
-                await loadHeic2Any();
+                ({ heicTo } = await loadHeicTo());
             } catch (err) {
                 toast(err.message, 'error');
                 if (convertBtn) convertBtn.disabled = false;
@@ -137,18 +138,21 @@
             }
             const pending = fileItems.filter((f) => f.status !== 'done');
             for (const item of pending) {
-                await convertOne(item);
+                await convertOne(item, heicTo);
             }
             syncDlAllBtn();
             if (convertBtn) convertBtn.disabled = false;
         }
 
-        async function convertOne(item) {
+        async function convertOne(item, heicTo) {
             setBadge(item, 'status-processing', tf('statusConverting', null, 'Converting…'));
             item.status = 'processing';
             try {
-                const result = await heic2any({ blob: item.file, toType: outputFormat, quality: 0.92 });
-                const resultBlob = Array.isArray(result) ? result[0] : result;
+                const resultBlob = await heicTo({
+                    blob: item.file,
+                    type: outputFormat,
+                    quality: outputFormat === 'image/png' ? undefined : 0.92,
+                });
                 item.blob = resultBlob;
                 item.url = URL.createObjectURL(resultBlob);
                 item.status = 'done';
@@ -179,6 +183,10 @@
             } catch (err) {
                 item.status = 'error';
                 setBadge(item, 'status-error', tf('statusError', null, 'Error'));
+                window.NexusSentry?.captureException?.(err, {
+                    tool: 'heic-converter',
+                    fileName: item.file?.name,
+                });
                 toast(`${item.file.name}: ${err.message || tf('convertFailed', null, 'Conversion failed')}`, 'error');
             }
         }

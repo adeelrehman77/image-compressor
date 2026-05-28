@@ -120,7 +120,7 @@ window.__NEXUS_TOOL_META = {
                 'Add as many HEIC files as you need, choose your output format once, and download all converted images in a single ZIP file. Files stay on your device throughout the entire process.',
             title3: 'Free, private, no software to install',
             intro3:
-                'The conversion runs client-side using the heic2any library — no data leaves your browser. Works on Windows, Mac, and Linux without installing iTunes or any codec pack.',
+                'The conversion runs client-side using the heic-to library (libheif) — no data leaves your browser. Works on Windows, Mac, and Linux without installing iTunes or any codec pack.',
         },
         'format-converter': {
             h1: 'NexusCompress — Image Format Converter',
