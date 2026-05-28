@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.15">
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.16">
 <head>
     <meta charset="UTF-8">
-    <script src="../js/sentry-init.js?v=2.2.15" defer></script>
+    <script src="../js/sentry-init.js?v=2.2.16" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="../css/app.css?v=2.2.15" as="style">
+    <link rel="preload" href="../css/app.css?v=2.2.16" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
-    <script src="../js/locale.js?v=2.2.15"></script>
-    <script src="../js/i18n.js?v=2.2.15"></script>
-    <script src="../js/tool-meta.js?v=2.2.15"></script>
+    <script src="../js/locale.js?v=2.2.16"></script>
+    <script src="../js/i18n.js?v=2.2.16"></script>
+    <script src="../js/tool-meta.js?v=2.2.16"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -67,11 +67,11 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <link rel="stylesheet" href="../css/app.css?v=2.2.15">
-    <link rel="stylesheet" href="../css/tokens.css?v=2.2.15">
-    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.15">
-    <script src="../js/ga-config.js?v=2.2.15" defer></script>
-    <script src="../js/gtm.js?v=2.2.15" defer></script>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.16">
+    <link rel="stylesheet" href="../css/tokens.css?v=2.2.16">
+    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.16">
+    <script src="../js/ga-config.js?v=2.2.16" defer></script>
+    <script src="../js/gtm.js?v=2.2.16" defer></script>
 </head>
 <body class="app-body">
 
@@ -114,7 +114,8 @@
         </div>
         <div class="site-header-tools-wrap max-width-wrap">
             <nav class="site-header-tools" aria-label="Studio tools">
-                <p class="tool-tabs-hint" data-i18n="tabScrollHint" aria-hidden="true">اسحب لعرض المزيد من الأدوات ←</p>
+                <p class="tool-tabs-swipe-hint" data-i18n="tabScrollHint" aria-hidden="true">اسحب لعرض المزيد من الأدوات ←</p>
+                <div class="tool-tabs-wrapper">
                 <div class="tool-tabs" role="tablist" aria-label="Studio tools">
                     <a href="./" id="tab-compress" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true" aria-controls="tool-panel-compress" tabindex="0">
                         <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
@@ -162,6 +163,7 @@
                         <span class="tool-tab__label" data-i18n="tabCropper" data-i18n-short="tabCropperShort">مقص الصور</span>
                     </a>
                 </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -176,7 +178,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.15 — مجاني</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.16 — مجاني</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -210,29 +212,27 @@
 
             <div class="main-col compress-main-col">
                 <section id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse files">
-                    <div class="drop-zone-inner">
-                        <div class="drop-icon" aria-hidden="true">
-                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                        </div>
-                        <p class="drop-title" data-i18n="dropTitle">اسحب صورك هنا</p>
-                        <p class="drop-sub" data-i18n="dropSub">أضف الملفات · اضبط إعدادات الضغط · ثم ابدأ عندما تكون جاهزاً</p>
-                        <p class="drop-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
-                        <div class="drop-formats" aria-hidden="true">
-                            <span class="fmt-tag">JPEG</span>
-                            <span class="fmt-tag">PNG</span>
-                            <span class="fmt-tag">WebP</span>
-                            <span class="fmt-tag">AVIF</span>
-                        </div>
-                        <div class="drop-actions">
-                            <label class="btn-primary is-clickable">
-                                <span data-i18n="chooseFiles">اختيار ملفات</span>
-                                <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
-                            </label>
-                            <label class="btn-secondary is-clickable" id="folder-input-label">
-                                <span data-i18n="chooseFolder">اختيار مجلد</span>
-                                <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
-                            </label>
-                        </div>
+                    <div class="drop-zone-icon" aria-hidden="true">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                    </div>
+                    <p class="drop-zone-title" data-i18n="dropTitle">اسحب صورك هنا</p>
+                    <p class="drop-zone-subtitle" data-i18n="dropSub">أضف الملفات · اضبط إعدادات الضغط · ثم ابدأ عندما تكون جاهزاً</p>
+                    <div class="drop-zone-formats" aria-hidden="true">
+                        <span class="drop-zone-format-tag">JPEG</span>
+                        <span class="drop-zone-format-tag">PNG</span>
+                        <span class="drop-zone-format-tag">WebP</span>
+                        <span class="drop-zone-format-tag">AVIF</span>
+                    </div>
+                    <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                    <div class="drop-actions">
+                        <label class="btn-primary is-clickable">
+                            <span data-i18n="chooseFiles">اختيار ملفات</span>
+                            <input type="file" id="file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif">
+                        </label>
+                        <label class="btn-secondary is-clickable" id="folder-input-label">
+                            <span data-i18n="chooseFolder">اختيار مجلد</span>
+                            <input type="file" id="folder-input" class="is-hidden" webkitdirectory directory multiple>
+                        </label>
                     </div>
                 </section>
 
@@ -270,7 +270,7 @@
                                     <button type="button" id="view-cards" class="view-btn active" aria-pressed="true" data-i18n="viewCards">بطاقات</button>
                                     <button type="button" id="view-table" class="view-btn" aria-pressed="false" data-i18n="viewTable">جدول</button>
                                 </div>
-                                <button type="button" id="clear-all-btn" class="btn-secondary is-hidden" data-i18n="clearAll">مسح الكل</button>
+                                <button type="button" id="clear-all-btn" class="btn-danger is-hidden" data-i18n="clearAll">مسح الكل</button>
                                 <button type="button" id="download-all-btn" class="btn-primary is-hidden">
                                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                     <span data-i18n="downloadZip">تحميل ZIP</span>
@@ -515,22 +515,19 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid">
+            <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
-                    <section class="drop-zone tool-drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="اسحب الصور هنا أو اختر ملفات">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">📄</div>
-                            <p class="drop-title" data-i18n="itpDropTitle">اسحب الصور للتحويل إلى PDF</p>
-                            <p class="drop-sub" data-i18n="itpDropSub">كل صورة تصبح صفحة — الترتيب من الأعلى للأسفل</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                                <span class="fmt-tag">WebP</span>
-                            </div>
-                            <div class="drop-actions">
-                                <label class="btn-primary is-clickable"><span data-i18n="itpChooseImages">اختيار صور</span><input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
-                            </div>
+                    <section class="drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="اسحب الصور هنا أو اختر ملفات">
+                        <div class="drop-zone-icon" aria-hidden="true">📄</div>
+                        <p class="drop-zone-title" data-i18n="itpDropTitle">اسحب الصور للتحويل إلى PDF</p>
+                        <p class="drop-zone-subtitle" data-i18n="itpDropSub">كل صورة تصبح صفحة — الترتيب من الأعلى للأسفل</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">WebP</span>
                         </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable"><span data-i18n="itpChooseImages">اختيار صور</span><input type="file" id="itp-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp"></label>
                     </section>
                     <ul id="itp-list" class="tool-file-list"></ul>
                     <p class="tool-empty-state" id="itp-empty" data-i18n="itpEmpty">لا صور بعد — اسحب المسوح أعلاه، رتّب إن لزم، ثم حمّل PDF.</p>
@@ -546,7 +543,7 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="itp-page-size" data-i18n="itpPageSizeLabel">حجم الصفحة</label>
-                            <select id="itp-page-size" class="field-input">
+                            <select id="itp-page-size" class="field-input settings-select">
                                 <option value="a4" data-i18n="itpPageA4">A4 (معيار البوابات)</option>
                                 <option value="fit" data-i18n="itpPageFit">ملائمة للصورة</option>
                             </select>
@@ -571,7 +568,7 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid">
+            <div class="tool-layout tool-layout-wide">
                 <div class="main-col compress-main-col">
                     <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="أدوات PDF">
                         <button type="button" class="pdf-tab active" data-pdf-tab="merge" role="tab" aria-selected="true" data-i18n="pdfTabMerge">دمج</button>
@@ -579,39 +576,33 @@
                         <button type="button" class="pdf-tab" data-pdf-tab="to-images" role="tab" aria-selected="false" data-i18n="pdfTabToImages">🖼️ PDF إلى صور</button>
                     </div>
                     <div id="pdf-panel-merge" class="pdf-tab-panel">
-                        <section class="drop-zone tool-drop-zone" id="pdf-merge-drop" tabindex="0" data-i18n="pdfMergeDropAria" data-i18n-attr="aria-label" aria-label="اسحب ملفات PDF للدمج">
-                            <div class="drop-zone-inner">
-                                <div class="drop-icon" aria-hidden="true">🔗</div>
-                                <p class="drop-title" data-i18n="pdfMergeTitle">دمج PDF</p>
-                                <p class="drop-sub" data-i18n="pdfMergeSub">اختر ملفين PDF أو أكثر بالترتيب المطلوب</p>
-                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
-                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdfs">اختيار PDF</span><input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
-                            </div>
+                        <section class="drop-zone" id="pdf-merge-drop" tabindex="0" data-i18n="pdfMergeDropAria" data-i18n-attr="aria-label" aria-label="اسحب ملفات PDF للدمج">
+                            <div class="drop-zone-icon" aria-hidden="true">🔗</div>
+                            <p class="drop-zone-title" data-i18n="pdfMergeTitle">دمج PDF</p>
+                            <p class="drop-zone-subtitle" data-i18n="pdfMergeSub">اختر ملفين PDF أو أكثر بالترتيب المطلوب</p>
+                            <div class="drop-zone-formats" aria-hidden="true"><span class="drop-zone-format-tag">PDF</span></div>
+                            <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdfs">اختيار PDF</span><input type="file" id="pdf-merge-input" class="is-hidden" multiple accept="application/pdf"></label>
                         </section>
                         <ul id="pdf-merge-list" class="tool-file-list"></ul>
                         <p class="tool-empty-state" id="pdf-merge-empty" data-i18n="pdfMergeEmpty">أضف ملفين PDF على الأقل أعلاه، رتّب بـ ↑ ↓، ثم ادمج من الشريط الجانبي.</p>
                     </div>
                     <div id="pdf-panel-split" class="pdf-tab-panel is-hidden">
-                        <section class="drop-zone tool-drop-zone" id="pdf-split-drop" tabindex="0" data-i18n="pdfSplitDropAria" data-i18n-attr="aria-label" aria-label="اسحب PDF للتقسيم">
-                            <div class="drop-zone-inner">
-                                <div class="drop-icon" aria-hidden="true">✂️</div>
-                                <p class="drop-title" data-i18n="pdfSplitTitle">تقسيم PDF</p>
-                                <p class="drop-sub" data-i18n="pdfSplitSub">استخراج كل صفحة كملف منفصل (ZIP إن كان أكثر من صفحة)</p>
-                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
-                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">اختيار PDF</span><input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
-                            </div>
+                        <section class="drop-zone" id="pdf-split-drop" tabindex="0" data-i18n="pdfSplitDropAria" data-i18n-attr="aria-label" aria-label="اسحب PDF للتقسيم">
+                            <div class="drop-zone-icon" aria-hidden="true">✂️</div>
+                            <p class="drop-zone-title" data-i18n="pdfSplitTitle">تقسيم PDF</p>
+                            <p class="drop-zone-subtitle" data-i18n="pdfSplitSub">استخراج كل صفحة كملف منفصل (ZIP إن كان أكثر من صفحة)</p>
+                            <div class="drop-zone-formats" aria-hidden="true"><span class="drop-zone-format-tag">PDF</span></div>
+                            <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">اختيار PDF</span><input type="file" id="pdf-split-input" class="is-hidden" accept="application/pdf"></label>
                         </section>
                         <p id="pdf-split-info" class="tool-status"></p>
                     </div>
                     <div id="pdf-panel-to-images" class="pdf-tab-panel is-hidden">
-                        <section class="drop-zone tool-drop-zone" id="pdf2img-drop" tabindex="0" data-i18n="pdf2imgDropAria" data-i18n-attr="aria-label" aria-label="أسقط PDF لاستخراج الصفحات كصور">
-                            <div class="drop-zone-inner">
-                                <div class="drop-icon" aria-hidden="true">🖼️</div>
-                                <p class="drop-title" data-i18n="pdf2imgTitle">PDF إلى صور</p>
-                                <p class="drop-sub" data-i18n="pdf2imgSub">استخراج كل صفحة كـ JPEG أو PNG — في متصفحك</p>
-                                <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">PDF</span></div>
-                                <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">اختيار PDF</span><input type="file" id="pdf2img-input" class="is-hidden" accept="application/pdf"></label>
-                            </div>
+                        <section class="drop-zone" id="pdf2img-drop" tabindex="0" data-i18n="pdf2imgDropAria" data-i18n-attr="aria-label" aria-label="أسقط PDF لاستخراج الصفحات كصور">
+                            <div class="drop-zone-icon" aria-hidden="true">🖼️</div>
+                            <p class="drop-zone-title" data-i18n="pdf2imgTitle">PDF إلى صور</p>
+                            <p class="drop-zone-subtitle" data-i18n="pdf2imgSub">استخراج كل صفحة كـ JPEG أو PNG — في متصفحك</p>
+                            <div class="drop-zone-formats" aria-hidden="true"><span class="drop-zone-format-tag">PDF</span></div>
+                            <label class="btn-primary is-clickable"><span data-i18n="pdfChoosePdf">اختيار PDF</span><input type="file" id="pdf2img-input" class="is-hidden" accept="application/pdf"></label>
                         </section>
                         <p id="pdf2img-info" class="tool-status"></p>
                         <div id="pdf2img-progress-wrap" class="zip-progress-wrap is-hidden" role="status" aria-live="polite">
@@ -619,8 +610,8 @@
                                 <span id="pdf2img-progress-label" data-i18n="pdf2imgExtracting">جاري الاستخراج…</span>
                                 <span id="pdf2img-progress-pct">0%</span>
                             </div>
-                            <div class="batch-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                <div id="pdf2img-progress-bar" class="batch-progress-bar"></div>
+                            <div class="batch-progress-wrap progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div id="pdf2img-progress-bar" class="batch-progress-bar progress-bar-fill"></div>
                             </div>
                         </div>
                         <div id="pdf2img-thumbs" class="pdf2img-thumbs is-hidden" aria-label="Page previews"></div>
@@ -663,18 +654,18 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="pdf2img-format" data-i18n="pdf2imgFormatLabel">صيغة الإخراج</label>
-                            <select id="pdf2img-format" class="field-input">
+                            <select id="pdf2img-format" class="field-input settings-select">
                                 <option value="image/jpeg" data-i18n="pdf2imgFmtJpeg">JPEG (جودة 90%)</option>
                                 <option value="image/png" data-i18n="pdf2imgFmtPng">PNG</option>
                             </select>
                             <label class="field-label field-label-spaced-sm" for="pdf2img-range-mode" data-i18n="pdf2imgRangeLabel">نطاق الصفحات</label>
-                            <select id="pdf2img-range-mode" class="field-input">
+                            <select id="pdf2img-range-mode" class="field-input settings-select">
                                 <option value="all" data-i18n="pdf2imgRangeAll">كل الصفحات</option>
                                 <option value="custom" data-i18n="pdf2imgRangeCustom">نطاق مخصص</option>
                             </select>
                             <label class="field-label field-label-spaced-sm is-hidden" id="pdf2img-range-wrap" for="pdf2img-range">
                                 <span data-i18n="pdf2imgRangeHint">مثال: 1-3, 5, 7-9</span>
-                                <input type="text" id="pdf2img-range" class="field-input" placeholder="1-3, 5, 7-9" autocomplete="off">
+                                <input type="text" id="pdf2img-range" class="field-input settings-input" placeholder="1-3, 5, 7-9" autocomplete="off">
                             </label>
                             <button type="button" id="pdf2img-extract-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="pdf2imgDownload">تحميل الصور</button>
                             <button type="button" id="pdf2img-compress-btn" class="btn-secondary btn-block field-label-spaced-sm is-hidden" data-i18n="pdf2imgSendCompress">إرسال الكل إلى الضاغط</button>
@@ -697,16 +688,14 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid">
+            <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
-                    <section class="drop-zone tool-drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="اسحب ملف SVG هنا أو اختر واحداً">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">📐</div>
-                            <p class="drop-title" data-i18n="svgDropTitle">اسحب ملف SVG</p>
-                            <p class="drop-sub" data-i18n="svgDropSub">قارن الحجم قبل/بعد فوراً</p>
-                            <div class="drop-formats" aria-hidden="true"><span class="fmt-tag">SVG</span></div>
-                            <label class="btn-primary is-clickable"><span data-i18n="svgChooseSvg">اختيار SVG</span><input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
-                        </div>
+                    <section class="drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="اسحب ملف SVG هنا أو اختر واحداً">
+                        <div class="drop-zone-icon" aria-hidden="true">📐</div>
+                        <p class="drop-zone-title" data-i18n="svgDropTitle">اسحب ملف SVG</p>
+                        <p class="drop-zone-subtitle" data-i18n="svgDropSub">قارن الحجم قبل/بعد فوراً</p>
+                        <div class="drop-zone-formats" aria-hidden="true"><span class="drop-zone-format-tag">SVG</span></div>
+                        <label class="btn-primary is-clickable"><span data-i18n="svgChooseSvg">اختيار SVG</span><input type="file" id="svg-input" class="is-hidden" accept="image/svg+xml,.svg"></label>
                     </section>
                     <div class="svg-editor grid-2 is-hidden">
                         <div>
@@ -912,7 +901,7 @@
                     <span class="chip chip-ai" data-i18n="pcHeroBadge">الإمارات · ذكاء</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid photo-checker-grid">
+            <div class="tool-layout photo-checker-grid">
                 <div class="main-col compress-main-col">
                     <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
                         <span class="pc-models-loading__spinner" aria-hidden="true"></span>
@@ -922,16 +911,15 @@
                         <p data-i18n="pcModelsError">تعذّر تحميل النماذج. تحقق من الاتصال أو استخدم القائمة اليدوية أدناه.</p>
                     </div>
                     <section id="pc-drop-zone" class="drop-zone" tabindex="0" data-i18n="pcDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة جواز أو هوية للفحص">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">✅</div>
-                            <p class="drop-title" data-i18n="pcDropTitle">أسقط صورة البوابة هنا</p>
-                            <p class="drop-sub" data-i18n="pcDropSub">JPEG أو PNG فقط — يُحلّل محلياً بذكاء اكتشاف الوجه</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                            </div>
-                            <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">اختر صورة</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png"></label>
+                        <div class="drop-zone-icon" aria-hidden="true">✅</div>
+                        <p class="drop-zone-title" data-i18n="pcDropTitle">أسقط صورة البوابة هنا</p>
+                        <p class="drop-zone-subtitle" data-i18n="pcDropSub">JPEG أو PNG فقط — يُحلّل محلياً بذكاء اكتشاف الوجه</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
                         </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">اختر صورة</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png"></label>
                     </section>
                     <div id="pc-preview-wrap" class="pc-preview-wrap is-hidden">
                         <p class="pc-bio-label-outside pc-bio-label-outside--hair" data-i18n="pcBioHairOutside">↑ أعلى الشعر</p>
@@ -948,7 +936,7 @@
                     </div>
                     <div id="pc-actions" class="pc-actions is-hidden">
                         <label class="field-label" for="pc-portal-select" data-i18n="pcPortalLabel">الفحص وفق</label>
-                        <select id="pc-portal-select" class="field-select pc-portal-select">
+                        <select id="pc-portal-select" class="field-select settings-select pc-portal-select">
                             <option value="emirates-ica" data-i18n="pcPortalEmirates">الهوية الإماراتية / ICA (200 ك.ب)</option>
                             <option value="mohre-worker" data-i18n="pcPortalMohreWorker">صورة عامل MOHRE (200 ك.ب)</option>
                             <option value="uae-visa" data-i18n="pcPortalUaeVisa">صورة تأشيرة الإمارات (200 ك.ب)</option>
@@ -1012,27 +1000,24 @@
             <div id="rd-unsupported" class="rd-unsupported is-hidden" role="alert">
                 <p data-i18n="rdUnsupported">متصفحك لا يدعم هذه الأداة (يلزم Canvas API). يرجى التحديث.</p>
             </div>
-            <div class="app-grid compress-app-grid redactor-grid">
+            <div class="tool-layout tool-layout-wide redactor-grid">
                 <div class="main-col compress-main-col">
                     <section id="rd-drop-zone" class="drop-zone" tabindex="0" data-i18n="rdDropAria" data-i18n-attr="aria-label" aria-label="أسقط مستنداً للتعتيم">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">🔏</div>
-                            <p class="drop-title" data-i18n="rdDropTitle">أسقط مسح المستند هنا</p>
-                            <p class="drop-sub" data-i18n="rdDropSub">اعتِم الحقول الحساسة قبل المشاركة — محلي 100%</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                                <span class="fmt-tag">PDF</span>
-                            </div>
-                            <p class="drop-sub field-hint" data-i18n="rdFormatsLabel">JPEG · PNG · PDF (الصفحة الأولى)</p>
-                            <label class="btn-primary is-clickable"><span data-i18n="rdChooseDoc">اختر مستنداً</span><input type="file" id="rd-file-input" class="is-hidden" accept="image/jpeg,image/png,application/pdf"></label>
+                        <div class="drop-zone-icon" aria-hidden="true">🔏</div>
+                        <p class="drop-zone-title" data-i18n="rdDropTitle">أسقط مسح المستند هنا</p>
+                        <p class="drop-zone-subtitle" data-i18n="rdDropSub">اعتِم الحقول الحساسة قبل المشاركة — محلي 100%</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">PDF</span>
                         </div>
+                        <label class="btn-primary is-clickable"><span data-i18n="rdChooseDoc">اختر مستنداً</span><input type="file" id="rd-file-input" class="is-hidden" accept="image/jpeg,image/png,application/pdf"></label>
                     </section>
                     <div id="rd-editor" class="rd-editor is-hidden">
                         <div class="rd-toolbar">
                             <button type="button" id="rd-undo-btn" class="btn-secondary btn-sm" disabled data-i18n="rdUndo">تراجع</button>
                             <button type="button" id="rd-redo-btn" class="btn-secondary btn-sm" disabled data-i18n="rdRedo">إعادة</button>
-                            <button type="button" id="rd-clear-btn" class="btn-secondary btn-sm" data-i18n="rdClearAll">مسح الكل</button>
+                            <button type="button" id="rd-clear-btn" class="btn-danger btn-sm" data-i18n="rdClearAll">مسح الكل</button>
                             <button type="button" id="rd-mode-toggle" class="btn-secondary btn-sm rd-mode-toggle" data-i18n="rdModeDraw">وضع الرسم</button>
                             <button type="button" id="rd-new-doc-btn" class="btn-secondary btn-sm" data-i18n="rdNewDoc">مستند جديد</button>
                         </div>
@@ -1066,7 +1051,7 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="rd-doc-type" data-i18n="rdDocType">نوع المستند</label>
-                            <select id="rd-doc-type" class="field-select">
+                            <select id="rd-doc-type" class="field-select settings-select">
                                 <option value="emirates-id-front" data-i18n="rdDocEmiratesFront">الهوية الإماراتية (الوجه)</option>
                                 <option value="emirates-id-back" data-i18n="rdDocEmiratesBack">الهوية الإماراتية (الخلف)</option>
                                 <option value="uae-passport" data-i18n="rdDocPassport">جواز الإمارات (صفحة البيانات)</option>
@@ -1090,7 +1075,7 @@
                         <div class="settings-card__body">
                             <button type="button" id="rd-preview-btn" class="btn-secondary btn-block" data-i18n="rdPreview">معاينة المستند المعتَّم</button>
                             <label class="field-label field-label-spaced-sm" for="rd-output-format" data-i18n="rdOutputFormat">صيغة الإخراج</label>
-                            <select id="rd-output-format" class="field-select">
+                            <select id="rd-output-format" class="field-select settings-select">
                                 <option value="image/jpeg" data-i18n="rdFmtJpeg">JPEG (جودة 90%) — رفع البوابات</option>
                                 <option value="image/png" data-i18n="rdFmtPng">PNG — أرشفة دون فقد</option>
                             </select>
@@ -1098,7 +1083,7 @@
                                 <input type="checkbox" id="rd-compress-toggle">
                                 <span data-i18n="rdCompressToggle">ضغط أيضاً قبل التحميل</span>
                             </label>
-                            <select id="rd-compress-portal" class="field-select field-label-spaced-sm">
+                            <select id="rd-compress-portal" class="field-select settings-select field-label-spaced-sm">
                                 <option value="ica" data-i18n="rdCompressIca">أقل من 200 ك.ب (ICA / الهوية)</option>
                                 <option value="mohre" data-i18n="rdCompressMohre">أقل من 500 ك.ب (MOHRE)</option>
                             </select>
@@ -1155,27 +1140,26 @@
             </div>
             <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
                 <p id="up-model-label" class="up-model-label">Downloading AI model…</p>
-                <div class="progress-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill" style="width:0%"></div></div>
+                <div class="progress-track progress-bar-track" aria-hidden="true"><div id="up-model-bar" class="progress-fill progress-bar-fill" style="width:0%"></div></div>
             </div>
             <p id="up-model-badge" class="up-model-badge chip chip-success is-hidden" aria-live="polite">Model ready ✓</p>
             <div id="up-model-error" class="up-model-error is-hidden" role="alert">
                 <p data-i18n="upModelError">تعذّر تحميل نموذج الذكاء الاصطناعي. تحقق من اتصالك وحاول مرة أخرى.</p>
                 <button type="button" id="up-model-retry" class="btn-secondary btn-sm is-hidden" data-i18n="upModelRetry">إعادة المحاولة</button>
             </div>
-            <div class="app-grid compress-app-grid up-grid">
+            <div class="tool-layout up-grid">
                 <div class="main-col compress-main-col">
                     <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للتكبير">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">🔬</div>
-                            <p class="drop-title" data-i18n="upDropTitle">أسقط صورتك هنا</p>
-                            <p class="drop-sub" data-i18n="upDropSub">JPEG أو PNG أو WebP — تكبير محلي بـ Real-ESRGAN</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                                <span class="fmt-tag">WebP</span>
-                            </div>
-                            <label class="btn-primary is-clickable"><span data-i18n="upChooseImage">اختر صورة</span><input type="file" id="up-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"></label>
+                        <div class="drop-zone-icon" aria-hidden="true">🔬</div>
+                        <p class="drop-zone-title" data-i18n="upDropTitle">أسقط صورتك هنا</p>
+                        <p class="drop-zone-subtitle" data-i18n="upDropSub">JPEG أو PNG أو WebP — تكبير محلي بـ Real-ESRGAN</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">WEBP</span>
                         </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable"><span data-i18n="upChooseImage">اختر صورة</span><input type="file" id="up-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"></label>
                     </section>
                     <div id="up-upload-preview" class="up-upload-preview is-hidden">
                         <img id="up-preview-img" class="up-preview-img" alt="" width="320" height="240">
@@ -1202,13 +1186,13 @@
                                     </div>
                                 </fieldset>
                                 <label class="field-label" for="up-output-format" data-i18n="upOutputFormat">صيغة الإخراج</label>
-                                <select id="up-output-format" class="field-select">
+                                <select id="up-output-format" class="field-select settings-select">
                                     <option value="image/jpeg" data-i18n="upFmtJpeg">JPEG (ملف أصغر)</option>
                                     <option value="image/png" data-i18n="upFmtPng">PNG (بدون فقد)</option>
                                 </select>
                                 <div id="up-jpeg-quality-wrap" class="up-jpeg-quality-wrap">
                                     <label class="field-label" for="up-jpeg-quality"><span data-i18n="upJpegQuality">جودة JPEG</span> <span id="up-jpeg-quality-val">90%</span></label>
-                                    <input type="range" id="up-jpeg-quality" class="field-range" min="85" max="95" value="90" step="1">
+                                    <input type="range" id="up-jpeg-quality" class="field-range settings-input" min="85" max="95" value="90" step="1">
                                 </div>
                                 <p class="field-hint" data-i18n-html="upPerfNoteHtml">640×480 → ~15–25 ثانية على الحاسوب · 1200×900 → ~60–90 ثانية · الأجهزة المحمولة أبطأ عادة 2–4×.</p>
                                 <p id="up-perf-warn" class="up-perf-warn field-hint is-hidden" role="status"></p>
@@ -1218,7 +1202,7 @@
                     </div>
                     <div id="up-processing" class="up-processing is-hidden" role="status" aria-live="polite">
                         <p id="up-status" class="tool-status"></p>
-                        <div class="progress-track" aria-hidden="true"><div id="up-progress-bar" class="progress-fill" style="width:0%"></div></div>
+                        <div class="progress-track progress-bar-track" aria-hidden="true"><div id="up-progress-bar" class="progress-fill progress-bar-fill" style="width:0%"></div></div>
                         <p id="up-eta" class="up-eta field-hint"></p>
                         <button type="button" id="up-cancel-btn" class="btn-secondary btn-block" data-i18n="upCancel">إلغاء</button>
                     </div>
@@ -1283,26 +1267,23 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid">
+            <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">
-                                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                            </div>
-                            <p class="drop-title" data-i18n="heicDropTitle">اسحب ملفات HEIC / HEIF هنا</p>
-                            <p class="drop-sub" data-i18n="heicDropSub">أضف ملفات من iPhone أو iPad — يدعم التحويل الدفعي</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">HEIC</span>
-                                <span class="fmt-tag">HEIF</span>
-                            </div>
-                            <div class="drop-actions">
-                                <label class="btn-primary is-clickable">
-                                    <span data-i18n="chooseFiles">اختيار ملفات</span>
-                                    <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
-                                </label>
-                            </div>
+                        <div class="drop-zone-icon" aria-hidden="true">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
+                        <p class="drop-zone-title" data-i18n="heicDropTitle">اسحب ملفات HEIC / HEIF هنا</p>
+                        <p class="drop-zone-subtitle" data-i18n="heicDropSub">أضف ملفات من iPhone أو iPad — يدعم التحويل الدفعي</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">HEIC</span>
+                            <span class="drop-zone-format-tag">HEIF</span>
+                        </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable">
+                            <span data-i18n="chooseFiles">اختيار ملفات</span>
+                            <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
+                        </label>
                     </section>
                     <div id="heic-file-list" class="heic-file-list is-hidden" aria-label="HEIC files to convert" aria-live="polite"></div>
                     <div id="heic-status" class="tool-status" aria-live="polite"></div>
@@ -1318,7 +1299,7 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="heic-output-format" data-i18n="heicOutputFormat">صيغة الإخراج</label>
-                            <select id="heic-output-format" class="field-select">
+                            <select id="heic-output-format" class="field-select settings-select">
                                 <option value="image/jpeg">JPEG</option>
                                 <option value="image/png">PNG</option>
                                 <option value="image/webp">WebP</option>
@@ -1357,29 +1338,26 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid">
+            <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">
-                                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                            </div>
-                            <p class="drop-title" data-i18n="fmtDropTitle">اسحب الصور هنا للتحويل</p>
-                            <p class="drop-sub" data-i18n="fmtDropSub">يدعم JPEG وPNG وWebP وAVIF وGIF — تحويل دفعي بنقرة واحدة</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                                <span class="fmt-tag">WebP</span>
-                                <span class="fmt-tag">AVIF</span>
-                                <span class="fmt-tag">GIF</span>
-                            </div>
-                            <div class="drop-actions">
-                                <label class="btn-primary is-clickable">
-                                    <span data-i18n="chooseFiles">اختيار ملفات</span>
-                                    <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
-                                </label>
-                            </div>
+                        <div class="drop-zone-icon" aria-hidden="true">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
+                        <p class="drop-zone-title" data-i18n="fmtDropTitle">اسحب الصور هنا للتحويل</p>
+                        <p class="drop-zone-subtitle" data-i18n="fmtDropSub">يدعم JPEG وPNG وWebP وAVIF وGIF — تحويل دفعي بنقرة واحدة</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">WebP</span>
+                            <span class="drop-zone-format-tag">AVIF</span>
+                            <span class="drop-zone-format-tag">GIF</span>
+                        </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable">
+                            <span data-i18n="chooseFiles">اختيار ملفات</span>
+                            <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
+                        </label>
                     </section>
                     <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="Images to convert" aria-live="polite"></div>
                     <div id="fmt-status" class="tool-status" aria-live="polite"></div>
@@ -1395,7 +1373,7 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="fmt-output-format" data-i18n="fmtConvertTo">تحويل إلى</label>
-                            <select id="fmt-output-format" class="field-select">
+                            <select id="fmt-output-format" class="field-select settings-select">
                                 <option value="image/webp" data-i18n="fmtOptWebp">WebP — الأفضل للويب</option>
                                 <option value="image/avif" data-i18n="fmtOptAvif">AVIF — أصغر الملفات</option>
                                 <option value="image/jpeg" data-i18n="fmtOptJpeg">JPEG — توافق عالمي</option>
@@ -1435,27 +1413,26 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <div class="app-grid compress-app-grid cropper-app-grid">
+            <div class="tool-layout tool-layout-wide cropper-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للقص">
-                        <div class="drop-zone-inner">
-                            <div class="drop-icon" aria-hidden="true">✂️</div>
-                            <p class="drop-title" data-i18n="cropDropTitle">أسقط صورة للقص</p>
-                            <p class="drop-sub" data-i18n="cropDropSub">JPEG أو PNG أو WebP — أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
-                            <div class="drop-formats" aria-hidden="true">
-                                <span class="fmt-tag">JPEG</span>
-                                <span class="fmt-tag">PNG</span>
-                                <span class="fmt-tag">WebP</span>
-                            </div>
-                            <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp"></label>
+                        <div class="drop-zone-icon" aria-hidden="true">✂️</div>
+                        <p class="drop-zone-title" data-i18n="cropDropTitle">أسقط صورة للقص</p>
+                        <p class="drop-zone-subtitle" data-i18n="cropDropSub">JPEG أو PNG أو WebP — أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <div class="drop-zone-formats" aria-hidden="true">
+                            <span class="drop-zone-format-tag">JPEG</span>
+                            <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">WebP</span>
                         </div>
+                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
+                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp"></label>
                     </section>
                     <div id="crop-workspace" class="crop-workspace is-hidden">
                         <div class="crop-toolbar">
-                            <button type="button" id="crop-rotate-left" class="btn-secondary btn-sm" data-i18n="cropRotateLeft">↺ 90°</button>
-                            <button type="button" id="crop-rotate-right" class="btn-secondary btn-sm" data-i18n="cropRotateRight">↻ 90°</button>
-                            <button type="button" id="crop-flip-h" class="btn-secondary btn-sm" data-i18n="cropFlipH">قلب أفقي</button>
-                            <button type="button" id="crop-flip-v" class="btn-secondary btn-sm" data-i18n="cropFlipV">قلب عمودي</button>
+                            <button type="button" id="crop-rotate-left" class="btn-ghost btn-sm" data-i18n="cropRotateLeft">↺ 90°</button>
+                            <button type="button" id="crop-rotate-right" class="btn-ghost btn-sm" data-i18n="cropRotateRight">↻ 90°</button>
+                            <button type="button" id="crop-flip-h" class="btn-ghost btn-sm" data-i18n="cropFlipH">قلب أفقي</button>
+                            <button type="button" id="crop-flip-v" class="btn-ghost btn-sm" data-i18n="cropFlipV">قلب عمودي</button>
                             <button type="button" id="crop-reset" class="btn-secondary btn-sm" data-i18n="cropReset">إعادة تعيين</button>
                             <span id="crop-dimensions" class="crop-dimensions" aria-live="polite">—</span>
                         </div>
@@ -1474,7 +1451,7 @@
                             <span class="settings-chevron is-open" aria-hidden="true">▾</span>
                         </button>
                         <div class="settings-card__body">
-                            <select id="crop-aspect" class="field-select">
+                            <select id="crop-aspect" class="field-select settings-select">
                                 <option value="free" data-i18n="cropAspectFree">حر</option>
                                 <option value="1" data-i18n="cropAspect1">1:1 (مربع)</option>
                                 <option value="1.7777777778" data-i18n="cropAspect169">16:9</option>
@@ -1488,9 +1465,9 @@
                             </select>
                             <div id="crop-custom-size" class="crop-custom-size is-hidden">
                                 <label class="field-label" for="crop-custom-w" data-i18n="cropCustomW">العرض (بكسل)</label>
-                                <input type="number" id="crop-custom-w" class="field-input" min="1" value="800">
+                                <input type="number" id="crop-custom-w" class="field-input settings-input" min="1" value="800">
                                 <label class="field-label field-label-spaced-sm" for="crop-custom-h" data-i18n="cropCustomH">الارتفاع (بكسل)</label>
-                                <input type="number" id="crop-custom-h" class="field-input" min="1" value="600">
+                                <input type="number" id="crop-custom-h" class="field-input settings-input" min="1" value="600">
                             </div>
                         </div>
                     </div>
@@ -1504,14 +1481,14 @@
                         </button>
                         <div class="settings-card__body">
                             <label class="field-label" for="crop-output-format" data-i18n="cropOutputFormat">صيغة الإخراج</label>
-                            <select id="crop-output-format" class="field-select">
+                            <select id="crop-output-format" class="field-select settings-select">
                                 <option value="image/jpeg">JPEG</option>
                                 <option value="image/png">PNG</option>
                                 <option value="image/webp">WebP</option>
                             </select>
                             <label class="field-label field-label-spaced-sm" for="crop-quality" data-i18n="cropQuality">الجودة (JPEG/WebP)</label>
                             <div class="range-row">
-                                <input type="range" id="crop-quality" min="60" max="100" value="90">
+                                <input type="range" id="crop-quality" class="settings-input" min="60" max="100" value="90">
                                 <span id="crop-quality-val" class="range-val">90%</span>
                             </div>
                             <button type="button" id="crop-download-btn" class="btn-primary btn-block field-label-spaced-sm" disabled data-i18n="cropDownload">قص وتحميل</button>
@@ -1648,7 +1625,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.15</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.16</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
             <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
@@ -1733,15 +1710,15 @@
         </div>
     </div>
 
-    <script src="../js/tools-shared.js?v=2.2.15" defer></script>
-    <script src="../js/tools-router.js?v=2.2.15" defer></script>
-    <script src="../js/pwa-install.js?v=2.2.15" defer></script>
-    <script src="../js/ads-config.js?v=2.2.15"></script>
-    <script src="../js/ads.js?v=2.2.15" defer></script>
-    <script src="../js/locale-ui.js?v=2.2.15" defer></script>
-    <script src="../js/clipboard-paste.js?v=2.2.15" defer></script>
+    <script src="../js/tools-shared.js?v=2.2.16" defer></script>
+    <script src="../js/tools-router.js?v=2.2.16" defer></script>
+    <script src="../js/pwa-install.js?v=2.2.16" defer></script>
+    <script src="../js/ads-config.js?v=2.2.16"></script>
+    <script src="../js/ads.js?v=2.2.16" defer></script>
+    <script src="../js/locale-ui.js?v=2.2.16" defer></script>
+    <script src="../js/clipboard-paste.js?v=2.2.16" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="../js/compare-slider.js?v=2.2.15" defer></script>
-    <script src="../js/app.js?v=2.2.15" defer></script>
+    <script src="../js/compare-slider.js?v=2.2.16" defer></script>
+    <script src="../js/app.js?v=2.2.16" defer></script>
 </body>
 </html>

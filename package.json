@@ -1,6 +1,6 @@
 {
   "name": "nexuscompress",
-  "version": "2.2.15",
+  "version": "2.2.16",
   "description": "Client-side image optimizer with CLI",
   "main": "cli.js",
   "bin": {
