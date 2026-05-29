@@ -43,8 +43,8 @@ function getCropRect(srcW, srcH, aspectRatio) {
     return {
         sx: Math.floor((srcW - cropW) / 2),
         sy: Math.floor((srcH - cropH) / 2),
-        sw: cropW,
-        sh: cropH,
+        sw: Math.max(1, cropW),
+        sh: Math.max(1, cropH),
     };
 }
 
@@ -60,15 +60,15 @@ function computeOutputSize(bitmap, { maxWidth, maxHeight, scalePercent, aspectRa
     }
 
     if (maxWidth && width > maxWidth) {
-        height = Math.round((height * maxWidth) / width);
+        height = Math.max(1, Math.round((height * maxWidth) / width));
         width = maxWidth;
     }
     if (maxHeight && height > maxHeight) {
-        width = Math.round((width * maxHeight) / height);
+        width = Math.max(1, Math.round((width * maxHeight) / height));
         height = maxHeight;
     }
 
-    return { crop, width, height };
+    return { crop, width: Math.max(1, width), height: Math.max(1, height) };
 }
 
 function roundQuality(q) {
@@ -76,10 +76,12 @@ function roundQuality(q) {
 }
 
 async function renderToBlob(bitmap, crop, width, height, outputType, quality) {
-    const offscreen = new OffscreenCanvas(width, height);
+    const w = Math.max(1, width | 0);
+    const h = Math.max(1, height | 0);
+    const offscreen = new OffscreenCanvas(w, h);
     try {
         const ctx = offscreen.getContext('2d');
-        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
+        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, w, h);
 
         const opts = { type: outputType };
         if (LOSSY_TYPES.includes(outputType)) {

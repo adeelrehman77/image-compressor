@@ -125,7 +125,9 @@
                 let blob;
                 if (typeof OffscreenCanvas !== 'undefined') {
                     const bmp = await createImageBitmap(item.file);
-                    const oc = new OffscreenCanvas(bmp.width, bmp.height);
+                    const w = Math.max(1, bmp.width | 0);
+                    const h = Math.max(1, bmp.height | 0);
+                    const oc = new OffscreenCanvas(w, h);
                     oc.getContext('2d').drawImage(bmp, 0, 0);
                     bmp.close();
                     blob = await oc.convertToBlob({ type: outputFormat, quality: 0.92 });

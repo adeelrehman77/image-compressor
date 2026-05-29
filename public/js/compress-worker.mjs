@@ -81,8 +81,8 @@ function getCropRect(srcW, srcH, aspectRatio) {
     return {
         sx: Math.floor((srcW - cropW) / 2),
         sy: Math.floor((srcH - cropH) / 2),
-        sw: cropW,
-        sh: cropH,
+        sw: Math.max(1, cropW),
+        sh: Math.max(1, cropH),
     };
 }
 
@@ -96,14 +96,14 @@ function computeOutputSize(bitmap, { maxWidth, maxHeight, scalePercent, aspectRa
         height = Math.max(1, Math.round(height * (pct / 100)));
     }
     if (maxWidth && width > maxWidth) {
-        height = Math.round((height * maxWidth) / width);
+        height = Math.max(1, Math.round((height * maxWidth) / width));
         width = maxWidth;
     }
     if (maxHeight && height > maxHeight) {
-        width = Math.round((width * maxHeight) / height);
+        width = Math.max(1, Math.round((width * maxHeight) / height));
         height = maxHeight;
     }
-    return { crop, width, height };
+    return { crop, width: Math.max(1, width), height: Math.max(1, height) };
 }
 
 function roundQuality(q) {
@@ -111,11 +111,13 @@ function roundQuality(q) {
 }
 
 async function rasterize(bitmap, crop, width, height) {
-    const offscreen = new OffscreenCanvas(width, height);
+    const w = Math.max(1, width | 0);
+    const h = Math.max(1, height | 0);
+    const offscreen = new OffscreenCanvas(w, h);
     try {
         const ctx = offscreen.getContext('2d', { willReadFrequently: true });
-        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
-        return ctx.getImageData(0, 0, width, height);
+        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, w, h);
+        return ctx.getImageData(0, 0, w, h);
     } finally {
         offscreen.width = 0;
         offscreen.height = 0;
@@ -123,10 +125,12 @@ async function rasterize(bitmap, crop, width, height) {
 }
 
 async function renderToBlob(bitmap, crop, width, height, outputType, quality) {
-    const offscreen = new OffscreenCanvas(width, height);
+    const w = Math.max(1, width | 0);
+    const h = Math.max(1, height | 0);
+    const offscreen = new OffscreenCanvas(w, h);
     try {
         const ctx = offscreen.getContext('2d');
-        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, width, height);
+        ctx.drawImage(bitmap, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, w, h);
         const opts = { type: outputType };
         if (LOSSY_TYPES.includes(outputType)) opts.quality = quality;
         return await offscreen.convertToBlob(opts);

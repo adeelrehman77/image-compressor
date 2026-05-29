@@ -312,7 +312,7 @@
     }
 
     function getAppVersion() {
-        return window.NexusTools?.appVersion?.() || '2.2.29';
+        return window.NexusTools?.appVersion?.() || '2.2.30';
     }
 
     function initWorkers() {
@@ -652,12 +652,25 @@
             ctx.globalAlpha = 1;
             const outType = blob.type || 'image/png';
             const quality = outType === 'image/jpeg' || outType === 'image/webp' ? 0.92 : undefined;
-            return new Promise((resolve, reject) => {
-                canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Watermark failed'))), outType, quality);
-            });
-        } finally {
+            try {
+                if (canvas.convertToBlob) {
+                    return await canvas.convertToBlob({ type: outType, quality });
+                }
+                return await new Promise((resolve, reject) => {
+                    canvas.toBlob(
+                        (b) => (b ? resolve(b) : reject(new Error('Watermark failed'))),
+                        outType,
+                        quality
+                    );
+                });
+            } finally {
+                canvas.width = 0;
+                canvas.height = 0;
+            }
+        } catch (err) {
             canvas.width = 0;
             canvas.height = 0;
+            throw err;
         }
     }
 

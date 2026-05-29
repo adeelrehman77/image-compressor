@@ -119,6 +119,24 @@
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     }
 
+    async function canvasToBlobSafe(canvas, format, quality) {
+        const w = canvas.width | 0;
+        const h = canvas.height | 0;
+        if (w < 1 || h < 1) {
+            throw new Error(`Canvas export size is zero (${w}×${h})`);
+        }
+        const opts = {
+            type: format,
+            quality: format === 'image/jpeg' || format === 'image/webp' ? quality : undefined,
+        };
+        if (canvas.convertToBlob) {
+            return canvas.convertToBlob(opts);
+        }
+        return new Promise((res, rej) =>
+            canvas.toBlob((b) => (b ? res(b) : rej(new Error('toBlob failed'))), format, quality)
+        );
+    }
+
     async function loadOrtScript() {
         if (ortReady || typeof ort !== 'undefined') {
             ortReady = true;
@@ -425,7 +443,9 @@
         return out;
     }
 
-    function downscaleBicubic(srcW, srcH, rgba, targetScale) {
+    function downscaleBicubic(srcW, srcH, rgba, targetW, targetH) {
+        const outW = Math.max(1, Math.round(targetW));
+        const outH = Math.max(1, Math.round(targetH));
         const canvas = document.createElement('canvas');
         canvas.width = srcW;
         canvas.height = srcH;
@@ -433,8 +453,6 @@
         const img = ctx.createImageData(srcW, srcH);
         img.data.set(rgba);
         ctx.putImageData(img, 0, 0);
-        const outW = Math.round(srcW * targetScale);
-        const outH = Math.round(srcH * targetScale);
         const out = document.createElement('canvas');
         out.width = outW;
         out.height = outH;
@@ -448,8 +466,8 @@
     function bicubicFallback(bitmap, factor) {
         const w = bitmap.width;
         const h = bitmap.height;
-        const outW = Math.round(w * factor);
-        const outH = Math.round(h * factor);
+        const outW = Math.max(1, Math.round(w * factor));
+        const outH = Math.max(1, Math.round(h * factor));
         const src = document.createElement('canvas');
         src.width = w;
         src.height = h;
@@ -560,10 +578,10 @@
 
         onProgress?.('stitch', 0, 0, null);
         let finalRgba = finalizeAccum(acc, weight);
-        const destW = targetOutW ?? outW4;
-        const destH = targetOutH ?? outH4;
+        const destW = Math.max(1, Math.round(targetOutW ?? outW4));
+        const destH = Math.max(1, Math.round(targetOutH ?? outH4));
         if (outW4 !== destW || outH4 !== destH) {
-            finalRgba = downscaleBicubic(outW4, outH4, finalRgba, destW / outW4).data;
+            finalRgba = downscaleBicubic(outW4, outH4, finalRgba, destW, destH).data;
         }
         onProgress?.('final', 0, 0, null);
         return { rgba: finalRgba, width: destW, height: destH };
@@ -711,32 +729,42 @@
             return;
         }
 
-        const canvas = document.createElement('canvas');
-        canvas.width = imageData.width;
-        canvas.height = imageData.height;
-        canvas.getContext('2d').putImageData(imageData, 0, 0);
+        if (imageData.width < 1 || imageData.height < 1) {
+            console.error('[ai-upscaler] invalid output dimensions:', imageData.width, imageData.height);
+            toast(tf('upExportFailed', null, 'Could not export result — try a smaller image.'), 'error');
+            restoreUploadUi();
+            return;
+        }
 
-        const format = document.getElementById('up-output-format')?.value || 'image/jpeg';
-        const quality = (parseInt(document.getElementById('up-jpeg-quality')?.value, 10) || 90) / 100;
-        if (canvas.convertToBlob) {
-            resultBlob = await canvas.convertToBlob({
-                type: format,
-                quality: format === 'image/jpeg' ? quality : undefined,
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = imageData.width;
+            canvas.height = imageData.height;
+            canvas.getContext('2d').putImageData(imageData, 0, 0);
+
+            const format = document.getElementById('up-output-format')?.value || 'image/jpeg';
+            const quality = (parseInt(document.getElementById('up-jpeg-quality')?.value, 10) || 90) / 100;
+            resultBlob = await canvasToBlobSafe(canvas, format, quality);
+
+            if (document.getElementById('up-compress-toggle')?.checked) {
+                resultBlob = await compressBlob(resultBlob, 0.85);
+            }
+
+            if (resultUrl) URL.revokeObjectURL(resultUrl);
+            resultUrl = URL.createObjectURL(resultBlob);
+
+            showResults(imageData.width, imageData.height, usedFallback);
+        } catch (err) {
+            console.error('[ai-upscaler] export failed:', err);
+            window.NexusSentry?.captureException?.(err, {
+                tool: 'ai-upscaler',
+                action: 'export',
+                outW: imageData.width,
+                outH: imageData.height,
             });
-        } else {
-            resultBlob = await new Promise((res, rej) =>
-                canvas.toBlob((b) => (b ? res(b) : rej()), format, quality)
-            );
+            toast(tf('upExportFailed', null, 'Could not export result — try a smaller image.'), 'error');
+            restoreUploadUi();
         }
-
-        if (document.getElementById('up-compress-toggle')?.checked) {
-            resultBlob = await compressBlob(resultBlob, 0.85);
-        }
-
-        if (resultUrl) URL.revokeObjectURL(resultUrl);
-        resultUrl = URL.createObjectURL(resultBlob);
-
-        showResults(imageData.width, imageData.height, usedFallback);
     }
 
     function compressBlob(blob, quality) {
