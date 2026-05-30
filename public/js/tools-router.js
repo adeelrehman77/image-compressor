@@ -24,6 +24,7 @@
             hash === 'heic-converter' ||
             hash === 'format-converter' ||
             hash === 'image-cropper' ||
+            hash === 'collage-maker' ||
             hash === 'photo-checker' ||
             hash === 'redactor' ||
             hash === 'ai-upscaler'
@@ -93,7 +94,7 @@
     function preloadToolsIdle() {
         if (!shouldPreloadToolsIdle()) return;
         const run = () => {
-            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter', 'image-cropper'].forEach((tool) => {
+            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter', 'image-cropper', 'collage-maker'].forEach((tool) => {
                 window.NexusTools?.ensureTool?.(tool).catch(() => {});
             });
         };

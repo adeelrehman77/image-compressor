@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.30">
+<html lang="en" class="dark" data-theme="dark" data-app-version="2.2.31">
 <head>
     <meta charset="UTF-8">
-    <script src="js/sentry-init.js?v=2.2.30" defer></script>
+    <script src="js/sentry-init.js?v=2.2.31" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="css/app.css?v=2.2.30" as="style">
+    <link rel="preload" href="css/app.css?v=2.2.31" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,9 +34,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>Free Online Image Compressor | NexusCompress</title>
-    <script src="js/locale.js?v=2.2.30"></script>
-    <script src="js/i18n.js?v=2.2.30"></script>
-    <script src="js/tool-meta.js?v=2.2.30"></script>
+    <script src="js/locale.js?v=2.2.31"></script>
+    <script src="js/i18n.js?v=2.2.31"></script>
+    <script src="js/tool-meta.js?v=2.2.31"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -66,11 +66,11 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="css/app.css?v=2.2.30">
-    <link rel="stylesheet" href="css/tokens.css?v=2.2.30">
-    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.30">
-    <script src="js/ga-config.js?v=2.2.30" defer></script>
-    <script src="js/gtm.js?v=2.2.30" defer></script>
+    <link rel="stylesheet" href="css/app.css?v=2.2.31">
+    <link rel="stylesheet" href="css/tokens.css?v=2.2.31">
+    <link rel="stylesheet" href="css/nexus-extras.css?v=2.2.31">
+    <script src="js/ga-config.js?v=2.2.31" defer></script>
+    <script src="js/gtm.js?v=2.2.31" defer></script>
 </head>
 <body class="app-body">
 
@@ -212,6 +212,10 @@
                         <span class="tool-tab__icon" aria-hidden="true">✂️</span>
                         <span class="tool-tab__label" data-i18n="tabCropper" data-i18n-short="tabCropperShort">Image Cropper</span>
                     </a>
+                    <a href="#collage-maker" id="tab-collage-maker" class="tool-tab tool-nav-link" data-tool="collage-maker" role="tab" aria-selected="false" aria-controls="tool-panel-collage-maker" tabindex="-1">
+                        <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
+                        <span class="tool-tab__label" data-i18n="tabCollage" data-i18n-short="tabCollageShort">Collage Maker</span>
+                    </a>
                 </div>
                 </div>
             </nav>
@@ -228,7 +232,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">Shrink JPEG, PNG, WebP &amp; AVIF in your browser — nothing ever leaves your device.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.30 — Free</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.31 — Free</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -1659,6 +1663,164 @@
         </div>
     </div>
 
+    <div id="tool-panel-collage-maker" class="tool-panel is-hidden" data-tool-panel="collage-maker" role="tabpanel" aria-labelledby="tab-collage-maker" aria-hidden="true" tabindex="-1">
+        <div class="tool-workspace max-width-wrap">
+            <div class="tool-header">
+                <div class="tool-header-title">
+                    <span class="tool-emoji" aria-hidden="true">🖼️</span>
+                    <h2 class="tool-heading" data-i18n="heroCollageTitle">Photo Collage Maker</h2>
+                </div>
+                <p class="tool-subtitle" data-i18n="heroCollageSub">Combine multiple photos into one image — no upload, runs in your browser.</p>
+                <div class="tool-badges">
+                    <span class="chip chip-success" data-i18n="badgeFreePrivate">Free · Private</span>
+                </div>
+            </div>
+            <p class="tool-desc" data-i18n="collageToolDesc">🖼️ Arrange photos in grids or magazine layouts — Instagram, Facebook, and custom sizes.</p>
+
+            <div class="collage-layout-section">
+                <p class="field-label collage-section-label" data-i18n="collageChooseLayout">Choose a layout</p>
+                <div class="collage-layout-grid" id="collage-layout-grid" role="listbox" aria-label="Collage layout">
+                    <button type="button" class="collage-layout-btn is-active" data-layout="2h" role="option" aria-selected="true">
+                        <span class="collage-layout-preview collage-lp-2h" aria-hidden="true"><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayout2h">Side by side</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="2v" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-2v" aria-hidden="true"><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayout2v">Top &amp; bottom</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="3h" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-3h" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayout3h">3 columns</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="3v" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-3v" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayout3v">3 rows</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="4" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-4" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayout4">2×2 grid</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="left" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-left" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayoutLeft">Big left</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="right" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-right" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayoutRight">Big right</span>
+                    </button>
+                    <button type="button" class="collage-layout-btn" data-layout="top" role="option" aria-selected="false">
+                        <span class="collage-layout-preview collage-lp-top" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="collage-layout-name" data-i18n="collageLayoutTop">Big top</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tool-layout tool-layout-wide collage-app-grid">
+                <div class="main-col compress-main-col">
+                    <div class="collage-canvas-wrap">
+                        <div class="collage-canvas-outer" id="collage-canvas-outer">
+                            <canvas id="collage-canvas" width="1200" height="600"></canvas>
+                            <div class="collage-slots-overlay" id="collage-slots-overlay"></div>
+                        </div>
+                        <p class="collage-status tool-status" id="collage-status-msg" aria-live="polite" data-i18n="collageStatusHint">Click any slot to add a photo, or drag images onto it.</p>
+                    </div>
+                </div>
+                <aside class="compress-sidebar sidebar">
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">📐</span>
+                                <span data-i18n="collageCanvasSize">Canvas size</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="collage-canvas-preset" data-i18n="collageCanvasPreset">Preset</label>
+                            <select id="collage-canvas-preset" class="field-select settings-select">
+                                <option value="1200x600" data-i18n="collagePresetLandscape">Landscape 1200×600</option>
+                                <option value="1080x1080" data-i18n="collagePresetSquare">Square 1080×1080 (Instagram)</option>
+                                <option value="1200x628" data-i18n="collagePresetFacebook">Facebook / OG 1200×628</option>
+                                <option value="1080x1920" data-i18n="collagePresetStory">Story 1080×1920</option>
+                                <option value="1920x1080" data-i18n="collagePresetWidescreen">Widescreen 1920×1080</option>
+                                <option value="custom" data-i18n="collagePresetCustom">Custom…</option>
+                            </select>
+                            <div id="collage-custom-size-row" class="collage-custom-size is-hidden">
+                                <label class="field-label" for="collage-custom-w" data-i18n="cropCustomW">Width (px)</label>
+                                <input type="number" id="collage-custom-w" class="field-input settings-input" min="200" max="4000" value="1200">
+                                <label class="field-label field-label-spaced-sm" for="collage-custom-h" data-i18n="cropCustomH">Height (px)</label>
+                                <input type="number" id="collage-custom-h" class="field-input settings-input" min="200" max="4000" value="600">
+                                <button type="button" id="collage-custom-apply" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageApplySize">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🎨</span>
+                                <span data-i18n="collageSpacingStyle">Spacing &amp; style</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="collage-gap-slider">
+                                <span data-i18n="collageGapLabel">Gap between photos</span>
+                                <span class="range-val" id="collage-gap-val">8px</span>
+                            </label>
+                            <input type="range" id="collage-gap-slider" class="settings-input" min="0" max="40" value="8">
+                            <label class="field-label field-label-spaced-sm" for="collage-radius-slider">
+                                <span data-i18n="collageRadiusLabel">Corner radius</span>
+                                <span class="range-val" id="collage-radius-val">0px</span>
+                            </label>
+                            <input type="range" id="collage-radius-slider" class="settings-input" min="0" max="60" value="0">
+                            <p class="field-label field-label-spaced-sm" data-i18n="collageBgColor">Background colour</p>
+                            <div class="collage-swatches" id="collage-swatches">
+                                <button type="button" class="collage-swatch is-active" style="background:#ffffff" data-color="#ffffff" aria-label="White"></button>
+                                <button type="button" class="collage-swatch" style="background:#000000" data-color="#000000" aria-label="Black"></button>
+                                <button type="button" class="collage-swatch" style="background:#1e221f" data-color="#1e221f" aria-label="Dark"></button>
+                                <button type="button" class="collage-swatch" style="background:#f5f5f0" data-color="#f5f5f0" aria-label="Off-white"></button>
+                                <button type="button" class="collage-swatch" style="background:var(--accent)" data-color="#9aa8e8" aria-label="Accent"></button>
+                                <button type="button" class="collage-swatch" style="background:#f5a623" data-color="#f5a623" aria-label="Gold"></button>
+                                <label class="collage-swatch collage-swatch-custom" title="Custom colour">
+                                    <input type="color" value="#ffffff" id="collage-custom-color" aria-label="Custom colour">
+                                </label>
+                            </div>
+                            <label class="field-label field-label-spaced-sm" for="collage-fit-select" data-i18n="collagePhotoFit">Photo fit</label>
+                            <select id="collage-fit-select" class="field-select settings-select">
+                                <option value="cover" data-i18n="collageFitCover">Cover (fill &amp; crop)</option>
+                                <option value="contain" data-i18n="collageFitContain">Contain (fit inside)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-card" data-settings-card data-default-open>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">⬇️</span>
+                                <span data-i18n="collageExportTitle">Export</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <p class="field-label" data-i18n="collageFormat">Format</p>
+                            <div class="collage-fmt-toggle" role="group" aria-label="Output format">
+                                <button type="button" class="collage-fmt-btn is-active" data-fmt="jpeg">JPEG</button>
+                                <button type="button" class="collage-fmt-btn" data-fmt="png">PNG</button>
+                                <button type="button" class="collage-fmt-btn" data-fmt="webp">WebP</button>
+                            </div>
+                            <label class="field-label field-label-spaced-sm" for="collage-quality" id="collage-quality-row">
+                                <span data-i18n="cropQuality">Quality (JPEG/WebP)</span>
+                                <span class="range-val" id="collage-quality-val">90%</span>
+                            </label>
+                            <input type="range" id="collage-quality" class="settings-input" min="50" max="100" value="90">
+                            <button type="button" id="collage-export-btn" class="btn-primary btn-block field-label-spaced-sm" data-i18n="collageDownload">Download collage</button>
+                            <button type="button" id="collage-clear-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageClearAll">Clear all photos</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <input type="file" id="collage-file-picker" class="is-hidden" accept="image/*">
+        </div>
+    </div>
+
     <div class="below-app max-width-wrap">
         <aside class="ad-slot ad-slot--primary glass-panel" data-nexus-ad="primary" aria-label="Advertisement"></aside>
 
@@ -1707,6 +1869,7 @@
                 <a href="#ai-upscaler" class="seo-tool-chip" data-i18n="seoChipUpscaler">AI Upscaler</a>
                 <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
                 <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
+                <a href="#collage-maker" class="seo-tool-chip" data-i18n="seoChipCollage">Collage Maker</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -1784,7 +1947,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.30</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.31</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
             <a href="docs.html" data-i18n="footerDocs">Docs</a>
@@ -1869,15 +2032,15 @@
         </div>
     </div>
 
-    <script src="js/tools-shared.js?v=2.2.30" defer></script>
-    <script src="js/tools-router.js?v=2.2.30" defer></script>
-    <script src="js/pwa-install.js?v=2.2.30" defer></script>
-    <script src="js/ads-config.js?v=2.2.30"></script>
-    <script src="js/ads.js?v=2.2.30" defer></script>
-    <script src="js/locale-ui.js?v=2.2.30" defer></script>
-    <script src="js/clipboard-paste.js?v=2.2.30" defer></script>
+    <script src="js/tools-shared.js?v=2.2.31" defer></script>
+    <script src="js/tools-router.js?v=2.2.31" defer></script>
+    <script src="js/pwa-install.js?v=2.2.31" defer></script>
+    <script src="js/ads-config.js?v=2.2.31"></script>
+    <script src="js/ads.js?v=2.2.31" defer></script>
+    <script src="js/locale-ui.js?v=2.2.31" defer></script>
+    <script src="js/clipboard-paste.js?v=2.2.31" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="js/compare-slider.js?v=2.2.30" defer></script>
+    <script src="js/compare-slider.js?v=2.2.31" defer></script>
     <!-- Print frame: hidden normally, shown during window.print() via @media print -->
     <div id="print-frame"></div>
 
@@ -1890,7 +2053,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=2.2.30" defer></script>
-    <script src="js/goal-picker.js?v=2.2.30" defer></script>
+    <script src="js/app.js?v=2.2.31" defer></script>
+    <script src="js/goal-picker.js?v=2.2.31" defer></script>
 </body>
 </html>

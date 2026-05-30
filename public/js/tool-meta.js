@@ -9,6 +9,7 @@ window.__NEXUS_TOOL_META = {
         'heic-converter': 'HEIC to JPEG/PNG/WebP — free & private',
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
         'image-cropper': 'Crop, rotate & flip images — free & private',
+        'collage-maker': 'Combine photos into collages — free & private',
         'photo-checker': 'UAE portal photo compliance — 10 checks, 100% local',
         redactor: 'Redact ID & passport scans — 100% local',
         'ai-upscaler': 'AI image upscaler 2×/4× — Real-ESRGAN in browser',
@@ -22,6 +23,7 @@ window.__NEXUS_TOOL_META = {
         'heic-converter': 'HEIC Converter — Free Online | NexusCompress',
         'format-converter': 'Image Format Converter — Free Online | NexusCompress',
         'image-cropper': 'Image Cropper — Free Online | NexusCompress',
+        'collage-maker': 'Photo Collage Maker — Free Online | NexusCompress',
         'photo-checker': 'UAE Photo Compliance Checker — Free Online | NexusCompress',
         redactor: 'Secure Document Redactor — Free Online | NexusCompress',
         'ai-upscaler': 'AI Image Upscaler — Free Online | NexusCompress',
@@ -42,6 +44,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — convert JPEG, PNG, WebP, AVIF, and GIF images to any modern format in your browser. Free, private, no server uploads.',
         'image-cropper':
             'NexusCompress — crop, rotate, and flip JPEG, PNG, and WebP images in your browser. UAE ID presets, custom ratios, send to compressor.',
+        'collage-maker':
+            'NexusCompress — combine multiple photos into one collage in your browser. Grid layouts, Instagram & Facebook sizes, gap, radius, and export as JPEG, PNG, or WebP.',
         'photo-checker':
             'NexusCompress — check Emirates ID, ICA & MOHRE photos before upload. 10 automated compliance tests with face AI — free, private, in-browser.',
         redactor:
@@ -170,11 +174,23 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Choose 2× or 4× upscale, export JPEG or PNG, optionally compress before download, and compare before/after with the built-in slider.',
         },
+        'collage-maker': {
+            h1: 'NexusCompress — Photo Collage Maker',
+            title1: 'Combine photos in seconds',
+            intro1:
+                'Arrange two to four images in side-by-side, grid, or magazine layouts — perfect for Instagram posts, Facebook covers, and before/after comparisons. Everything runs in your browser with no uploads.',
+            title2: 'Social-ready presets',
+            intro2:
+                'Pick square 1080×1080, story 1080×1920, Facebook OG 1200×628, or set a custom canvas size. Adjust gap, corner radius, background colour, and photo fit before export.',
+            title3: 'Private by design',
+            intro3:
+                'Your photos never leave your device. Download as JPEG, PNG, or WebP — then optionally send the result to the compressor tab to shrink file size for sharing.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'collage-maker': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

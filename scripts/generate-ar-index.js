@@ -177,6 +177,9 @@ function buildArIndex(opts = {}) {
     if (!html.includes('id="tab-image-cropper"')) {
         throw new Error('generate-ar-index: Image Cropper tab missing — English source must include static nav link');
     }
+    if (!html.includes('id="tab-collage-maker"')) {
+        throw new Error('generate-ar-index: Collage Maker tab missing — English source must include static nav link');
+    }
 
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
