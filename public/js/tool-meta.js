@@ -10,6 +10,7 @@ window.__NEXUS_TOOL_META = {
         'format-converter': 'Convert image formats — WebP, AVIF, JPEG, PNG',
         'image-cropper': 'Crop, rotate & flip images — free & private',
         'collage-maker': 'Combine photos into collages — free & private',
+        'remove-bg': 'Remove image backgrounds with local AI — free & private',
         'photo-checker': 'UAE portal photo compliance — 10 checks, 100% local',
         redactor: 'Redact ID & passport scans — 100% local',
         'ai-upscaler': 'AI image upscaler 2×/4× — Real-ESRGAN in browser',
@@ -24,6 +25,7 @@ window.__NEXUS_TOOL_META = {
         'format-converter': 'Image Format Converter — Free Online | NexusCompress',
         'image-cropper': 'Image Cropper — Free Online | NexusCompress',
         'collage-maker': 'Photo Collage Maker — Free Online | NexusCompress',
+        'remove-bg': 'Remove Background — Free Online | NexusCompress',
         'photo-checker': 'UAE Photo Compliance Checker — Free Online | NexusCompress',
         redactor: 'Secure Document Redactor — Free Online | NexusCompress',
         'ai-upscaler': 'AI Image Upscaler — Free Online | NexusCompress',
@@ -46,6 +48,8 @@ window.__NEXUS_TOOL_META = {
             'NexusCompress — crop, rotate, and flip JPEG, PNG, and WebP images in your browser. UAE ID presets, custom ratios, send to compressor.',
         'collage-maker':
             'NexusCompress — combine multiple photos into one collage in your browser. Grid layouts, Instagram & Facebook sizes, gap, radius, and export as JPEG, PNG, or WebP.',
+        'remove-bg':
+            'NexusCompress — remove photo backgrounds with local AI in your browser. Transparent PNG export, optional background replace, edge feathering — no upload.',
         'photo-checker':
             'NexusCompress — check Emirates ID, ICA & MOHRE photos before upload. 10 automated compliance tests with face AI — free, private, in-browser.',
         redactor:
@@ -186,11 +190,23 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Your photos never leave your device. Download as JPEG, PNG, or WebP — then optionally send the result to the compressor tab to shrink file size for sharing.',
         },
+        'remove-bg': {
+            h1: 'NexusCompress — Remove Background Online',
+            title1: 'AI cutouts in your browser',
+            intro1:
+                'Drop a portrait or product photo and erase the background with a local ONNX model — no cloud upload, no account. Download a transparent PNG ready for listings, stickers, or compositing.',
+            title2: 'One-time model download',
+            intro2:
+                'The ~40 MB AI model downloads once and caches in your browser. Compare before and after with a draggable slider, feather edges, and optionally fill with white, black, or your own photo.',
+            title3: 'PNG transparency preserved',
+            intro3:
+                'Output is always PNG so alpha channels stay intact. Use the optional background replace panel to preview solid colours or cover-fit images behind your subject before download.',
+        },
     },
 };
 
 (function () {
-    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'collage-maker': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
+    var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'collage-maker': 1, 'remove-bg': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
 
     function parseToolFromHash() {
         var h = (location.hash || '').replace(/^#/, '').trim();

@@ -25,6 +25,7 @@
             hash === 'format-converter' ||
             hash === 'image-cropper' ||
             hash === 'collage-maker' ||
+            hash === 'remove-bg' ||
             hash === 'photo-checker' ||
             hash === 'redactor' ||
             hash === 'ai-upscaler'
@@ -70,6 +71,9 @@
             }
             if (tool === 'ai-upscaler') {
                 await window.__NEXUS_UPSCALER_ACTIVATE?.();
+            }
+            if (tool === 'remove-bg') {
+                await window.__NEXUS_REMOVE_BG_ACTIVATE?.();
             }
             if (tool === 'images-to-pdf' || tool === 'pdf-suite') {
                 await window.NexusTools?.loadPdfLib?.();

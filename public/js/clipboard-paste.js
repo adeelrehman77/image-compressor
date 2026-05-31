@@ -98,6 +98,10 @@
             await window.__NEXUS_UPSCALER_LOAD_FILE(file);
             return;
         }
+        if (tool === 'remove-bg' && window.__NEXUS_REMOVE_BG_LOAD_FILE) {
+            await window.__NEXUS_REMOVE_BG_LOAD_FILE(file);
+            return;
+        }
         if (tool === 'format-converter' && window.__NEXUS_FMT_ADD_FILES) {
             window.__NEXUS_FMT_ADD_FILES([file]);
             return;

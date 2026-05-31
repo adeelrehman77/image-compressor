@@ -7,6 +7,8 @@ const pages = [
     { loc: '/#photo-checker', priority: '0.8', changefreq: 'weekly' },
     { loc: '/#redactor', priority: '0.8', changefreq: 'monthly' },
     { loc: '/#ai-upscaler', priority: '0.85', changefreq: 'monthly' },
+    { loc: '/#remove-bg', priority: '0.85', changefreq: 'monthly' },
+    { loc: '/#collage-maker', priority: '0.8', changefreq: 'monthly' },
     { loc: '/ar/', priority: '0.95', changefreq: 'weekly', alternates: [{ lang: 'ar-AE', href: '/ar/' }, { lang: 'en', href: '/' }] },
     { loc: '/docs.html', priority: '0.6', changefreq: 'monthly' },
     { loc: '/privacy.html', priority: '0.5', changefreq: 'yearly' },

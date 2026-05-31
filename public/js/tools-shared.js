@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.31'
+            '2.2.33'
         );
     }
 
@@ -78,6 +78,7 @@ window.NexusTools = (function () {
         'format-converter': 'js/tools/format-converter.js',
         'image-cropper': 'js/tools/image-cropper.js',
         'collage-maker': 'js/tools/collage-maker.js',
+        'remove-bg': 'js/tools/remove-bg.js',
         'photo-checker': 'js/tools/photo-checker.js',
         redactor: 'js/tools/document-redactor.js',
         'ai-upscaler': 'js/tools/ai-upscaler.js',

@@ -1,6 +1,6 @@
 {
   "name": "nexuscompress",
-  "version": "2.2.31",
+  "version": "2.2.33",
   "description": "Client-side image optimizer with CLI",
   "main": "cli.js",
   "bin": {
@@ -37,6 +37,8 @@
     "@fontsource/inter": "^5.2.5",
     "@fontsource/outfit": "^5.2.5",
     "@fontsource/syne": "^5.2.7",
+    "@imgly/background-removal": "^1.4.5",
+    "@imgly/background-removal-data": "^1.4.5",
     "cssnano": "^7.0.6",
     "express": "^5.2.1",
     "heic-to": "^1.4.3",
