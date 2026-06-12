@@ -139,6 +139,15 @@ if (!fs.existsSync(esrganModel) || fs.statSync(esrganModel).size < 4_000_000) {
     throw new Error('verify-dist: missing or incomplete models/realesrgan-x4.onnx');
 }
 
+const bgRemovalBundle = path.join(distDir, 'vendor/background-removal.mjs');
+const bgRemovalResources = path.join(distDir, 'vendor/bg-removal-data/resources.json');
+if (!fs.existsSync(bgRemovalBundle)) {
+    throw new Error('verify-dist: missing vendor/background-removal.mjs — run npm install');
+}
+if (!fs.existsSync(bgRemovalResources)) {
+    throw new Error('verify-dist: missing vendor/bg-removal-data/resources.json — run npm install');
+}
+
 for (const rel of DEDICATED_FAQ_GUIDES) {
     const file = path.join(distDir, rel);
     if (!fs.existsSync(file)) {

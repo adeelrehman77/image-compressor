@@ -1,6 +1,6 @@
 {
   "name": "nexuscompress",
-  "version": "2.2.34",
+  "version": "2.2.35",
   "description": "Client-side image optimizer with CLI",
   "main": "cli.js",
   "bin": {
@@ -20,7 +20,7 @@
     "compress": "node cli.js",
     "predeploy": "rm -rf dist && npm run build && node scripts/verify-dist.js",
     "deploy": "wrangler deploy",
-    "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/vendor-heic-to.js && node scripts/generate-icons.js && node scripts/generate-og.js"
+    "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/vendor-heic-to.js && node scripts/vendor-background-removal.js && node scripts/generate-icons.js && node scripts/generate-og.js"
   },
   "keywords": [
     "image",
@@ -40,6 +40,7 @@
     "@imgly/background-removal": "^1.4.5",
     "@imgly/background-removal-data": "^1.4.5",
     "cssnano": "^7.0.6",
+    "esbuild": "^0.25.12",
     "express": "^5.2.1",
     "heic-to": "^1.4.3",
     "jszip": "^3.10.1",

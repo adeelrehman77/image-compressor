@@ -3,8 +3,8 @@
 
     const { toast, downloadBlob, bindDropZone, runWhenReady } = window.NexusTools;
 
-    const LIB_URL = 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/+esm';
-    const PUBLIC_PATH = 'https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/';
+    const LIB_REL = 'vendor/background-removal.mjs';
+    const DATA_REL = 'vendor/bg-removal-data/';
     const MODEL_CACHE_KEY = 'nexus-bg-model-cached';
 
     const ACCEPTED = /^image\/(jpeg|png|webp)$/i;
@@ -62,13 +62,20 @@
 
     async function ensureLib() {
         if (libModule) return libModule;
-        libModule = await import(LIB_URL);
+        const rel = window.NexusTools?.assetUrl?.(LIB_REL) || LIB_REL;
+        const url = new URL(rel, window.location.href).href;
+        libModule = await import(url);
         return libModule;
+    }
+
+    function getPublicPath() {
+        const rel = window.NexusTools?.resolveAsset?.(DATA_REL) || DATA_REL;
+        return new URL(rel, window.location.href).href;
     }
 
     function getConfig(onProgress) {
         return {
-            publicPath: PUBLIC_PATH,
+            publicPath: getPublicPath(),
             model: 'small',
             output: { format: 'image/png', quality: 1 },
             progress: onProgress,
@@ -130,35 +137,21 @@
         setModelStep(1);
         setModelUi('loading', { pct: 0 });
 
-        let sawDownload = false;
-        let totalBytes = 0;
-        let loadedBytes = 0;
         const wasCached = localStorage.getItem(MODEL_CACHE_KEY) === '1';
 
         try {
-            const { preload } = await ensureLib();
+            await ensureLib();
             setModelStep(2);
-            await preload(
-                getConfig((key, current, total) => {
-                    if (key.startsWith('fetch:')) {
-                        sawDownload = true;
-                        loadedBytes = current;
-                        totalBytes = total;
-                        const pct = total ? (current / total) * 100 : 0;
-                        setModelUi('loading', { pct });
-                    }
-                    if (key.startsWith('compute')) {
-                        setModelStep(3);
-                    }
-                })
-            );
+            const res = await fetch(new URL('resources.json', getPublicPath()));
+            if (!res.ok) {
+                throw new Error(`Background removal assets unavailable (HTTP ${res.status})`);
+            }
             modelReady = true;
-            if (sawDownload) localStorage.setItem(MODEL_CACHE_KEY, '1');
             setModelStep(3);
-            setModelUi('ready', { cached: wasCached && !sawDownload });
+            setModelUi('ready', { cached: wasCached });
             return true;
         } catch (err) {
-            console.error(err);
+            console.error('[remove-bg] model init failed:', err);
             setModelUi('error');
             toast(tf('rbgModelError', null, 'Could not load AI model. Check your connection and try again.'), 'error');
             return false;
@@ -352,9 +345,19 @@
         try {
             const { removeBackground } = await ensureLib();
             let inferencePct = 15;
+            let sawDownload = false;
             const rawBlob = await removeBackground(
                 file,
                 getConfig((key, current, total) => {
+                    if (key.startsWith('fetch:')) {
+                        sawDownload = true;
+                        const pct = 15 + (current / Math.max(total, 1)) * 70;
+                        setProcessing(
+                            true,
+                            tf('rbgLoadingModel', null, 'Loading AI model…'),
+                            pct
+                        );
+                    }
                     if (key.startsWith('compute')) {
                         inferencePct = 15 + (current / Math.max(total, 1)) * 75;
                         setProcessing(
@@ -365,6 +368,7 @@
                     }
                 })
             );
+            if (sawDownload) localStorage.setItem(MODEL_CACHE_KEY, '1');
             nobgBlob = rawBlob;
             setProcessing(true, tf('rbgFinishing', null, 'Finishing…'), 95);
             await rebuildPreview();
@@ -452,6 +456,7 @@
         document.getElementById('rbg-reset-btn')?.addEventListener('click', resetAll);
         document.getElementById('rbg-model-retry')?.addEventListener('click', () => {
             modelReady = false;
+            modelLoading = false;
             ensureModel();
         });
 

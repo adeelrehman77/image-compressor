@@ -73,6 +73,7 @@ require('./sync-version').main();
 require('./sync-hero-links').main();
 require('./generate-sitemap');
 require('./download-esrgan-model');
+require('./vendor-background-removal');
 
 // Dev preview copy (dist/ar is regenerated after patch-html below)
 buildArIndex();

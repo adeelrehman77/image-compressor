@@ -8,3 +8,4 @@ qa-assets/
 .env
 .env.*
 !.env.example
+public/vendor/bg-removal-data/
