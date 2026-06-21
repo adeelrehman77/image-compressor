@@ -14,8 +14,8 @@
 }
 
 html {
-    -webkit-font-smoothing: auto;
-    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
 }
 
@@ -26,19 +26,12 @@ html.dark {
     --surface-border: rgba(255, 255, 255, 0.07);
     --text: #e8ede9;
     --text-muted: #8a9489;
-    --accent: #3dff8f;
-    --accent-soft: #3dff8f;
     --accent-dim: rgba(61, 255, 143, 0.12);
     --accent-dim2: rgba(61, 255, 143, 0.06);
     --uae: #f5a623;
     --uae-dim: rgba(245, 166, 35, 0.1);
     --success: #3dff8f;
     --cyan: #6eb4c4;
-}
-
-html:not(.dark) {
-    --accent: #0a9e55;
-    --accent-soft: #12b86a;
 }
 
 body, .app-body {
@@ -1323,30 +1316,6 @@ html:not(.dark) .file-actions .download-btn {
     height: 100%;
     object-fit: contain;
     max-height: min(420px, 52vh);
-}
-
-.compare-stage-label {
-    position: absolute;
-    top: 0.75rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.compare-stage-label--before {
-    left: 0.75rem;
-    background: rgba(0, 0, 0, 0.55);
-    color: #e8ede9;
-}
-
-.compare-stage-label--after {
-    right: 0.75rem;
-    background: var(--accent-dim);
-    color: var(--accent);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .compress-preview-pending {

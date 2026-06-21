@@ -187,6 +187,21 @@
             const fresh = nav.cloneNode(true);
             nav.replaceWith(fresh);
             fresh.addEventListener('click', onNavClick);
+            fresh.addEventListener('keydown', (e) => {
+                const tabs = [...fresh.querySelectorAll('[role="tab"]')];
+                const cur = tabs.findIndex(t => t === document.activeElement);
+                if (cur === -1) return;
+                let next = -1;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); next = (cur + 1) % tabs.length; }
+                else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); next = (cur - 1 + tabs.length) % tabs.length; }
+                else if (e.key === 'Home') { e.preventDefault(); next = 0; }
+                else if (e.key === 'End') { e.preventDefault(); next = tabs.length - 1; }
+                if (next !== -1) {
+                    tabs[cur].setAttribute('tabindex', '-1');
+                    tabs[next].setAttribute('tabindex', '0');
+                    tabs[next].focus();
+                }
+            });
         }
         document.querySelector('.seo-tool-chips')?.addEventListener('click', async (e) => {
             const chip = e.target.closest('a[href^="#"]');

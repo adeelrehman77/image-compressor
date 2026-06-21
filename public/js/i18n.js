@@ -140,6 +140,7 @@ window.__NEXUS_I18N = {
         pcSeoGuideLink: 'Full FAQ guide (structured data for search) →',
         rdSeoGuideLink: 'Full FAQ guide (structured data for search) →',
         upSeoGuideLink: 'Full FAQ guide (structured data for search) →',
+        seoBlockToggle: 'About this tool',
         seoChipPhotoChecker: 'Photo Checker',
         tabRedactor: 'Redactor',
         tabRedactorShort: 'Redact',
@@ -262,7 +263,7 @@ window.__NEXUS_I18N = {
         seoChipUpscaler: 'AI Upscaler',
         badgeFreePrivate: 'Free · Private',
         badgeFree: 'Free',
-        versionBadgeDefault: 'v2.2.37 — Free',
+        versionBadgeDefault: 'v2.2.38 — Free',
         statusAddFiles: 'Add files to begin',
         dismissUaeCallout: 'Dismiss UAE callout',
         uaePresetNone: 'None',
@@ -960,6 +961,7 @@ window.__NEXUS_I18N = {
         pcSeoGuideLink: 'دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →',
         rdSeoGuideLink: 'دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →',
         upSeoGuideLink: 'دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →',
+        seoBlockToggle: 'حول هذه الأداة',
         pcTip_faceDetected:
             'بوابات الإمارات تتطلب وجهاً واحداً واضحاً. صور جماعية أو غياب الوجه تُرفض تلقائياً.',
         pcTip_faceSize:
@@ -1101,7 +1103,7 @@ window.__NEXUS_I18N = {
         seoChipUpscaler: 'تكبير بالذكاء الاصطناعي',
         badgeFreePrivate: 'مجاني · خاص',
         badgeFree: 'مجاني',
-        versionBadgeDefault: 'v2.2.37 — مجاني',
+        versionBadgeDefault: 'v2.2.38 — مجاني',
         statusAddFiles: 'أضف ملفات للبدء',
         dismissUaeCallout: 'إغلاق تنبيه الإمارات',
         uaePresetNone: 'بدون',

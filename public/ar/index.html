@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.37">
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.38">
 <head>
     <meta charset="UTF-8">
-    <script src="../js/sentry-init.js?v=2.2.37" defer></script>
+    <script src="../js/sentry-init.js?v=2.2.38" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="../css/app.css?v=2.2.37" as="style">
+    <link rel="preload" href="../css/app.css?v=2.2.38" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
-    <script src="../js/locale.js?v=2.2.37"></script>
-    <script src="../js/i18n.js?v=2.2.37"></script>
-    <script src="../js/tool-meta.js?v=2.2.37"></script>
+    <script src="../js/locale.js?v=2.2.38"></script>
+    <script src="../js/i18n.js?v=2.2.38"></script>
+    <script src="../js/tool-meta.js?v=2.2.38"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -67,11 +67,11 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <link rel="stylesheet" href="../css/app.css?v=2.2.37">
-    <link rel="stylesheet" href="../css/tokens.css?v=2.2.37">
-    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.37">
-    <script src="../js/ga-config.js?v=2.2.37" defer></script>
-    <script src="../js/gtm.js?v=2.2.37" defer></script>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.38">
+    <link rel="stylesheet" href="../css/tokens.css?v=2.2.38">
+    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.38">
+    <script src="../js/ga-config.js?v=2.2.38" defer></script>
+    <script src="../js/gtm.js?v=2.2.38" defer></script>
 </head>
 <body class="app-body">
 
@@ -168,59 +168,59 @@
                 <p class="tool-tabs-swipe-hint" data-i18n="tabScrollHint" aria-hidden="true">اسحب لعرض المزيد من الأدوات ←</p>
                 <div class="tool-tabs-wrapper">
                 <div class="tool-tabs" role="tablist" aria-label="Studio tools">
-                    <a href="./" id="tab-compress" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true" aria-controls="tool-panel-compress" tabindex="0">
+                    <button type="button" id="tab-compress" class="tool-tab tool-nav-link active" data-tool="compress" role="tab" aria-selected="true" aria-controls="tool-panel-compress" tabindex="0">
                         <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
                         <span class="tool-tab__label" data-i18n="tabCompress" data-i18n-short="tabCompressShort">ضاغط الصور</span>
-                    </a>
-                    <a href="#images-to-pdf" id="tab-images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false" aria-controls="tool-panel-images-to-pdf" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-images-to-pdf" class="tool-tab tool-nav-link" data-tool="images-to-pdf" role="tab" aria-selected="false" aria-controls="tool-panel-images-to-pdf" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📄</span>
                         <span class="tool-tab__label" data-i18n="tabImagesToPdf" data-i18n-short="tabImagesToPdfShort">صور إلى PDF</span>
-                    </a>
-                    <a href="#pdf-suite" id="tab-pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false" aria-controls="tool-panel-pdf-suite" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-pdf-suite" class="tool-tab tool-nav-link" data-tool="pdf-suite" role="tab" aria-selected="false" aria-controls="tool-panel-pdf-suite" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔗</span>
                         <span class="tool-tab__label" data-i18n="tabPdfSuite" data-i18n-short="tabPdfSuiteShort">دمج PDF</span>
-                    </a>
-                    <a href="#svg" id="tab-svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false" aria-controls="tool-panel-svg" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-svg" class="tool-tab tool-nav-link" data-tool="svg" role="tab" aria-selected="false" aria-controls="tool-panel-svg" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📐</span>
                         <span class="tool-tab__label" data-i18n="tabSvg" data-i18n-short="tabSvgShort">تحسين SVG</span>
-                    </a>
-                    <a href="#photo-studio" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-passport-studio" class="tool-tab tool-nav-link tool-tab--featured" data-tool="passport-studio" role="tab" aria-selected="false" aria-controls="tool-panel-passport-studio" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📸</span>
                         <span class="tool-tab__label" data-i18n="tabPhotoStudio" data-i18n-short="tabPhotoStudioShort">استوديو صور الهوية</span>
                         <span class="tool-tab__badge" data-i18n="tabPassportBadge">الإمارات</span>
-                    </a>
-                    <a href="#photo-checker" id="tab-photo-checker" class="tool-tab tool-nav-link tool-tab--featured" data-tool="photo-checker" role="tab" aria-selected="false" aria-controls="tool-panel-photo-checker" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-photo-checker" class="tool-tab tool-nav-link tool-tab--featured" data-tool="photo-checker" role="tab" aria-selected="false" aria-controls="tool-panel-photo-checker" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">✅</span>
                         <span class="tool-tab__label" data-i18n="tabPhotoChecker" data-i18n-short="tabPhotoCheckerShort">فاحص الصور</span>
-                    </a>
-                    <a href="#redactor" id="tab-redactor" class="tool-tab tool-nav-link" data-tool="redactor" role="tab" aria-selected="false" aria-controls="tool-panel-redactor" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-redactor" class="tool-tab tool-nav-link" data-tool="redactor" role="tab" aria-selected="false" aria-controls="tool-panel-redactor" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔏</span>
                         <span class="tool-tab__label" data-i18n="tabRedactor" data-i18n-short="tabRedactorShort">تعتيم المستندات</span>
-                    </a>
-                    <a href="#ai-upscaler" id="tab-ai-upscaler" class="tool-tab tool-nav-link tool-tab--featured" data-tool="ai-upscaler" role="tab" aria-selected="false" aria-controls="tool-panel-ai-upscaler" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-ai-upscaler" class="tool-tab tool-nav-link tool-tab--featured" data-tool="ai-upscaler" role="tab" aria-selected="false" aria-controls="tool-panel-ai-upscaler" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔬</span>
                         <span class="tool-tab__label" data-i18n="tabUpscaler" data-i18n-short="tabUpscalerShort">تكبير بالذكاء الاصطناعي</span>
-                    </a>
-                    <a href="#heic-converter" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-heic-converter" class="tool-tab tool-nav-link" data-tool="heic-converter" role="tab" aria-selected="false" aria-controls="tool-panel-heic-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">📱</span>
                         <span class="tool-tab__label" data-i18n="tabHeic" data-i18n-short="tabHeicShort">محوّل HEIC</span>
-                    </a>
-                    <a href="#format-converter" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-format-converter" class="tool-tab tool-nav-link" data-tool="format-converter" role="tab" aria-selected="false" aria-controls="tool-panel-format-converter" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🔄</span>
                         <span class="tool-tab__label" data-i18n="tabFormat" data-i18n-short="tabFormatShort">محوّل الصيغ</span>
-                    </a>
-                    <a href="#image-cropper" id="tab-image-cropper" class="tool-tab tool-nav-link" data-tool="image-cropper" role="tab" aria-selected="false" aria-controls="tool-panel-image-cropper" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-image-cropper" class="tool-tab tool-nav-link" data-tool="image-cropper" role="tab" aria-selected="false" aria-controls="tool-panel-image-cropper" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">✂️</span>
                         <span class="tool-tab__label" data-i18n="tabCropper" data-i18n-short="tabCropperShort">مقص الصور</span>
-                    </a>
-                    <a href="#collage-maker" id="tab-collage-maker" class="tool-tab tool-nav-link" data-tool="collage-maker" role="tab" aria-selected="false" aria-controls="tool-panel-collage-maker" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-collage-maker" class="tool-tab tool-nav-link" data-tool="collage-maker" role="tab" aria-selected="false" aria-controls="tool-panel-collage-maker" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🖼️</span>
                         <span class="tool-tab__label" data-i18n="tabCollage" data-i18n-short="tabCollageShort">صانع الكولاج</span>
-                    </a>
-                    <a href="#remove-bg" id="tab-remove-bg" class="tool-tab tool-nav-link tool-tab--featured" data-tool="remove-bg" role="tab" aria-selected="false" aria-controls="tool-panel-remove-bg" tabindex="-1">
+                    </button>
+                    <button type="button" id="tab-remove-bg" class="tool-tab tool-nav-link tool-tab--featured" data-tool="remove-bg" role="tab" aria-selected="false" aria-controls="tool-panel-remove-bg" tabindex="-1">
                         <span class="tool-tab__icon" aria-hidden="true">🪄</span>
                         <span class="tool-tab__label" data-i18n="tabRemoveBg" data-i18n-short="tabRemoveBgShort">إزالة الخلفية</span>
-                    </a>
+                    </button>
                 </div>
                 </div>
             </nav>
@@ -237,7 +237,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.37 — مجاني</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.38 — مجاني</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -449,30 +449,6 @@
                         <button type="button" class="btn-secondary btn-block preset-btn" data-preset="web" data-i18n="presetWeb">🌐 موقع / WebP</button>
                         <button type="button" class="btn-secondary btn-block preset-btn" data-preset="email" data-i18n="presetEmail">بريد</button>
                     </div>
-                    <!-- Feature 5: How it works -->
-                    <div class="how-it-works">
-                        <div class="how-step">
-                            <span class="how-step__num">1</span>
-                            <div>
-                                <strong data-i18n="howStep1Title">أضف صورتك</strong>
-                                <p data-i18n="howStep1Desc">اسحبها إلى الصفحة، أو اضغط "اختر الملفات" للتصفح.</p>
-                            </div>
-                        </div>
-                        <div class="how-step">
-                            <span class="how-step__num">2</span>
-                            <div>
-                                <strong data-i18n="howStep2Title">اختر إعداداً مسبقاً (اختياري)</strong>
-                                <p data-i18n="howStep2Desc">اختر واتساب أو بوابة أو بريد — أو اتركها على الوضع التلقائي.</p>
-                            </div>
-                        </div>
-                        <div class="how-step">
-                            <span class="how-step__num">3</span>
-                            <div>
-                                <strong data-i18n="howStep3Title">حمّل</strong>
-                                <p data-i18n="howStep3Desc">تنزيل صورتك المضغوطة تلقائياً. لم يُرفع شيء.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="settings-card" data-settings-card data-default-collapsed-mobile="true" data-mode-advanced>
@@ -628,7 +604,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="imagesToPdfToolDesc">📄 حوّل مجموعة من الصور إلى مستند PDF واحد.</p>
             <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone" id="itp-drop" tabindex="0" data-i18n="itpDropAria" data-i18n-attr="aria-label" aria-label="اسحب الصور هنا أو اختر ملفات">
@@ -682,7 +657,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="pdfMergeToolDesc">🔗 ادمج عدة ملفات PDF في ملف واحد أو قسّم PDF إلى صفحات منفصلة.</p>
             <div class="tool-layout tool-layout-wide">
                 <div class="main-col compress-main-col">
                     <div class="pdf-suite-tabs" role="tablist" data-i18n="pdfToolsAria" data-i18n-attr="aria-label" aria-label="أدوات PDF">
@@ -803,7 +777,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="svgToolDesc">📐 صغّر ملفات SVG للاستخدام على المواقع مع الحفاظ على الجودة.</p>
             <div class="tool-layout tool-layout-single">
                 <div class="main-col compress-main-col">
                     <section class="drop-zone" id="svg-drop" tabindex="0" data-i18n="svgDropAria" data-i18n-attr="aria-label" aria-label="اسحب ملف SVG هنا أو اختر واحداً">
@@ -859,7 +832,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="cropperToolDesc">✂️ قصّ أي صورة أو دوّرها أو اقلبها — يشمل أحجام تأشيرة الإمارات وجواز السفر.</p>
             <div class="app-grid compress-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="passport-drop-zone" class="drop-zone passport-drop-zone passport-drop-zone--locked" tabindex="-1" aria-label="Upload passport portrait — select a preset first">
@@ -1030,7 +1002,6 @@
                     <span class="chip chip-ai" data-i18n="pcHeroBadge">الإمارات · ذكاء</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="photoCheckerToolDesc">✅ تحقق مما إذا كانت صورتك ستُقبل في البوابات الإماراتية قبل الرفع.</p>
             <div class="tool-layout photo-checker-grid">
                 <div class="main-col compress-main-col">
                     <div id="pc-models-loading" class="pc-models-loading is-hidden" role="status" aria-live="polite">
@@ -1110,7 +1081,9 @@
                     </div>
                 </aside>
             </div>
-            <section class="pc-seo-block seo-tool-panel-block" aria-labelledby="pc-seo-h2">
+            <details class="seo-block seo-tool-panel-block">
+            <summary data-i18n="seoBlockToggle">حول هذه الأداة</summary>
+            <section aria-labelledby="pc-seo-h2">
                 <h2 id="pc-seo-h2">UAE Photo Compliance Checker — Will your photo be rejected?</h2>
                 <p>ICA, Emirates ID, and MOHRE portals automatically reject photos that don't meet their biometric specifications. This free tool checks your photo against the exact requirements before you upload — so you don't lose time to a failed submission.</p>
                 <h3>What does the checker verify?</h3>
@@ -1119,6 +1092,7 @@
                 <p>The checker supports Emirates ID / ICA (200 KB limit), MOHRE worker photos (200 KB), UAE visa photos (200 KB), and MOHRE document uploads (500 KB).</p>
                 <p class="guide-related"><a href="guides/uae-photo-compliance-checker-ar.html" data-locale-href-en="../guides/uae-photo-compliance-checker.html" data-locale-href-ar="guides/uae-photo-compliance-checker-ar.html" data-i18n="pcSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
+            </details>
         </div>
     </div>
 
@@ -1138,7 +1112,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="redactorToolDesc">🔒 اعتِم المعلومات الحساسة في المستندات قبل مشاركتها — أرقام الجواز والهوية وخطوط MRZ.</p>
             <div id="rd-unsupported" class="rd-unsupported is-hidden" role="alert">
                 <p data-i18n="rdUnsupported">متصفحك لا يدعم هذه الأداة (يلزم Canvas API). يرجى التحديث.</p>
             </div>
@@ -1242,7 +1215,9 @@
                     </div>
                 </aside>
             </div>
-            <section class="rd-seo-block seo-tool-panel-block" aria-labelledby="rd-seo-h2">
+            <details class="seo-block seo-tool-panel-block">
+            <summary data-i18n="seoBlockToggle">حول هذه الأداة</summary>
+            <section aria-labelledby="rd-seo-h2">
                 <h2 id="rd-seo-h2">Secure Document Redactor — Hide sensitive information before sharing</h2>
                 <p>UAE residents regularly need to share passport copies, Emirates ID scans, and visa documents with employers, landlords, property agents, and government services. This free browser-based redactor lets you black out passport numbers, ID numbers, dates of birth, and MRZ lines before sharing — so you share only what is necessary.</p>
                 <h3>What information should I redact on my Emirates ID?</h3>
@@ -1253,6 +1228,7 @@
                 <p>No. All redaction is performed entirely inside your browser using the HTML5 Canvas API. Your documents are never sent to any server, stored anywhere, or seen by anyone. The tool works even without an internet connection once the page has loaded.</p>
                 <p class="guide-related"><a href="guides/redact-emirates-id-documents-ar.html" data-locale-href-en="../guides/redact-emirates-id-documents.html" data-locale-href-ar="guides/redact-emirates-id-documents-ar.html" data-i18n="rdSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
+            </details>
         </div>
     </div>
 
@@ -1285,7 +1261,6 @@
                     <span class="chip chip-ai" data-i18n="upHeroBadge">ذكاء اصطناعي · محلي</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="upscalerToolDesc">🔬 اجعل الصور الصغيرة أو الضبابية أوضح وأكبر باستخدام الذكاء الاصطناعي.</p>
             <div id="up-model-progress" class="up-model-progress is-hidden" role="status" aria-live="polite">
                 <div class="ai-loading-state">
                     <div class="ai-loading-spinner"></div>
@@ -1369,7 +1344,7 @@
                 <aside class="up-sidebar-col compress-sidebar sidebar">
                     <div id="up-settings" class="up-settings is-hidden">
                         <div class="settings-card" data-settings-card data-default-open>
-                            <div class="settings-card-header open">
+                            <div class="settings-card__header" aria-expanded="true">
                                 <span data-i18n="upSettingsTitle">إعدادات التكبير</span>
                             </div>
                             <div class="settings-card-body">
@@ -1405,7 +1380,9 @@
                     </div>
                 </aside>
             </div>
-            <section class="up-seo-block seo-tool-panel-block" aria-labelledby="up-seo-h2">
+            <details class="seo-block seo-tool-panel-block">
+            <summary data-i18n="seoBlockToggle">حول هذه الأداة</summary>
+            <section aria-labelledby="up-seo-h2">
                 <h2 id="up-seo-h2">AI Image Upscaler — Enlarge photos without losing quality</h2>
                 <p>NexusCompress uses a Real-ESRGAN neural network to upscale images 2× or 4× with AI-reconstructed detail — not just stretched pixels. The entire process runs in your browser. Your photos are never uploaded to any server.</p>
                 <h3>How is AI upscaling different from regular resizing?</h3>
@@ -1416,6 +1393,7 @@
                 <p>Once the AI model has been downloaded on first use (~5 MB), it is cached in your browser. All subsequent upscaling runs entirely offline — no internet connection is needed.</p>
                 <p class="guide-related"><a href="guides/ai-image-upscaler-browser-ar.html" data-locale-href-en="../guides/ai-image-upscaler-browser.html" data-locale-href-ar="guides/ai-image-upscaler-browser-ar.html" data-i18n="upSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
+            </details>
         </div>
     </div>
 
@@ -1431,7 +1409,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="heicToolDesc">📱 لديك صور من iPhone أو iPad؟ حوّلها إلى JPEG أو WebP لتعمل في كل مكان.</p>
             <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="heic-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop HEIC files here or browse">
@@ -1503,7 +1480,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="formatToolDesc">🔄 غيّر صيغة أي صورة — JPEG أو PNG أو WebP أو AVIF أو GIF.</p>
             <div class="tool-layout">
                 <div class="main-col compress-main-col">
                     <section id="fmt-drop-zone" class="drop-zone" tabindex="0" aria-label="Drop images here or browse">
@@ -1579,7 +1555,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="cropperToolDesc">✂️ قصّ أي صورة أو دوّرها أو اقلبها — يشمل أحجام تأشيرة الإمارات وجواز السفر.</p>
             <div class="tool-layout tool-layout-wide cropper-app-grid">
                 <div class="main-col compress-main-col">
                     <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للقص">
@@ -1679,7 +1654,6 @@
                     <span class="chip chip-success" data-i18n="badgeFreePrivate">مجاني · خاص</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="collageToolDesc">🖼️ رتّب الصور في شبكات أو تخطيطات مجلة — إنستغرام وفيسبوك وأحجام مخصصة.</p>
 
             <div class="collage-layout-section">
                 <p class="field-label collage-section-label" data-i18n="collageChooseLayout">اختر التخطيط</p>
@@ -1841,7 +1815,6 @@
                     <span class="chip chip-ai" data-i18n="rbgHeroBadge">ذكاء اصطناعي · محلي</span>
                 </div>
             </div>
-            <p class="tool-desc" data-i18n="removeBgToolDesc">🪄 أزل الخلفيات من صور الأشخاص والمنتجات — يعمل على جهازك مع تنزيل النموذج مرة واحدة.</p>
 
             <p id="rbg-wasm-warn" class="rbg-wasm-warn chip chip-warn is-hidden" role="alert" data-i18n="rbgWasmWarn">متصفحك لا يدعم WebAssembly — إزالة الخلفية تتطلب متصفحاً حديثاً.</p>
 
@@ -2094,7 +2067,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.37</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.38</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
             <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
@@ -2179,15 +2152,15 @@
         </div>
     </div>
 
-    <script src="../js/tools-shared.js?v=2.2.37" defer></script>
-    <script src="../js/tools-router.js?v=2.2.37" defer></script>
-    <script src="../js/pwa-install.js?v=2.2.37" defer></script>
-    <script src="../js/ads-config.js?v=2.2.37"></script>
-    <script src="../js/ads.js?v=2.2.37" defer></script>
-    <script src="../js/locale-ui.js?v=2.2.37" defer></script>
-    <script src="../js/clipboard-paste.js?v=2.2.37" defer></script>
+    <script src="../js/tools-shared.js?v=2.2.38" defer></script>
+    <script src="../js/tools-router.js?v=2.2.38" defer></script>
+    <script src="../js/pwa-install.js?v=2.2.38" defer></script>
+    <script src="../js/ads-config.js?v=2.2.38"></script>
+    <script src="../js/ads.js?v=2.2.38" defer></script>
+    <script src="../js/locale-ui.js?v=2.2.38" defer></script>
+    <script src="../js/clipboard-paste.js?v=2.2.38" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="../js/compare-slider.js?v=2.2.37" defer></script>
+    <script src="../js/compare-slider.js?v=2.2.38" defer></script>
     <!-- Print frame: hidden normally, shown during window.print() via @media print -->
     <div id="print-frame"></div>
 
@@ -2200,7 +2173,7 @@
         </div>
     </div>
 
-    <script src="../js/app.js?v=2.2.37" defer></script>
-    <script src="../js/goal-picker.js?v=2.2.37" defer></script>
+    <script src="../js/app.js?v=2.2.38" defer></script>
+    <script src="../js/goal-picker.js?v=2.2.38" defer></script>
 </body>
 </html>

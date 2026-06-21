@@ -719,14 +719,26 @@ html:not(.dark) .codec-badge {
 }
 .pc-manual-title { margin: 0 0 0.5rem; font-size: 0.9rem; }
 .pc-manual-list { margin: 0; padding-left: 1.15rem; font-size: 0.82rem; color: var(--text-muted); }
-.pc-seo-block {
+/* Unified SEO content block — replaces pc-/rd-/up-seo-block */
+.seo-block {
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--surface-border);
 }
-.pc-seo-block h2 { font-size: 1.15rem; margin: 0 0 0.65rem; }
-.pc-seo-block h3 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
-.pc-seo-block p { color: var(--text-muted); line-height: 1.55; margin: 0 0 0.75rem; }
+.seo-block summary {
+    cursor: pointer;
+    font-size: var(--text-ui, 0.8125rem);
+    color: var(--text-muted);
+    font-weight: var(--weight-medium, 500);
+    list-style: none;
+    padding: 0.35rem 0;
+}
+.seo-block summary::-webkit-details-marker { display: none; }
+.seo-block summary::after { content: ' ▸'; }
+.seo-block[open] summary::after { content: ' ▾'; }
+.seo-block h2 { font-size: 1.15rem; margin: 0.75rem 0 0.65rem; }
+.seo-block h3 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
+.seo-block p { color: var(--text-muted); line-height: 1.55; margin: 0 0 0.75rem; }
 @media (max-width: 780px) {
     .photo-checker-grid { display: flex; flex-direction: column; }
     .pc-results-sidebar { position: static; }
@@ -864,14 +876,6 @@ html:not(.dark) .codec-badge {
     height: auto;
     margin: 0 auto;
 }
-.rd-seo-block {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--surface-border);
-}
-.rd-seo-block h2 { font-size: 1.15rem; margin: 0 0 0.65rem; }
-.rd-seo-block h3 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
-.rd-seo-block p { color: var(--text-muted); line-height: 1.55; margin: 0 0 0.75rem; }
 .rd-mode-toggle { display: none; }
 .is-hidden-desktop { display: none; }
 @media (max-width: 780px) {
@@ -954,14 +958,6 @@ html:not(.dark) .codec-badge {
 .up-results { margin-top: 1rem; }
 .up-results .compare-stage { max-height: min(52vh, 520px); margin-bottom: 0.75rem; }
 .up-compress-check { display: flex; align-items: center; gap: 0.45rem; margin: 0.65rem 0; font-size: 0.88rem; }
-.up-seo-block {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--surface-border);
-}
-.up-seo-block h2 { font-size: 1.15rem; margin: 0 0 0.65rem; }
-.up-seo-block h3 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
-.up-seo-block p { color: var(--text-muted); line-height: 1.55; margin: 0 0 0.75rem; }
 @media (max-width: 780px) {
     .up-results .compare-stage { max-height: min(45vh, 400px); }
 }
@@ -1223,7 +1219,7 @@ html:not(.dark) .btn-primary { color: #fff; }
     overflow: hidden;
 }
 .settings-card__header,
-.settings-card-header {
+.settings-card__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1782,7 +1778,7 @@ html:not(.dark) .batch-progress-wrap {
 .settings-card + .settings-card {
     margin-top: 0.75rem;
 }
-.settings-card-header.open,
+.settings-card__header.open,
 .settings-card__header[aria-expanded="true"] {
     border-bottom-color: var(--border, var(--surface-border));
 }
@@ -1936,7 +1932,7 @@ html:not(.dark) .pc-privacy-banner {
 }
 
 /* QA: compressor sidebar quick presets card */
-.settings-card > .settings-card-header.open {
+.settings-card > .settings-card__header.open {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2090,7 +2086,7 @@ html:not(.dark) .pc-privacy-banner {
 
 /* Standardise all settings card toggle buttons */
 .settings-card__toggle,
-.settings-card-header .settings-card__toggle,
+.settings-card__header .settings-card__toggle,
 .settings-card__header .settings-card__toggle {
     font-size: 0.85rem;
     opacity: 0.7;
@@ -2106,7 +2102,7 @@ html:not(.dark) .pc-privacy-banner {
     opacity: 1;
 }
 
-.settings-card-header button,
+.settings-card__header button,
 .settings-card__header button {
     font-size: 0.85rem;
     min-width: 1.5rem;
@@ -2114,7 +2110,7 @@ html:not(.dark) .pc-privacy-banner {
 }
 
 .settings-card__header .settings-chevron,
-.settings-card-header .settings-chevron {
+.settings-card__header .settings-chevron {
     font-size: 0.85rem;
     min-width: 1.5rem;
     min-height: 1.5rem;
