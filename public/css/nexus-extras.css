@@ -1,22 +1,10 @@
-/* NexusCompress Extras — Tasks 1-5 styles */
+/* NexusCompress Extras */
 
-/* ===== Button text visibility fix =====
-   The lime-green dark theme sets btn-primary background to #3dff8f.
-   Explicitly lock the text color so simultaneous background+color transitions
-   never produce invisible text. */
-.btn-primary {
-    color: #0a0d0b !important;
-}
-html:not(.dark) .btn-primary {
-    color: #fff !important;
-}
-/* Prevent background and color from transitioning together — snap color instantly */
-.btn-primary, .btn-secondary {
-    transition: background 0.15s ease, filter 0.15s ease !important;
-}
-
-/* ===== Dark mode smooth transitions ===== */
-html body:not([data-no-transition]) *:not(button):not(a):not(input):not(select):not(summary) {
+/* ===== Dark mode smooth transitions =====
+   Use [class] instead of * to avoid recalculating transition on every bare
+   HTML element; buttons/inputs are excluded because they carry their own
+   transition rules below. */
+html body:not([data-no-transition]) [class]:not(button):not(a):not(input):not(select):not(summary) {
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 /* Exclude elements that should not animate (images, SVG strokes, etc.) */
@@ -1212,14 +1200,19 @@ html:not(.dark) .btn-primary { color: #fff; }
     border-color: var(--accent);
 }
 
-/* Update transition to include transform */
 .btn-primary,
 .btn-secondary {
     transition: background var(--transition-fast, 0.15s ease),
                 filter var(--transition-fast, 0.15s ease),
                 transform var(--transition-fast, 0.15s ease),
                 opacity var(--transition-fast, 0.15s ease),
-                border-color var(--transition-fast, 0.15s ease) !important;
+                border-color var(--transition-fast, 0.15s ease);
+}
+
+.btn-lg {
+    padding: 0.8rem var(--space-8, 2rem);
+    font-size: var(--text-base, 1rem);
+    min-height: 52px;
 }
 
 /* ── FIX 4: Standardised settings cards ─────────────────────────────── */

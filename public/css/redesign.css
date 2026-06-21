@@ -1792,9 +1792,15 @@ html:not(.dark) .file-actions .download-btn {
         padding: 0.1rem 0.35rem;
     }
 
-    #tool-panel-compress > .compress-workspace > .compress-hero,
     .tool-panel .tool-hero {
         display: none;
+    }
+    #tool-panel-compress > .compress-workspace > .compress-hero .compress-hero__sub,
+    #tool-panel-compress > .compress-workspace > .compress-hero .compress-hero__badge {
+        display: none;
+    }
+    #tool-panel-compress > .compress-workspace > .compress-hero {
+        padding-bottom: 0.25rem;
     }
 
     .hero-callout {

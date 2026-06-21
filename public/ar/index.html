@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.36">
+<html lang="ar" dir="rtl" class="dark" data-theme="dark" data-app-version="2.2.37">
 <head>
     <meta charset="UTF-8">
-    <script src="../js/sentry-init.js?v=2.2.36" defer></script>
+    <script src="../js/sentry-init.js?v=2.2.37" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexusCompress — ضاغط صور مجاني. تصغير JPEG وPNG وWebP وAVIF في متصفحك — بدون رفع، 100% خاص.">
     <meta name="application-name" content="NexusCompress">
@@ -13,7 +13,7 @@
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
-    <link rel="preload" href="../css/app.css?v=2.2.36" as="style">
+    <link rel="preload" href="../css/app.css?v=2.2.37" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/dm-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../css/files/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -35,9 +35,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
-    <script src="../js/locale.js?v=2.2.36"></script>
-    <script src="../js/i18n.js?v=2.2.36"></script>
-    <script src="../js/tool-meta.js?v=2.2.36"></script>
+    <script src="../js/locale.js?v=2.2.37"></script>
+    <script src="../js/i18n.js?v=2.2.37"></script>
+    <script src="../js/tool-meta.js?v=2.2.37"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -67,11 +67,11 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="icon" href="../icons/icon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <link rel="stylesheet" href="../css/app.css?v=2.2.36">
-    <link rel="stylesheet" href="../css/tokens.css?v=2.2.36">
-    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.36">
-    <script src="../js/ga-config.js?v=2.2.36" defer></script>
-    <script src="../js/gtm.js?v=2.2.36" defer></script>
+    <link rel="stylesheet" href="../css/app.css?v=2.2.37">
+    <link rel="stylesheet" href="../css/tokens.css?v=2.2.37">
+    <link rel="stylesheet" href="../css/nexus-extras.css?v=2.2.37">
+    <script src="../js/ga-config.js?v=2.2.37" defer></script>
+    <script src="../js/gtm.js?v=2.2.37" defer></script>
 </head>
 <body class="app-body">
 
@@ -237,7 +237,7 @@
                 </h1>
                 <p class="compress-hero__sub" data-i18n="heroSubCompress">صغّر JPEG وPNG وWebP وAVIF في متصفحك — لا شيء يغادر جهازك أبداً.</p>
             </div>
-            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.36 — مجاني</span>
+            <span class="compress-hero__badge chip chip-neutral" id="compress-version-badge" data-i18n="versionBadgeDefault">v2.2.37 — مجاني</span>
         </header>
 
         <aside class="hero-callout" id="uae-callout" aria-label="Featured tool for UAE users">
@@ -245,9 +245,10 @@
             <div class="hero-callout__actions">
                 <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">فتح استوديو صور الهوية</a>
                 <a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">دليل بوابات الإمارات</a>
-                <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="إغلاق تنبيه الإمارات" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}">×</button>
+                <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="إغلاق تنبيه الإمارات" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}try{localStorage.setItem('nexus-uae-dismissed','1');}catch(e){}">×</button>
             </div>
         </aside>
+        <script>try{if(localStorage.getItem('nexus-uae-dismissed'))document.getElementById('uae-callout').style.display='none';}catch(e){}</script>
 
         <div class="app-grid compress-app-grid">
             <nav class="workflow-steps workflow-steps--redesign compress-workflow-strip" aria-label="How it works">
@@ -2093,7 +2094,7 @@
     </div>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
-        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.36</span></p>
+        <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v2.2.37</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
             <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
@@ -2178,15 +2179,15 @@
         </div>
     </div>
 
-    <script src="../js/tools-shared.js?v=2.2.36" defer></script>
-    <script src="../js/tools-router.js?v=2.2.36" defer></script>
-    <script src="../js/pwa-install.js?v=2.2.36" defer></script>
-    <script src="../js/ads-config.js?v=2.2.36"></script>
-    <script src="../js/ads.js?v=2.2.36" defer></script>
-    <script src="../js/locale-ui.js?v=2.2.36" defer></script>
-    <script src="../js/clipboard-paste.js?v=2.2.36" defer></script>
+    <script src="../js/tools-shared.js?v=2.2.37" defer></script>
+    <script src="../js/tools-router.js?v=2.2.37" defer></script>
+    <script src="../js/pwa-install.js?v=2.2.37" defer></script>
+    <script src="../js/ads-config.js?v=2.2.37"></script>
+    <script src="../js/ads.js?v=2.2.37" defer></script>
+    <script src="../js/locale-ui.js?v=2.2.37" defer></script>
+    <script src="../js/clipboard-paste.js?v=2.2.37" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="../js/compare-slider.js?v=2.2.36" defer></script>
+    <script src="../js/compare-slider.js?v=2.2.37" defer></script>
     <!-- Print frame: hidden normally, shown during window.print() via @media print -->
     <div id="print-frame"></div>
 
@@ -2199,7 +2200,7 @@
         </div>
     </div>
 
-    <script src="../js/app.js?v=2.2.36" defer></script>
-    <script src="../js/goal-picker.js?v=2.2.36" defer></script>
+    <script src="../js/app.js?v=2.2.37" defer></script>
+    <script src="../js/goal-picker.js?v=2.2.37" defer></script>
 </body>
 </html>

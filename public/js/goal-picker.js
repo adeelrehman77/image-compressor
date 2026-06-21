@@ -220,11 +220,26 @@
         if (!overlay) return;
 
         applyPickerI18n();
-        overlay.classList.remove('is-hidden');
+
+        // Delay 1.5 s so users see the app before the picker appears
+        var autoTimer;
+        setTimeout(function () {
+            if (localStorage.getItem(ONBOARDED_KEY)) return; // dismissed while waiting
+            overlay.classList.remove('is-hidden');
+
+            // Auto-dismiss after 12 s if user hasn't interacted
+            autoTimer = setTimeout(function () { dismissPicker(); }, 12000);
+        }, 1500);
+
+        function cancelAutoAndDismiss() {
+            clearTimeout(autoTimer);
+            dismissPicker();
+        }
 
         // Goal card clicks
         overlay.querySelectorAll('.goal-card').forEach(function (btn) {
             btn.addEventListener('click', function () {
+                clearTimeout(autoTimer);
                 handleGoal(btn.dataset.goal);
             });
         });
@@ -234,19 +249,19 @@
         if (skip) {
             skip.addEventListener('click', function (e) {
                 e.preventDefault();
-                dismissPicker();
+                cancelAutoAndDismiss();
             });
         }
 
         // Backdrop click to skip
         overlay.addEventListener('click', function (e) {
-            if (e.target === overlay) dismissPicker();
+            if (e.target === overlay) cancelAutoAndDismiss();
         });
 
         // Escape key
         document.addEventListener('keydown', function onEsc(e) {
             if (e.key === 'Escape') {
-                dismissPicker();
+                cancelAutoAndDismiss();
                 document.removeEventListener('keydown', onEsc);
             }
         });
