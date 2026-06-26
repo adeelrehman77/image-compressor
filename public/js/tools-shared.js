@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.38'
+            '2.2.41'
         );
     }
 
@@ -72,7 +72,7 @@ window.NexusTools = (function () {
     const TOOL_SCRIPTS = {
         'passport-studio': 'js/passport-studio.js',
         'images-to-pdf': 'js/tools/images-to-pdf.js',
-        'pdf-suite': ['js/tools/pdf-suite.js', 'js/tools/pdf-to-images.js'],
+        'pdf-suite': ['js/tools/pdf-suite.js', 'js/tools/pdf-to-images.js', 'js/tools/pdf-to-md.js'],
         svg: 'js/tools/svg-optimizer.js',
         'heic-converter': 'js/tools/heic-converter.js',
         'format-converter': 'js/tools/format-converter.js',
@@ -178,6 +178,80 @@ window.NexusTools = (function () {
             return pdfjs;
         })();
         return pdfJsPromise;
+    }
+
+    function parsePdfPageRange(spec, pageCount) {
+        const pages = new Set();
+        const parts = String(spec || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean);
+        for (const part of parts) {
+            if (part.includes('-')) {
+                const [a, b] = part.split('-').map((n) => parseInt(n.trim(), 10));
+                if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
+                const lo = Math.min(a, b);
+                const hi = Math.max(a, b);
+                for (let i = lo; i <= hi; i++) {
+                    if (i >= 1 && i <= pageCount) pages.add(i);
+                }
+            } else {
+                const n = parseInt(part, 10);
+                if (n >= 1 && n <= pageCount) pages.add(n);
+            }
+        }
+        return [...pages].sort((a, b) => a - b);
+    }
+
+    async function renderPdfPageCanvas(page, scale) {
+        const viewport = page.getViewport({ scale: scale || 2 });
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        return canvas;
+    }
+
+    let tesseractPromise = null;
+
+    function loadTesseract() {
+        if (tesseractPromise) return tesseractPromise;
+        tesseractPromise = import(
+            'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js'
+        );
+        return tesseractPromise;
+    }
+
+    async function createTesseractWorker(onProgress) {
+        const { createWorker } = await loadTesseract();
+        const worker = await createWorker('eng', 1, {
+            workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+            langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng/4.0.0_best_int',
+            logger: (m) => {
+                if (m.status === 'recognizing text' && typeof onProgress === 'function') {
+                    onProgress(m.progress || 0);
+                }
+            },
+        });
+        return worker;
+    }
+
+    const PDF_SUITE_TABS = { merge: 1, split: 1, 'to-images': 1, 'to-md': 1 };
+
+    function parsePdfSuiteSubTab() {
+        const raw = (location.hash || '').replace(/^#/, '').trim();
+        if (!raw.startsWith('pdf-suite/')) return null;
+        const sub = raw.slice('pdf-suite/'.length).split('/')[0];
+        return PDF_SUITE_TABS[sub] ? sub : null;
+    }
+
+    function syncPdfSuiteHash(subTab) {
+        const tab = PDF_SUITE_TABS[subTab] ? subTab : 'merge';
+        const hash = tab === 'merge' ? '#pdf-suite' : `#pdf-suite/${tab}`;
+        if (location.hash !== hash) {
+            history.replaceState(null, '', location.pathname + location.search + hash);
+        }
     }
 
     async function ensureTool(toolId) {
@@ -417,6 +491,12 @@ window.NexusTools = (function () {
         expandSettingsCard,
         ensureCropper,
         loadPdfJs,
+        parsePdfPageRange,
+        renderPdfPageCanvas,
+        loadTesseract,
+        createTesseractWorker,
+        parsePdfSuiteSubTab,
+        syncPdfSuiteHash,
         loadExternalScript,
         loadExternalStylesheet,
     };

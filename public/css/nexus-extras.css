@@ -436,6 +436,39 @@ html:not(.dark) .codec-badge {
     text-align: center;
 }
 
+/* ===== PDF to Markdown ===== */
+.pdf-md-preview {
+    display: block;
+    width: 100%;
+    min-height: 220px;
+    max-height: min(52vh, 520px);
+    margin-top: var(--space-3, 0.75rem);
+    padding: var(--space-3, 0.75rem);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-md, 10px);
+    background: var(--surface);
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: var(--text-sm, 0.75rem);
+    line-height: 1.55;
+    resize: vertical;
+    overflow: auto;
+}
+.pdf2md-check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2, 0.5rem);
+    cursor: pointer;
+}
+.pdf2md-check-row input {
+    margin-top: 0.2rem;
+}
+.pdf2md-stats {
+    margin-top: var(--space-2, 0.5rem);
+    font-size: var(--text-sm, 0.75rem);
+    color: var(--text-muted);
+}
+
 /* ===== UAE Photo Compliance Checker ===== */
 .photo-checker-grid {
     align-items: start;

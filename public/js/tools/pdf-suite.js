@@ -121,21 +121,34 @@
         }
     }
 
+    const VALID_PDF_TABS = { merge: 1, split: 1, 'to-images': 1, 'to-md': 1 };
+
+    function activatePdfTab(id) {
+        const tabId = VALID_PDF_TABS[id] ? id : 'merge';
+        document.querySelectorAll('.pdf-tab').forEach((t) => {
+            const active = t.dataset.pdfTab === tabId;
+            t.classList.toggle('active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        document.getElementById('pdf-panel-merge')?.classList.toggle('is-hidden', tabId !== 'merge');
+        document.getElementById('pdf-panel-split')?.classList.toggle('is-hidden', tabId !== 'split');
+        document.getElementById('pdf-panel-to-images')?.classList.toggle('is-hidden', tabId !== 'to-images');
+        document.getElementById('pdf-panel-to-md')?.classList.toggle('is-hidden', tabId !== 'to-md');
+        document.getElementById('pdf-sidebar-merge')?.classList.toggle('is-hidden', tabId !== 'merge');
+        document.getElementById('pdf-sidebar-split')?.classList.toggle('is-hidden', tabId !== 'split');
+        document.getElementById('pdf-sidebar-to-images')?.classList.toggle('is-hidden', tabId !== 'to-images');
+        document.getElementById('pdf-sidebar-to-md')?.classList.toggle('is-hidden', tabId !== 'to-md');
+        document.getElementById('pdf-merge-empty')?.classList.toggle('is-hidden', tabId !== 'merge');
+    }
+
+    window.__NEXUS_PDF_SUITE_ACTIVATE = activatePdfTab;
+
     window.NexusTools.runWhenReady(() => {
         document.querySelectorAll('.pdf-tab').forEach((tab) => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.pdf-tab').forEach((t) => {
-                    t.classList.toggle('active', t === tab);
-                    t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
-                });
                 const id = tab.dataset.pdfTab;
-                document.getElementById('pdf-panel-merge')?.classList.toggle('is-hidden', id !== 'merge');
-                document.getElementById('pdf-panel-split')?.classList.toggle('is-hidden', id !== 'split');
-                document.getElementById('pdf-panel-to-images')?.classList.toggle('is-hidden', id !== 'to-images');
-                document.getElementById('pdf-sidebar-merge')?.classList.toggle('is-hidden', id !== 'merge');
-                document.getElementById('pdf-sidebar-split')?.classList.toggle('is-hidden', id !== 'split');
-                document.getElementById('pdf-sidebar-to-images')?.classList.toggle('is-hidden', id !== 'to-images');
-                document.getElementById('pdf-merge-empty')?.classList.toggle('is-hidden', id !== 'merge');
+                activatePdfTab(id);
+                window.NexusTools.syncPdfSuiteHash?.(id);
             });
         });
 
