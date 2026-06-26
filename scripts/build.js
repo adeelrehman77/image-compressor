@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { autoBumpForBuild, getVersion, getBuildId, writeVersionJson, swCacheId } = require('./version');
+const { getVersion, getBuildId, writeVersionJson, swCacheId, shouldBumpOnBuild, autoBumpForBuild } = require('./version');
 
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
@@ -65,13 +65,18 @@ const { buildArIndex } = require('./generate-ar-index');
 
 console.log('Building NexusCompress…');
 
+const releaseBuild = shouldBumpOnBuild();
 const buildVersion = autoBumpForBuild();
 const buildId = getBuildId();
-console.log(`Release: v${buildVersion} · build ${buildId}`);
+console.log(`Release: ${buildVersion} · build ${buildId}`);
 
-require('./sync-version').main();
+if (releaseBuild) {
+    require('./sync-version').syncReleaseAssets();
+    require('./generate-sitemap');
+} else {
+    console.log('sync-version: skipped (local build — deploy uses BUMP_ON_BUILD=1 or CI)');
+}
 require('./sync-hero-links').main();
-require('./generate-sitemap');
 require('./download-esrgan-model');
 require('./vendor-background-removal');
 
@@ -81,7 +86,7 @@ buildArIndex();
 rimraf(distDir);
 copyDir(publicDir, distDir);
 const versionMeta = { version: buildVersion, buildId, builtAt: new Date().toISOString() };
-writeVersionJson(publicDir, versionMeta);
+if (releaseBuild) writeVersionJson(publicDir, versionMeta);
 writeVersionJson(distDir, versionMeta);
 fs.mkdirSync(path.join(distDir, 'css'), { recursive: true });
 const legacyCss = path.join(distDir, 'css', 'styles.css');
@@ -95,7 +100,7 @@ execSync('npx postcss src/styles/main.css -o dist/css/app.css', {
 
 const { syncDistAssets, syncPublicAssets } = require('./sync-public-assets');
 syncDistAssets(distDir);
-writeVersionJson(publicDir, versionMeta);
+if (releaseBuild) writeVersionJson(publicDir, versionMeta);
 writeVersionJson(distDir, versionMeta);
 syncPublicAssets();
 console.log('Copied font files → dist/css/files/ and public/css/files/');
@@ -121,5 +126,5 @@ bumpSwCache(buildId);
 
 require('./verify-dist');
 
-console.log(`Done → dist/ (v${buildVersion} · build ${buildId})`);
+console.log(`Done → dist/ (${buildVersion} · build ${buildId})`);
 console.log('Deploy: upload dist/ via your usual pipeline (output: dist/)');

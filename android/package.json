@@ -6,6 +6,8 @@
     "doctor": "bubblewrap doctor",
     "init": "bubblewrap init --manifest=https://compress.funadventure.ae/manifest.json",
     "update": "bubblewrap update",
+    "version:sync": "node ../scripts/sync-android-version.js",
+    "prebuild:release": "node ../scripts/sync-android-version.js",
     "build": "bubblewrap build",
     "build:release": "bubblewrap build --release",
     "validate": "bubblewrap validate",

@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Versioning: package.json semver + per-build buildId.
- * BUMP_ON_BUILD=1 (default in npm run build) auto-increments patch on each build.
- * SKIP_VERSION_BUMP=1 skips bump (e.g. npm test).
+ * Versioning: date-time release stamps + per-build buildId.
+ *
+ * Local `npm run build` — no version bump, public/ sources stay clean.
+ * Deploy (`BUMP_ON_BUILD=1`, `npm run predeploy`, or CI) — stamps YYYYMMDD.HHmm (UTC).
+ * SKIP_VERSION_BUMP=1 — never bump (e.g. npm test).
  */
 const fs = require('fs');
 const path = require('path');
@@ -23,14 +25,22 @@ function getVersion() {
     return readPackage().version || '0.0.0';
 }
 
-function bumpPatchVersion() {
+/** UTC release stamp: YYYYMMDD.HHmm (e.g. 20250626.1830) */
+function formatBuildVersion(date = new Date()) {
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}.${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}`;
+}
+
+function bumpBuildVersion() {
     const pkg = readPackage();
-    const parts = String(pkg.version || '0.0.0').split('.').map((n) => parseInt(n, 10) || 0);
-    while (parts.length < 3) parts.push(0);
-    parts[2] += 1;
-    pkg.version = parts.join('.');
+    pkg.version = formatBuildVersion();
     writePackage(pkg);
     return pkg.version;
+}
+
+/** @deprecated Use bumpBuildVersion for releases; kept for legacy scripts */
+function bumpPatchVersion() {
+    return bumpBuildVersion();
 }
 
 function shouldBumpOnBuild() {
@@ -40,12 +50,20 @@ function shouldBumpOnBuild() {
     return false;
 }
 
-/** Call at start of production build — returns active semver (bumped when enabled). */
+/** Returns active version; stamps date-time on deploy builds only. */
 function autoBumpForBuild() {
     if (!shouldBumpOnBuild()) return getVersion();
-    const next = bumpPatchVersion();
-    console.log(`version: auto-bump patch → v${next}`);
+    const next = bumpBuildVersion();
+    console.log(`version: release stamp → ${next}`);
     return next;
+}
+
+/** Integer from YYYYMMDD.HHmm for Play versionCode (e.g. 202506261830). */
+function versionToAndroidCode(version = getVersion()) {
+    const digits = String(version).replace(/\D/g, '');
+    if (digits.length >= 12) return parseInt(digits.slice(0, 12), 10);
+    const n = parseInt(digits, 10);
+    return Number.isFinite(n) && n > 0 ? n : 1;
 }
 
 function getGitShortSha() {
@@ -181,9 +199,12 @@ module.exports = {
     readPackage,
     writePackage,
     getVersion,
+    formatBuildVersion,
+    bumpBuildVersion,
     bumpPatchVersion,
     shouldBumpOnBuild,
     autoBumpForBuild,
+    versionToAndroidCode,
     getBuildId,
     getGitShortSha,
     swCacheId,

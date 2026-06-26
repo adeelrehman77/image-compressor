@@ -124,9 +124,14 @@ If `init` overwrites `twa-manifest.json`, restore fields from git (version codes
 
 ```bash
 cd android
-npm run build          # debug APK
-npm run build:release  # release AAB for Play Console
+npm run build:release   # auto-bumps versionCode + syncs versionName from package.json
 ```
+
+`prebuild:release` runs `scripts/sync-android-version.js` automatically:
+- **versionName** → root `package.json` semver (e.g. `2.2.47`)
+- **versionCode** → increments by 1 (never reuses a Play upload code)
+
+To sync the name without bumping the code (rare): `SKIP_ANDROID_VERSION_BUMP=1 npm run version:sync`
 
 Output: `android/app-release-bundle.aab` (upload this to Play — **not** `app/build/outputs/bundle/release/app-release.aab`, which is unsigned).
 
@@ -192,7 +197,9 @@ See [PLAY_STORE.md](./PLAY_STORE.md) for listing copy (EN + AR), screenshot capt
 
 ## Versioning
 
-- **Web:** `package.json` version → `npm run build` (auto-bump optional).
-- **Android:** Bump `appVersionCode` + `appVersionName` in `twa-manifest.json` before each Play upload.
+- **Local build:** `npm run build` — no version stamp; `public/` stays clean (no 50-file churn).
+- **Deploy / release:** `npm run build:release` or `npm run predeploy` — stamps **UTC** `YYYYMMDD.HHmm` (e.g. `20250626.1830`) into `package.json`, HTML, JS, sitemap.
+- **Cloudflare CI:** set build command to `npm run build:release` (or `BUMP_ON_BUILD=1 npm run build`).
+- **Android:** `cd android && npm run build:release` — `versionName` = stamp above, `versionCode` = `YYYYMMDDHHmm` integer (auto-incremented).
 
-Only ship a new AAB when the TWA shell changes (SDK bump, notification permission, billing, etc.). Routine tool fixes deploy via the website only.
+Only ship a new AAB when the TWA shell changes. Routine tool fixes deploy via the website only.

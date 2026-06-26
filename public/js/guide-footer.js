@@ -17,7 +17,7 @@
         document.head.appendChild(tokens);
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = `${prefix}css/nexus-extras.css?v=2.2.47`;
+        link.href = `${prefix}css/nexus-extras.css?v=20260626.1936`;
         link.dataset.nexusExtras = '1';
         document.head.appendChild(link);
     }
