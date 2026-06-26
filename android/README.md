@@ -56,6 +56,8 @@ sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 cd android && npm install && npm run doctor
 ```
 
+> **Do not run `npm audit fix --force` in `android/`** — it downgrades `@bubblewrap/cli` to 0.5.x and breaks TWA builds. Audit warnings in this dev-only folder are acceptable.
+
 ---
 
 ## One-time setup

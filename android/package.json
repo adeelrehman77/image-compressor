@@ -12,6 +12,6 @@
     "fingerprint": "node ../scripts/android-fingerprint.js"
   },
   "devDependencies": {
-    "@bubblewrap/cli": "^1.24.1"
+    "@bubblewrap/cli": "1.24.1"
   }
 }
