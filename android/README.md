@@ -128,7 +128,13 @@ npm run build          # debug APK
 npm run build:release  # release AAB for Play Console
 ```
 
-Output: `android/app-release-signed.aab` (or similar under `android/`).
+Output: `android/app-release-bundle.aab` (upload this to Play — **not** `app/build/outputs/bundle/release/app-release.aab`, which is unsigned).
+
+| File | Signed? | Use |
+|------|---------|-----|
+| `android/app-release-bundle.aab` | Yes | **Play Console upload** |
+| `android/app-release-signed.apk` | Yes | Local/sideload testing |
+| `app/build/outputs/bundle/release/app-release.aab` | No | Ignore — Gradle intermediate |
 
 ### 6. Sync after web manifest changes
 
