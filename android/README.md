@@ -124,12 +124,15 @@ If `init` overwrites `twa-manifest.json`, restore fields from git (version codes
 
 ```bash
 cd android
-npm run build:release   # auto-bumps versionCode + syncs versionName from package.json
+npm run build:release   # syncs version, applies twa-manifest, builds signed AAB
 ```
 
 `prebuild:release` runs `scripts/sync-android-version.js` automatically:
-- **versionName** → root `package.json` semver (e.g. `2.2.47`)
-- **versionCode** → increments by 1 (never reuses a Play upload code)
+- **versionName** → root `package.json` release stamp (e.g. `20260626.1936`)
+- **versionCode** → increments by 1 (Play requires monotonic int; never use the date string as code)
+- **manifest-checksum.txt** → updated so `bubblewrap build` skips the “apply twa-manifest changes?” prompt
+
+Do **not** pipe answers into `bubblewrap update` — interactive prompts will corrupt `versionName`.
 
 To sync the name without bumping the code (rare): `SKIP_ANDROID_VERSION_BUMP=1 npm run version:sync`
 

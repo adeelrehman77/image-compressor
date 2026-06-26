@@ -58,11 +58,10 @@ function autoBumpForBuild() {
     return next;
 }
 
-/** Integer from YYYYMMDD.HHmm for Play versionCode (e.g. 202506261830). */
+/** @deprecated Android uses simple increment in sync-android-version.js (int32 limit). */
 function versionToAndroidCode(version = getVersion()) {
     const digits = String(version).replace(/\D/g, '');
-    if (digits.length >= 12) return parseInt(digits.slice(0, 12), 10);
-    const n = parseInt(digits, 10);
+    const n = parseInt(digits.slice(0, 9), 10);
     return Number.isFinite(n) && n > 0 ? n : 1;
 }
 

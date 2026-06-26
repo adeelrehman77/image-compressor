@@ -57,8 +57,8 @@ android {
         applicationId "ae.funadventure.nexuscompress"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 2002048
-        versionName "2.2.47"
+        versionCode 7
+        versionName "20260626.1936"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
