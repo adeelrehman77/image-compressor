@@ -1,0 +1,52 @@
+{
+  "packageId": "ae.funadventure.nexuscompress",
+  "host": "compress.funadventure.ae",
+  "name": "NexusCompress",
+  "launcherName": "NexusCompress",
+  "display": "standalone",
+  "themeColor": "#0B0C10",
+  "themeColorDark": "#0B0C10",
+  "navigationColor": "#0B0C10",
+  "navigationColorDark": "#0B0C10",
+  "navigationDividerColor": "#0B0C10",
+  "navigationDividerColorDark": "#0B0C10",
+  "backgroundColor": "#08090d",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://compress.funadventure.ae/icons/icon-512.png",
+  "maskableIconUrl": "https://compress.funadventure.ae/icons/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "nexuscompress"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://compress.funadventure.ae/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {
+    "playBilling": {
+      "enabled": false
+    },
+    "locationDelegation": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 23,
+  "orientation": "default",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": ["standalone", "minimal-ui"],
+  "appVersion": "1.0.0"
+}

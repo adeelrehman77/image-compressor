@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ae.funadventure.nexuscompress",
+      "sha256_cert_fingerprints": [
+        "0756D4705A8996056F27C5FB7E8FE91090116FF74ECBB93CFB4A003312F75F25"
+      ]
+    }
+  }
+]

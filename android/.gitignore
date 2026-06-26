@@ -1,0 +1,18 @@
+# Bubblewrap / Gradle build outputs
+/build/
+/app/build/
+/.gradle/
+/local.properties
+*.apk
+*.aab
+*.idsig
+
+# Signing keys — never commit
+*.keystore
+*.jks
+android.keystore
+signing-key.json
+
+# IDE
+.idea/
+*.iml

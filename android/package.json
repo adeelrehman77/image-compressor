@@ -1,0 +1,17 @@
+{
+  "name": "nexuscompress-android",
+  "private": true,
+  "description": "Trusted Web Activity shell for NexusCompress (Bubblewrap)",
+  "scripts": {
+    "doctor": "bubblewrap doctor",
+    "init": "bubblewrap init --manifest=https://compress.funadventure.ae/manifest.json",
+    "update": "bubblewrap update",
+    "build": "bubblewrap build",
+    "build:release": "bubblewrap build --release",
+    "validate": "bubblewrap validate",
+    "fingerprint": "node ../scripts/android-fingerprint.js"
+  },
+  "devDependencies": {
+    "@bubblewrap/cli": "^1.24.1"
+  }
+}

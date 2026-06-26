@@ -148,6 +148,23 @@ if (!fs.existsSync(bgRemovalResources)) {
     throw new Error('verify-dist: missing vendor/bg-removal-data/resources.json — run npm install');
 }
 
+const assetlinks = path.join(distDir, '.well-known/assetlinks.json');
+if (!fs.existsSync(assetlinks)) {
+    throw new Error('verify-dist: missing .well-known/assetlinks.json (required for TWA)');
+}
+const assetlinksJson = JSON.parse(fs.readFileSync(assetlinks, 'utf8'));
+if (!Array.isArray(assetlinksJson) || !assetlinksJson[0]?.target?.package_name) {
+    throw new Error('verify-dist: assetlinks.json must be a JSON array with target.package_name');
+}
+
+const manifest = JSON.parse(fs.readFileSync(path.join(distDir, 'manifest.json'), 'utf8'));
+if (!manifest.icons?.some((i) => i.sizes === '192x192') || !manifest.icons?.some((i) => i.sizes === '512x512')) {
+    throw new Error('verify-dist: manifest.json must include 192x192 and 512x512 icons');
+}
+if (manifest.start_url !== '/' || manifest.scope !== '/') {
+    throw new Error('verify-dist: manifest start_url and scope must be "/" for TWA');
+}
+
 for (const rel of DEDICATED_FAQ_GUIDES) {
     const file = path.join(distDir, rel);
     if (!fs.existsSync(file)) {
