@@ -91,7 +91,7 @@ Store passwords in a password manager — **never commit** `*.keystore` (see `.g
 KEYSTORE_PASS='your-store-password' node scripts/android-fingerprint.js android/android.keystore nexuscompress
 ```
 
-Paste the colonless fingerprint into `public/.well-known/assetlinks.json`, replacing `REPLACE_WITH_RELEASE_SHA256_FINGERPRINT`.
+Paste the colon-separated fingerprint into `public/.well-known/assetlinks.json`, replacing `REPLACE_WITH_RELEASE_SHA256_FINGERPRINT`.
 
 If you use **Play App Signing**, also add Google’s **app signing certificate** fingerprint from Play Console → Setup → App signing (upload key alone is not enough for production users).
 

@@ -48,8 +48,8 @@ if (!match) {
     process.exit(1);
 }
 
-const fingerprint = match[1].replace(/:/g, '').toUpperCase();
-console.log('\nSHA-256 (colonless, for assetlinks.json):');
+const fingerprint = match[1].toUpperCase();
+console.log('\nSHA-256 (colon-separated, for assetlinks.json):');
 console.log(fingerprint);
 console.log('\nPaste into public/.well-known/assetlinks.json → sha256_cert_fingerprints');
 console.log('Verify live: https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://compress.funadventure.ae&relation=delegate_permission/common.handle_all_urls');
