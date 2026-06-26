@@ -24,6 +24,18 @@
     let pdfFile = null;
     let lastMarkdown = '';
     let ocrWorker = null;
+    let ocrWorkerLang = null;
+
+    function defaultOcrLang() {
+        return window.__NEXUS_LOCALE === 'ar' ? 'ara' : 'eng';
+    }
+
+    function syncOcrLangUi() {
+        const mode = document.getElementById('pdf2md-ocr-mode')?.value || 'off';
+        const show = mode !== 'off';
+        document.getElementById('pdf2md-ocr-lang-wrap')?.classList.toggle('is-hidden', !show);
+        document.getElementById('pdf2md-ocr-lang')?.classList.toggle('is-hidden', !show);
+    }
 
     function setPdfFile(file) {
         pdfFile = file || null;
@@ -305,10 +317,20 @@
             .trim();
     }
 
-    async function ocrPage(page, onProgress) {
-        if (!ocrWorker) {
+    async function ocrPage(page, onProgress, lang) {
+        const langKey = lang || defaultOcrLang();
+        if (!ocrWorker || ocrWorkerLang !== langKey) {
+            if (ocrWorker) {
+                try {
+                    await ocrWorker.terminate();
+                } catch {
+                    /* ignore */
+                }
+                ocrWorker = null;
+            }
             setProgress(0, tf('pdf2mdOcrLoading', null, 'Loading OCR engine…'));
-            ocrWorker = await createTesseractWorker(onProgress);
+            ocrWorker = await createTesseractWorker(langKey, onProgress);
+            ocrWorkerLang = langKey;
         }
         const canvas = await renderPdfPageCanvas(page, OCR_SCALE);
         const { data } = await ocrWorker.recognize(canvas);
@@ -335,6 +357,7 @@
         const rangeSpec = document.getElementById('pdf2md-range')?.value || '';
         const mode = document.getElementById('pdf2md-mode')?.value || 'smart';
         const ocrMode = document.getElementById('pdf2md-ocr-mode')?.value || 'off';
+        const ocrLang = document.getElementById('pdf2md-ocr-lang')?.value || defaultOcrLang();
 
         btn.disabled = true;
         setProgress(0, tf('pdf2mdLoading', null, 'Loading PDF…'));
@@ -368,21 +391,37 @@
                 );
 
                 const page = await pdf.getPage(pageNum);
-                let body = await pageToMarkdown(page, mode);
-                const needsOcr = !body.trim() && ocrMode !== 'off';
+                let body = '';
+                const ocrProgress = (p) => {
+                    setProgress(basePct + 20 + p * (80 / indices.length), null);
+                };
 
-                if (needsOcr) {
+                if (ocrMode === 'always') {
                     setProgress(
-                        basePct + 20,
+                        basePct + 10,
                         tf('pdf2mdOcrPage', { current: i + 1, total: indices.length }, `OCR page ${i + 1} of ${indices.length}…`)
                     );
                     try {
-                        body = await ocrPage(page, (p) => {
-                            setProgress(basePct + 20 + p * (80 / indices.length), null);
-                        });
+                        body = await ocrPage(page, ocrProgress, ocrLang);
                         if (body.trim()) ocrPages++;
+                        else body = await pageToMarkdown(page, mode);
                     } catch (ocrErr) {
                         window.NexusTools?.reportError?.(ocrErr, { tool: 'pdf-suite', action: 'pdf-to-md-ocr' });
+                        body = await pageToMarkdown(page, mode);
+                    }
+                } else {
+                    body = await pageToMarkdown(page, mode);
+                    if (!body.trim() && ocrMode === 'auto') {
+                        setProgress(
+                            basePct + 20,
+                            tf('pdf2mdOcrPage', { current: i + 1, total: indices.length }, `OCR page ${i + 1} of ${indices.length}…`)
+                        );
+                        try {
+                            body = await ocrPage(page, ocrProgress, ocrLang);
+                            if (body.trim()) ocrPages++;
+                        } catch (ocrErr) {
+                            window.NexusTools?.reportError?.(ocrErr, { tool: 'pdf-suite', action: 'pdf-to-md-ocr' });
+                        }
                     }
                 }
 
@@ -461,6 +500,7 @@
                     /* ignore */
                 }
                 ocrWorker = null;
+                ocrWorkerLang = null;
             }
         }
     }
@@ -501,6 +541,14 @@
         document.getElementById('pdf2md-range-mode')?.addEventListener('change', (e) => {
             document.getElementById('pdf2md-range-wrap')?.classList.toggle('is-hidden', e.target.value !== 'custom');
         });
+
+        const ocrLangEl = document.getElementById('pdf2md-ocr-lang');
+        if (ocrLangEl && !ocrLangEl.dataset.init) {
+            ocrLangEl.value = defaultOcrLang();
+            ocrLangEl.dataset.init = '1';
+        }
+        document.getElementById('pdf2md-ocr-mode')?.addEventListener('change', syncOcrLangUi);
+        syncOcrLangUi();
 
         document.getElementById('pdf2md-convert-btn')?.addEventListener('click', convertPdf);
         document.getElementById('pdf2md-copy-btn')?.addEventListener('click', copyMarkdown);

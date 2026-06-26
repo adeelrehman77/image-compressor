@@ -23,7 +23,7 @@ window.NexusTools = (function () {
         return (
             document.documentElement.dataset.appVersion ||
             document.getElementById('app-version')?.textContent?.match(/v([\d.]+)/)?.[1] ||
-            '2.2.41'
+            '2.2.42'
         );
     }
 
@@ -223,18 +223,26 @@ window.NexusTools = (function () {
         return tesseractPromise;
     }
 
-    async function createTesseractWorker(onProgress) {
+    async function createTesseractWorker(langs, onProgress) {
+        const langKey = Array.isArray(langs) ? langs.join('+') : String(langs || 'eng');
+        const langList = langKey.split('+').filter(Boolean);
         const { createWorker } = await loadTesseract();
-        const worker = await createWorker('eng', 1, {
+        const options = {
             workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
-            langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng/4.0.0_best_int',
             logger: (m) => {
                 if (m.status === 'recognizing text' && typeof onProgress === 'function') {
                     onProgress(m.progress || 0);
                 }
             },
-        });
-        return worker;
+        };
+        if (langList.length === 1) {
+            const singlePaths = {
+                eng: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng/4.0.0_best_int',
+                ara: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/ara/4.0.0_best_int',
+            };
+            if (singlePaths[langList[0]]) options.langPath = singlePaths[langList[0]];
+        }
+        return createWorker(langKey, 1, options);
     }
 
     const PDF_SUITE_TABS = { merge: 1, split: 1, 'to-images': 1, 'to-md': 1 };

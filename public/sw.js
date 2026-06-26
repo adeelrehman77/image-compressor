@@ -1,4 +1,4 @@
-const CACHE = 'nexus-v2.2.41-ec5c2a6';
+const CACHE = 'nexus-v2.2.42-f05ca78';
 const FACE_MODEL_CACHE = 'nexus-face-models-v1';
 const UPSCALER_MODEL_CACHE = 'nexus-esrgan-model-v1';
 
