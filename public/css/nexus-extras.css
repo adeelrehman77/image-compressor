@@ -2640,3 +2640,26 @@ html:not(.dark) .result-savings-badge { color: var(--success, #1d6b52); }
     font-size: var(--text-sm, 0.8125rem);
 }
 
+/* Government / portal disclaimer (Play Store Misleading Claims compliance) */
+.gov-disclaimer {
+    max-width: 52rem;
+    margin: 0 auto var(--space-4, 1rem);
+    padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+    font-size: var(--text-xs, 0.75rem);
+    line-height: 1.5;
+    color: var(--text-muted, #94a3b8);
+    text-align: center;
+    border: 1px solid var(--surface-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--radius-md, 8px);
+    background: color-mix(in srgb, var(--surface, #111) 80%, transparent);
+}
+.gov-disclaimer a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.gov-disclaimer strong {
+    color: var(--text);
+    font-weight: 600;
+}
+

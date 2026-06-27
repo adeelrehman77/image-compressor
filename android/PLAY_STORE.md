@@ -10,11 +10,26 @@ Use [Google Play Console](https://play.google.com/console). Package: `ae.funadve
 NexusCompress
 
 **Short description (80 chars max)**  
-Compress, convert & check UAE ID photos — 100% private, on your device.
+Compress & convert images on your device — UAE portal size presets included.
 
-**Full description (4000 chars max)**
+**Full description (4000 chars max)** — paste exactly into Play Console (en-GB + default EN)
 
-NexusCompress is a privacy-first image toolkit built for everyday use and UAE government portals — Emirates ID, MOHRE, ICA, and more. Everything runs in your browser on your phone: files never upload to our servers.
+⚠️ **Required for Google Play Misleading Claims policy** — disclaimer + official sources must stay at the top.
+
+```
+DISCLAIMER — NOT A GOVERNMENT APP
+NexusCompress is an independent image toolkit developed by Fun Adventure Media Studio. It is NOT affiliated with, endorsed by, or operated by any government entity in the United Arab Emirates or elsewhere.
+
+OFFICIAL SOURCES FOR UAE PORTAL REQUIREMENTS
+File-size presets in this app are based on publicly published upload limits. Always verify current requirements on the official portals before submitting documents:
+• ICA / Emirates ID: https://www.ica.gov.ae/
+• ICA Smart Services: https://smartservices.ica.gov.ae/
+• MOHRE (Ministry of Human Resources & Emirisation): https://www.mohre.gov.ae/
+• UAE Government Portal: https://u.ae/
+
+---
+
+NexusCompress is a privacy-first image toolkit for everyday use — including preparing photos and documents for common UAE portal upload limits (Emirates ID, MOHRE, ICA, and similar). Everything runs on your device: files never upload to our servers.
 
 **Compress & convert**
 • Batch compress JPEG, PNG, WebP, and AVIF  
@@ -52,11 +67,24 @@ Privacy policy: https://compress.funadventure.ae/privacy.html
 NexusCompress — ضاغط الصور
 
 **الوصف المختصر**  
-ضغط وتحويل وفحص صور الهوية — على جهازك بالكامل، بخصوصية تامة.
+ضغط وتحويل الصور على جهازك — مع إعدادات أحجام بوابات الإمارات.
 
-**الوصف الكامل**
+**الوصف الكامل** — paste into Play Console (Arabic listing)
 
-NexusCompress مجموعة أدوات صور تركز على الخصوصية — مصممة للاستخدام اليومي وبوابات حكومة الإمارات (الهوية، وزارة الموارد البشرية، ICA وغيرها). كل المعالجة على جهازك؛ لا نرفع ملفاتك إلى خوادمنا.
+```
+إخلاء مسؤولية — ليس تطبيقاً حكومياً
+NexusCompress أداة مستقلة من Fun Adventure Media Studio. ليست تابعة لأي جهة حكومية في دولة الإمارات أو غيرها، ولا معتمدة منها.
+
+المصادر الرسمية لمتطلبات بوابات الإمارات
+إعدادات الأحجام مبنية على حدود الرفع المنشورة علناً. تحقق دائماً من المتطلبات الحالية على البوابات الرسمية قبل الرفع:
+• ICA / الهوية الإماراتية: https://www.ica.gov.ae/
+• خدمات ICA الذكية: https://smartservices.ica.gov.ae/
+• MOHRE / وزارة الموارد البشرية: https://www.mohre.gov.ae/
+• بوابة حكومة الإمارات: https://u.ae/
+
+---
+
+NexusCompress مجموعة أدوات صور تركز على الخصوصية — للاستخدام اليومي ولتحضير الصور والمستندات وفق حدود الرفع الشائعة في بوابات الإمارات. كل المعالجة على جهازك؛ لا نرفع ملفاتك إلى خوادمنا.
 
 **ضغط وتحويل**
 • ضغط دفعات JPEG وPNG وWebP وAVIF  
@@ -103,6 +131,8 @@ Capture on a phone (1080×1920 or 1440×2560). Use dark mode for brand consisten
 ## Play Console checklist (before internal testing)
 
 ### App content
+- [ ] **Misleading Claims compliance:** full description includes disclaimer + official `.gov.ae` source URLs at the top (see EN/AR blocks above)
+- [ ] In-app footer disclaimer live at `https://compress.funadventure.ae/` (deploy web before resubmitting)
 - [ ] Privacy policy URL: `https://compress.funadventure.ae/privacy.html`
 - [ ] App category: **Tools** or **Productivity**
 - [ ] Target audience: not designed for children
