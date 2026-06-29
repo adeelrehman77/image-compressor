@@ -12,6 +12,7 @@
 
     /** CSP-safe libheif build (no unsafe-eval); lazy-loaded from vendor/. */
     function loadHeicTo() {
+        if (window.NexusTools?.loadHeicTo) return window.NexusTools.loadHeicTo();
         if (heicModulePromise) return heicModulePromise;
         const src = assetUrl('vendor/heic-to-csp.min.js');
         const abs = new URL(src, window.location.href).href;

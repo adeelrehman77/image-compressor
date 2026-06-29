@@ -313,6 +313,57 @@ window.NexusTools = (function () {
         window.NexusSentry?.captureException(err, context);
     }
 
+    const HEIC_BRANDS = new Set(['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'mif1', 'msf1']);
+    let heicModulePromise = null;
+
+    async function sniffImageFormat(file) {
+        if (!file || !file.size) return 'unknown';
+        const buf = await file.slice(0, 12).arrayBuffer();
+        const b = new Uint8Array(buf);
+        if (b.length >= 2 && b[0] === 0xff && b[1] === 0xd8) return 'jpeg';
+        if (b.length >= 4 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return 'png';
+        if (b.length >= 12 && b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46) {
+            const tag = String.fromCharCode(b[8], b[9], b[10], b[11]);
+            if (tag === 'WEBP') return 'webp';
+        }
+        if (b.length >= 12 && b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70) {
+            const brand = String.fromCharCode(b[8], b[9], b[10], b[11]);
+            if (HEIC_BRANDS.has(brand)) return 'heic';
+            if (brand === 'avif' || brand === 'avis') return 'avif';
+        }
+        return 'unknown';
+    }
+
+    function loadHeicTo() {
+        if (heicModulePromise) return heicModulePromise;
+        const abs = new URL(assetUrl('vendor/heic-to-csp.min.js'), window.location.href).href;
+        heicModulePromise = import(abs).catch((err) => {
+            heicModulePromise = null;
+            throw new Error(
+                'Failed to load HEIC converter library.'
+                + (err?.message ? ` (${err.message})` : '')
+            );
+        });
+        return heicModulePromise;
+    }
+
+    async function convertHeicToJpegFile(file) {
+        const { heicTo } = await loadHeicTo();
+        const blob = await heicTo({ blob: file, type: 'image/jpeg', quality: 0.92 });
+        const base = (file.name || 'photo').replace(/\.(heic|heif)$/i, '').replace(/\.[^.]+$/, '') || 'photo';
+        const jpegName = /\.jpe?g$/i.test(file.name || '') ? file.name : `${base}.jpg`;
+        return new File([blob], jpegName, { type: 'image/jpeg', lastModified: file.lastModified || Date.now() });
+    }
+
+    function isExpectedImageError(err) {
+        const msg = (err?.message || String(err)).toLowerCase();
+        return msg.includes('decode')
+            || msg.includes('could not be decoded')
+            || msg.includes('invalid')
+            || msg.includes('format')
+            || msg.includes('image load failed');
+    }
+
     function bindDropZone(dropZone, fileInput, onFiles) {
         if (!dropZone || typeof onFiles !== 'function') return;
 
@@ -494,6 +545,10 @@ window.NexusTools = (function () {
         ensureTool,
         ensureExifViewer,
         reportError,
+        sniffImageFormat,
+        loadHeicTo,
+        convertHeicToJpegFile,
+        isExpectedImageError,
         bindDropZone,
         initSettingsCards,
         expandSettingsCard,

@@ -4,7 +4,7 @@
     const WORKER_POOL_SIZE = 3;
     const MAX_FILE_BYTES = 25 * 1024 * 1024;
     const MAX_BATCH_FILES = 20;
-    const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif)$/i;
+    const ACCEPTED_TYPES = /^image\/(jpe?g|png|webp|avif)$/i;
     const ACCEPTED_EXT = /\.(jpe?g|png|webp|avif)$/i;
 
     function tf(key, vars, fallback) {
@@ -955,6 +955,23 @@
     }
 
     function drainQueue() {
+        dispatchNextTask().catch((err) => console.error('dispatchNextTask', err));
+    }
+
+    async function prepareCompressFile(file) {
+        const sniffed = await window.NexusTools?.sniffImageFormat?.(file);
+        if (sniffed === 'heic') {
+            const converted = await window.NexusTools.convertHeicToJpegFile(file);
+            toast(
+                tf('heicAutoConverted', { name: file.name }, `${file.name}: detected HEIC — converted to JPEG before compressing.`),
+                'info'
+            );
+            return converted;
+        }
+        return file;
+    }
+
+    async function dispatchNextTask() {
         if (state.cancelled) return;
         if (state.sequentialMode && workers.some((w) => w.busy)) return;
         const idle = workers.find((w) => !w.busy);
@@ -962,13 +979,26 @@
 
         const id = state.queue.shift();
         const task = state.tasks.get(id);
-        if (!task || task.status === 'removed') return;
+        if (!task || task.status === 'removed') {
+            await dispatchNextTask();
+            return;
+        }
 
         idle.busy = true;
         task.status = 'processing';
         updateTaskStatus(id, tf('statusProcessing', null, 'Processing…'), 'processing');
 
-        idle.postMessage({ id, file: task.file, config: task.config });
+        let file = task.file;
+        try {
+            file = await prepareCompressFile(file);
+        } catch (err) {
+            idle.busy = false;
+            onTaskError(task, err);
+            await dispatchNextTask();
+            return;
+        }
+
+        idle.postMessage({ id, file, config: task.config });
     }
 
     function handleWorkerMessage(worker, e) {
@@ -1071,11 +1101,13 @@
     function onTaskError(task, error) {
         task.status = 'error';
         task.error = error;
-        window.NexusSentry?.captureException(error, {
-            taskId: task.id,
-            fileName: task.file?.name,
-            tool: 'compress',
-        });
+        if (!window.NexusTools?.isExpectedImageError?.(error)) {
+            window.NexusSentry?.captureException(error, {
+                taskId: task.id,
+                fileName: task.file?.name,
+                tool: 'compress',
+            });
+        }
         updateTaskStatus(task.id, tf('statusFailed', null, 'Failed'), 'error');
         const friendlyMsg = getFriendlyError(error);
         const errEl = document.querySelector(`#${task.id} .error-msg`);

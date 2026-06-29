@@ -230,6 +230,23 @@ async function compressToTargetSize(bitmap, crop, width, height, outputType, tar
     };
 }
 
+async function openBitmap(file, fixOrientation) {
+    const attempts = [];
+    if (fixOrientation !== false) {
+        attempts.push({ imageOrientation: 'from-image' });
+    }
+    attempts.push({});
+    let lastErr;
+    for (const opts of attempts) {
+        try {
+            return await createImageBitmap(file, opts);
+        } catch (err) {
+            lastErr = err;
+        }
+    }
+    throw lastErr;
+}
+
 self.onmessage = async function (e) {
     const { id, file, config } = e.data;
     const {
@@ -246,8 +263,7 @@ self.onmessage = async function (e) {
 
     try {
         const codecs = await loadCodecs();
-        const bitmapOpts = fixOrientation !== false ? { imageOrientation: 'from-image' } : {};
-        const bitmap = await createImageBitmap(file, bitmapOpts);
+        const bitmap = await openBitmap(file, fixOrientation);
 
         const origW = bitmap.width;
         const origH = bitmap.height;
