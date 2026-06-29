@@ -1,3 +1,6 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.gradle.wrapper.enabled": true,
+    "gradle.nestedProjects": true,
+    "gradle.autoDetect": "on"
 }
