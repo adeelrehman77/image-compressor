@@ -63,7 +63,7 @@ The `predeploy` script in `package.json` runs `verify-dist.js` first — build f
 
 ---
 
-## Tools — All 11 Tabs
+## Tools — All 13 Tabs
 
 | Tab ID | Label EN | Label AR | File |
 |--------|----------|----------|------|
@@ -78,6 +78,8 @@ The `predeploy` script in `package.json` runs `verify-dist.js` first — build f
 | `heic-converter` | HEIC Converter | محوّل HEIC | `tools/heic-converter.js` |
 | `format-converter` | Format Converter | محوّل الصيغ | `tools/format-converter.js` |
 | `image-cropper` | Image Cropper | مقص الصور | `tools/image-cropper.js` |
+| `collage-maker` | Collage Maker | صانع الكولاج | `tools/collage-maker.js` |
+| `remove-bg` | Remove Background | إزالة الخلفية | `tools/remove-bg.js` |
 
 ### New Tool Checklist
 When adding a new tool tab, update ALL of these:
@@ -87,7 +89,8 @@ When adding a new tool tab, update ALL of these:
 - [ ] `public/js/tool-meta.js` — add metadata
 - [ ] `public/js/i18n.js` — add EN + AR keys for tab label, short label, headings, all UI strings
 - [ ] `public/css/nexus-extras.css` — add tool-specific CSS
-- [ ] `public/sitemap.xml` — add URL entry
+- [ ] `scripts/tool-routes.js` — add slug mapping
+- [ ] `scripts/generate-sitemap.js` — add EN + AR tool URL entries (runs on every build)
 - [ ] `scripts/generate-ar-index.js` — update verify checks if needed
 
 ---
@@ -215,7 +218,30 @@ Defined in `app.js` as `COMPRESSOR_QUICK`:
 ## Sitemap
 
 **File:** `public/sitemap.xml`
-All 11 tool hash-URLs + all guide pages = 28 total (verified in Google Search Console).
+All guide pages + homepage + `/ar/` + 12 tool URLs under `/tools/{slug}/` + legal/docs pages = 57 sitemap URLs (extensionless; compress stays on `/`).
+
+### Tool URL pattern
+
+Each non-compress tool has a dedicated crawlable entry point generated at build time:
+
+| Tool ID | EN URL | AR URL |
+|---------|--------|--------|
+| `images-to-pdf` | `/tools/images-to-pdf/` | `/ar/tools/images-to-pdf/` |
+| `pdf-suite` | `/tools/pdf-merge/` | `/ar/tools/pdf-merge/` |
+| `svg` | `/tools/svg-optimizer/` | `/ar/tools/svg-optimizer/` |
+| `passport-studio` | `/tools/passport-photo/` | `/ar/tools/passport-photo/` |
+| `photo-checker` | `/tools/photo-checker/` | `/ar/tools/photo-checker/` |
+| `redactor` | `/tools/document-redactor/` | `/ar/tools/document-redactor/` |
+| `ai-upscaler` | `/tools/ai-upscaler/` | `/ar/tools/ai-upscaler/` |
+| `heic-converter` | `/tools/heic-converter/` | `/ar/tools/heic-converter/` |
+| `format-converter` | `/tools/format-converter/` | `/ar/tools/format-converter/` |
+| `image-cropper` | `/tools/image-cropper/` | `/ar/tools/image-cropper/` |
+| `collage-maker` | `/tools/collage-maker/` | `/ar/tools/collage-maker/` |
+| `remove-bg` | `/tools/remove-background/` | `/ar/tools/remove-background/` |
+
+- **Source of truth:** `scripts/tool-routes.js` (Node) + `public/js/tool-routes.js` (browser)
+- **Generated at build:** `scripts/generate-tool-pages.js` → `dist/tools/*/index.html` and `dist/ar/tools/*/index.html`
+- Each page reuses the full app bundle with tool-specific `<title>`, meta description, canonical, and `window.__NEXUS_INITIAL_TOOL`
 When adding new tools or guides, add entries with:
 - `lastmod`: today's date
 - `changefreq`: `monthly`

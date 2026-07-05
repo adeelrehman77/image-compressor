@@ -18,13 +18,13 @@ const guideHeader = `    <header class="site-header">
             </a>
             <div class="site-header-meta">
                 <a href="../" class="chip chip-success">← NexusCompress</a>
-                <a href="../privacy.html" class="chip chip-muted">Privacy Policy</a>
+                <a href="../privacy" class="chip chip-muted">Privacy Policy</a>
             </div>
         </div>
     </header>`;
 
 const guideFooter = `    <footer class="site-footer">
-        <p>© <span id="footer-year"></span> NexusCompress · <a href="../">Compressor</a> · <a href="index.html">Guides</a> · <a href="../privacy.html">Privacy Policy</a> · <a href="../docs.html">Docs</a></p>
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="../">Compressor</a> · <a href="./">Guides</a> · <a href="../privacy">Privacy Policy</a> · <a href="../docs">Docs</a></p>
     </footer>`;
 
 const rootHeader = (tag) => `    <header class="site-header">
@@ -38,13 +38,13 @@ const rootHeader = (tag) => `    <header class="site-header">
             </a>
             <div class="site-header-meta">
                 <a href="./" class="chip chip-success">← NexusCompress</a>
-                <a href="guides/index.html" class="chip chip-muted">Guides</a>
+                <a href="guides/" class="chip chip-muted">Guides</a>
             </div>
         </div>
     </header>`;
 
 const rootFooter = `    <footer class="site-footer">
-        <p>© <span id="footer-year"></span> NexusCompress · <a href="./">Compressor</a> · <a href="guides/index.html">Guides</a> · <a href="privacy.html">Privacy Policy</a> · <a href="docs.html">Docs</a></p>
+        <p>© <span id="footer-year"></span> NexusCompress · <a href="./">Compressor</a> · <a href="guides/">Guides</a> · <a href="privacy">Privacy Policy</a> · <a href="docs">Docs</a></p>
     </footer>`;
 
 function patchGuide(file) {

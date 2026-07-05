@@ -41,7 +41,7 @@ if (enHtmlRaw.includes('uae-portal-compression.html"')) throw new Error('verify-
 assertHashDocumentHasNoFaqSchema(enHtmlRaw, 'dist/index.html');
 assertToolPanelsHaveNoFaqSchema(enHtmlRaw, 'dist/index.html');
 
-if (!enHtmlRaw.includes('guides/nexuscompress-image-compressor-faq.html')) {
+if (!enHtmlRaw.includes('guides/nexuscompress-image-compressor-faq')) {
     throw new Error('verify-dist: dist/index.html missing compressor FAQ guide link');
 }
 
@@ -53,7 +53,7 @@ assertFile('index.html', [
     'id="tab-collage-maker"',
     'id="tab-remove-bg"',
     'data-pdf-tab="to-images"',
-    'guides/best-image-format-uae-government-portals.html',
+    'guides/best-image-format-uae-government-portals',
     'UAE portal guide',
     `data-app-version="${pkgVersion}"`,
     `id="app-version"`,
@@ -80,8 +80,8 @@ assertFile('ar/index.html', [
     'فوراً. بخصوصية تامة.',
     AR_HERO_SUB,
     'دليل بوابات الإمارات',
-    '../guides/uae-portal-compression-ar.html',
-    '../guides/best-image-format-uae-government-portals.html',
+    '../guides/uae-portal-compression-ar',
+    '../guides/best-image-format-uae-government-portals',
     `data-app-version="${pkgVersion}"`,
     `v${pkgVersion}`,
 ]);
@@ -175,6 +175,24 @@ for (const rel of DEDICATED_FAQ_GUIDES) {
     if (faqCount !== 1) {
         throw new Error(`verify-dist: ${rel} must have exactly one FAQPage (found ${faqCount})`);
     }
+}
+
+const removeBgTool = path.join(distDir, 'tools/remove-background/index.html');
+if (!fs.existsSync(removeBgTool)) {
+    throw new Error('verify-dist: missing dist/tools/remove-background/index.html — run generate-tool-pages');
+}
+const removeBgHtml = fs.readFileSync(removeBgTool, 'utf8');
+if (!removeBgHtml.includes('https://compress.funadventure.ae/tools/remove-background/')) {
+    throw new Error('verify-dist: remove-background tool page missing extensionless canonical');
+}
+if (!removeBgHtml.includes('window.__NEXUS_INITIAL_TOOL')) {
+    throw new Error('verify-dist: tool page missing __NEXUS_INITIAL_TOOL bootstrap');
+}
+assertHashDocumentHasNoFaqSchema(removeBgHtml, 'dist/tools/remove-background/index.html');
+assertToolPanelsHaveNoFaqSchema(removeBgHtml, 'dist/tools/remove-background/index.html');
+
+if (!fs.existsSync(path.join(distDir, 'js/tool-routes.js'))) {
+    throw new Error('verify-dist: missing js/tool-routes.js');
 }
 
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

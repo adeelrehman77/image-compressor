@@ -114,7 +114,7 @@ function patchArHeroGuideLink(html, dict) {
     const label = dict.uaeGuideLink || 'دليل بوابات الإمارات';
     return html.replace(
         /<a\b[^>]*class="hero-callout__link hero-callout__link--muted"[^>]*>[^<]*<\/a>/,
-        `<a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">${label}</a>`
+        `<a href="../guides/uae-portal-compression-ar" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="uaeGuideLink">${label}</a>`
     );
 }
 

@@ -72,10 +72,10 @@ console.log(`Release: ${buildVersion} · build ${buildId}`);
 
 if (releaseBuild) {
     require('./sync-version').syncReleaseAssets();
-    require('./generate-sitemap');
 } else {
     console.log('sync-version: skipped (local build — deploy uses BUMP_ON_BUILD=1 or CI)');
 }
+require('./generate-sitemap');
 require('./sync-hero-links').main();
 require('./download-esrgan-model');
 require('./vendor-background-removal');
@@ -106,6 +106,11 @@ syncPublicAssets();
 console.log('Copied font files → dist/css/files/ and public/css/files/');
 
 require('./patch-html').patchHtmlFiles(distDir);
+
+require('./generate-tool-pages').generate({
+    srcIndex: path.join(distDir, 'index.html'),
+    outDir: distDir,
+});
 
 // Deploy truth: Arabic page generated from patched English dist (not a stale copied public/ar/)
 const distAr = path.join(distDir, 'ar', 'index.html');

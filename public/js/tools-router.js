@@ -36,35 +36,47 @@
         return TAGLINES[main] ? main : null;
     }
 
-    function parseTool() {
+    function parseToolFromLocation() {
+        if (window.__NEXUS_INITIAL_TOOL && TAGLINES[window.__NEXUS_INITIAL_TOOL]) {
+            return window.__NEXUS_INITIAL_TOOL;
+        }
+        const fromPath = window.__NEXUS_TOOL_ROUTES?.parsePathname?.(location.pathname);
+        if (fromPath) return fromPath;
         const hash = (location.hash || '').replace(/^#/, '').trim();
         const main = hash.includes('/') ? hash.split('/')[0] : hash;
         return hashToTool(main) || 'compress';
+    }
+
+    function parseTool() {
+        return parseToolFromLocation();
     }
 
     function publicHash(tool) {
         return tool === 'passport-studio' ? 'photo-studio' : tool;
     }
 
-    function syncHash(tool) {
+    function syncUrl(tool) {
         internalNav = true;
         try {
+            const locale = window.__NEXUS_LOCALE || 'en';
+            const search = location.search || '';
             if (tool === 'compress') {
-                if (location.hash) {
-                    history.replaceState(null, '', location.pathname + location.search);
-                }
-            } else if (tool === 'pdf-suite') {
-                const sub = window.NexusTools?.parsePdfSuiteSubTab?.();
-                const hash = sub && sub !== 'merge' ? `#pdf-suite/${sub}` : '#pdf-suite';
-                if (location.hash !== hash) {
-                    history.replaceState(null, '', location.pathname + location.search + hash);
-                }
-            } else {
-                const hash = `#${publicHash(tool)}`;
-                if (location.hash !== hash) {
-                    location.hash = publicHash(tool);
-                }
+                history.replaceState(null, '', (locale === 'ar' ? '/ar/' : '/') + search);
+                return;
             }
+            if (tool === 'pdf-suite') {
+                const base = window.__NEXUS_TOOL_ROUTES?.pathFor?.(tool, locale) || '/tools/pdf-merge/';
+                const sub = window.NexusTools?.parsePdfSuiteSubTab?.();
+                const hash = sub && sub !== 'merge' ? `#pdf-suite/${sub}` : '';
+                history.replaceState(null, '', base + search + hash);
+                return;
+            }
+            if (window.__NEXUS_TOOL_ROUTES?.pathFor) {
+                history.replaceState(null, '', window.__NEXUS_TOOL_ROUTES.pathFor(tool, locale) + search);
+                return;
+            }
+            const hash = `#${publicHash(tool)}`;
+            if (location.hash !== hash) location.hash = publicHash(tool);
         } finally {
             internalNav = false;
         }
@@ -164,7 +176,7 @@
         await prepareTool(tool);
         if (gen !== activateGen) return;
         setTool(tool);
-        syncHash(tool);
+        syncUrl(tool);
     }
 
     async function navigateToTool(tool) {

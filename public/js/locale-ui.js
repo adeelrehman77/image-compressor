@@ -50,6 +50,10 @@
     }
 
     function localePath(targetLocale) {
+        var tool = window.__NEXUS_TOOL_SHELL?.parseTool?.() || 'compress';
+        if (window.__NEXUS_TOOL_ROUTES?.pathFor) {
+            return window.__NEXUS_TOOL_ROUTES.pathFor(tool, targetLocale);
+        }
         var hash = location.hash || '';
         if (targetLocale === 'ar') return '/ar/' + hash;
         return '/' + hash;

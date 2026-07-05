@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-function loadI18n(publicRoot) {
+function loadI18n(publicRoot = path.join(__dirname, '../public')) {
     const i18nPath = path.join(publicRoot, 'js/i18n.js');
     const src = fs.readFileSync(i18nPath, 'utf8');
     const sandbox = { window: {} };
@@ -13,6 +13,7 @@ function loadI18n(publicRoot) {
         en: sandbox.window.__NEXUS_I18N?.en || {},
         ar: sandbox.window.__NEXUS_I18N?.ar || {},
         seoAr: sandbox.window.__NEXUS_I18N_SEO?.ar || {},
+        metaEn: sandbox.window.__NEXUS_I18N_META?.en || {},
         metaAr: sandbox.window.__NEXUS_I18N_META?.ar || {},
     };
 }

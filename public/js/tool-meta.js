@@ -209,6 +209,11 @@ window.__NEXUS_TOOL_META = {
     var VALID = { compress: 1, 'images-to-pdf': 1, 'pdf-suite': 1, svg: 1, 'passport-studio': 1, 'heic-converter': 1, 'format-converter': 1, 'image-cropper': 1, 'collage-maker': 1, 'remove-bg': 1, 'photo-checker': 1, redactor: 1, 'ai-upscaler': 1 };
 
     function parseToolFromHash() {
+        if (window.__NEXUS_INITIAL_TOOL && VALID[window.__NEXUS_INITIAL_TOOL]) {
+            return window.__NEXUS_INITIAL_TOOL;
+        }
+        var fromPath = window.__NEXUS_TOOL_ROUTES?.parsePathname?.(location.pathname);
+        if (fromPath) return fromPath;
         var h = (location.hash || '').replace(/^#/, '').trim();
         if (h.indexOf('/') !== -1) h = h.split('/')[0];
         if (h === 'photo-studio') h = 'passport-studio';

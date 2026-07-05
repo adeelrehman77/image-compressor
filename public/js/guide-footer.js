@@ -66,9 +66,9 @@
         footer.className = 'site-compliance-footer max-width-wrap';
         footer.innerHTML = `
             <nav class="site-compliance-nav" aria-label="Legal and support">
-                <a href="${resolvePath('privacy.html')}">Privacy Policy</a>
-                <a href="${resolvePath('terms.html')}">Terms of Service</a>
-                <a href="${resolvePath('contact.html')}">Contact Support</a>
+                <a href="${resolvePath('privacy')}">Privacy Policy</a>
+                <a href="${resolvePath('terms')}">Terms of Service</a>
+                <a href="${resolvePath('contact')}">Contact Support</a>
             </nav>`;
         document.body.appendChild(footer);
     }

@@ -9,8 +9,8 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
 
-const EN_GUIDE = 'guides/best-image-format-uae-government-portals.html';
-const AR_GUIDE = '../guides/uae-portal-compression-ar.html';
+const EN_GUIDE = 'guides/best-image-format-uae-government-portals';
+const AR_GUIDE = '../guides/uae-portal-compression-ar';
 
 function patchEnHero(html) {
     return html.replace(
@@ -24,7 +24,7 @@ function patchFile(filePath, { hero = false } = {}) {
     let html = fs.readFileSync(filePath, 'utf8');
     const before = html;
 
-    html = html.replace(/guides\/uae-portal-compression\.html/g, EN_GUIDE);
+    html = html.replace(/guides\/uae-portal-compression(\.html)?/g, EN_GUIDE);
     if (hero) html = patchEnHero(html);
 
     if (html === before) return false;

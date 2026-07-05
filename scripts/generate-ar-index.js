@@ -30,10 +30,10 @@ function up(ref) {
         .replace(/href="css\//g, 'href="../css/')
         .replace(/href="icons\//g, 'href="../icons/')
         .replace(/href="guides\//g, 'href="../guides/')
-        .replace(/href="privacy\.html"/g, 'href="../privacy.html"')
-        .replace(/href="terms\.html"/g, 'href="../terms.html"')
-        .replace(/href="docs\.html"/g, 'href="../docs.html"')
-        .replace(/href="contact\.html"/g, 'href="../contact.html"')
+        .replace(/href="privacy"/g, 'href="../privacy"')
+        .replace(/href="terms"/g, 'href="../terms"')
+        .replace(/href="docs"/g, 'href="../docs"')
+        .replace(/href="contact"/g, 'href="../contact"')
         .replace(/href="manifest\.json"/g, 'href="../manifest.json"')
         .replace(/src="js\//g, 'src="../js/');
 }

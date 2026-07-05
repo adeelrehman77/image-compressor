@@ -37,6 +37,7 @@
     <script src="js/locale.js?v=20260626.1936"></script>
     <script src="js/i18n.js?v=20260626.1936"></script>
     <script src="js/tool-meta.js?v=20260626.1936"></script>
+    <script src="js/tool-routes.js?v=20260626.1936"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -150,7 +151,7 @@
                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                     <span class="hide-mobile" data-i18n="filesPrivate">Files stay on your device</span>
                 </span>
-                <a href="privacy.html" class="chip chip-muted" data-i18n="privacyPolicy">Privacy Policy</a>
+                <a href="privacy" class="chip chip-muted" data-i18n="privacyPolicy">Privacy Policy</a>
                 <button type="button" id="theme-toggle" class="theme-toggle-btn" data-i18n="themeToggleLight" data-i18n-attr="aria-label" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme">
                     <svg class="theme-icon theme-icon-sun icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="12" cy="12" r="4" stroke-width="2"/>
@@ -243,7 +244,7 @@
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 UAE portal uploads? Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
             <div class="hero-callout__actions">
                 <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">Open ID Photo Studio</a>
-                <a href="guides/best-image-format-uae-government-portals.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">UAE portal guide</a>
+                <a href="guides/best-image-format-uae-government-portals" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="uaeGuideLink">UAE portal guide</a>
                 <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}try{localStorage.setItem('nexus-uae-dismissed','1');}catch(e){}">×</button>
             </div>
         </aside>
@@ -1163,7 +1164,7 @@
                 <p>The checker runs 10 automated tests: face detection, face size (55–85% of frame with hair), horizontal centering, eyes open, head tilt under 5 degrees, correct file format, file size under portal limit, minimum image dimensions, white background, and glasses detection. All checks run in your browser — your photo is never uploaded.</p>
                 <h3>Which UAE portals does it check against?</h3>
                 <p>The checker supports Emirates ID / ICA (200 KB limit), MOHRE worker photos (200 KB), UAE visa photos (200 KB), and MOHRE document uploads (500 KB).</p>
-                <p class="guide-related"><a href="guides/uae-photo-compliance-checker.html" data-locale-href-en="guides/uae-photo-compliance-checker.html" data-locale-href-ar="guides/uae-photo-compliance-checker-ar.html" data-i18n="pcSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
+                <p class="guide-related"><a href="guides/uae-photo-compliance-checker" data-locale-href-en="guides/uae-photo-compliance-checker" data-locale-href-ar="guides/uae-photo-compliance-checker-ar" data-i18n="pcSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
             </section>
             </details>
         </div>
@@ -1299,7 +1300,7 @@
                 <p>Black fill is more secure than blur. Blurred text can sometimes be partially recovered using image processing techniques. For maximum security, always use black fill over passport numbers, ID numbers, and MRZ lines.</p>
                 <h3>Does this tool upload my documents?</h3>
                 <p>No. All redaction is performed entirely inside your browser using the HTML5 Canvas API. Your documents are never sent to any server, stored anywhere, or seen by anyone. The tool works even without an internet connection once the page has loaded.</p>
-                <p class="guide-related"><a href="guides/redact-emirates-id-documents.html" data-locale-href-en="guides/redact-emirates-id-documents.html" data-locale-href-ar="guides/redact-emirates-id-documents-ar.html" data-i18n="rdSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
+                <p class="guide-related"><a href="guides/redact-emirates-id-documents" data-locale-href-en="guides/redact-emirates-id-documents" data-locale-href-ar="guides/redact-emirates-id-documents-ar" data-i18n="rdSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
             </section>
             </details>
         </div>
@@ -1464,7 +1465,7 @@
                 <p>AI upscaling works best on photos, portraits, and natural images. It is particularly effective for rescuing old low-resolution photos, upscaling AI-generated images for print, enhancing product photos from suppliers, and improving scanned document clarity before portal uploads.</p>
                 <h3>Does the upscaler work offline?</h3>
                 <p>Once the AI model has been downloaded on first use (~5 MB), it is cached in your browser. All subsequent upscaling runs entirely offline — no internet connection is needed.</p>
-                <p class="guide-related"><a href="guides/ai-image-upscaler-browser.html" data-locale-href-en="guides/ai-image-upscaler-browser.html" data-locale-href-ar="guides/ai-image-upscaler-browser-ar.html" data-i18n="upSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
+                <p class="guide-related"><a href="guides/ai-image-upscaler-browser" data-locale-href-en="guides/ai-image-upscaler-browser" data-locale-href-ar="guides/ai-image-upscaler-browser-ar" data-i18n="upSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
             </section>
             </details>
         </div>
@@ -2051,18 +2052,18 @@
             <h2 class="seo-subheading" data-i18n="seoToolsHeading">Free media tools (same site, no upload)</h2>
             <p class="seo-tool-lead" data-i18n="seoToolLead">Use the studio tabs above, or jump directly:</p>
             <nav class="seo-tool-chips" aria-label="Media tools">
-                <a href="./" class="seo-tool-chip" data-i18n="seoChipCompress">Image compressor</a>
-                <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">Images to PDF</a>
-                <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
-                <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
-                <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
-                <a href="#photo-checker" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">Photo Checker</a>
-                <a href="#redactor" class="seo-tool-chip" data-i18n="seoChipRedactor">Redactor</a>
-                <a href="#ai-upscaler" class="seo-tool-chip" data-i18n="seoChipUpscaler">AI Upscaler</a>
-                <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
-                <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
-                <a href="#collage-maker" class="seo-tool-chip" data-i18n="seoChipCollage">Collage Maker</a>
-                <a href="#remove-bg" class="seo-tool-chip" data-i18n="seoChipRemoveBg">Remove Background</a>
+                <a href="/" class="seo-tool-chip" data-i18n="seoChipCompress">Image compressor</a>
+                <a href="/tools/images-to-pdf/" class="seo-tool-chip" data-i18n="seoChipItp">Images to PDF</a>
+                <a href="/tools/pdf-merge/" class="seo-tool-chip" data-i18n="seoChipPdf">PDF merge &amp; split</a>
+                <a href="/tools/svg-optimizer/" class="seo-tool-chip" data-i18n="seoChipSvg">SVG optimizer</a>
+                <a href="/tools/passport-photo/" class="seo-tool-chip" data-i18n="seoChipPassport">ID Photo Studio</a>
+                <a href="/tools/photo-checker/" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">Photo Checker</a>
+                <a href="/tools/document-redactor/" class="seo-tool-chip" data-i18n="seoChipRedactor">Redactor</a>
+                <a href="/tools/ai-upscaler/" class="seo-tool-chip" data-i18n="seoChipUpscaler">AI Upscaler</a>
+                <a href="/tools/heic-converter/" class="seo-tool-chip" data-i18n="seoChipHeic">HEIC Converter</a>
+                <a href="/tools/format-converter/" class="seo-tool-chip" data-i18n="seoChipFormat">Format Converter</a>
+                <a href="/tools/collage-maker/" class="seo-tool-chip" data-i18n="seoChipCollage">Collage Maker</a>
+                <a href="/tools/remove-background/" class="seo-tool-chip" data-i18n="seoChipRemoveBg">Remove Background</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">UAE government portal uploads (200 KB / 500 KB limits)</h2>
@@ -2071,18 +2072,18 @@
             <p data-i18n-html="seoBatchBody">Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">Compression guides</h2>
             <ul class="seo-list guide-links">
-                <li><a href="guides/best-image-format-uae-government-portals.html" data-locale-href-en="guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
-                <li><a href="guides/best-image-format-uae-government-portals.html" data-locale-href-en="guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar.html" data-i18n="seoGuideUaeFormat">Best image format for UAE government portals</a></li>
-                <li><a href="guides/resize-photo-uae-visa-application.html" data-locale-href-en="guides/resize-photo-uae-visa-application.html" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar.html" data-i18n="seoGuideUaeVisa">Resize photo for UAE visa application (ICA)</a></li>
-                <li><a href="guides/compress-image-for-mohre-portal.html" data-locale-href-en="guides/compress-image-for-mohre-portal.html" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar.html" data-i18n="seoGuideMohre">Compress image for MOHRE / labour portal</a></li>
-                <li><a href="guides/compress-image-for-whatsapp.html" data-i18n="seoGuideWhatsapp">Compress image for WhatsApp</a></li>
-                <li><a href="guides/reduce-image-size-email-attachments.html" data-i18n="seoGuideEmail">Reduce image size for email attachments</a></li>
-                <li><a href="guides/compress-images-real-estate-listings.html" data-i18n="seoGuideRealEstate">Real estate listing photos (Bayut, Dubizzle)</a></li>
-                <li><a href="guides/reduce-image-size-for-wordpress.html" data-i18n="seoGuideWordpress">Reduce image size for WordPress</a></li>
-                <li><a href="guides/compress-jpeg-without-losing-quality.html" data-i18n="seoGuideJpeg">Compress JPEG without losing quality</a></li>
-                <li><a href="guides/jpeg-vs-webp.html" data-i18n="seoGuideJpegWebp">JPEG vs WebP — which to use?</a></li>
-                <li><a href="guides/resize-images-for-instagram.html" data-i18n="seoGuideInstagram">Resize images for Instagram</a></li>
-                <li><a href="guides/index.html" data-i18n="seoGuideViewAll">View all guides</a></li>
+                <li><a href="guides/best-image-format-uae-government-portals" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="guides/best-image-format-uae-government-portals" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUaeFormat">Best image format for UAE government portals</a></li>
+                <li><a href="guides/resize-photo-uae-visa-application" data-locale-href-en="guides/resize-photo-uae-visa-application" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar" data-i18n="seoGuideUaeVisa">Resize photo for UAE visa application (ICA)</a></li>
+                <li><a href="guides/compress-image-for-mohre-portal" data-locale-href-en="guides/compress-image-for-mohre-portal" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar" data-i18n="seoGuideMohre">Compress image for MOHRE / labour portal</a></li>
+                <li><a href="guides/compress-image-for-whatsapp" data-i18n="seoGuideWhatsapp">Compress image for WhatsApp</a></li>
+                <li><a href="guides/reduce-image-size-email-attachments" data-i18n="seoGuideEmail">Reduce image size for email attachments</a></li>
+                <li><a href="guides/compress-images-real-estate-listings" data-i18n="seoGuideRealEstate">Real estate listing photos (Bayut, Dubizzle)</a></li>
+                <li><a href="guides/reduce-image-size-for-wordpress" data-i18n="seoGuideWordpress">Reduce image size for WordPress</a></li>
+                <li><a href="guides/compress-jpeg-without-losing-quality" data-i18n="seoGuideJpeg">Compress JPEG without losing quality</a></li>
+                <li><a href="guides/jpeg-vs-webp" data-i18n="seoGuideJpegWebp">JPEG vs WebP — which to use?</a></li>
+                <li><a href="guides/resize-images-for-instagram" data-i18n="seoGuideInstagram">Resize images for Instagram</a></li>
+                <li><a href="guides/" data-i18n="seoGuideViewAll">View all guides</a></li>
             </ul>
             </div>
             </div>
@@ -2093,12 +2094,12 @@
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
             <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">Frequently Asked Questions</h2>
-            <p class="guide-related"><a href="guides/nexuscompress-image-compressor-faq.html" data-locale-href-en="guides/nexuscompress-image-compressor-faq.html" data-locale-href-ar="guides/nexuscompress-image-compressor-faq-ar.html" data-i18n="compressSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
+            <p class="guide-related"><a href="guides/nexuscompress-image-compressor-faq" data-locale-href-en="guides/nexuscompress-image-compressor-faq" data-locale-href-ar="guides/nexuscompress-image-compressor-faq-ar" data-i18n="compressSeoGuideLink">Full FAQ guide (structured data for search) →</a></p>
 
             <details class="faq-item" open>
                 <summary data-i18n="faq1Summary">How do I compress a JPEG without losing quality?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq1Answer">Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="guides/compress-jpeg-without-losing-quality.html">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
+                    <p data-i18n-html="faq1Answer">Use a quality setting between 75% and 85% for photos. If the image is only for the web, convert to WebP or AVIF — they often produce smaller files than JPEG at the same visual quality. See our <a href="guides/compress-jpeg-without-losing-quality">JPEG compression guide</a> for step-by-step settings. Use the before/after slider in NexusCompress to confirm details look acceptable before downloading.</p>
                 </div>
             </details>
 
@@ -2112,7 +2113,7 @@
             <details class="faq-item">
                 <summary data-i18n="faq3Summary">What is the best format to reduce image file size?</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq3Answer">For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="guides/jpeg-vs-webp.html">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="guides/avif-vs-webp.html">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
+                    <p data-i18n-html="faq3Answer">For most websites, <strong>WebP</strong> offers an excellent balance of quality and size (<a href="guides/jpeg-vs-webp">compare JPEG vs WebP</a>). <strong>AVIF</strong> often achieves the smallest files where supported (<a href="guides/avif-vs-webp">AVIF vs WebP</a>). Use <strong>JPEG</strong> for email; <strong>PNG</strong> for transparency.</p>
                 </div>
             </details>
 
@@ -2143,11 +2144,11 @@
         <p class="gov-disclaimer" data-i18n-html="govDisclaimerHtml"></p>
         <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v20260626.1936</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
-            <a href="guides/index.html" data-i18n="footerGuides">Guides</a>
-            <a href="docs.html" data-i18n="footerDocs">Docs</a>
-            <a href="privacy.html" data-i18n="privacyPolicy">Privacy Policy</a>
-            <a href="terms.html" data-i18n="footerTerms">Terms of Service</a>
-            <a href="contact.html" data-i18n="footerContact">Contact Support</a>
+            <a href="guides/" data-i18n="footerGuides">Guides</a>
+            <a href="docs" data-i18n="footerDocs">Docs</a>
+            <a href="privacy" data-i18n="privacyPolicy">Privacy Policy</a>
+            <a href="terms" data-i18n="footerTerms">Terms of Service</a>
+            <a href="contact" data-i18n="footerContact">Contact Support</a>
         </nav>
     </footer>
 

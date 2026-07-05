@@ -38,6 +38,7 @@
     <script src="../js/locale.js?v=20260626.1936"></script>
     <script src="../js/i18n.js?v=20260626.1936"></script>
     <script src="../js/tool-meta.js?v=20260626.1936"></script>
+    <script src="../js/tool-routes.js?v=20260626.1936"></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -151,7 +152,7 @@
                     <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                     <span class="hide-mobile" data-i18n="filesPrivate">ملفاتك تبقى على جهازك</span>
                 </span>
-                <a href="../privacy.html" class="chip chip-muted" data-i18n="privacyPolicy">سياسة الخصوصية</a>
+                <a href="../privacy" class="chip chip-muted" data-i18n="privacyPolicy">سياسة الخصوصية</a>
                 <button type="button" id="theme-toggle" class="theme-toggle-btn" data-i18n="themeToggleLight" data-i18n-attr="aria-label" aria-label="التبديل إلى الوضع الفاتح" aria-pressed="false" title="Switch to light theme">
                     <svg class="theme-icon theme-icon-sun icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="12" cy="12" r="4" stroke-width="2"/>
@@ -244,7 +245,7 @@
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 رفع حكومي في الإمارات؟ هوية إماراتية وICA وصور جواز — استخدم استوديو صور الهوية. مسح مستندات؟ MOHRE وRTA يفتحان الضاغط.</p>
             <div class="hero-callout__actions">
                 <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">فتح استوديو صور الهوية</a>
-                <a href="../guides/uae-portal-compression-ar.html" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="uaeGuideLink">دليل بوابات الإمارات</a>
+                <a href="../guides/uae-portal-compression-ar" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="uaeGuideLink">دليل بوابات الإمارات</a>
                 <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="إغلاق تنبيه الإمارات" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}try{localStorage.setItem('nexus-uae-dismissed','1');}catch(e){}">×</button>
             </div>
         </aside>
@@ -1162,7 +1163,7 @@
                 <p>The checker runs 10 automated tests: face detection, face size (55–85% of frame with hair), horizontal centering, eyes open, head tilt under 5 degrees, correct file format, file size under portal limit, minimum image dimensions, white background, and glasses detection. All checks run in your browser — your photo is never uploaded.</p>
                 <h3>Which UAE portals does it check against?</h3>
                 <p>The checker supports Emirates ID / ICA (200 KB limit), MOHRE worker photos (200 KB), UAE visa photos (200 KB), and MOHRE document uploads (500 KB).</p>
-                <p class="guide-related"><a href="guides/uae-photo-compliance-checker-ar.html" data-locale-href-en="../guides/uae-photo-compliance-checker.html" data-locale-href-ar="guides/uae-photo-compliance-checker-ar.html" data-i18n="pcSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
+                <p class="guide-related"><a href="guides/uae-photo-compliance-checker-ar" data-locale-href-en="../guides/uae-photo-compliance-checker" data-locale-href-ar="guides/uae-photo-compliance-checker-ar" data-i18n="pcSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
             </details>
         </div>
@@ -1298,7 +1299,7 @@
                 <p>Black fill is more secure than blur. Blurred text can sometimes be partially recovered using image processing techniques. For maximum security, always use black fill over passport numbers, ID numbers, and MRZ lines.</p>
                 <h3>Does this tool upload my documents?</h3>
                 <p>No. All redaction is performed entirely inside your browser using the HTML5 Canvas API. Your documents are never sent to any server, stored anywhere, or seen by anyone. The tool works even without an internet connection once the page has loaded.</p>
-                <p class="guide-related"><a href="guides/redact-emirates-id-documents-ar.html" data-locale-href-en="../guides/redact-emirates-id-documents.html" data-locale-href-ar="guides/redact-emirates-id-documents-ar.html" data-i18n="rdSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
+                <p class="guide-related"><a href="guides/redact-emirates-id-documents-ar" data-locale-href-en="../guides/redact-emirates-id-documents" data-locale-href-ar="guides/redact-emirates-id-documents-ar" data-i18n="rdSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
             </details>
         </div>
@@ -1463,7 +1464,7 @@
                 <p>AI upscaling works best on photos, portraits, and natural images. It is particularly effective for rescuing old low-resolution photos, upscaling AI-generated images for print, enhancing product photos from suppliers, and improving scanned document clarity before portal uploads.</p>
                 <h3>Does the upscaler work offline?</h3>
                 <p>Once the AI model has been downloaded on first use (~5 MB), it is cached in your browser. All subsequent upscaling runs entirely offline — no internet connection is needed.</p>
-                <p class="guide-related"><a href="guides/ai-image-upscaler-browser-ar.html" data-locale-href-en="../guides/ai-image-upscaler-browser.html" data-locale-href-ar="guides/ai-image-upscaler-browser-ar.html" data-i18n="upSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
+                <p class="guide-related"><a href="guides/ai-image-upscaler-browser-ar" data-locale-href-en="../guides/ai-image-upscaler-browser" data-locale-href-ar="guides/ai-image-upscaler-browser-ar" data-i18n="upSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
             </section>
             </details>
         </div>
@@ -2050,18 +2051,18 @@
             <h2 class="seo-subheading" data-i18n="seoToolsHeading">أدوات وسائط مجانية (نفس الموقع، بدون رفع)</h2>
             <p class="seo-tool-lead" data-i18n="seoToolLead">استخدم التبويبات أعلاه، أو انتقل مباشرة:</p>
             <nav class="seo-tool-chips" aria-label="Media tools">
-                <a href="./" class="seo-tool-chip" data-i18n="seoChipCompress">ضاغط الصور</a>
-                <a href="#images-to-pdf" class="seo-tool-chip" data-i18n="seoChipItp">صور إلى PDF</a>
-                <a href="#pdf-suite" class="seo-tool-chip" data-i18n="seoChipPdf">دمج وتقسيم PDF</a>
-                <a href="#svg" class="seo-tool-chip" data-i18n="seoChipSvg">تحسين SVG</a>
-                <a href="#photo-studio" class="seo-tool-chip" data-i18n="seoChipPassport">استوديو صور الهوية</a>
-                <a href="#photo-checker" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">فاحص الصور</a>
-                <a href="#redactor" class="seo-tool-chip" data-i18n="seoChipRedactor">تعتيم المستندات</a>
-                <a href="#ai-upscaler" class="seo-tool-chip" data-i18n="seoChipUpscaler">تكبير بالذكاء الاصطناعي</a>
-                <a href="#heic-converter" class="seo-tool-chip" data-i18n="seoChipHeic">محوّل HEIC</a>
-                <a href="#format-converter" class="seo-tool-chip" data-i18n="seoChipFormat">محوّل الصيغ</a>
-                <a href="#collage-maker" class="seo-tool-chip" data-i18n="seoChipCollage">صانع الكولاج</a>
-                <a href="#remove-bg" class="seo-tool-chip" data-i18n="seoChipRemoveBg">إزالة الخلفية</a>
+                <a href="/" class="seo-tool-chip" data-i18n="seoChipCompress">ضاغط الصور</a>
+                <a href="/tools/images-to-pdf/" class="seo-tool-chip" data-i18n="seoChipItp">صور إلى PDF</a>
+                <a href="/tools/pdf-merge/" class="seo-tool-chip" data-i18n="seoChipPdf">دمج وتقسيم PDF</a>
+                <a href="/tools/svg-optimizer/" class="seo-tool-chip" data-i18n="seoChipSvg">تحسين SVG</a>
+                <a href="/tools/passport-photo/" class="seo-tool-chip" data-i18n="seoChipPassport">استوديو صور الهوية</a>
+                <a href="/tools/photo-checker/" class="seo-tool-chip" data-i18n="seoChipPhotoChecker">فاحص الصور</a>
+                <a href="/tools/document-redactor/" class="seo-tool-chip" data-i18n="seoChipRedactor">تعتيم المستندات</a>
+                <a href="/tools/ai-upscaler/" class="seo-tool-chip" data-i18n="seoChipUpscaler">تكبير بالذكاء الاصطناعي</a>
+                <a href="/tools/heic-converter/" class="seo-tool-chip" data-i18n="seoChipHeic">محوّل HEIC</a>
+                <a href="/tools/format-converter/" class="seo-tool-chip" data-i18n="seoChipFormat">محوّل الصيغ</a>
+                <a href="/tools/collage-maker/" class="seo-tool-chip" data-i18n="seoChipCollage">صانع الكولاج</a>
+                <a href="/tools/remove-background/" class="seo-tool-chip" data-i18n="seoChipRemoveBg">إزالة الخلفية</a>
             </nav>
             <div class="seo-block-compress" data-seo-scope="compress">
             <h2 class="seo-subheading" data-i18n="seoUaeHeading">رفع بوابات حكومة الإمارات (حدود 200 / 500 ك.ب)</h2>
@@ -2070,18 +2071,18 @@
             <p data-i18n-html="seoBatchBody">غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">أدلة الضغط</h2>
             <ul class="seo-list guide-links">
-                <li><a href="../guides/uae-portal-compression-ar.html" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/uae-portal-compression-ar.html" data-i18n="seoGuideUae">ضغط صور بوابات الإمارات (200/500 ك.ب)</a></li>
-                <li><a href="../guides/best-image-format-uae-government-portals-ar.html" data-locale-href-en="../guides/best-image-format-uae-government-portals.html" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar.html" data-i18n="seoGuideUaeFormat">أفضل صيغة صورة لبوابات حكومة الإمارات</a></li>
-                <li><a href="../guides/resize-photo-uae-visa-application-ar.html" data-locale-href-en="../guides/resize-photo-uae-visa-application.html" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar.html" data-i18n="seoGuideUaeVisa">تغيير حجم صورة تأشيرة الإمارات (ICA)</a></li>
-                <li><a href="../guides/compress-image-for-mohre-portal-ar.html" data-locale-href-en="../guides/compress-image-for-mohre-portal.html" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar.html" data-i18n="seoGuideMohre">ضغط صورة لبوابة MOHRE / العمل</a></li>
-                <li><a href="../guides/compress-image-for-whatsapp.html" data-i18n="seoGuideWhatsapp">ضغط صورة لواتساب</a></li>
-                <li><a href="../guides/reduce-image-size-email-attachments.html" data-i18n="seoGuideEmail">تصغير صورة لمرفقات البريد</a></li>
-                <li><a href="../guides/compress-images-real-estate-listings.html" data-i18n="seoGuideRealEstate">صور عقارات (بيوت، دوبيزل)</a></li>
-                <li><a href="../guides/reduce-image-size-for-wordpress.html" data-i18n="seoGuideWordpress">تصغير صورة لمواقع WordPress</a></li>
-                <li><a href="../guides/compress-jpeg-without-losing-quality.html" data-i18n="seoGuideJpeg">ضغط JPEG دون فقدان الجودة</a></li>
-                <li><a href="../guides/jpeg-vs-webp.html" data-i18n="seoGuideJpegWebp">JPEG مقابل WebP — أيهما تختار؟</a></li>
-                <li><a href="../guides/resize-images-for-instagram.html" data-i18n="seoGuideInstagram">تغيير حجم صور إنستغرام</a></li>
-                <li><a href="../guides/index.html" data-i18n="seoGuideViewAll">جميع الأدلة</a></li>
+                <li><a href="../guides/best-image-format-uae-government-portals-ar" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUae">ضغط صور بوابات الإمارات (200/500 ك.ب)</a></li>
+                <li><a href="../guides/best-image-format-uae-government-portals-ar" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUaeFormat">أفضل صيغة صورة لبوابات حكومة الإمارات</a></li>
+                <li><a href="../guides/resize-photo-uae-visa-application-ar" data-locale-href-en="../guides/resize-photo-uae-visa-application" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar" data-i18n="seoGuideUaeVisa">تغيير حجم صورة تأشيرة الإمارات (ICA)</a></li>
+                <li><a href="../guides/compress-image-for-mohre-portal-ar" data-locale-href-en="../guides/compress-image-for-mohre-portal" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar" data-i18n="seoGuideMohre">ضغط صورة لبوابة MOHRE / العمل</a></li>
+                <li><a href="../guides/compress-image-for-whatsapp" data-i18n="seoGuideWhatsapp">ضغط صورة لواتساب</a></li>
+                <li><a href="../guides/reduce-image-size-email-attachments" data-i18n="seoGuideEmail">تصغير صورة لمرفقات البريد</a></li>
+                <li><a href="../guides/compress-images-real-estate-listings" data-i18n="seoGuideRealEstate">صور عقارات (بيوت، دوبيزل)</a></li>
+                <li><a href="../guides/reduce-image-size-for-wordpress" data-i18n="seoGuideWordpress">تصغير صورة لمواقع WordPress</a></li>
+                <li><a href="../guides/compress-jpeg-without-losing-quality" data-i18n="seoGuideJpeg">ضغط JPEG دون فقدان الجودة</a></li>
+                <li><a href="../guides/jpeg-vs-webp" data-i18n="seoGuideJpegWebp">JPEG مقابل WebP — أيهما تختار؟</a></li>
+                <li><a href="../guides/resize-images-for-instagram" data-i18n="seoGuideInstagram">تغيير حجم صور إنستغرام</a></li>
+                <li><a href="../guides/" data-i18n="seoGuideViewAll">جميع الأدلة</a></li>
             </ul>
             </div>
             </div>
@@ -2092,12 +2093,12 @@
 
         <section class="faq-section glass-panel" aria-labelledby="faq-heading">
             <h2 id="faq-heading" class="faq-title" data-i18n="faqTitle">الأسئلة الشائعة</h2>
-            <p class="guide-related"><a href="guides/nexuscompress-image-compressor-faq-ar.html" data-locale-href-en="../guides/nexuscompress-image-compressor-faq.html" data-locale-href-ar="guides/nexuscompress-image-compressor-faq-ar.html" data-i18n="compressSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
+            <p class="guide-related"><a href="guides/nexuscompress-image-compressor-faq-ar" data-locale-href-en="../guides/nexuscompress-image-compressor-faq" data-locale-href-ar="guides/nexuscompress-image-compressor-faq-ar" data-i18n="compressSeoGuideLink">دليل الأسئلة الشائعة الكامل (بيانات منظمة للبحث) →</a></p>
 
             <details class="faq-item" open>
                 <summary data-i18n="faq1Summary">كيف أضغط JPEG دون فقدان الجودة؟</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq1Answer">استخدم جودة بين <strong>75%</strong> و<strong>85%</strong> للصور. للويب، حوّل إلى WebP أو AVIF — غالباً ملفات أصغر بنفس الجودة البصرية. راجع <a href="../guides/compress-jpeg-without-losing-quality.html">دليل ضغط JPEG</a> أو <a href="../guides/uae-portal-compression-ar.html">دليل بوابات الإمارات</a>. استخدم شريط قبل/بعد في NexusCompress قبل التحميل.</p>
+                    <p data-i18n-html="faq1Answer">استخدم جودة بين <strong>75%</strong> و<strong>85%</strong> للصور. للويب، حوّل إلى WebP أو AVIF — غالباً ملفات أصغر بنفس الجودة البصرية. راجع <a href="../guides/compress-jpeg-without-losing-quality">دليل ضغط JPEG</a> أو <a href="../guides/uae-portal-compression-ar">دليل بوابات الإمارات</a>. استخدم شريط قبل/بعد في NexusCompress قبل التحميل.</p>
                 </div>
             </details>
 
@@ -2111,7 +2112,7 @@
             <details class="faq-item">
                 <summary data-i18n="faq3Summary">ما أفضل صيغة لتصغير حجم الصورة؟</summary>
                 <div class="faq-answer">
-                    <p data-i18n-html="faq3Answer">لمعظم المواقع، <strong>WebP</strong> توازن ممتاز (<a href="../guides/jpeg-vs-webp.html">قارن JPEG وWebP</a>). <strong>AVIF</strong> أصغر حيث مدعوم (<a href="../guides/avif-vs-webp.html">AVIF مقابل WebP</a>). استخدم <strong>JPEG</strong> للبريد؛ <strong>PNG</strong> للشفافية.</p>
+                    <p data-i18n-html="faq3Answer">لمعظم المواقع، <strong>WebP</strong> توازن ممتاز (<a href="../guides/jpeg-vs-webp">قارن JPEG وWebP</a>). <strong>AVIF</strong> أصغر حيث مدعوم (<a href="../guides/avif-vs-webp">AVIF مقابل WebP</a>). استخدم <strong>JPEG</strong> للبريد؛ <strong>PNG</strong> للشفافية.</p>
                 </div>
             </details>
 
@@ -2142,11 +2143,11 @@
         <p class="gov-disclaimer" data-i18n-html="govDisclaimerHtml">NexusCompress أداة مستقلة من <strong>Fun Adventure Media Studio</strong>. <strong>ليست تابعة لأي جهة حكومية</strong> ولا معتمدة منها. إعدادات البوابات مبنية على حدود منشورة علناً — تحقق من المتطلبات على: <a href="https://www.ica.gov.ae/" rel="noopener noreferrer" target="_blank">ICA (ica.gov.ae)</a>، <a href="https://www.mohre.gov.ae/" rel="noopener noreferrer" target="_blank">MOHRE (mohre.gov.ae)</a>، <a href="https://u.ae/" rel="noopener noreferrer" target="_blank">بوابة الإمارات (u.ae)</a>.</p>
         <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v20260626.1936</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
-            <a href="../guides/index.html" data-i18n="footerGuides">الأدلة</a>
-            <a href="../docs.html" data-i18n="footerDocs">التوثيق</a>
-            <a href="../privacy.html" data-i18n="privacyPolicy">سياسة الخصوصية</a>
-            <a href="../terms.html" data-i18n="footerTerms">شروط الخدمة</a>
-            <a href="../contact.html" data-i18n="footerContact">تواصل مع الدعم</a>
+            <a href="../guides/" data-i18n="footerGuides">الأدلة</a>
+            <a href="../docs" data-i18n="footerDocs">التوثيق</a>
+            <a href="../privacy" data-i18n="privacyPolicy">سياسة الخصوصية</a>
+            <a href="../terms" data-i18n="footerTerms">شروط الخدمة</a>
+            <a href="../contact" data-i18n="footerContact">تواصل مع الدعم</a>
         </nav>
     </footer>
 
