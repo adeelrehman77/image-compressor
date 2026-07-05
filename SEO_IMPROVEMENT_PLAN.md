@@ -6,6 +6,14 @@ methodology used for the funadventure.ae audit. Each phase below ends with a
 paste-ready Claude Code prompt — run these in Cursor from the
 `image-compressor` repo root, one at a time, and build + verify-dist after each.
 
+## Status — 2026-07-06
+
+Phases 1, 2, 3, 4, 5, 6, and 7 are all shipped and confirmed (build +
+verify-dist pass). Phase 3 landed as 12 pages under `/tools/{slug}/` +
+`/ar/tools/{slug}/`, sitemap grew to 57 URLs, legacy hash URLs upgrade to the
+new pathname URLs on navigation. See **Phase 8** below — a live UI/UX pass on
+the finished Phase 3 pages found a critical functional bug on all of them.
+
 ## Verified numbers (Search Console, property: https://compress.funadventure.ae/)
 
 - **Indexed: 6 pages. Not indexed: 37 pages.** (~14% of known URLs are indexed)
@@ -215,12 +223,92 @@ existing roundups with a specific angle NexusCompress has that the others don't:
 100% client-side/no-upload processing, which privacy-conscious writers do call out
 as a differentiator in several of the roundups already found).
 
+## Phase 8 — CRITICAL: every new `/tools/{slug}/` page fails to load on direct visit
+
+Live UI/UX pass (2026-07-06) found that all 12 new Phase 3 tool pages are
+functionally broken for a real visitor. Reproduced on 4/4 tools tested:
+
+- `https://compress.funadventure.ae/tools/remove-background/`
+- `https://compress.funadventure.ae/tools/ai-upscaler/`
+- `https://compress.funadventure.ae/tools/photo-checker/`
+- `https://compress.funadventure.ae/tools/pdf-merge/`
+
+On a fresh, direct load of any of these URLs, the page renders its marketing
+copy and drop zone fine, but a toast immediately appears: **"This tool failed
+to load. Check your connection and refresh the page."** The tool never
+becomes usable — no file upload works.
+
+Key diagnostic facts:
+- **Not model/network related.** PDF Merge fails identically to AI Upscaler
+  and Remove Background, and PDF Merge doesn't load any AI model or worker —
+  so this isn't a relative-path/model-fetch bug, it's something earlier in
+  each tool's init sequence.
+- **Works fine via in-app navigation.** Loading `/` and clicking the
+  "Remove Background" tab from the homepage works perfectly — same tool,
+  same bundle, no error. The bug only happens on a **direct/fresh load of
+  the dedicated `/tools/{slug}/` URL** — exactly the new code path Phase 3 added.
+- **Silent failure.** No console error and no failed network request
+  accompany the toast (checked via Chrome DevTools network + console on a
+  fresh page load). This points to a client-side timeout/fallback firing
+  because some expected "tool ready" signal never arrives in time — not a
+  thrown exception.
+- This affects all 12 non-compress tool pages (the homepage `/` itself,
+  which serves the original `compress` tool, was not affected).
+
+Since Googlebot executes JS and would see this same broken state, every page
+Phase 3 built to rank now also risks being credited with a broken/erroring
+tool instead of a working one — this should be fixed before Phase 7 outreach
+or before these pages accumulate more crawl attention.
+
+```
+There's a critical bug on every generated /tools/{slug}/ page in this repo
+(scripts/generate-tool-pages.js output). Reproduced live on /tools/remove-background/,
+/tools/ai-upscaler/, /tools/photo-checker/, and /tools/pdf-merge/: on a fresh
+direct page load, the tool's own hero/marketing content renders correctly, but
+a toast immediately shows "This tool failed to load. Check your connection and
+refresh the page." and the tool never becomes interactive (file inputs don't work).
+
+Confirmed via live testing:
+1. It reproduces on tools with zero AI/model dependency (pdf-merge), so this is
+   NOT a model-loading or relative-asset-path issue specific to the AI tools.
+2. The exact same tool works perfectly when reached by loading "/" and clicking
+   its tab in the nav (the original hash-based / in-app navigation path) — the
+   failure is specific to a fresh/direct load of the new /tools/{slug}/ URL.
+3. No console error and no failed network request appear when it fails — this
+   looks like a client-side timeout or fallback path firing because whatever
+   "tool is ready" signal the generated pages wait for never arrives, rather
+   than a thrown exception.
+
+Please debug this systematically:
+1. Find where the "This tool failed to load. Check your connection and refresh
+   the page." string lives in the codebase (likely public/js/tools-router.js or
+   a shared bootstrap file) and trace exactly what condition/timeout triggers it.
+2. Compare that against how public/js/tool-routes.js and the generated
+   /tools/{slug}/ HTML (via window.__NEXUS_INITIAL_TOOL or similar) are supposed
+   to pre-activate a tool on page load, versus how the in-app tab-click handler
+   activates a tool. Find exactly where the two code paths diverge — my guess is
+   the pre-activation on direct load either fires before the tool's IIFE has
+   registered itself, or never dispatches whatever event/callback the tool
+   listens for to know it should initialize (the tab-click path likely dispatches
+   a real click/custom event that the direct-load path skips or fires too early).
+3. Fix the generated-page bootstrap so it correctly waits for (or triggers) the
+   same initialization the tab-click path uses.
+4. Verify the fix on all 12 non-compress /tools/{slug}/ pages, not just one —
+   test at least remove-background, ai-upscaler, photo-checker, and pdf-merge
+   directly (fresh load, not via in-app navigation) and confirm each becomes
+   fully usable (upload a test file and confirm it processes) with no failure toast.
+5. Run npm run build and confirm scripts/verify-dist.js passes.
+6. Tell me what the actual root cause was — don't just paper over the symptom
+   with a longer timeout.
+```
+
 ## Priority order
 
-1. **Phase 1** — canonical/redirect fix (blocks indexing of ~30 pages, do first)
-2. **Phase 2** — remove dead hash-fragment sitemap entries (5-minute fix)
-3. **Phase 4** — sitemap lastmod dates (5-minute fix, bundle with Phase 2)
-4. **Phase 5** — CLAUDE.md doc sync (5-minute fix)
-5. **Phase 6** — confirm contact/docs aren't orphaned (manual check, no code)
-6. **Phase 3** — per-tool URLs (biggest upside, needs your answers above first)
-7. **Phase 7** — GEO outreach (after Phases 1-2 have had 2-3 weeks to take effect)
+1. ~~Phase 1~~ — canonical/redirect fix — **done**
+2. ~~Phase 2~~ — remove dead hash-fragment sitemap entries — **done**
+3. ~~Phase 4~~ — sitemap lastmod dates — **done**
+4. ~~Phase 5~~ — CLAUDE.md doc sync — **done**
+5. ~~Phase 6~~ — confirm contact/docs aren't orphaned — **done**
+6. ~~Phase 3~~ — per-tool URLs — **done**
+7. **Phase 8 — fix immediately**: every new tool page fails to load on direct visit
+8. **Phase 7** — GEO outreach (do after Phase 8 ships — no point pitching pages that error on load)

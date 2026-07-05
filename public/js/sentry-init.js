@@ -9,6 +9,8 @@
     const queue = [];
 
     function bundleUrl() {
+        const path = location.pathname || '/';
+        if (path.includes('/tools/')) return `/${BUNDLE_SRC}`;
         const prefix = window.__NEXUS_ASSET_PREFIX || '';
         return prefix + BUNDLE_SRC;
     }

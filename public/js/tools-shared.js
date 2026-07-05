@@ -27,16 +27,28 @@ window.NexusTools = (function () {
         );
     }
 
+    function resolveAsset(src) {
+        if (!src || /^(https?:|\/)/.test(src)) return src;
+        const normalized = src.replace(/^\.\//, '');
+        const path = location.pathname || '/';
+        // Phase 3 tool entry points live at /tools/{slug}/ — relative js/vendor paths
+        // must resolve from site root, not the nested directory (otherwise ensureTool 404s).
+        if (path.includes('/tools/')) {
+            return `/${normalized}`;
+        }
+        if (window.__NEXUS_ASSET_PREFIX != null) {
+            return `${window.__NEXUS_ASSET_PREFIX}${normalized}`;
+        }
+        if (path === '/ar' || path === '/ar/' || path.indexOf('/ar/') === 0) return `../${normalized}`;
+        return normalized;
+    }
+
     function assetPrefix() {
         if (window.__NEXUS_ASSET_PREFIX != null) return window.__NEXUS_ASSET_PREFIX;
         var path = location.pathname || '/';
+        if (path.includes('/tools/')) return '/';
         if (path === '/ar' || path === '/ar/' || path.indexOf('/ar/') === 0) return '../';
         return '';
-    }
-
-    function resolveAsset(src) {
-        if (!src || /^(https?:|\/)/.test(src)) return src;
-        return `${assetPrefix()}${src.replace(/^\.\//, '')}`;
     }
 
     function assetUrl(src) {
