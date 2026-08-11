@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * Enforce UAE portal guide URLs in English app HTML.
+ * Canonical UAE hub: guides/uae-portal-compression (not the format comparison page).
  * Arabic hero link is baked only in generate-ar-index.js (patchArHeroGuideLink).
  */
 const fs = require('fs');
@@ -9,7 +10,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'public');
 
-const EN_GUIDE = 'guides/best-image-format-uae-government-portals';
+const EN_GUIDE = 'guides/uae-portal-compression';
 const AR_GUIDE = '../guides/uae-portal-compression-ar';
 
 function patchEnHero(html) {
@@ -19,12 +20,20 @@ function patchEnHero(html) {
     );
 }
 
+function patchSeoGuideUae(html) {
+    // Fix mis-linked seoGuideUae rows that still point at the format guide.
+    return html.replace(
+        /(<a href=")guides\/best-image-format-uae-government-portals(" data-locale-href-en=")guides\/best-image-format-uae-government-portals(" data-locale-href-ar=")\.\.\/guides\/best-image-format-uae-government-portals-ar(" data-i18n="seoGuideUae">)/g,
+        `$1${EN_GUIDE}$2${EN_GUIDE}$3${AR_GUIDE}$4`
+    );
+}
+
 function patchFile(filePath, { hero = false } = {}) {
     if (!fs.existsSync(filePath)) return false;
     let html = fs.readFileSync(filePath, 'utf8');
     const before = html;
 
-    html = html.replace(/guides\/uae-portal-compression(\.html)?/g, EN_GUIDE);
+    html = patchSeoGuideUae(html);
     if (hero) html = patchEnHero(html);
 
     if (html === before) return false;
@@ -36,8 +45,6 @@ function main() {
     const targets = [
         { path: path.join(publicDir, 'index.html'), hero: true },
         { path: path.join(publicDir, 'contact.html'), hero: false },
-        { path: path.join(publicDir, 'guides/compress-image-for-mohre-portal.html'), hero: false },
-        { path: path.join(publicDir, 'guides/resize-photo-uae-visa-application.html'), hero: false },
     ];
     let n = 0;
     for (const t of targets) {

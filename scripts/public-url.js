@@ -12,6 +12,7 @@ function locToSourceFile(loc, publicDir) {
     if (loc === '/') return path.join(publicDir, 'index.html');
     if (loc === '/ar/') return path.join(publicDir, 'index.html');
     if (loc === '/guides/') return path.join(publicDir, 'guides/index.html');
+    if (loc === '/llms.txt' || loc === '/llms-full.txt') return path.join(publicDir, loc.slice(1));
     return path.join(publicDir, `${loc.slice(1)}.html`);
 }
 

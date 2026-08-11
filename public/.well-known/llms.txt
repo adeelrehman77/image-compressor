@@ -1,0 +1,10 @@
+# NexusCompress
+
+> See the canonical AI index at https://compress.funadventure.ae/llms.txt
+
+This path mirrors the discovery entry point. Prefer the site-root file:
+
+- Canonical: https://compress.funadventure.ae/llms.txt
+- Extended: https://compress.funadventure.ae/llms-full.txt
+- Product: https://compress.funadventure.ae/
+- About: https://compress.funadventure.ae/about

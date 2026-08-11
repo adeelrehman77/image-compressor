@@ -3,6 +3,7 @@
  * Generate crawlable /tools/{slug}/ and /ar/tools/{slug}/ entry points from patched index.html.
  */
 const fs = require('fs');
+const vm = require('vm');
 const path = require('path');
 const { ROUTES, absoluteUrl, chipHref } = require('./tool-routes');
 const { loadI18n } = require('./load-i18n');
@@ -42,10 +43,10 @@ function replaceLinkCanonical(html, href) {
 
 function replaceHreflangBlock(html, enUrl, arUrl) {
     const block = `<link rel="alternate" hreflang="en" href="${enUrl}">
-    <link rel="alternate" hreflang="ar" href="${arUrl}">
+    <link rel="alternate" hreflang="ar-AE" href="${arUrl}">
     <link rel="alternate" hreflang="x-default" href="${enUrl}">`;
     return html.replace(
-        /<link rel="alternate" hreflang="en" href="[^"]*">\s*\n\s*<link rel="alternate" hreflang="ar" href="[^"]*">\s*\n\s*<link rel="alternate" hreflang="x-default" href="[^"]*">/i,
+        /<link rel="alternate" hreflang="en" href="[^"]*">\s*\n\s*<link rel="alternate" hreflang="ar(?:-AE)?" href="[^"]*">\s*\n\s*<link rel="alternate" hreflang="x-default" href="[^"]*">/i,
         block
     );
 }
@@ -75,6 +76,57 @@ function patchHeadMeta(html, toolId, locale) {
     out = replaceHreflangBlock(out, enUrl, arUrl);
     out = out.replace(/"url": "https:\/\/compress\.funadventure\.ae\/"/g, `"url": "${canonical}"`);
     return out;
+}
+
+
+function loadToolTaglines() {
+    try {
+        const src = fs.readFileSync(path.join(__dirname, '../public/js/tool-meta.js'), 'utf8');
+        const sandbox = { window: {} };
+        vm.runInNewContext(src, sandbox, { filename: 'tool-meta.js' });
+        return sandbox.window.__NEXUS_TOOL_META?.taglines || {};
+    } catch (_) {
+        return {};
+    }
+}
+
+function patchToolSchema(html, toolId, locale) {
+    const { metaEn, metaAr } = loadI18n();
+    const pack = locale === 'ar' ? metaAr : metaEn;
+    const title = pack.titles?.[toolId] || 'NexusCompress';
+    const desc = pack.descriptions?.[toolId] || '';
+    const canonical = absoluteUrl(toolId, locale);
+    const feature = loadToolTaglines()[toolId] || desc;
+    const graph = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Organization',
+                '@id': 'https://compress.funadventure.ae/#organization',
+                'name': 'Fun Adventure Media Studio',
+                'url': 'https://compress.funadventure.ae/',
+                'email': 'info@funadventure.ae',
+                'logo': { '@type': 'ImageObject', 'url': 'https://compress.funadventure.ae/icons/icon-512.png' },
+                'sameAs': ['https://github.com/adeelrehman77/image-compressor']
+            },
+            {
+                '@type': 'WebApplication',
+                'name': 'NexusCompress',
+                'url': canonical,
+                'applicationCategory': 'UtilitiesApplication',
+                'operatingSystem': 'Any',
+                'description': desc,
+                'publisher': { '@id': 'https://compress.funadventure.ae/#organization' },
+                'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
+                'featureList': [feature, 'Local browser processing', 'No upload for processing']
+            }
+        ]
+    };
+    const snippet = `<script type="application/ld+json">\n${JSON.stringify(graph, null, 2)}\n    </script>`;
+    if (/<script type="application\/ld\+json">[\s\S]*?<\/script>/i.test(html)) {
+        return html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, snippet);
+    }
+    return html.replace('</head>', `    ${snippet}\n</head>`);
 }
 
 function injectBootstrap(html, toolId) {
@@ -178,6 +230,7 @@ function generate({ srcIndex, outDir }) {
         let en = template;
         en = toRootAbsolute(en);
         en = patchHeadMeta(en, route.id, 'en');
+        en = patchToolSchema(en, route.id, 'en');
         en = patchSeoToolChips(en);
         en = patchInitialTabState(en, route.id);
         en = injectBootstrap(en, route.id);
@@ -185,6 +238,7 @@ function generate({ srcIndex, outDir }) {
 
         let ar = toArabicPage(en, arDict);
         ar = patchHeadMeta(ar, route.id, 'ar');
+        ar = patchToolSchema(ar, route.id, 'ar');
         writePage(outDir, `ar/tools/${route.slug}/index.html`, ar);
         count += 2;
     }

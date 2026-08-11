@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <script src="js/sentry-init.js?v=20260626.1936" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NexusCompress — free online image compressor. Reduce JPEG, PNG, WebP & AVIF file size instantly in your browser — no upload, 100% private. Batch compress & download.">
+    <meta name="description" content="NexusCompress — free private image compressor for UAE portals. Hit Emirates ID ~200 KB and MOHRE ~500 KB in your browser — JPEG, PNG, WebP & AVIF, no uploads.">
     <meta name="application-name" content="NexusCompress">
     <meta name="keywords" content="image compressor, compress jpeg, reduce image size, webp compressor, UAE portal compression, Emirates ID photo, ICA upload">
     <meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <link rel="canonical" href="https://compress.funadventure.ae/">
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
-    <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
+    <link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
     <link rel="preload" href="css/app.css?v=20260626.1936" as="style">
     <link rel="preload" href="css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,7 +20,7 @@
     <meta property="og:url" content="https://compress.funadventure.ae/">
     <meta property="og:site_name" content="NexusCompress">
     <meta property="og:title" content="Free Online Image Compressor | NexusCompress">
-    <meta property="og:description" content="NexusCompress compresses images locally in your browser. No server uploads — fast, free, and private.">
+    <meta property="og:description" content="Private browser image compressor with UAE portal presets (~200 KB Emirates ID, ~500 KB MOHRE). No uploads.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ar_AE">
@@ -29,7 +29,7 @@
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free Online Image Compressor | NexusCompress">
-    <meta name="twitter:description" content="NexusCompress — compress JPEG, PNG, WebP & AVIF in your browser. No uploads — 100% private.">
+    <meta name="twitter:description" content="Private compressor for UAE portals: Emirates ID ~200 KB, MOHRE ~500 KB. JPEG/PNG/WebP/AVIF — no uploads.">
     <meta name="twitter:image" content="https://compress.funadventure.ae/og-image.png">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
@@ -44,22 +44,46 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": "https://compress.funadventure.ae/#organization",
+          "name": "Fun Adventure Media Studio",
+          "url": "https://compress.funadventure.ae/",
+          "email": "info@funadventure.ae",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://compress.funadventure.ae/icons/icon-512.png"
+          },
+          "sameAs": [
+            "https://github.com/adeelrehman77/image-compressor"
+          ]
+        },
+        {
           "@type": "WebSite",
+          "@id": "https://compress.funadventure.ae/#website",
           "name": "NexusCompress",
           "url": "https://compress.funadventure.ae/",
-          "description": "Free online image compressor. Reduce image file size instantly in your browser with no uploads."
+          "description": "Free online image compressor. Reduce image file size instantly in your browser with no uploads. UAE portal presets for Emirates ID (~200 KB) and MOHRE (~500 KB).",
+          "publisher": { "@id": "https://compress.funadventure.ae/#organization" },
+          "inLanguage": ["en", "ar"]
         },
         {
           "@type": "WebApplication",
+          "@id": "https://compress.funadventure.ae/#app",
           "name": "NexusCompress",
           "alternateName": "NexusCompress Image Compressor",
           "url": "https://compress.funadventure.ae/",
           "applicationCategory": "UtilitiesApplication",
           "operatingSystem": "Any",
           "browserRequirements": "Requires JavaScript and a modern browser",
-          "publisher": { "@type": "Organization", "name": "NexusCompress", "url": "https://compress.funadventure.ae/" },
+          "publisher": { "@id": "https://compress.funadventure.ae/#organization" },
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-          "featureList": "JPEG PNG WebP AVIF compression, batch ZIP, local processing, no upload"
+          "featureList": [
+            "JPEG PNG WebP AVIF compression",
+            "UAE portal presets 200 KB and 500 KB",
+            "Batch ZIP export",
+            "Local browser processing with no upload",
+            "Arabic RTL interface"
+          ]
         }
       ]
     }
@@ -244,7 +268,7 @@
             <p class="hero-callout__text" data-i18n="uaeCallout">🇦🇪 UAE portal uploads? Emirates ID, ICA &amp; passport photos with size presets — no upload required.</p>
             <div class="hero-callout__actions">
                 <a href="#photo-studio" class="hero-callout__link tool-nav-link" data-tool="passport-studio" data-i18n="openPhotoStudio">Open ID Photo Studio</a>
-                <a href="guides/best-image-format-uae-government-portals" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="uaeGuideLink">UAE portal guide</a>
+                <a href="guides/uae-portal-compression" class="hero-callout__link hero-callout__link--muted" data-locale-href-en="guides/uae-portal-compression" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="uaeGuideLink">UAE portal guide</a>
                 <button type="button" class="hero-callout__dismiss" data-i18n="dismissUaeCallout" data-i18n-attr="aria-label" aria-label="Dismiss UAE callout" onclick="var el=document.getElementById('uae-callout');if(el){el.style.display='none';}try{localStorage.setItem('nexus-uae-dismissed','1');}catch(e){}">×</button>
             </div>
         </aside>
@@ -2072,7 +2096,9 @@
             <p data-i18n-html="seoBatchBody">Resize by <strong>percentage</strong> or crop to <strong>16:9, 4:3, or square</strong> before export. Add a <strong>text or logo watermark</strong> across a whole batch, then download everything as a ZIP with a live progress bar.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">Compression guides</h2>
             <ul class="seo-list guide-links">
-                <li><a href="guides/best-image-format-uae-government-portals" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="guides/uae-portal-compression" data-locale-href-en="guides/uae-portal-compression" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="seoGuideUae">UAE portal image compression (200/500 KB)</a></li>
+                <li><a href="guides/compress-image-to-200kb" data-locale-href-en="guides/compress-image-to-200kb" data-locale-href-ar="../guides/compress-image-to-200kb-ar">Compress image to 200 KB (Emirates ID / ICA)</a></li>
+                <li><a href="guides/compress-image-to-500kb" data-locale-href-en="guides/compress-image-to-500kb" data-locale-href-ar="../guides/compress-image-to-500kb-ar">Compress image to 500 KB (MOHRE)</a></li>
                 <li><a href="guides/best-image-format-uae-government-portals" data-locale-href-en="guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUaeFormat">Best image format for UAE government portals</a></li>
                 <li><a href="guides/resize-photo-uae-visa-application" data-locale-href-en="guides/resize-photo-uae-visa-application" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar" data-i18n="seoGuideUaeVisa">Resize photo for UAE visa application (ICA)</a></li>
                 <li><a href="guides/compress-image-for-mohre-portal" data-locale-href-en="guides/compress-image-for-mohre-portal" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar" data-i18n="seoGuideMohre">Compress image for MOHRE / labour portal</a></li>
@@ -2145,6 +2171,7 @@
         <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v20260626.1936</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="guides/" data-i18n="footerGuides">Guides</a>
+            <a href="about" data-i18n="footerAbout">About</a>
             <a href="docs" data-i18n="footerDocs">Docs</a>
             <a href="privacy" data-i18n="privacyPolicy">Privacy Policy</a>
             <a href="terms" data-i18n="footerTerms">Terms of Service</a>

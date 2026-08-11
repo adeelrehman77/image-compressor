@@ -1,4 +1,46 @@
+# NexusCompress — https://compress.funadventure.ae/
+# Policy: allow search and AI crawlers. Image/document processing stays on-device;
+# crawling HTML/guides does not receive user files.
+
 User-agent: *
 Allow: /
 
+# Major AI / answer-engine crawlers (explicit allow; same as *)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://compress.funadventure.ae/sitemap.xml
+
+# AI discovery (optional agent index; not a Google ranking signal)
+# https://compress.funadventure.ae/llms.txt
+# https://compress.funadventure.ae/llms-full.txt

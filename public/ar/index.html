@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <link rel="canonical" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="en" href="https://compress.funadventure.ae/">
-    <link rel="alternate" hreflang="ar" href="https://compress.funadventure.ae/ar/">
+    <link rel="alternate" hreflang="ar-AE" href="https://compress.funadventure.ae/ar/">
     <link rel="alternate" hreflang="x-default" href="https://compress.funadventure.ae/">
     <link rel="preload" href="../css/app.css?v=20260626.1936" as="style">
     <link rel="preload" href="../css/files/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -45,22 +45,46 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": "https://compress.funadventure.ae/#organization",
+          "name": "Fun Adventure Media Studio",
+          "url": "https://compress.funadventure.ae/",
+          "email": "info@funadventure.ae",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://compress.funadventure.ae/icons/icon-512.png"
+          },
+          "sameAs": [
+            "https://github.com/adeelrehman77/image-compressor"
+          ]
+        },
+        {
           "@type": "WebSite",
+          "@id": "https://compress.funadventure.ae/#website",
           "name": "NexusCompress",
           "url": "https://compress.funadventure.ae/",
-          "description": "ضاغط صور مجاني على الإنترنت. تصغير حجم الصور فوراً في متصفحك بدون رفع."
+          "description": "Free online image compressor. Reduce image file size instantly in your browser with no uploads. UAE portal presets for Emirates ID (~200 KB) and MOHRE (~500 KB).",
+          "publisher": { "@id": "https://compress.funadventure.ae/#organization" },
+          "inLanguage": ["en", "ar"]
         },
         {
           "@type": "WebApplication",
+          "@id": "https://compress.funadventure.ae/#app",
           "name": "NexusCompress",
           "alternateName": "NexusCompress Image Compressor",
           "url": "https://compress.funadventure.ae/",
           "applicationCategory": "UtilitiesApplication",
           "operatingSystem": "Any",
           "browserRequirements": "Requires JavaScript and a modern browser",
-          "publisher": { "@type": "Organization", "name": "NexusCompress", "url": "https://compress.funadventure.ae/" },
+          "publisher": { "@id": "https://compress.funadventure.ae/#organization" },
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-          "featureList": "ضغط JPEG PNG WebP AVIF، دفعات ZIP، معالجة محلية، بدون رفع"
+          "featureList": [
+            "JPEG PNG WebP AVIF compression",
+            "UAE portal presets 200 KB and 500 KB",
+            "Batch ZIP export",
+            "Local browser processing with no upload",
+            "Arabic RTL interface"
+          ]
         }
       ]
     }
@@ -2071,7 +2095,9 @@
             <p data-i18n-html="seoBatchBody">غيّر الحجم <strong>بالنسبة المئوية</strong> أو اقص إلى <strong>16:9 أو 4:3 أو مربع</strong>. أضف <strong>علامة مائية نصية أو شعار</strong> لدفعة كاملة ثم حمّل ZIP مع شريط تقدم.</p>
             <h2 class="seo-subheading" data-i18n="seoGuidesHeading">أدلة الضغط</h2>
             <ul class="seo-list guide-links">
-                <li><a href="../guides/best-image-format-uae-government-portals-ar" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUae">ضغط صور بوابات الإمارات (200/500 ك.ب)</a></li>
+                <li><a href="../guides/uae-portal-compression-ar" data-locale-href-en="../guides/uae-portal-compression" data-locale-href-ar="../guides/uae-portal-compression-ar" data-i18n="seoGuideUae">ضغط صور بوابات الإمارات (200/500 ك.ب)</a></li>
+                <li><a href="../guides/compress-image-to-200kb-ar" data-locale-href-en="../guides/compress-image-to-200kb" data-locale-href-ar="../guides/compress-image-to-200kb-ar">Compress image to 200 KB (Emirates ID / ICA)</a></li>
+                <li><a href="../guides/compress-image-to-500kb-ar" data-locale-href-en="../guides/compress-image-to-500kb" data-locale-href-ar="../guides/compress-image-to-500kb-ar">Compress image to 500 KB (MOHRE)</a></li>
                 <li><a href="../guides/best-image-format-uae-government-portals-ar" data-locale-href-en="../guides/best-image-format-uae-government-portals" data-locale-href-ar="../guides/best-image-format-uae-government-portals-ar" data-i18n="seoGuideUaeFormat">أفضل صيغة صورة لبوابات حكومة الإمارات</a></li>
                 <li><a href="../guides/resize-photo-uae-visa-application-ar" data-locale-href-en="../guides/resize-photo-uae-visa-application" data-locale-href-ar="../guides/resize-photo-uae-visa-application-ar" data-i18n="seoGuideUaeVisa">تغيير حجم صورة تأشيرة الإمارات (ICA)</a></li>
                 <li><a href="../guides/compress-image-for-mohre-portal-ar" data-locale-href-en="../guides/compress-image-for-mohre-portal" data-locale-href-ar="../guides/compress-image-for-mohre-portal-ar" data-i18n="seoGuideMohre">ضغط صورة لبوابة MOHRE / العمل</a></li>
@@ -2144,6 +2170,7 @@
         <p>© <span id="footer-year"></span> NexusCompress &nbsp;·&nbsp; <span class="version-chip" id="app-version" aria-label="Application version">v20260626.1936</span></p>
         <nav class="site-compliance-nav" aria-label="Legal and support">
             <a href="../guides/" data-i18n="footerGuides">الأدلة</a>
+            <a href="about" data-i18n="footerAbout">من نحن</a>
             <a href="../docs" data-i18n="footerDocs">التوثيق</a>
             <a href="../privacy" data-i18n="privacyPolicy">سياسة الخصوصية</a>
             <a href="../terms" data-i18n="footerTerms">شروط الخدمة</a>

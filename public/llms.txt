@@ -1,0 +1,62 @@
+# NexusCompress
+
+> Privacy-first browser image toolkit at https://compress.funadventure.ae/ — compress, convert, and prepare photos for UAE portal uploads entirely on-device. Files are never uploaded for processing. Independent product by Fun Adventure Media Studio (not affiliated with any UAE government entity). Unrelated to other software projects also named “NexusCompress.”
+
+NexusCompress runs in the browser (Web Workers / canvas / WASM). Core compression is free. Arabic RTL UI: https://compress.funadventure.ae/ar/
+
+## Product
+
+- [Homepage — Image Compressor](https://compress.funadventure.ae/): Batch JPEG/PNG/WebP/AVIF compression with UAE portal presets (Emirates ID ~200 KB, MOHRE ~500 KB)
+- [About](https://compress.funadventure.ae/about): Who builds NexusCompress, privacy model, brand disambiguation
+- [Product FAQ](https://compress.funadventure.ae/guides/nexuscompress-image-compressor-faq): Common questions about privacy, formats, and batch ZIP
+- [Privacy Policy](https://compress.funadventure.ae/privacy): No server-side image processing; local-only model
+- [Contact](https://compress.funadventure.ae/contact): Fun Adventure Media Studio — info@funadventure.ae
+
+## UAE government portals (citation guides)
+
+- [UAE portal image compression (200/500 KB)](https://compress.funadventure.ae/guides/uae-portal-compression): Hub for Emirates ID, ICA, MOHRE, RTA-style limits
+- [Compress image to 200 KB](https://compress.funadventure.ae/guides/compress-image-to-200kb): Exact-match guide for Emirates ID / ICA photo uploads
+- [Compress image to 500 KB](https://compress.funadventure.ae/guides/compress-image-to-500kb): Exact-match guide for MOHRE document scans
+- [Emirates ID photo size](https://compress.funadventure.ae/guides/emirates-id-photo-size): Dimensions, JPEG, and size targets for Emirates ID
+- [ICA photo upload requirements](https://compress.funadventure.ae/guides/ica-photo-upload-requirements): ICA / smart services photo and scan limits
+- [MOHRE labour portal compression](https://compress.funadventure.ae/guides/compress-image-for-mohre-portal): Step-by-step 500 KB JPEG workflow
+- [UAE visa / ICA photo resize](https://compress.funadventure.ae/guides/resize-photo-uae-visa-application): Resize before upload
+- [Best image format for UAE portals](https://compress.funadventure.ae/guides/best-image-format-uae-government-portals): JPEG vs WebP for government uploads
+- [UAE photo compliance checker FAQ](https://compress.funadventure.ae/guides/uae-photo-compliance-checker): 10 automated on-device checks
+- [Redact Emirates ID documents](https://compress.funadventure.ae/guides/redact-emirates-id-documents): Local black-out redaction before sharing
+
+## Arabic (RTL)
+
+- [Arabic homepage](https://compress.funadventure.ae/ar/)
+- [ضغط بوابات الإمارات](https://compress.funadventure.ae/guides/uae-portal-compression-ar)
+- [ضغط صورة إلى 200 ك.ب](https://compress.funadventure.ae/guides/compress-image-to-200kb-ar)
+- [ضغط صورة إلى 500 ك.ب](https://compress.funadventure.ae/guides/compress-image-to-500kb-ar)
+- [حجم صورة الهوية الإماراتية](https://compress.funadventure.ae/guides/emirates-id-photo-size-ar)
+- [متطلبات رفع صور ICA](https://compress.funadventure.ae/guides/ica-photo-upload-requirements-ar)
+
+## Tools (crawlable)
+
+- [Images to PDF](https://compress.funadventure.ae/tools/images-to-pdf/)
+- [PDF Merge](https://compress.funadventure.ae/tools/pdf-merge/)
+- [Passport / ID Photo Studio](https://compress.funadventure.ae/tools/passport-photo/)
+- [Photo Checker](https://compress.funadventure.ae/tools/photo-checker/)
+- [Document Redactor](https://compress.funadventure.ae/tools/document-redactor/)
+- [HEIC Converter](https://compress.funadventure.ae/tools/heic-converter/)
+- [AI Upscaler](https://compress.funadventure.ae/tools/ai-upscaler/)
+- [Remove Background](https://compress.funadventure.ae/tools/remove-background/)
+- [Format Converter](https://compress.funadventure.ae/tools/format-converter/)
+- [Image Cropper](https://compress.funadventure.ae/tools/image-cropper/)
+- [Collage Maker](https://compress.funadventure.ae/tools/collage-maker/)
+- [SVG Optimizer](https://compress.funadventure.ae/tools/svg-optimizer/)
+
+## Official sources (verify limits here)
+
+Always verify current upload limits on official portals before submitting:
+- ICA: https://www.ica.gov.ae/
+- ICA Smart Services: https://smartservices.ica.gov.ae/
+- MOHRE: https://www.mohre.gov.ae/
+- UAE Government Portal: https://u.ae/
+
+## Optional longer summary
+
+- [llms-full.txt](https://compress.funadventure.ae/llms-full.txt): Extended product + UAE limits summary for agents
