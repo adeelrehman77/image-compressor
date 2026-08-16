@@ -2478,10 +2478,10 @@ html:not(.dark) .result-savings-badge { color: var(--success, #1d6b52); }
 #collage-canvas { display: block; max-width: 100%; height: auto; border-radius: var(--radius-md, 8px); }
 .collage-slots-overlay {
     position: absolute;
-    top: var(--space-5, 1.25rem);
-    inset-inline-start: var(--space-5, 1.25rem);
-    inset-inline-end: var(--space-5, 1.25rem);
-    bottom: var(--space-5, 1.25rem);
+    top: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    bottom: 0;
     pointer-events: none;
     border-radius: var(--radius-md, 8px);
     overflow: hidden;

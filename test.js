@@ -153,6 +153,7 @@ createTestImage().then(() => {
 
             await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
             await page.goto(`http://localhost:${PORT}/#photo-studio`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForSelector('#tool-panel-passport-studio:not(.is-hidden)', { timeout: 10000 });
             const photoStudioRoute = await page.evaluate(() => ({
                 pathname: location.pathname,
                 hash: location.hash,

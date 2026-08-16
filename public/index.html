@@ -1789,8 +1789,10 @@
                 <div class="main-col compress-main-col">
                     <div class="collage-canvas-wrap">
                         <div class="collage-canvas-outer" id="collage-canvas-outer">
-                            <canvas id="collage-canvas" width="1200" height="600"></canvas>
-                            <div class="collage-slots-overlay" id="collage-slots-overlay"></div>
+                            <div class="collage-canvas-container" id="collage-canvas-container" style="position: relative; display: inline-flex; align-items: center; justify-content: center; max-width: 100%;">
+                                <canvas id="collage-canvas" width="1200" height="600"></canvas>
+                                <div class="collage-slots-overlay" id="collage-slots-overlay"></div>
+                            </div>
                         </div>
                         <p class="collage-status tool-status" id="collage-status-msg" aria-live="polite" data-i18n="collageStatusHint">Click any slot to add a photo, or drag images onto it.</p>
                     </div>

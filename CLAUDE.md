@@ -41,6 +41,9 @@ Edit source files → npm run build → git commit → git push → Cloudflare a
 ```
 The `predeploy` script in `package.json` runs `verify-dist.js` first — build fails if checks don't pass.
 
+### Testing
+`npm test` runs `SKIP_VERSION_BUMP=1 npm run build && node test.js && node scripts/qa-audit.js`. As of 2026-08-16, `scripts/qa-audit.js` (Puppeteer) exercises all 13 tool tabs, not a subset — extend that same `tabs` array when a new tool is added.
+
 ### CSS Layers (3 files, load in this order)
 1. `public/css/app.css` — compiled PostCSS bundle, main design system
    - Defines: `--bg`, `--surface`, `--surface-border`, `--text`, `--text-muted`, `--accent`, `--success`, `--error`, `--warn`
@@ -258,16 +261,22 @@ When adding new tools or guides, add entries with:
 
 ## UX Polish
 - Savings badge: `.result-savings-badge` on result cards in `app.js` — prominent `−{n}%` shown on completion; `is-minimal` class when < 5%
-- Empty states: `.empty-state-friendly` used in `#compress-preview-empty`, `#pc-results-empty`, `#rd-empty-state`, `#up-empty-state`
+- Empty states: `.empty-state-friendly` used in `#compress-preview-empty`, `#pc-results-empty`. The redundant `#rd-empty-state` (Redactor) and `#up-empty-state` (AI Upscaler) were removed 2026-08-16 — those tools rely on their drop zone alone.
 - AI loading: `.ai-loading-state` with 3 animated steps (`pc-step-1/2/3`, `up-step-1/2/3`) in `photo-checker.js` and `ai-upscaler.js`; advances via `setLoadStep()` / `setUpLoadStep()`
 - Mobile bar: `#mobile-action-bar` sticky bottom — visible < 760px only, synced in `syncWorkflowUI()` inside `app.js`
 - Friendly errors: `getFriendlyError(err)` helper in `app.js` — uses i18n `errGeneric/errTooLarge/errBadFile/errMemory/errNetwork`
+- PDF Merge list (`pdf-suite.js::renderMergeList()`) has `↑`/`↓` reorder buttons (`data-up`/`data-down`) alongside `Remove` (`data-rm`), matching the `pdfMergeReorderHint` copy.
+- Collage Maker: switching layout with photos loaded shows a `window.confirm()` gate (i18n key `collageLayoutConfirm`) before wiping slots; `#collage-compress-btn` sends the exported collage straight to the Compressor tool.
+- Images to PDF exposes `window.__NEXUS_ITP_ADD_FILES` so `clipboard-paste.js` can route a pasted image directly into that tool's file list when it's the active tab.
 
 ## HEIC Converter — CSP
 
 - **Do not use `heic2any` from CDN** — its libheif worker calls `eval()` and is blocked by `public/_headers` CSP (no `unsafe-eval`).
 - Use **self-hosted** `public/vendor/heic-to-csp.min.js` from npm `heic-to` package (`dist/csp/`, built with `DYNAMIC_EXECUTION=0`).
 - Vendored via `scripts/vendor-heic-to.js` on `postinstall`; loaded with dynamic `import()` in `public/js/tools/heic-converter.js`.
+
+### HEIC support across other tools (added 2026-08-16)
+HEIC/HEIF input is now accepted (not just in the dedicated HEIC Converter) in: `image-cropper.js`, `format-converter.js`, `collage-maker.js`, `remove-bg.js`, `photo-checker.js`. Each detects HEIC via MIME type or `.heic`/`.heif` extension, then calls the shared `window.NexusTools.convertHeicToJpegFile(file)` (defined in `tools-shared.js`) before processing, showing `heicConverting` / `heicConvertFailed` toasts. Follow this same pattern for any new tool that accepts image uploads — check `tools-shared.js` for the helper rather than re-implementing conversion.
 
 ## AI Tools — Special Notes
 
@@ -294,6 +303,7 @@ When adding new tools or guides, add entries with:
 6. **CSS colours** — never hardcode `#22c55e`, use `var(--color-success)` etc.
 7. **`margin-left/right`** — use `margin-inline-start/end` for RTL compatibility
 8. **Global transitions** — the narrowed rule in nexus-extras.css excludes buttons/inputs on purpose
+9. **Service worker & version fetch paths must be absolute** (`/sw.js`, `/version.json` in `app.js`) — relative paths break on tool subpages like `/tools/passport-photo/` since they'd resolve against that subpath instead of root. Fixed 2026-08-16.
 
 ---
 
