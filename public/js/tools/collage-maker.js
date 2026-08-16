@@ -113,18 +113,44 @@
         c.closePath();
     }
 
-    function drawFit(c, img, x, y, w, h, fit) {
-        if (fit === 'cover') {
-            const scale = Math.max(w / img.width, h / img.height);
-            const sw = img.width * scale;
-            const sh = img.height * scale;
-            c.drawImage(img, x + (w - sw) / 2, y + (h - sh) / 2, sw, sh);
-        } else {
-            const scale = Math.min(w / img.width, h / img.height);
-            const sw = img.width * scale;
-            const sh = img.height * scale;
-            c.drawImage(img, x + (w - sw) / 2, y + (h - sh) / 2, sw, sh);
+    function drawFit(c, img, x, y, w, h, fit, zoom = 1.0, offsetX = 0, offsetY = 0) {
+        let actualFit = fit;
+        if (fit === 'auto') {
+            const rImg = img.width / img.height;
+            const rSlot = w / h;
+            const isImgPortrait = rImg < 0.9;
+            const isSlotPortrait = rSlot < 0.9;
+            const isImgLandscape = rImg > 1.1;
+            const isSlotLandscape = rSlot > 1.1;
+            
+            if ((isImgPortrait && !isSlotPortrait) || (isImgLandscape && !isSlotLandscape)) {
+                actualFit = 'contain';
+            } else {
+                const ratioDiff = Math.max(rImg / rSlot, rSlot / rImg);
+                if (ratioDiff > 1.25) {
+                    actualFit = 'contain';
+                } else {
+                    actualFit = 'cover';
+                }
+            }
         }
+
+        let scale = 1.0;
+        if (actualFit === 'cover') {
+            scale = Math.max(w / img.width, h / img.height);
+        } else {
+            scale = Math.min(w / img.width, h / img.height);
+        }
+
+        scale *= zoom;
+
+        const sw = img.width * scale;
+        const sh = img.height * scale;
+
+        const dx = x + (w - sw) / 2 + offsetX;
+        const dy = y + (h - sh) / 2 + offsetY;
+
+        c.drawImage(img, dx, dy, sw, sh);
     }
 
     function setStatus(msg, type) {
@@ -133,6 +159,57 @@
         el.textContent = msg;
         el.classList.toggle('is-ok', type === 'ok');
         el.classList.toggle('is-err', type === 'err');
+    }
+
+    function selectSlot(i) {
+        activeSlotIndex = i;
+        const slots = document.querySelectorAll('.collage-slot');
+        slots.forEach((s) => {
+            s.classList.toggle('is-selected', s.dataset.index === String(i));
+        });
+
+        const card = document.getElementById('collage-slot-settings-card');
+        if (card) {
+            card.classList.remove('is-hidden');
+            const header = card.querySelector('[data-settings-toggle]');
+            const body = card.querySelector('.settings-card__body');
+            const chevron = card.querySelector('.settings-chevron');
+            if (header && body) {
+                header.setAttribute('aria-expanded', 'true');
+                body.classList.remove('is-collapsed');
+                chevron?.classList.add('is-open');
+            }
+        }
+
+        const title = document.getElementById('collage-slot-settings-title');
+        if (title) {
+            title.textContent = tf('collageSlotSettingsTitleN', { n: i + 1 }, `Photo ${i + 1} Settings`);
+        }
+
+        updateSlotSettingsUI();
+    }
+
+    function updateSlotSettingsUI() {
+        if (activeSlotIndex === null || !state.images[activeSlotIndex]) {
+            const card = document.getElementById('collage-slot-settings-card');
+            card?.classList.add('is-hidden');
+            return;
+        }
+
+        const imgData = state.images[activeSlotIndex];
+        const fitSelect = document.getElementById('collage-slot-fit-select');
+        const zoomSlider = document.getElementById('collage-slot-zoom');
+        const zoomVal = document.getElementById('collage-slot-zoom-val');
+
+        if (fitSelect) {
+            fitSelect.value = imgData.fit || 'auto';
+        }
+        if (zoomSlider) {
+            zoomSlider.value = Math.round((imgData.zoom || 1.0) * 100);
+        }
+        if (zoomVal) {
+            zoomVal.textContent = `${Math.round((imgData.zoom || 1.0) * 100)}%`;
+        }
     }
 
     function buildSlotOverlay() {
@@ -147,19 +224,24 @@
 
         slots.forEach((s, i) => {
             const div = document.createElement('div');
-            div.className = 'collage-slot' + (state.images[i] ? ' is-filled' : ' is-empty');
+            const hasImage = !!state.images[i];
+            div.className = 'collage-slot' + (hasImage ? ' is-filled' : ' is-empty');
+            if (hasImage && activeSlotIndex === i) {
+                div.classList.add('is-selected');
+            }
             div.dataset.index = String(i);
             div.style.left = `${((s.x / W) * 100).toFixed(3)}%`;
             div.style.top = `${((s.y / H) * 100).toFixed(3)}%`;
             div.style.width = `${((s.w / W) * 100).toFixed(3)}%`;
             div.style.height = `${((s.h / H) * 100).toFixed(3)}%`;
 
-            if (!state.images[i]) {
+            if (!hasImage) {
                 const icon = document.createElement('span');
                 icon.className = 'collage-slot-icon';
                 icon.textContent = '+';
                 icon.setAttribute('aria-hidden', 'true');
                 div.appendChild(icon);
+                div.addEventListener('click', () => openFilePicker(i));
             } else {
                 const rm = document.createElement('button');
                 rm.type = 'button';
@@ -171,9 +253,63 @@
                     removeSlot(i);
                 });
                 div.appendChild(rm);
+
+                div.addEventListener('click', () => {
+                    selectSlot(i);
+                });
+
+                let isPanning = false;
+                let startX = 0;
+                let startY = 0;
+                let startOffsetX = 0;
+                let startOffsetY = 0;
+
+                div.style.cursor = 'grab';
+
+                div.addEventListener('pointerdown', (e) => {
+                    if (e.button !== 0) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    isPanning = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startOffsetX = state.images[i].offsetX || 0;
+                    startOffsetY = state.images[i].offsetY || 0;
+                    div.style.cursor = 'grabbing';
+                    div.setPointerCapture(e.pointerId);
+                    selectSlot(i);
+                });
+
+                div.addEventListener('pointermove', (e) => {
+                    if (!isPanning) return;
+                    e.preventDefault();
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+
+                    const rect = canvas.getBoundingClientRect();
+                    const scaleX = W / rect.width;
+                    const scaleY = H / rect.height;
+
+                    state.images[i].offsetX = startOffsetX + dx * scaleX;
+                    state.images[i].offsetY = startOffsetY + dy * scaleY;
+
+                    redrawCanvas();
+                });
+
+                const stopPanning = (e) => {
+                    if (!isPanning) return;
+                    isPanning = false;
+                    div.style.cursor = 'grab';
+                    try {
+                        div.releasePointerCapture(e.pointerId);
+                    } catch (err) {}
+                    updateSlotSettingsUI();
+                };
+
+                div.addEventListener('pointerup', stopPanning);
+                div.addEventListener('pointercancel', stopPanning);
             }
 
-            div.addEventListener('click', () => openFilePicker(i));
             div.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 div.classList.add('is-drag-over');
@@ -217,9 +353,16 @@
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                state.images[slotIndex] = img;
+                state.images[slotIndex] = {
+                    img: img,
+                    zoom: 1.0,
+                    offsetX: 0,
+                    offsetY: 0,
+                    fit: 'auto'
+                };
                 buildSlotOverlay();
                 redrawCanvas();
+                selectSlot(slotIndex);
                 setStatus(tf('collagePhotoLoaded', { n: slotIndex + 1 }, `Photo ${slotIndex + 1} loaded.`), 'ok');
             };
             img.src = e.target.result;
@@ -229,6 +372,11 @@
 
     function removeSlot(i) {
         delete state.images[i];
+        if (activeSlotIndex === i) {
+            activeSlotIndex = null;
+            const card = document.getElementById('collage-slot-settings-card');
+            card?.classList.add('is-hidden');
+        }
         buildSlotOverlay();
         redrawCanvas();
     }
@@ -253,7 +401,7 @@
         ctx.fillRect(0, 0, W, H);
 
         const slots = getSlots(state.layout, W, H, state.gap);
-        const fit = document.getElementById('collage-fit-select')?.value || 'cover';
+        const fit = document.getElementById('collage-fit-select')?.value || 'auto';
 
         slots.forEach((s, i) => {
             ctx.save();
@@ -262,7 +410,15 @@
                 ctx.clip();
             }
             if (state.images[i]) {
-                drawFit(ctx, state.images[i], s.x, s.y, s.w, s.h, fit);
+                const imgData = state.images[i];
+                const img = imgData.img || imgData;
+                const zoom = imgData.zoom || 1.0;
+                const offsetX = imgData.offsetX || 0;
+                const offsetY = imgData.offsetY || 0;
+                const slotFit = imgData.fit || 'auto';
+                
+                const activeFit = fit === 'auto' ? slotFit : fit;
+                drawFit(ctx, img, s.x, s.y, s.w, s.h, activeFit, zoom, offsetX, offsetY);
             } else {
                 ctx.fillStyle = 'rgba(0,0,0,0.06)';
                 ctx.fillRect(s.x, s.y, s.w, s.h);
@@ -280,6 +436,9 @@
         document.querySelectorAll('.collage-layout-btn').forEach((b) => b.classList.remove('is-active'));
         btn?.classList.add('is-active');
         state.images = {};
+        activeSlotIndex = null;
+        const card = document.getElementById('collage-slot-settings-card');
+        card?.classList.add('is-hidden');
         buildSlotOverlay();
         redrawCanvas();
         setStatus(tf('collageStatusHint', null, 'Click any slot to add a photo, or drag images onto it.'), '');
@@ -346,6 +505,9 @@
 
     function clearAll() {
         state.images = {};
+        activeSlotIndex = null;
+        const card = document.getElementById('collage-slot-settings-card');
+        card?.classList.add('is-hidden');
         buildSlotOverlay();
         redrawCanvas();
         setStatus(tf('collageCleared', null, 'All photos cleared.'), '');
@@ -429,6 +591,41 @@
                 quality
             );
         });
+
+        document.getElementById('collage-slot-fit-select')?.addEventListener('change', (e) => {
+            if (activeSlotIndex !== null && state.images[activeSlotIndex]) {
+                state.images[activeSlotIndex].fit = e.target.value;
+                redrawCanvas();
+            }
+        });
+
+        document.getElementById('collage-slot-zoom')?.addEventListener('input', (e) => {
+            if (activeSlotIndex !== null && state.images[activeSlotIndex]) {
+                const z = parseFloat(e.target.value) / 100;
+                state.images[activeSlotIndex].zoom = z;
+                const val = document.getElementById('collage-slot-zoom-val');
+                if (val) val.textContent = `${e.target.value}%`;
+                redrawCanvas();
+            }
+        });
+
+        document.getElementById('collage-slot-reset-btn')?.addEventListener('click', () => {
+            if (activeSlotIndex !== null && state.images[activeSlotIndex]) {
+                state.images[activeSlotIndex].zoom = 1.0;
+                state.images[activeSlotIndex].offsetX = 0;
+                state.images[activeSlotIndex].offsetY = 0;
+                state.images[activeSlotIndex].fit = 'auto';
+                updateSlotSettingsUI();
+                redrawCanvas();
+            }
+        });
+
+        document.getElementById('collage-slot-replace-btn')?.addEventListener('click', () => {
+            if (activeSlotIndex !== null) {
+                openFilePicker(activeSlotIndex);
+            }
+        });
+
         document.getElementById('collage-clear-btn')?.addEventListener('click', clearAll);
 
         document.getElementById('collage-file-picker')?.addEventListener('change', (e) => {

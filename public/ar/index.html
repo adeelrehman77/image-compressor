@@ -1857,9 +1857,39 @@
                             </div>
                             <label class="field-label field-label-spaced-sm" for="collage-fit-select" data-i18n="collagePhotoFit">ملاءمة الصورة</label>
                             <select id="collage-fit-select" class="field-select settings-select">
+                                <option value="auto" selected data-i18n="collageFitAuto">تلقائي (ملاءمة ذكية)</option>
                                 <option value="cover" data-i18n="collageFitCover">تغطية (ملء وقص)</option>
                                 <option value="contain" data-i18n="collageFitContain">احتواء (ملاءمة داخلية)</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-card is-hidden" id="collage-slot-settings-card" data-settings-card>
+                        <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true">
+                            <span class="settings-card__header-left">
+                                <span class="settings-icon" aria-hidden="true">🖼️</span>
+                                <span id="collage-slot-settings-title" data-i18n="collageSlotSettingsTitle">إعدادات الصورة المحددة</span>
+                            </span>
+                            <span class="settings-chevron is-open" aria-hidden="true">▾</span>
+                        </button>
+                        <div class="settings-card__body">
+                            <label class="field-label" for="collage-slot-fit-select" data-i18n="collageSlotFit">ملاءمة الصورة</label>
+                            <select id="collage-slot-fit-select" class="field-select settings-select">
+                                <option value="auto">Auto (smart fit)</option>
+                                <option value="cover">Cover (fill &amp; crop)</option>
+                                <option value="contain">Contain (fit inside)</option>
+                            </select>
+
+                            <div class="field-label-spaced-sm">
+                                <label class="field-label" for="collage-slot-zoom">
+                                    <span data-i18n="collageSlotZoomLabel">تغيير الحجم</span>
+                                    <span class="range-val" id="collage-slot-zoom-val">100%</span>
+                                </label>
+                            </div>
+                            <input type="range" id="collage-slot-zoom" class="settings-input" min="50" max="300" value="100">
+
+                            <button type="button" id="collage-slot-reset-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageSlotReset">إعادة ضبط الموضع والحجم</button>
+                            <button type="button" id="collage-slot-replace-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageSlotReplace">استبدال الصورة</button>
                         </div>
                     </div>
                     <div class="settings-card" data-settings-card data-default-open>
