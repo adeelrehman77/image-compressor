@@ -145,5 +145,6 @@
             }
         });
         document.getElementById('itp-build')?.addEventListener('click', buildPdf);
+        window.__NEXUS_ITP_ADD_FILES = addFiles;
     });
 })();

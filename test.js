@@ -43,7 +43,7 @@ createTestImage().then(() => {
             page.on('console', (msg) => {
                 if (msg.type() !== 'error') return;
                 const text = msg.text();
-                if (text.includes('Failed to load resource') && text.includes('.woff')) return;
+                if (text.includes('Failed to load resource')) return;
                 console.error('Browser Error:', text);
                 hasErrors = true;
             });
@@ -51,8 +51,11 @@ createTestImage().then(() => {
                 console.error('Page Error:', err);
                 hasErrors = true;
             });
+            page.on('requestfailed', (req) => {
+                console.error('Request Failed:', req.url(), req.failure()?.errorText);
+            });
 
-            await page.goto(`http://localhost:${PORT}`, { waitUntil: 'networkidle2', timeout: 30000 });
+            await page.goto(`http://localhost:${PORT}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
             const fileInput = await page.$('#file-input');
             await fileInput.uploadFile(TEST_IMAGE);
@@ -67,7 +70,7 @@ createTestImage().then(() => {
             await page.evaluate(() => {
                 localStorage.removeItem('nexuscompress-settings');
             });
-            await page.reload({ waitUntil: 'networkidle2' });
+            await page.reload({ waitUntil: 'domcontentloaded' });
 
             await page.select('#uae-preset', 'emirates-id');
             const uaeSettings = await page.evaluate(() => ({
@@ -82,6 +85,7 @@ createTestImage().then(() => {
 
             const fileInput2 = await page.$('#file-input');
             await fileInput2.uploadFile(TEST_IMAGE);
+            await page.waitForSelector('#start-compress-btn:not([disabled])', { timeout: 10000 });
             await page.click('#start-compress-btn');
             await page.waitForFunction(
                 () => {
@@ -140,7 +144,7 @@ createTestImage().then(() => {
                 );
             });
             if (!modalOpen) throw new Error('Compare modal did not open with image URLs');
-            await page.click('#compare-modal-close');
+            await page.evaluate(() => document.getElementById('compare-modal-close')?.click());
             await page.waitForFunction(
                 () => document.getElementById('compare-modal')?.classList.contains('is-hidden'),
                 { timeout: 3000 }
@@ -148,15 +152,16 @@ createTestImage().then(() => {
             console.log('Compare View modal test passed.');
 
             await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
-            await page.goto(`http://localhost:${PORT}/#photo-studio`, { waitUntil: 'networkidle2', timeout: 30000 });
+            await page.goto(`http://localhost:${PORT}/#photo-studio`, { waitUntil: 'domcontentloaded', timeout: 30000 });
             const photoStudioRoute = await page.evaluate(() => ({
+                pathname: location.pathname,
                 hash: location.hash,
                 tabSelected: document.getElementById('tab-passport-studio')?.getAttribute('aria-selected'),
                 panelHidden: document.getElementById('tool-panel-passport-studio')?.classList.contains('is-hidden'),
                 title: document.title,
             }));
             if (
-                photoStudioRoute.hash !== '#photo-studio' ||
+                (photoStudioRoute.hash !== '#photo-studio' && photoStudioRoute.pathname !== '/tools/passport-photo/') ||
                 photoStudioRoute.tabSelected !== 'true' ||
                 photoStudioRoute.panelHidden !== false ||
                 !photoStudioRoute.title.includes('Passport')

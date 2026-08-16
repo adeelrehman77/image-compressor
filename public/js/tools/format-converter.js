@@ -8,8 +8,8 @@
         return s || fallback || key;
     }
 
-    const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif|gif)$/i;
-    const ACCEPTED_EXT = /\.(jpe?g|png|webp|avif|gif)$/i;
+    const ACCEPTED_TYPES = /^image\/(jpeg|png|webp|avif|gif|heic|heif)$/i;
+    const ACCEPTED_EXT = /\.(jpe?g|png|webp|avif|gif|heic|heif)$/i;
 
     function escapeHtml(str) {
         return String(str).replace(/[&<>"']/g, (c) => ({
@@ -62,8 +62,23 @@
         convertBtn?.addEventListener('click', convertAll);
         dlAllBtn?.addEventListener('click', downloadAll);
 
-        function addFiles(incoming) {
-            const valid = incoming.filter(isAccepted);
+        async function addFiles(incoming) {
+            const valid = [];
+            for (let f of incoming) {
+                if (isAccepted(f)) {
+                    const isHeic = f && (f.type === 'image/heic' || f.type === 'image/heif' || /\.(heic|heif)$/i.test(f.name || ''));
+                    if (isHeic) {
+                        try {
+                            toast(tf('heicConverting', null, 'Converting HEIC photo…'), 'info');
+                            f = await window.NexusTools.convertHeicToJpegFile(f);
+                        } catch (err) {
+                            toast(tf('heicConvertFailed', null, 'HEIC conversion failed.'), 'error');
+                            continue;
+                        }
+                    }
+                    valid.push(f);
+                }
+            }
             if (!valid.length) {
                 toast(tf('fmtToastNeedImages', null, 'Please drop JPEG, PNG, WebP, AVIF, or GIF files.'), 'warn');
                 return;

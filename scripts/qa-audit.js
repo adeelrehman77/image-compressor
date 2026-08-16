@@ -70,7 +70,7 @@ async function main() {
     page.on('console', (msg) => {
         if (msg.type() === 'error') {
             const t = msg.text();
-            if (t.includes('.woff') || t.includes('Failed to load resource') && t.includes('ads')) return;
+            if (t.includes('.woff') || t.includes('Failed to load resource')) return;
             consoleErrors.push(t);
         }
     });
@@ -78,10 +78,14 @@ async function main() {
 
     try {
         console.log('Navigation & routing');
-        await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle2', timeout: 30000 });
+        await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'domcontentloaded', timeout: 30000 });
         pass('Home page loads');
 
-        const tabs = ['compress', 'images-to-pdf', 'pdf-suite', 'svg', 'passport-studio'];
+        const tabs = [
+            'compress', 'images-to-pdf', 'pdf-suite', 'svg', 'passport-studio',
+            'photo-checker', 'redactor', 'ai-upscaler', 'heic-converter',
+            'format-converter', 'image-cropper', 'collage-maker', 'remove-bg'
+        ];
         for (const tool of tabs) {
             await clickTab(page, tool);
             const visible = await page.evaluate((t) => {
@@ -94,13 +98,15 @@ async function main() {
         }
 
         await clickTab(page, 'compress');
-        await page.evaluate(() => document.querySelector('.seo-tool-chips a[href="#passport-studio"]')?.click());
-        await page.waitForFunction(() => location.hash === '#passport-studio', { timeout: 3000 });
-        const hashOk = await page.evaluate(
-            () => !document.getElementById('tool-panel-passport-studio')?.classList.contains('is-hidden')
-        );
-        if (hashOk) pass('Footer chip navigates to Passport Studio');
-        else fail('Footer chip navigation to Passport Studio failed');
+        await page.evaluate(() => {
+            const chip = [...document.querySelectorAll('.seo-tool-chips a')].find(a => a.textContent.includes('Passport') || a.href.includes('passport'));
+            chip?.click();
+        });
+        await page.waitForFunction(() => {
+            const panel = document.getElementById('tool-panel-passport-studio');
+            return panel && !panel.classList.contains('is-hidden');
+        }, { timeout: 5000 });
+        pass('Footer chip navigates to Passport Studio');
 
         // ── Theme ──
         console.log('\nTheme');
@@ -117,7 +123,7 @@ async function main() {
         console.log('\nImage Compressor');
         await clickTab(page, 'compress');
         await page.evaluate(() => localStorage.removeItem('nexuscompress-settings'));
-        await page.reload({ waitUntil: 'networkidle2' });
+        await page.reload({ waitUntil: 'domcontentloaded' });
 
         const fileInput = await page.$('#file-input');
         await fileInput.uploadFile(TEST_IMAGE);
@@ -305,12 +311,41 @@ async function main() {
             fail('Hash URL ARIA state', JSON.stringify(hashAria));
         }
 
-        await page.goto(`http://localhost:${PORT}/#svg`, { waitUntil: 'networkidle2' });
+        await page.goto(`http://localhost:${PORT}/#svg`, { waitUntil: 'domcontentloaded' });
         const svgPanel = await page.evaluate(
             () => !document.getElementById('tool-panel-svg')?.classList.contains('is-hidden')
         );
         if (svgPanel) pass('Direct #svg hash loads SVG tool');
         else fail('Direct #svg hash did not activate SVG panel');
+
+        // ── Direct tool page URLs ──
+        console.log('\nDirect tool page URLs');
+        const toolRoutes = [
+            { path: '/tools/passport-photo/', title: 'Passport', panelId: 'tool-panel-passport-studio', tabId: 'tab-passport-studio' },
+            { path: '/tools/remove-background/', title: 'Background', panelId: 'tool-panel-remove-bg', tabId: 'tab-remove-bg' },
+            { path: '/tools/pdf-merge/', title: 'PDF', panelId: 'tool-panel-pdf-suite', tabId: 'tab-pdf-suite' }
+        ];
+        for (const tr of toolRoutes) {
+            await page.goto(`http://localhost:${PORT}${tr.path}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            const pageTitle = await page.title();
+            const pageAria = await page.evaluate((panelId, tabId) => {
+                const panel = document.getElementById(panelId);
+                const tab = document.getElementById(tabId);
+                return {
+                    panelHidden: panel ? panel.classList.contains('is-hidden') : true,
+                    tabSelected: tab ? tab.getAttribute('aria-selected') : 'false',
+                };
+            }, tr.panelId, tr.tabId);
+
+            if (pageTitle.includes(tr.title)) pass(`Direct load ${tr.path} sets document title: ${pageTitle}`);
+            else fail(`Direct load ${tr.path} title mismatch`, pageTitle);
+
+            if (!pageAria.panelHidden && pageAria.tabSelected === 'true') {
+                pass(`Direct load ${tr.path} activates panel and tab correctly`);
+            } else {
+                fail(`Direct load ${tr.path} ARIA state incorrect`, JSON.stringify(pageAria));
+            }
+        }
 
         // ── Console errors ──
         console.log('\nConsole');

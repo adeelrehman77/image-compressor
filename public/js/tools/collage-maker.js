@@ -197,8 +197,19 @@
         fp.click();
     }
 
-    function loadFile(file, slotIndex) {
-        if (!file || !file.type.startsWith('image/')) {
+    async function loadFile(file, slotIndex) {
+        if (!file) return;
+        const isHeic = file && (file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name || ''));
+        if (isHeic) {
+            try {
+                toast(tf('heicConverting', null, 'Converting HEIC photo…'), 'info');
+                file = await window.NexusTools.convertHeicToJpegFile(file);
+            } catch (err) {
+                toast(tf('heicConvertFailed', null, 'HEIC conversion failed.'), 'error');
+                return;
+            }
+        }
+        if (!file.type.startsWith('image/')) {
             toast(tf('collageNeedImage', null, 'Please use an image file.'), 'warn');
             return;
         }
@@ -261,6 +272,10 @@
     }
 
     function setLayout(name, btn) {
+        if (Object.keys(state.images).length > 0) {
+            const msg = tf('collageLayoutConfirm', null, 'Changing layout will clear all loaded photos. Continue?');
+            if (!window.confirm(msg)) return;
+        }
         state.layout = name;
         document.querySelectorAll('.collage-layout-btn').forEach((b) => b.classList.remove('is-active'));
         btn?.classList.add('is-active');
@@ -387,6 +402,33 @@
         });
 
         document.getElementById('collage-export-btn')?.addEventListener('click', exportCollage);
+        document.getElementById('collage-compress-btn')?.addEventListener('click', async () => {
+            if (Object.keys(state.images).length === 0) {
+                toast(tf('collageNoImages', null, 'Please load some photos first.'), 'warn');
+                return;
+            }
+            redrawCanvas();
+            const quality = parseInt(document.getElementById('collage-quality')?.value, 10) / 100 || 0.9;
+            const mimeMap = { jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+            const extMap = { jpeg: 'jpg', png: 'png', webp: 'webp' };
+            const mime = mimeMap[state.fmt];
+            const ext = extMap[state.fmt];
+
+            canvas.toBlob(
+                async (blob) => {
+                    if (!blob) {
+                        toast(tf('collageExportFailed', null, 'Export failed — try a different format.'), 'error');
+                        return;
+                    }
+                    const file = new File([blob], `collage.${ext}`, { type: mime });
+                    if (window.__NEXUS_NAVIGATE_TOOL) await window.__NEXUS_NAVIGATE_TOOL('compress');
+                    window.__NEXUS_COMPRESS_ADD_FILES?.([file]);
+                    toast(tf('collageSentCompress', null, 'Collage added to compressor queue.'), 'success');
+                },
+                mime,
+                quality
+            );
+        });
         document.getElementById('collage-clear-btn')?.addEventListener('click', clearAll);
 
         document.getElementById('collage-file-picker')?.addEventListener('change', (e) => {

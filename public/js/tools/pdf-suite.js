@@ -14,13 +14,14 @@
             const nameSpan = document.createElement('span');
             nameSpan.className = 'tool-file-name';
             nameSpan.textContent = file.name;
-            const rmBtn = document.createElement('button');
-            rmBtn.type = 'button';
-            rmBtn.className = 'btn-ghost';
-            rmBtn.dataset.rm = String(i);
-            rmBtn.textContent = 'Remove';
+            const actions = document.createElement('span');
+            actions.className = 'tool-file-actions';
+            actions.innerHTML = `
+                <button type="button" class="btn-ghost" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
+                <button type="button" class="btn-ghost" data-down="${i}" ${i === mergeFiles.length - 1 ? 'disabled' : ''}>↓</button>
+                <button type="button" class="btn-ghost" data-rm="${i}">Remove</button>`;
             li.appendChild(nameSpan);
-            li.appendChild(rmBtn);
+            li.appendChild(actions);
             list.appendChild(li);
         });
         if (btn) btn.disabled = mergeFiles.length < 2;
@@ -164,8 +165,21 @@
         );
 
         document.getElementById('pdf-merge-list')?.addEventListener('click', (e) => {
-            if (e.target.dataset.rm !== undefined) {
-                mergeFiles.splice(Number(e.target.dataset.rm), 1);
+            const up = e.target.dataset.up;
+            const down = e.target.dataset.down;
+            const rm = e.target.dataset.rm;
+            if (up !== undefined) {
+                const i = Number(up);
+                [mergeFiles[i - 1], mergeFiles[i]] = [mergeFiles[i], mergeFiles[i - 1]];
+                renderMergeList();
+            }
+            if (down !== undefined) {
+                const i = Number(down);
+                [mergeFiles[i + 1], mergeFiles[i]] = [mergeFiles[i], mergeFiles[i + 1]];
+                renderMergeList();
+            }
+            if (rm !== undefined) {
+                mergeFiles.splice(Number(rm), 1);
                 renderMergeList();
             }
         });

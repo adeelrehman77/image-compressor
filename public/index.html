@@ -1119,13 +1119,14 @@
                     <section id="pc-drop-zone" class="drop-zone" tabindex="0" data-i18n="pcDropAria" data-i18n-attr="aria-label" aria-label="Drop a passport or ID photo to check">
                         <div class="drop-zone-icon" aria-hidden="true">✅</div>
                         <p class="drop-zone-title" data-i18n="pcDropTitle">Drop your portal photo here</p>
-                        <p class="drop-zone-subtitle" data-i18n="pcDropSub">JPEG or PNG only — analysed locally with face detection AI</p>
+                        <p class="drop-zone-subtitle" data-i18n="pcDropSub">JPEG, PNG, or HEIC — analysed locally with face detection AI</p>
                         <div class="drop-zone-formats" aria-hidden="true">
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">Choose photo</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">Choose photo</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="pc-preview-wrap" class="pc-preview-wrap is-hidden">
                         <p class="pc-bio-label-outside pc-bio-label-outside--hair" data-i18n="pcBioHairOutside">↑ Top of hair</p>
@@ -1215,11 +1216,7 @@
             </div>
             <div class="tool-layout tool-layout-wide redactor-grid">
                 <div class="main-col compress-main-col">
-                    <div class="empty-state-friendly" id="rd-empty-state">
-                        <div class="empty-state-friendly__icon">🔒</div>
-                        <p class="empty-state-friendly__title" data-i18n="emptyRedactorTitle">No document loaded</p>
-                        <p class="empty-state-friendly__hint" data-i18n="emptyRedactorHint">Drop a document scan above to start redacting sensitive fields.</p>
-                    </div>
+
                     <section id="rd-drop-zone" class="drop-zone" tabindex="0" data-i18n="rdDropAria" data-i18n-attr="aria-label" aria-label="Drop a document to redact">
                         <div class="drop-zone-icon" aria-hidden="true">🔏</div>
                         <p class="drop-zone-title" data-i18n="rdDropTitle">Drop your document scan here</p>
@@ -1378,11 +1375,7 @@
             </div>
             <div class="tool-layout" id="ai-upscaler-layout">
                 <div class="up-main-col compress-main-col">
-                    <div class="empty-state-friendly" id="up-empty-state">
-                        <div class="empty-state-friendly__icon">🔬</div>
-                        <p class="empty-state-friendly__title" data-i18n="emptyUpscalerTitle">No image uploaded yet</p>
-                        <p class="empty-state-friendly__hint" data-i18n="emptyUpscalerHint">Drop an image above to upscale it 2× or 4× with AI.</p>
-                    </div>
+
                     <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to upscale">
                         <div class="drop-zone-icon" aria-hidden="true">🔬</div>
                         <p class="drop-zone-title" data-i18n="upDropTitle">Drop your image here</p>
@@ -1519,7 +1512,6 @@
                             <span class="drop-zone-format-tag">HEIC</span>
                             <span class="drop-zone-format-tag">HEIF</span>
                         </div>
-                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
                         <label class="btn-primary is-clickable">
                             <span data-i18n="chooseFiles">Choose files</span>
                             <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
@@ -1592,11 +1584,12 @@
                             <span class="drop-zone-format-tag">WebP</span>
                             <span class="drop-zone-format-tag">AVIF</span>
                             <span class="drop-zone-format-tag">GIF</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
                         <label class="btn-primary is-clickable">
                             <span data-i18n="chooseFiles">Choose files</span>
-                            <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
+                            <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/heic,image/heif,.heic,.heif">
                         </label>
                     </section>
                     <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="Images to convert" aria-live="polite"></div>
@@ -1658,14 +1651,15 @@
                     <section id="crop-drop-zone" class="drop-zone" tabindex="0" data-i18n="cropDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to crop">
                         <div class="drop-zone-icon" aria-hidden="true">✂️</div>
                         <p class="drop-zone-title" data-i18n="cropDropTitle">Drop an image to crop</p>
-                        <p class="drop-zone-subtitle" data-i18n="cropDropSub">JPEG, PNG, or WebP</p>
+                        <p class="drop-zone-subtitle" data-i18n="cropDropSub">JPEG, PNG, WebP, or HEIC</p>
                         <div class="drop-zone-formats" aria-hidden="true">
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
                             <span class="drop-zone-format-tag">WebP</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">Choose file</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">Choose file</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="crop-workspace" class="crop-workspace is-hidden">
                         <div class="crop-toolbar">
@@ -1888,6 +1882,7 @@
                             </label>
                             <input type="range" id="collage-quality" class="settings-input" min="50" max="100" value="90">
                             <button type="button" id="collage-export-btn" class="btn-primary btn-block field-label-spaced-sm" data-i18n="collageDownload">Download collage</button>
+                            <button type="button" id="collage-compress-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageSendToCompress">Compress collage</button>
                             <button type="button" id="collage-clear-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageClearAll">Clear all photos</button>
                         </div>
                     </div>
@@ -1940,14 +1935,15 @@
                     <section id="rbg-drop-zone" class="drop-zone" tabindex="0" data-i18n="rbgDropAria" data-i18n-attr="aria-label" aria-label="Drop an image to remove background">
                         <div class="drop-zone-icon" aria-hidden="true">🪄</div>
                         <p class="drop-zone-title" data-i18n="rbgDropTitle">Drop an image to remove the background</p>
-                        <p class="drop-zone-subtitle" data-i18n="rbgDropSub">JPEG, PNG, or WebP — one image at a time</p>
+                        <p class="drop-zone-subtitle" data-i18n="rbgDropSub">JPEG, PNG, WebP, or HEIC — one image at a time</p>
                         <div class="drop-zone-formats" aria-hidden="true">
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
                             <span class="drop-zone-format-tag">WebP</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">or paste from clipboard (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">Choose file</span><input type="file" id="rbg-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">Choose file</span><input type="file" id="rbg-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="rbg-processing" class="rbg-processing is-hidden" role="status" aria-live="polite">
                         <p id="rbg-status" class="tool-status"></p>

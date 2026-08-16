@@ -166,7 +166,7 @@
         if (!('serviceWorker' in navigator)) return;
         const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
         if (local) return;
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
 
     async function loadVersion() {
@@ -174,7 +174,7 @@
         const heroBadge = document.getElementById('compress-version-badge');
         if (!el && !heroBadge) return;
         try {
-            const res = await fetch(`version.json?${Date.now()}`, { cache: 'no-store' });
+            const res = await fetch(`/version.json?${Date.now()}`, { cache: 'no-store' });
             if (res.ok) {
                 const data = await res.json();
                 const { version, buildId } = data;

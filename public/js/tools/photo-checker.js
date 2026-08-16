@@ -119,6 +119,8 @@
         if (!file) return false;
         const t = (file.type || '').toLowerCase();
         if (t === 'image/jpeg' || t === 'image/png') return true;
+        const isHeic = t === 'image/heic' || t === 'image/heif' || /\.(heic|heif)$/i.test(file.name || '');
+        if (isHeic) return true;
         return /\.(jpe?g|png)$/i.test(file.name || '');
     }
 
@@ -208,6 +210,16 @@
     }
 
     async function loadPhotoFile(file) {
+        const isHeic = file && (file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name || ''));
+        if (isHeic) {
+            try {
+                toast(tf('heicConverting', null, 'Converting HEIC photo…'), 'info');
+                file = await window.NexusTools.convertHeicToJpegFile(file);
+            } catch (err) {
+                toast(tf('heicConvertFailed', null, 'HEIC conversion failed.'), 'error');
+                return;
+            }
+        }
         if (!isJpegOrPng(file)) {
             toast(tf('pcNeedJpegPng', null, 'Please use a JPEG or PNG photo.'), 'warn');
             return;

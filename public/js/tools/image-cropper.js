@@ -16,7 +16,8 @@
     let objectUrl = null;
 
     function isAccepted(file) {
-        return ACCEPTED.test(file.type) || ACCEPTED_EXT.test(file.name || '');
+        const isHeic = file && (file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name || ''));
+        return ACCEPTED.test(file.type) || ACCEPTED_EXT.test(file.name || '') || isHeic;
     }
 
     function releaseUrl() {
@@ -71,6 +72,16 @@
     }
 
     async function loadFile(file) {
+        const isHeic = file && (file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name || ''));
+        if (isHeic) {
+            try {
+                toast(tf('heicConverting', null, 'Converting HEIC photo…'), 'info');
+                file = await window.NexusTools.convertHeicToJpegFile(file);
+            } catch (err) {
+                toast(tf('heicConvertFailed', null, 'HEIC conversion failed.'), 'error');
+                return;
+            }
+        }
         if (!isAccepted(file)) {
             toast(tf('cropNeedImage', null, 'Please use a JPEG, PNG, or WebP image.'), 'warn');
             return;

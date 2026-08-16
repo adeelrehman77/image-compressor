@@ -460,7 +460,7 @@
                 <p class="simple-mode-msg" data-i18n="simpleModeMsg">سنضغط صورتك تلقائياً. يعمل بشكل رائع مع واتساب والبريد الإلكتروني وبوابات الرفع.</p>
                 <p class="advanced-mode-note is-hidden" data-i18n="simpleModeNote">الوضع المتقدم — للتحكم الكامل في الجودة والصيغة وحجم الملف</p>
                 <div class="settings-card" id="compress-quick-presets-card" data-settings-card data-default-open data-always-open>
-                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true" data-i18n="quickPresetsToggleAria" data-i18n-attr="aria-label" aria-label="Toggle quick presets">
+                    <button type="button" class="settings-card__header" data-settings-toggle aria-expanded="true" data-i18n="quickPresetsToggleAria" data-i18n-attr="aria-label" aria-label="تبديل الإعدادات المسبقة السريعة">
                         <span class="settings-card__header-left">
                             <span class="settings-card__icon" aria-hidden="true">⚡</span>
                             <span data-i18n="quickPresetsTitle">إعدادات سريعة</span>
@@ -622,7 +622,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">📄</span>
-                    <h2 class="tool-heading" data-i18n="heroItpTitle">Images to PDF</h2>
+                    <h2 class="tool-heading" data-i18n="heroItpTitle">صور إلى PDF</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroItpSub">دمج مسوح JPEG/PNG في ملف PDF واحد لبوابات الإمارات — يعمل محلياً في متصفحك.</p>
                 <div class="tool-badges">
@@ -675,7 +675,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">🔗</span>
-                    <h2 class="tool-heading" data-i18n="heroPdfTitle">PDF Merge &amp; Split</h2>
+                    <h2 class="tool-heading" data-i18n="heroPdfTitle">دمج وتقسيم PDF</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroPdfSub">دمج ملفات PDF أو استخراج الصفحات — خاص بالكامل في متصفحك.</p>
                 <div class="tool-badges">
@@ -867,7 +867,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">✏️</span>
-                    <h2 class="tool-heading" data-i18n="heroSvgTitle">SVG Optimizer</h2>
+                    <h2 class="tool-heading" data-i18n="heroSvgTitle">تحسين SVG</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroSvgSub">إزالة البيانات الوصفية والزوائد من ملفات SVG قبل النشر.</p>
                 <div class="tool-badges">
@@ -921,7 +921,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">🪪</span>
-                    <h2 class="tool-heading" data-i18n="heroPassportTitle">ID Photo Studio</h2>
+                    <h2 class="tool-heading" data-i18n="heroPassportTitle">استوديو صور الهوية</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroPassportSub">إعدادات بوابات الإمارات، قص الهوية الإماراتية، جواز الهند، OCI، وورق VFS — أدوات الصور الحكومية في استوديو واحد.</p>
                 <div class="tool-badges">
@@ -1086,12 +1086,12 @@
         <div class="tool-workspace photo-checker-workspace max-width-wrap">
             <div class="pc-privacy-banner chip chip-success" role="status">
                 <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                <span data-i18n="pcPrivacyBanner">🔒 Photo analysis runs entirely in your browser — nothing is uploaded</span>
+                <span data-i18n="pcPrivacyBanner">🔒 تحليل الصور يتم بالكامل في متصفحك — لا يتم رفع أي شيء</span>
             </div>
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">✅</span>
-                    <h2 class="tool-heading" data-i18n="heroPhotoCheckerTitle">UAE Photo Compliance Checker</h2>
+                    <h2 class="tool-heading" data-i18n="heroPhotoCheckerTitle">فاحص مطابقة الصور في الإمارات</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroPhotoCheckerSub">10 فحوصات آلية لصور ICA والهوية الإماراتية وMOHRE — بالكامل في متصفحك، دون رفع.</p>
                 <div class="tool-badges">
@@ -1122,9 +1122,10 @@
                         <div class="drop-zone-formats" aria-hidden="true">
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">اختر صورة</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="pcChoosePhoto">اختر صورة</span><input type="file" id="pc-file-input" class="is-hidden" accept="image/jpeg,image/png,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="pc-preview-wrap" class="pc-preview-wrap is-hidden">
                         <p class="pc-bio-label-outside pc-bio-label-outside--hair" data-i18n="pcBioHairOutside">↑ أعلى الشعر</p>
@@ -1202,7 +1203,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">🔏</span>
-                    <h2 class="tool-heading" data-i18n="heroRedactorTitle">Secure Document Redactor</h2>
+                    <h2 class="tool-heading" data-i18n="heroRedactorTitle">تعتيم المستندات الآمن</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroRedactorSub">اعتِم أرقام الجواز والهوية وخطوط MRZ وبيانات البنك قبل المشاركة مع جهات العمل أو الوسطاء.</p>
                 <div class="tool-badges">
@@ -1214,11 +1215,7 @@
             </div>
             <div class="tool-layout tool-layout-wide redactor-grid">
                 <div class="main-col compress-main-col">
-                    <div class="empty-state-friendly" id="rd-empty-state">
-                        <div class="empty-state-friendly__icon">🔒</div>
-                        <p class="empty-state-friendly__title" data-i18n="emptyRedactorTitle">لم يُحمَّل مستند بعد</p>
-                        <p class="empty-state-friendly__hint" data-i18n="emptyRedactorHint">أسقط مسح مستند للبدء في تعتيم الحقول الحساسة.</p>
-                    </div>
+
                     <section id="rd-drop-zone" class="drop-zone" tabindex="0" data-i18n="rdDropAria" data-i18n-attr="aria-label" aria-label="أسقط مستنداً للتعتيم">
                         <div class="drop-zone-icon" aria-hidden="true">🔏</div>
                         <p class="drop-zone-title" data-i18n="rdDropTitle">أسقط مسح المستند هنا</p>
@@ -1351,7 +1348,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">🔬</span>
-                    <h2 class="tool-heading" data-i18n="heroUpscalerTitle">AI Image Upscaler</h2>
+                    <h2 class="tool-heading" data-i18n="heroUpscalerTitle">تكبير الصور بالذكاء الاصطناعي</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroUpscalerSub">كبّر الصور ٢× أو ٤× باستخدام Real-ESRGAN — تفاصيل أوضح، بدون رفع، يعمل على جهازك.</p>
                 <div class="tool-badges">
@@ -1377,11 +1374,7 @@
             </div>
             <div class="tool-layout" id="ai-upscaler-layout">
                 <div class="up-main-col compress-main-col">
-                    <div class="empty-state-friendly" id="up-empty-state">
-                        <div class="empty-state-friendly__icon">🔬</div>
-                        <p class="empty-state-friendly__title" data-i18n="emptyUpscalerTitle">لم تُرفع صورة بعد</p>
-                        <p class="empty-state-friendly__hint" data-i18n="emptyUpscalerHint">أسقط صورة لتكبيرها ٢× أو ٤× بالذكاء الاصطناعي.</p>
-                    </div>
+
                     <section id="up-drop-zone" class="drop-zone" tabindex="0" data-i18n="upDropAria" data-i18n-attr="aria-label" aria-label="أسقط صورة للتكبير">
                         <div class="drop-zone-icon" aria-hidden="true">🔬</div>
                         <p class="drop-zone-title" data-i18n="upDropTitle">أسقط صورتك هنا</p>
@@ -1518,7 +1511,6 @@
                             <span class="drop-zone-format-tag">HEIC</span>
                             <span class="drop-zone-format-tag">HEIF</span>
                         </div>
-                        <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
                         <label class="btn-primary is-clickable">
                             <span data-i18n="chooseFiles">اختيار ملفات</span>
                             <input type="file" id="heic-file-input" class="is-hidden" multiple accept=".heic,.heif,image/heic,image/heif">
@@ -1570,7 +1562,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">🔄</span>
-                    <h2 class="tool-heading" data-i18n="heroFmtTitle">Format Converter</h2>
+                    <h2 class="tool-heading" data-i18n="heroFmtTitle">محوّل الصيغ</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroFmtSub">حوّل JPEG وPNG وWebP وAVIF وGIF إلى أي صيغة حديثة — دفعات، في المتصفح، بدون رفع.</p>
                 <div class="tool-badges">
@@ -1591,11 +1583,12 @@
                             <span class="drop-zone-format-tag">WebP</span>
                             <span class="drop-zone-format-tag">AVIF</span>
                             <span class="drop-zone-format-tag">GIF</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
                         <label class="btn-primary is-clickable">
                             <span data-i18n="chooseFiles">اختيار ملفات</span>
-                            <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif">
+                            <input type="file" id="fmt-file-input" class="is-hidden" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/heic,image/heif,.heic,.heif">
                         </label>
                     </section>
                     <div id="fmt-file-list" class="heic-file-list is-hidden" aria-label="Images to convert" aria-live="polite"></div>
@@ -1645,7 +1638,7 @@
             <div class="tool-header">
                 <div class="tool-header-title">
                     <span class="tool-emoji" aria-hidden="true">✂️</span>
-                    <h2 class="tool-heading" data-i18n="heroCropperTitle">Image Cropper</h2>
+                    <h2 class="tool-heading" data-i18n="heroCropperTitle">مقص الصور</h2>
                 </div>
                 <p class="tool-subtitle" data-i18n="heroCropperSub">قص وتدوير وقلب الصور في متصفحك — ثم حمّل أو أرسل إلى الضاغط.</p>
                 <div class="tool-badges">
@@ -1662,9 +1655,10 @@
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
                             <span class="drop-zone-format-tag">WebP</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="crop-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="crop-workspace" class="crop-workspace is-hidden">
                         <div class="crop-toolbar">
@@ -1887,6 +1881,7 @@
                             </label>
                             <input type="range" id="collage-quality" class="settings-input" min="50" max="100" value="90">
                             <button type="button" id="collage-export-btn" class="btn-primary btn-block field-label-spaced-sm" data-i18n="collageDownload">تحميل الكولاج</button>
+                            <button type="button" id="collage-compress-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageSendToCompress">ضغط الكولاج</button>
                             <button type="button" id="collage-clear-btn" class="btn-secondary btn-block field-label-spaced-sm" data-i18n="collageClearAll">مسح كل الصور</button>
                         </div>
                     </div>
@@ -1944,9 +1939,10 @@
                             <span class="drop-zone-format-tag">JPEG</span>
                             <span class="drop-zone-format-tag">PNG</span>
                             <span class="drop-zone-format-tag">WebP</span>
+                            <span class="drop-zone-format-tag">HEIC</span>
                         </div>
                         <p class="drop-zone-paste-hint" data-i18n="dropPasteHint">أو الصق من الحافظة (Ctrl+V / ⌘V)</p>
-                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="rbg-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"></label>
+                        <label class="btn-primary is-clickable"><span data-i18n="chooseFiles">اختيار ملفات</span><input type="file" id="rbg-file-input" class="is-hidden" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp,image/heic,image/heif,.heic,.heif"></label>
                     </section>
                     <div id="rbg-processing" class="rbg-processing is-hidden" role="status" aria-live="polite">
                         <p id="rbg-status" class="tool-status"></p>
@@ -1971,7 +1967,7 @@
                             </div>
                             <div id="rbg-compare-handle" class="compare-handle" aria-hidden="true"></div>
                             <div class="compare-stage-labels">
-                                <div class="compare-stage-label compare-stage-label--before" data-i18n="compareLabelOriginal">Original</div>
+                                <div class="compare-stage-label compare-stage-label--before" data-i18n="compareLabelOriginal">الأصل</div>
                                 <div class="compare-stage-label compare-stage-label--after" data-i18n="rbgCompareResult">بعد إزالة الخلفية</div>
                             </div>
                         </div>

@@ -106,6 +106,10 @@
             window.__NEXUS_FMT_ADD_FILES([file]);
             return;
         }
+        if (tool === 'images-to-pdf' && window.__NEXUS_ITP_ADD_FILES) {
+            window.__NEXUS_ITP_ADD_FILES([file]);
+            return;
+        }
         if (tool === 'heic-converter') {
             toast(tf('heicPasteUnsupported', null, 'HEIC paste not supported — please use Choose Files'), 'warn');
             return;
