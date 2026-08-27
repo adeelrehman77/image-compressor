@@ -1,7 +1,22 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "java.import.gradle.wrapper.enabled": true,
-    "gradle.nestedProjects": true,
-    "gradle.autoDetect": "on",
-    "java.import.gradle.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home"
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "java.import.gradle.enabled": false,
+    "java.import.maven.enabled": false,
+    "java.jdt.ls.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "java.import.gradle.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "gradle.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "gradle.autoDetect": "off",
+    "gradle.nestedProjects": false,
+    "java.import.exclusions": [
+        "**/node_modules/**",
+        "**/android/**",
+        "**/.git/**",
+        "**/dist/**"
+    ],
+    "files.watcherExclude": {
+        "**/android/node_modules/**": true,
+        "**/android/.gradle/**": true,
+        "**/android/build/**": true,
+        "**/android/app/build/**": true
+    }
 }

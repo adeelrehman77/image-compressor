@@ -21,7 +21,8 @@ const MAX_VERSION_CODE = 2147483647;
 function updateManifestChecksum() {
     if (!fs.existsSync(twaPath)) return;
     const checksum = crypto.createHash('sha1').update(fs.readFileSync(twaPath)).digest('hex');
-    fs.writeFileSync(checksumPath, `${checksum}\n`);
+    // Bubblewrap compares checksums with != and does not trim — no trailing newline.
+    fs.writeFileSync(checksumPath, checksum);
 }
 
 function patchGradle(versionCode, versionName) {
@@ -30,13 +31,17 @@ function patchGradle(versionCode, versionName) {
         return false;
     }
     let gradle = fs.readFileSync(gradlePath, 'utf8');
+    const hasCode = /versionCode\s+\d+/.test(gradle);
+    const hasName = /versionName\s+"[^"]*"/.test(gradle);
+    if (!hasCode || !hasName) {
+        throw new Error('sync-android-version: could not find versionCode/versionName in app/build.gradle');
+    }
     const next = gradle
         .replace(/versionCode\s+\d+/, `versionCode ${versionCode}`)
         .replace(/versionName\s+"[^"]*"/, `versionName "${versionName}"`);
-    if (next === gradle) {
-        throw new Error('sync-android-version: could not patch versionCode/versionName in app/build.gradle');
+    if (next !== gradle) {
+        fs.writeFileSync(gradlePath, next);
     }
-    fs.writeFileSync(gradlePath, next);
     return true;
 }
 
