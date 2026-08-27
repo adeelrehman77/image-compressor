@@ -2,6 +2,14 @@
 
 This project builds a static site into `dist/`. Cloudflare Pages serves that folder after each Git push.
 
+## Production deploy (summary)
+
+**Preferred:** push to `main`. Cloudflare runs `npm run build` then `npx wrangler deploy` with `[assets]` → `./dist`.
+
+**Emergency local:** `npm run predeploy && npm run deploy` (same Wrangler assets pipeline).
+
+There is no `pages:deploy` script — this project uses Workers static assets, not the legacy Pages-only upload flow.
+
 ## Prerequisites
 
 - A [Cloudflare](https://dash.cloudflare.com) account

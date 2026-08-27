@@ -215,9 +215,13 @@
                 const tabs = [...fresh.querySelectorAll('[role="tab"]')];
                 const cur = tabs.findIndex(t => t === document.activeElement);
                 if (cur === -1) return;
+                const rtl = document.documentElement.getAttribute('dir') === 'rtl'
+                    || getComputedStyle(fresh).direction === 'rtl';
                 let next = -1;
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); next = (cur + 1) % tabs.length; }
-                else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); next = (cur - 1 + tabs.length) % tabs.length; }
+                const goNext = e.key === 'ArrowDown' || (rtl ? e.key === 'ArrowLeft' : e.key === 'ArrowRight');
+                const goPrev = e.key === 'ArrowUp' || (rtl ? e.key === 'ArrowRight' : e.key === 'ArrowLeft');
+                if (goNext) { e.preventDefault(); next = (cur + 1) % tabs.length; }
+                else if (goPrev) { e.preventDefault(); next = (cur - 1 + tabs.length) % tabs.length; }
                 else if (e.key === 'Home') { e.preventDefault(); next = 0; }
                 else if (e.key === 'End') { e.preventDefault(); next = tabs.length - 1; }
                 if (next !== -1) {

@@ -90,7 +90,7 @@
 
         Sentry.init({
             dsn: DSN,
-            sendDefaultPii: true,
+            sendDefaultPii: false,
             release: releaseId(),
             environment: environment(),
         });

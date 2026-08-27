@@ -39,12 +39,12 @@
     <article class="guide-page max-width-wrap glass-panel legal-page">
         <p class="guide-breadcrumb"><a href="./">NexusCompress</a> · Privacy Policy</p>
         <h1>NexusCompress Privacy Policy</h1>
-        <p class="guide-lead"><strong>Last updated:</strong> May 21, 2026</p>
+        <p class="guide-lead"><strong>Last updated:</strong> August 27, 2026</p>
 
         <p><strong>NexusCompress</strong> (“we”, “our”, “the tool”) is a free media toolkit at <a href="https://compress.funadventure.ae/">https://compress.funadventure.ae/</a>, operated by Fun Adventure Media Studio. This policy explains how information is handled when you use NexusCompress.</p>
 
         <h2>1. Image processing — no uploads</h2>
-        <p><strong>Your images are not uploaded to our servers for compression.</strong> Resizing and compression run entirely in your web browser using JavaScript, Web Workers, and OffscreenCanvas. Files remain on your device unless you choose to download the results.</p>
+        <p><strong>Your images and documents are not uploaded to our servers for processing.</strong> Compression, conversion, PDF tools, ID photo studio, redaction, and similar features run in your web browser using JavaScript, Web Workers, WebAssembly, and canvas APIs. Files remain on your device unless you choose to download the results.</p>
 
         <h2>2. Cookies and similar technologies</h2>
         <p>We and our partners may use cookies, web beacons, and similar technologies to:</p>
@@ -65,21 +65,34 @@
         <p>For more information on how Google uses data when you use our partners’ sites or apps, see <a href="https://policies.google.com/technologies/partner-sites" rel="noopener noreferrer" target="_blank">How Google uses information from sites or apps that use our services</a>.</p>
 
         <h2>4. Google Analytics</h2>
-        <p>We may use <strong>Google Analytics 4</strong> to understand aggregate usage (pages visited, general location, device type). Analytics data is processed by Google according to the <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a>.</p>
+        <p>We may use <strong>Google Analytics 4</strong> (via Google Tag Manager) to understand aggregate usage (pages visited, general location, device type). Analytics data is processed by Google according to the <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a>.</p>
 
-        <h2>5. Local storage</h2>
-        <p>We may store compression settings and recent activity metadata in your browser’s <strong>local storage</strong> so NexusCompress remembers your preferences. This data does not leave your device except as described above for analytics and advertising.</p>
+        <h2>5. Error monitoring (Sentry)</h2>
+        <p>We use <strong>Sentry</strong> to capture application errors (for example failed scripts or unexpected exceptions) so we can fix bugs. Sentry is configured <strong>not</strong> to send default personally identifying information. Error reports may include technical details such as browser type, page URL, and stack traces. Your uploaded images and document contents are not sent to Sentry as part of normal operation.</p>
+        <p>Sentry’s processing is described in the <a href="https://sentry.io/privacy/" rel="noopener noreferrer" target="_blank">Sentry Privacy Policy</a>.</p>
 
-        <h2>6. Service worker (offline caching)</h2>
-        <p>We may cache parts of the application in your browser for faster loading. No personal images are stored in the cache.</p>
+        <h2>6. CDN scripts and on-device AI models</h2>
+        <p>Some tools load libraries or models from content delivery networks or our own host so features can run in your browser:</p>
+        <ul>
+            <li><strong>jsDelivr / similar CDNs</strong> — optional codecs and helper libraries (for example image codecs used during compression).</li>
+            <li><strong>face-api.js models</strong> — Photo Checker downloads face-detection models when you open that tool; inference runs locally in your browser.</li>
+            <li><strong>Self-hosted models</strong> — AI Upscaler and Remove Background use models served from our site and cached in your browser after first use.</li>
+        </ul>
+        <p>Downloading a library or model is not the same as uploading your files. Your photos and PDFs are still processed on-device; only the tool code/models are fetched over the network.</p>
 
-        <h2>7. Children’s privacy</h2>
+        <h2>7. Local storage</h2>
+        <p>We may store compression settings and preference flags in your browser’s <strong>local storage</strong> so NexusCompress remembers your choices. This data does not leave your device except as described above for analytics, advertising, and error monitoring.</p>
+
+        <h2>8. Service worker (offline caching)</h2>
+        <p>We may cache parts of the application shell in your browser for faster loading. No personal images are intentionally stored in the service worker cache. Full offline use still depends on whether required codecs or AI models have already been downloaded.</p>
+
+        <h2>9. Children’s privacy</h2>
         <p>NexusCompress is not directed at children under 13. We do not knowingly collect personal information from children.</p>
 
-        <h2>8. Changes to this policy</h2>
+        <h2>10. Changes to this policy</h2>
         <p>We may update this Privacy Policy from time to time. The “Last updated” date at the top will change when we do.</p>
 
-        <h2>9. Contact</h2>
+        <h2>11. Contact</h2>
         <p>Questions about this policy: <a href="mailto:info@funadventure.ae">info@funadventure.ae</a> (Fun Adventure Media Studio, operator of NexusCompress).</p>
 
         <p><a href="./" class="btn-primary guide-cta">Back to NexusCompress</a></p>

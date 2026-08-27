@@ -115,7 +115,7 @@
                 badge.textContent = tf('rbgModelCached', null, 'Model cached, ready instantly');
             } else {
                 cachedNote?.classList.add('is-hidden');
-                badge.textContent = tf('rbgModelReady', null, 'Model ready ✓');
+                badge.textContent = tf('rbgModelReady', null, 'Library ready — first run downloads ~40 MB');
             }
         } else if (state === 'error') {
             wrap?.classList.add('is-hidden');

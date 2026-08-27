@@ -1,5 +1,11 @@
 (function () {
     const { toast, formatBytes, downloadBlob, bindDropZone } = window.NexusTools;
+    const PREVIEW_CAP = 120000;
+
+    function tf(key, vars, fallback) {
+        const s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
+        return s || fallback || key;
+    }
 
     function optimizeSvg(source) {
         let s = source.trim();
@@ -38,25 +44,28 @@
         async function processSvgFile(file) {
             if (!file) return;
             if (!isSvgFile(file)) {
-                toast('Choose an SVG file.', 'warn');
+                toast(tf('svgChooseFile', null, 'Choose an SVG file.'), 'warn');
                 return;
             }
             try {
                 const text = await file.text();
-                before.value = text.slice(0, 120000);
-                beforeSize.textContent = `Original: ${formatBytes(file.size)}`;
+                before.value = text.slice(0, PREVIEW_CAP);
+                beforeSize.textContent = `${tf('svgOriginalLabel', null, 'Original')}: ${formatBytes(file.size)}`;
                 const out = optimizeSvg(text);
-                after.value = out.slice(0, 120000);
+                after.value = out.slice(0, PREVIEW_CAP);
                 const saved = Math.max(0, ((file.size - out.length) / file.size) * 100);
-                afterSize.textContent = `Optimized: ${formatBytes(out.length)} (${saved.toFixed(0)}% smaller)`;
+                afterSize.textContent = `${tf('svgOptimizedLabel', null, 'Optimized')}: ${formatBytes(out.length)} (${saved.toFixed(0)}% smaller)`;
                 optimizedBlob = new Blob([out], { type: 'image/svg+xml' });
                 dl.disabled = false;
                 document.getElementById('svg-empty')?.classList.add('is-hidden');
                 document.querySelector('.svg-editor')?.classList.remove('is-hidden');
-                toast('SVG optimized.', 'success');
+                if (text.length > PREVIEW_CAP || out.length > PREVIEW_CAP) {
+                    toast(tf('svgPreviewTruncated', null, 'Preview shows the first 120k characters — download still includes the full SVG.'), 'info');
+                }
+                toast(tf('svgOptimized', null, 'SVG optimized.'), 'success');
             } catch (err) {
                 NexusTools.reportError(err, { tool: 'svg' });
-                toast(err.message || 'Could not read SVG', 'error');
+                toast(err.message || tf('svgReadFailed', null, 'Could not read SVG'), 'error');
             }
         }
 

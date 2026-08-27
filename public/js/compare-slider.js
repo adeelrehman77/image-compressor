@@ -2,6 +2,10 @@
  * Shared before/after compare slider — used by compressor preview, modal, and AI upscaler.
  */
 (function () {
+    function isRtl(el) {
+        return getComputedStyle(el).direction === 'rtl';
+    }
+
     function setupCompareSlider(container, overlay, handle, overlayImg) {
         if (!container || !overlay || !handle || !overlayImg) return () => {};
 
@@ -9,7 +13,8 @@
         const setPct = (p) => {
             pct = Math.max(0, Math.min(100, p));
             overlay.style.width = `${pct}%`;
-            handle.style.left = `${pct}%`;
+            handle.style.left = '';
+            handle.style.insetInlineStart = `${pct}%`;
             container.setAttribute('aria-valuenow', String(Math.round(pct)));
         };
 
@@ -28,7 +33,9 @@
         const pointerX = (e) => {
             const rect = container.getBoundingClientRect();
             const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            setPct((x / rect.width) * 100);
+            let ratio = x / rect.width;
+            if (isRtl(container)) ratio = 1 - ratio;
+            setPct(ratio * 100);
         };
 
         let sliding = false;
@@ -54,13 +61,15 @@
         };
 
         const onKeyDown = (e) => {
+            const rtl = isRtl(container);
+            const step = 5;
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
-                setPct(pct - 5);
+                setPct(pct + (rtl ? step : -step));
             }
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
-                setPct(pct + 5);
+                setPct(pct + (rtl ? -step : step));
             }
             if (e.key === 'Home') {
                 e.preventDefault();

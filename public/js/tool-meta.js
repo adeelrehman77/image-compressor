@@ -149,7 +149,7 @@ window.__NEXUS_TOOL_META = {
                 'ICA, Emirates ID, and MOHRE portals reject photos that fail strict biometric rules. Run 10 automated checks on your portrait before submitting — face size, centreing, eyes open, white background, file size, and more.',
             title2: 'Powered by local face AI',
             intro2:
-                'face-api.js runs entirely in your browser. Models load only when you open this tab (~1.5 MB once), then stay cached. Your passport photo never touches a server.',
+                'face-api.js runs entirely in your browser. Models load only when you open this tab (~0.5 MB once for detector + landmarks), then stay cached. Your passport photo never touches a server.',
             title3: 'Fix issues in one click',
             intro3:
                 'Failed checks link straight to ID Photo Studio with your photo loaded — crop to 35×45 mm, align your face, and export a portal-ready JPEG under 200 KB.',
@@ -178,6 +178,18 @@ window.__NEXUS_TOOL_META = {
             intro3:
                 'Choose 2× or 4× upscale, export JPEG or PNG, optionally compress before download, and compare before/after with the built-in slider.',
         },
+        'image-cropper': {
+            h1: 'NexusCompress — Image Cropper',
+            title1: 'Crop, rotate, and flip locally',
+            intro1:
+                'Crop JPEG, PNG, and WebP (plus HEIC after on-device conversion) with custom ratios or UAE ID sizes — then export or send the result to the compressor.',
+            title2: 'Built for ID photos',
+            intro2:
+                'Quick presets for 35×45 mm and other common ratios, with rotate and flip before export — without uploading your portrait to a server.',
+            title3: 'Privacy first',
+            intro3:
+                'All cropping happens in your browser. No account, no cloud storage, and results ready for portals or sharing.',
+        },
         'collage-maker': {
             h1: 'NexusCompress — Photo Collage Maker',
             title1: 'Combine photos in seconds',
@@ -197,7 +209,7 @@ window.__NEXUS_TOOL_META = {
                 'Drop a portrait or product photo and erase the background with a local ONNX model — no cloud upload, no account. Download a transparent PNG ready for listings, stickers, or compositing.',
             title2: 'One-time model download',
             intro2:
-                'The ~40 MB AI model downloads once and caches in your browser. Compare before and after with a draggable slider, feather edges, and optionally fill with white, black, or your own photo.',
+                'The tool library loads first; the first remove run downloads ~40 MB of model weights and caches them in your browser. Compare before and after with a slider, feather edges, and optionally fill with white, black, or your own photo.',
             title3: 'PNG transparency preserved',
             intro3:
                 'Output is always PNG so alpha channels stay intact. Use the optional background replace panel to preview solid colours or cover-fit images behind your subject before download.',

@@ -217,7 +217,10 @@ async function main() {
         }, { timeout: 10000 });
         pass('PDF split shows file info');
 
-        await page.click('#pdf-split-btn');
+        await page.evaluate(() => {
+            document.getElementById('pdf-split-btn')?.scrollIntoView({ block: 'center' });
+            document.getElementById('pdf-split-btn')?.click();
+        });
         await page.waitForFunction(() => {
             const btn = document.getElementById('pdf-split-btn');
             return btn && !btn.disabled;

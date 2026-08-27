@@ -195,4 +195,24 @@ if (!fs.existsSync(path.join(distDir, 'js/tool-routes.js'))) {
     throw new Error('verify-dist: missing js/tool-routes.js');
 }
 
+// Guard: every data-i18n key in index.html must exist in both en and ar i18n packs
+{
+    const i18nPath = path.join(distDir, 'js/i18n.js');
+    if (!fs.existsSync(i18nPath)) {
+        throw new Error('verify-dist: missing dist/js/i18n.js');
+    }
+    const i18nSrc = fs.readFileSync(i18nPath, 'utf8');
+    const keys = [...new Set([...enHtmlRaw.matchAll(/data-i18n(?:-html)?="([^"]+)"/g)].map((m) => m[1]))];
+    const missing = [];
+    for (const key of keys) {
+        const re = new RegExp(`(?:^|[\\s,{])${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*:`);
+        const matches = i18nSrc.match(new RegExp(re.source, 'g')) || [];
+        // Expect at least one en + one ar occurrence (two definitions)
+        if (matches.length < 2) missing.push(key);
+    }
+    if (missing.length) {
+        throw new Error(`verify-dist: data-i18n keys missing from i18n en/ar packs: ${missing.slice(0, 20).join(', ')}${missing.length > 20 ? ` (+${missing.length - 20} more)` : ''}`);
+    }
+}
+
 console.log(`verify-dist: OK (v${pkgVersion}) — dist/index.html & dist/ar/index.html`);

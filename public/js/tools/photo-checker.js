@@ -155,7 +155,6 @@
                 await Promise.all([
                     faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_BASE),
                     faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_BASE),
-                    faceapi.nets.faceExpressionNet.loadFromUri(MODEL_BASE),
                 ]);
                 setLoadStep('pc', 3);
                 modelsReady = true;

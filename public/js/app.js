@@ -1,6 +1,5 @@
 (function () {
     const STORAGE_KEY = 'nexuscompress-settings';
-    const HISTORY_KEY = 'nexuscompress-history';
     const WORKER_POOL_SIZE = 3;
     const MAX_FILE_BYTES = 25 * 1024 * 1024;
     const MAX_BATCH_FILES = 20;
@@ -1094,7 +1093,6 @@
             statusKind = 'success';
         }
         updateTaskStatus(task.id, statusLabel, statusKind);
-        pushHistory(task);
         saveSettings();
     }
 
@@ -2072,18 +2070,6 @@
         function () {
             return () => {};
         };
-
-    function pushHistory(task) {
-        try {
-            const hist = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-            hist.unshift({
-                name: task.file.name,
-                saved: task.savedRatio,
-                at: Date.now(),
-            });
-            localStorage.setItem(HISTORY_KEY, JSON.stringify(hist.slice(0, 50)));
-        } catch { /* ignore */ }
-    }
 
     function toast(message, type = 'info') {
         const el = document.createElement('div');

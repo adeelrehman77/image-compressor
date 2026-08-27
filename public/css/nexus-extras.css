@@ -15,6 +15,21 @@ html .compare-overlay {
     transition: none;
 }
 
+/* Compare slider — logical inset for RTL */
+.compare-overlay {
+    left: auto;
+    right: auto;
+    inset-inline-start: 0;
+    border-right: none;
+    border-inline-end: 2px solid var(--accent-soft, var(--accent));
+}
+.compare-handle {
+    left: auto;
+    right: auto;
+}
+[dir="rtl"] .compare-stage-label--before { text-align: right; }
+[dir="rtl"] .compare-stage-label--after { text-align: left; margin-left: 0; margin-inline-start: auto; }
+
 /* ===== PWA Install Banner ===== */
 #pwa-install-banner {
     position: fixed;

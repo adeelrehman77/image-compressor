@@ -321,7 +321,15 @@ window.__NEXUS_I18N = {
         fmtOptAvif: 'AVIF — smallest files',
         fmtOptJpeg: 'JPEG — universal',
         fmtOptPng: 'PNG — lossless',
-        fmtFormatHint: 'WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%.',
+        fmtFormatHint: 'WebP and AVIF produce smaller files than JPEG. PNG keeps full transparency. Conversion quality is 92%. GIF keeps the first frame only.',
+        fmtGifFirstFrame: 'GIF files keep the first frame only when converting.',
+        fmtAvifFallback: 'This browser could not encode AVIF — saved with a supported format instead.',
+        svgChooseFile: 'Choose an SVG file.',
+        svgOriginalLabel: 'Original',
+        svgOptimizedLabel: 'Optimized',
+        svgOptimized: 'SVG optimized.',
+        svgReadFailed: 'Could not read SVG',
+        svgPreviewTruncated: 'Preview shows the first 120k characters — download still includes the full SVG.',
         heicHowItWorksHtml: 'Uses the <strong>heic-to</strong> library (libheif, CSP-safe) to decode Apple HEIC/HEIF files directly in your browser. Files are never uploaded — conversion is 100% local and private.',
         fmtHowItWorksHtml: 'Uses the browser\'s built-in <strong>OffscreenCanvas API</strong> to re-encode images client-side. No server involved, no account required — files are converted and downloaded directly in your browser.',
         convertAll: 'Convert all',
@@ -584,7 +592,7 @@ window.__NEXUS_I18N = {
         rbgStep3: '✅ Ready',
         rbgModelFirstTime: 'First visit downloads ~40 MB — cached in your browser after that',
         rbgModelCached: 'Model cached, ready instantly',
-        rbgModelReady: 'Model ready ✓',
+        rbgModelReady: 'Library ready — first run downloads ~40 MB',
         rbgModelError: 'Could not load AI model. Check your connection and try again.',
         rbgModelRetry: 'Retry',
         rbgDropAria: 'Drop an image to remove background',
@@ -1236,7 +1244,15 @@ window.__NEXUS_I18N = {
         fmtOptAvif: 'AVIF — أصغر الملفات',
         fmtOptJpeg: 'JPEG — توافق عالمي',
         fmtOptPng: 'PNG — بدون فقدان',
-        fmtFormatHint: 'WebP وAVIF أصغر من JPEG. PNG يحافظ على الشفافية. جودة التحويل 92%.',
+        fmtFormatHint: 'WebP وAVIF أصغر من JPEG. PNG يحافظ على الشفافية. جودة التحويل 92%. GIF يحتفظ بالإطار الأول فقط.',
+        fmtGifFirstFrame: 'ملفات GIF تحتفظ بالإطار الأول فقط عند التحويل.',
+        fmtAvifFallback: 'تعذّر ترميز AVIF في هذا المتصفح — تم الحفظ بصيغة مدعومة بدلاً من ذلك.',
+        svgChooseFile: 'اختر ملف SVG.',
+        svgOriginalLabel: 'الأصلي',
+        svgOptimizedLabel: 'المحسّن',
+        svgOptimized: 'تم تحسين SVG.',
+        svgReadFailed: 'تعذّر قراءة SVG',
+        svgPreviewTruncated: 'المعاينة تعرض أول 120 ألف حرف — التحميل يتضمن ملف SVG كاملاً.',
         heicHowItWorksHtml: 'يستخدم مكتبة <strong>heic-to</strong> (libheif) لفك ترميز HEIC/HEIF من Apple مباشرة في متصفحك. لا تُرفع الملفات — التحويل محلي 100% وخاص.',
         fmtHowItWorksHtml: 'يستخدم <strong>OffscreenCanvas API</strong> المدمج في المتصفح لإعادة ترميز الصور. لا خادم ولا حساب — التحميل مباشرة من متصفحك.',
         convertAll: 'تحويل الكل',
@@ -1499,7 +1515,7 @@ window.__NEXUS_I18N = {
         rbgStep3: '✅ جاهز',
         rbgModelFirstTime: 'الزيارة الأولى تنزّل ~40 ميغابايت — تُخزّن في متصفحك بعد ذلك',
         rbgModelCached: 'النموذج مخزّن، جاهز فوراً',
-        rbgModelReady: 'النموذج جاهز ✓',
+        rbgModelReady: 'المكتبة جاهزة — التشغيل الأول يحمّل حوالي 40 م.ب',
         rbgModelError: 'تعذّر تحميل نموذج الذكاء الاصطناعي. تحقق من الاتصال وحاول مجدداً.',
         rbgModelRetry: 'إعادة المحاولة',
         rbgDropAria: 'أسقط صورة لإزالة الخلفية',
@@ -2024,7 +2040,7 @@ window.__NEXUS_I18N_SEO = {
                 'بوابات ICA والهوية الإماراتية وMOHRE ترفض الصور التي لا تلبي قواعد القياسات الحيوية. شغّل 10 فحوصات آلية على صورتك قبل التقديم.',
             title2: 'ذكاء اصطناعي محلي',
             intro2:
-                'يعمل face-api.js بالكامل في متصفحك. تُحمّل النماذج عند فتح هذا التبويب (~1.5 م.ب مرة واحدة) ثم تُخزّن مؤقتاً. صورتك لا تُرفع أبداً.',
+                'يعمل face-api.js بالكامل في متصفحك. تُحمّل نماذج كشف الوجه والمعالم عند فتح هذا التبويب (~0.5 م.ب مرة واحدة) ثم تُخزّن مؤقتاً. صورتك لا تُرفع أبداً.',
             title3: 'إصلاح بنقرة',
             intro3:
                 'الفحوصات الفاشلة تربطك مباشرة باستوديو صور الهوية مع تحميل صورتك — قص 35×45 مم وصدّر JPEG جاهز للبوابة.',
@@ -2052,6 +2068,66 @@ window.__NEXUS_I18N_SEO = {
             title3: 'يعمل دون إنترنت بعد التحميل الأول',
             intro3:
                 'اختر ٢× أو ٤×، صدّر JPEG أو PNG، اضغط اختيارياً قبل التحميل، وقارن قبل/بعد بالمنزلق المدمج.',
+        },
+        'heic-converter': {
+            h1: 'NexusCompress — محوّل HEIC / HEIF',
+            title1: 'حوّل صور الآيفون فوراً',
+            intro1:
+                'ملفات HEIC وHEIF من الآيفون غالباً لا تُفتح على ويندوز أو عند المشاركة. أسقط صورك هنا وحوّلها إلى JPEG أو PNG أو WebP في ثوانٍ — بدون رفع سحابي وبدون حساب، بالكامل في متصفحك.',
+            title2: 'تحويل دفعي وتحميل ZIP',
+            intro2:
+                'أضف ما تشاء من ملفات HEIC، اختر صيغة الإخراج مرة واحدة، وحمّل كل النتائج في ZIP واحد. الملفات تبقى على جهازك طوال العملية.',
+            title3: 'مجاني وخاص بدون تثبيت',
+            intro3:
+                'التحويل محلي عبر مكتبة heic-to (libheif) — لا تغادر بياناتك المتصفح. يعمل على ويندوز وماك ولينكس دون iTunes أو حزم كودك.',
+        },
+        'format-converter': {
+            h1: 'NexusCompress — محوّل صيغ الصور',
+            title1: 'بدّل الصيغة بجودة عالية',
+            intro1:
+                'حوّل JPEG وPNG وWebP وAVIF وGIF إلى أي صيغة حديثة بجودة 92%. WebP وAVIF أصغر؛ PNG يحافظ على الشفافية؛ JPEG للتوافق الأوسع.',
+            title2: 'تحويل دفعي مع مقارنة الحجم',
+            intro2:
+                'أسقط عدة صور، اختر صيغة إخراج واحدة، وحوّل الكل بنقرة. كل ملف يعرض الحجم قبل وبعد ونسبة التوفير.',
+            title3: 'كله في المتصفح — بلا رفع',
+            intro3:
+                'يستخدم OffscreenCanvas في المتصفح — بلا خادم وبلا حساب. حمّل فردياً أو كـ ZIP. ملفات GIF تحتفظ بالإطار الأول فقط.',
+        },
+        'image-cropper': {
+            h1: 'NexusCompress — مقص الصور',
+            title1: 'قصّ ودوران وقلب محلياً',
+            intro1:
+                'قصّ JPEG وPNG وWebP (وHEIC بعد التحويل) بنسب مخصّصة أو إعدادات الهوية الإماراتية — ثم صدّر أو أرسل للضاغط.',
+            title2: 'جاهز لصور الهوية',
+            intro2:
+                'إعدادات سريعة لـ 35×45 مم وغيرها، مع تدوير وقلب قبل التصدير — بدون رفع الصورة لخادم.',
+            title3: 'خصوصية أولاً',
+            intro3:
+                'كل القص يتم في متصفحك. لا حساب، لا تخزين سحابي، ونتائج جاهزة للبوابات أو المشاركة.',
+        },
+        'collage-maker': {
+            h1: 'NexusCompress — صانع الكولاج',
+            title1: 'اجمع صوراً في ثوانٍ',
+            intro1:
+                'رتّب صورتين إلى أربع في تخطيط شبكي أو جانبي أو مجلّة — لإنستغرام وفيسبوك ومقارنات قبل/بعد. كل شيء في المتصفح بلا رفع.',
+            title2: 'أحجام جاهزة للشبكات',
+            intro2:
+                'مربع 1080، ستوري، غلاف فيسبوك، أو مقاس مخصّص. اضبط الفراغ والزوايا ولون الخلفية وملاءمة الصور قبل التصدير.',
+            title3: 'ثم اضغط إن احتجت',
+            intro3:
+                'حمّل JPEG أو PNG أو WebP، ويمكنك إرسال الكولاج مباشرة لتبويب الضاغط لتصغير الحجم قبل المشاركة.',
+        },
+        'remove-bg': {
+            h1: 'NexusCompress — إزالة الخلفية',
+            title1: 'قصّ ذكي في المتصفح',
+            intro1:
+                'أسقط صورة شخصية أو منتج وازل الخلفية بنموذج ONNX محلي — بلا رفع وبلا حساب. صدّر PNG شفافاً للقوائم والملصقات.',
+            title2: 'تحميل النموذج مرة واحدة',
+            intro2:
+                'مكتبة الأداة تُجهَّز أولاً؛ التشغيل الأول يحمّل أوزان النموذج (~40 م.ب) ثم تُخزَّن مؤقتاً في متصفحك للمعالجة الفورية لاحقاً.',
+            title3: 'شفافية PNG محفوظة',
+            intro3:
+                'المخرجات PNG دائماً. يمكنك تنعيم الحواف واستبدال الخلفية بلون أو صورة قبل التحميل.',
         },
     },
 };

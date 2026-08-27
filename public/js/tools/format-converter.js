@@ -89,6 +89,9 @@
                 fileItems.push(item);
                 renderItem(item);
             });
+            if (valid.some((f) => f.type === 'image/gif' || /\.gif$/i.test(f.name || ''))) {
+                toast(tf('fmtGifFirstFrame', null, 'GIF files keep the first frame only when converting.'), 'info');
+            }
             fileList?.classList.remove('is-hidden');
             if (convertBtn) convertBtn.disabled = false;
             syncDlAllBtn();
@@ -154,7 +157,11 @@
                 item.url = URL.createObjectURL(blob);
                 item.status = 'done';
 
-                const ext = mimeToExt(outputFormat);
+                const actualMime = blob.type && blob.type.startsWith('image/') ? blob.type : outputFormat;
+                const ext = mimeToExt(actualMime);
+                if (outputFormat === 'image/avif' && actualMime !== 'image/avif') {
+                    toast(tf('fmtAvifFallback', null, 'This browser could not encode AVIF — saved with a supported format instead.'), 'warn');
+                }
                 const baseName = item.file.name.replace(/\.[^.]+$/, '');
                 const outName = `${baseName}.${ext}`;
 
@@ -220,15 +227,17 @@
             }
             if (done.length === 1) {
                 const item = done[0];
-                const ext = mimeToExt(outputFormat);
+                const mime = item.blob?.type && item.blob.type.startsWith('image/') ? item.blob.type : outputFormat;
+                const ext = mimeToExt(mime);
                 downloadBlob(item.blob, `${item.file.name.replace(/\.[^.]+$/, '')}.${ext}`, 'format-converter');
                 return;
             }
             try {
                 const JSZip = await loadJsZip();
                 const zip = new JSZip();
-                const ext = mimeToExt(outputFormat);
                 done.forEach((item) => {
+                    const mime = item.blob?.type && item.blob.type.startsWith('image/') ? item.blob.type : outputFormat;
+                    const ext = mimeToExt(mime);
                     zip.file(`${item.file.name.replace(/\.[^.]+$/, '')}.${ext}`, item.blob);
                 });
                 const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
