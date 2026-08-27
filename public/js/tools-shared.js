@@ -30,25 +30,12 @@ window.NexusTools = (function () {
     function resolveAsset(src) {
         if (!src || /^(https?:|\/)/.test(src)) return src;
         const normalized = src.replace(/^\.\//, '');
-        const path = location.pathname || '/';
-        // Phase 3 tool entry points live at /tools/{slug}/ — relative js/vendor paths
-        // must resolve from site root, not the nested directory (otherwise ensureTool 404s).
-        if (path.includes('/tools/')) {
-            return `/${normalized}`;
-        }
-        if (window.__NEXUS_ASSET_PREFIX != null) {
-            return `${window.__NEXUS_ASSET_PREFIX}${normalized}`;
-        }
-        if (path === '/ar' || path === '/ar/' || path.indexOf('/ar/') === 0) return `../${normalized}`;
-        return normalized;
+        // Always site-root absolute so /, /ar/, /tools/*, and /ar/tools/* all resolve.
+        return `/${normalized}`;
     }
 
     function assetPrefix() {
-        if (window.__NEXUS_ASSET_PREFIX != null) return window.__NEXUS_ASSET_PREFIX;
-        var path = location.pathname || '/';
-        if (path.includes('/tools/')) return '/';
-        if (path === '/ar' || path === '/ar/' || path.indexOf('/ar/') === 0) return '../';
-        return '';
+        return '/';
     }
 
     function assetUrl(src) {
@@ -109,25 +96,28 @@ window.NexusTools = (function () {
 
     function loadScript(src) {
         if (scriptPromises[src]) return scriptPromises[src];
-        const existing = document.querySelector(`script[data-nexus-src="${src}"]`);
+        let existing = document.querySelector(`script[data-nexus-src="${src}"]`);
         if (existing?.dataset.ready === '1') return Promise.resolve();
+        // Stale/failed or in-flight without a tracked promise — drop and reload cleanly.
+        if (existing) {
+            existing.remove();
+            existing = null;
+        }
 
+        const url = assetUrl(src);
         scriptPromises[src] = new Promise((resolve, reject) => {
-            const done = () => resolve();
-            const fail = () => reject(new Error(`Failed to load ${src}`));
-            if (existing) {
-                existing.addEventListener('load', done, { once: true });
-                existing.addEventListener('error', fail, { once: true });
-                return;
-            }
             const s = document.createElement('script');
-            s.src = assetUrl(src);
+            s.src = url;
             s.dataset.nexusSrc = src;
             s.onload = () => {
                 s.dataset.ready = '1';
                 resolve();
             };
-            s.onerror = fail;
+            s.onerror = () => {
+                delete scriptPromises[src];
+                s.remove();
+                reject(new Error(`Failed to load ${src}`));
+            };
             document.body.appendChild(s);
         });
         return scriptPromises[src];
@@ -141,7 +131,11 @@ window.NexusTools = (function () {
             s.src = src;
             s.crossOrigin = 'anonymous';
             s.onload = () => resolve();
-            s.onerror = () => reject(new Error(`Failed to load ${src}`));
+            s.onerror = () => {
+                delete scriptPromises[key];
+                s.remove();
+                reject(new Error(`Failed to load ${src}`));
+            };
             document.body.appendChild(s);
         });
         return scriptPromises[key];
@@ -311,7 +305,11 @@ window.NexusTools = (function () {
             s.src = assetUrl('vendor/pdf-lib.min.js');
             s.async = true;
             s.onload = () => resolve(window.PDFLib);
-            s.onerror = () => reject(new Error('Could not load PDF library'));
+            s.onerror = () => {
+                pdfLibPromise = null;
+                s.remove();
+                reject(new Error('Could not load PDF library'));
+            };
             document.head.appendChild(s);
         });
         return pdfLibPromise;

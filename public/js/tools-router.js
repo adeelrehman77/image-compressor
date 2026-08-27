@@ -107,7 +107,15 @@
         }
     }
 
+    function isLikelyBot() {
+        const ua = navigator.userAgent || '';
+        return /Googlebot|Google-InspectionTool|bingbot|BingPreview|DuckDuckBot|Baiduspider|YandexBot|facebookexternalhit|Slackbot|Twitterbot|LinkedInBot|Applebot|SemrushBot|AhrefsBot|PetalBot|Bytespider/i.test(
+            ua
+        );
+    }
+
     function shouldPreloadToolsIdle() {
+        if (isLikelyBot()) return false;
         if (window.matchMedia('(max-width: 780px)').matches) return false;
         const conn = navigator.connection;
         if (conn?.saveData) return false;

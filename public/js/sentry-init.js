@@ -116,6 +116,21 @@
                 ) {
                     return null;
                 }
+                const ua =
+                    event.request?.headers?.['User-Agent'] ||
+                    (typeof navigator !== 'undefined' ? navigator.userAgent : '') ||
+                    '';
+                const isBot =
+                    /Googlebot|Google-InspectionTool|bingbot|BingPreview|DuckDuckBot|Baiduspider|YandexBot|facebookexternalhit|Slackbot|Twitterbot|LinkedInBot|Applebot|SemrushBot|AhrefsBot|PetalBot|Bytespider/i.test(
+                        ua
+                    );
+                const msg = event.exception?.values?.[0]?.value || '';
+                if (
+                    isBot &&
+                    (/Failed to load /i.test(msg) || /Could not load PDF library/i.test(msg))
+                ) {
+                    return null;
+                }
                 return event;
             },
         });
