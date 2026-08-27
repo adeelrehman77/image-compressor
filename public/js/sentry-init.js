@@ -93,6 +93,31 @@
             sendDefaultPii: false,
             release: releaseId(),
             environment: environment(),
+            // Cloudflare Web Analytics (beacon.min.js) uses Array/String.prototype.at,
+            // which throws on older browsers; not our app code.
+            denyUrls: [
+                /beacon\.min\.js/i,
+                /static\.cloudflareinsights\.com/i,
+                /cdn-cgi\/rum/i,
+            ],
+            ignoreErrors: [
+                /t\.entries\.at is not a function/i,
+                /this\.i\.at is not a function/i,
+                /\.at is not a function/i,
+                /ResizeObserver loop/i,
+            ],
+            beforeSend(event) {
+                const frames =
+                    event.exception?.values?.flatMap((v) => v.stacktrace?.frames || []) || [];
+                if (
+                    frames.some((f) =>
+                        /beacon\.min\.js|cloudflareinsights|cdn-cgi\/rum/i.test(f.filename || '')
+                    )
+                ) {
+                    return null;
+                }
+                return event;
+            },
         });
 
         attachHelpers();
