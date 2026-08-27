@@ -56,9 +56,9 @@ android {
     defaultConfig {
         applicationId "ae.funadventure.nexuscompress"
         minSdkVersion 21
-        targetSdkVersion 36
-        versionCode 9
-        versionName "1"
+        targetSdkVersion 35
+        versionCode 11
+        versionName "11"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

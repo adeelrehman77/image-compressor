@@ -20,8 +20,8 @@
     "path": "./android.keystore",
     "alias": "nexuscompress"
   },
-  "appVersionName": "1",
-  "appVersionCode": 9,
+  "appVersionName": "11",
+  "appVersionCode": 11,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://compress.funadventure.ae/manifest.json",
@@ -53,5 +53,5 @@
     "standalone",
     "minimal-ui"
   ],
-  "appVersion": "1"
+  "appVersion": "11"
 }
