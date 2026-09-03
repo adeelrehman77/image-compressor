@@ -223,9 +223,21 @@ window.NexusTools = (function () {
 
     function loadTesseract() {
         if (tesseractPromise) return tesseractPromise;
+        // CDN ESM build exports { default: { createWorker, ... } } — not named exports.
         tesseractPromise = import(
-            'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js'
-        );
+            'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.esm.min.js'
+        )
+            .then((mod) => {
+                const api = mod?.createWorker ? mod : mod?.default;
+                if (typeof api?.createWorker !== 'function') {
+                    throw new Error('Tesseract.js loaded but createWorker is unavailable');
+                }
+                return api;
+            })
+            .catch((err) => {
+                tesseractPromise = null;
+                throw err;
+            });
         return tesseractPromise;
     }
 
@@ -234,7 +246,7 @@ window.NexusTools = (function () {
         const langList = langKey.split('+').filter(Boolean);
         const { createWorker } = await loadTesseract();
         const options = {
-            workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+            workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',
             logger: (m) => {
                 if (m.status === 'recognizing text' && typeof onProgress === 'function') {
                     onProgress(m.progress || 0);
