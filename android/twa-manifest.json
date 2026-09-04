@@ -21,7 +21,7 @@
     "alias": "nexuscompress"
   },
   "appVersionName": "20260626.1936",
-  "appVersionCode": 18,
+  "appVersionCode": 19,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://compress.funadventure.ae/manifest.json",

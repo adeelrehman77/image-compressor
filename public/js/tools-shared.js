@@ -379,7 +379,12 @@ window.NexusTools = (function () {
 
     function isExpectedImageError(err) {
         const msg = (err?.message || String(err)).toLowerCase();
-        return msg.includes('decode')
+        const name = (err?.name || '').toLowerCase();
+        return name === 'notreadableerror'
+            || msg.includes('notreadableerror')
+            || msg.includes('could not be read')
+            || msg.includes('permission problems')
+            || msg.includes('decode')
             || msg.includes('could not be decoded')
             || msg.includes('invalid')
             || msg.includes('format')

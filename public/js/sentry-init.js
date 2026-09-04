@@ -105,6 +105,8 @@
                 /this\.i\.at is not a function/i,
                 /\.at is not a function/i,
                 /ResizeObserver loop/i,
+                /NotReadableError/i,
+                /requested file could not be read/i,
             ],
             beforeSend(event) {
                 const frames =

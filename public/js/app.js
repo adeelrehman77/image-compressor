@@ -881,15 +881,39 @@
         updateMemoryGuardNotice(hasOversized, isLargeBatch);
 
         showResultsArea();
-        valid.forEach((file) => enqueueFile(file));
+        // Snapshot bytes before clearing <input> — Android Chrome can revoke File
+        // handles after value='' and later reads throw NotReadableError.
+        void enqueueFiles(valid);
+    }
+
+    async function snapshotFile(file) {
+        const buf = await file.arrayBuffer();
+        return new File([buf], file.name, {
+            type: file.type || '',
+            lastModified: file.lastModified || Date.now(),
+        });
+    }
+
+    async function enqueueFiles(files) {
+        let added = 0;
+        for (const file of files) {
+            try {
+                await enqueueFile(file);
+                added += 1;
+            } catch (err) {
+                toast(`${file.name}: ${getFriendlyError(err)}`, 'error');
+            }
+        }
         els['file-input'].value = '';
         els['folder-input'].value = '';
         syncWorkflowUI();
-        if (!state.selectedTaskId && valid.length) {
+        if (!state.selectedTaskId && added) {
             const lastTask = [...state.tasks.values()].filter((t) => t.status === 'pending').pop();
             if (lastTask) selectTask(lastTask.id);
         }
-        toast(`${valid.length} file(s) added — configure settings, then start compression.`, 'info');
+        if (added) {
+            toast(`${added} file(s) added — configure settings, then start compression.`, 'info');
+        }
     }
 
     function startCompression() {
@@ -915,17 +939,18 @@
         toast(`Compressing ${pending.length} file(s) with your current settings…`, 'info');
     }
 
-    function enqueueFile(file) {
+    async function enqueueFile(file) {
+        const stable = await snapshotFile(file);
         const id = `task-${crypto.randomUUID().slice(0, 9)}`;
-        const originalUrl = URL.createObjectURL(file);
+        const originalUrl = URL.createObjectURL(stable);
         trackUrl(id, originalUrl);
 
         const task = {
             id,
-            file,
+            file: stable,
             config: null,
             originalUrl,
-            originalSize: file.size,
+            originalSize: stable.size,
             status: 'pending',
         };
         state.tasks.set(id, task);
@@ -1880,6 +1905,19 @@
 
     function getFriendlyError(err) {
         const msg = (err?.message || String(err)).toLowerCase();
+        const name = (err?.name || '').toLowerCase();
+        if (
+            name === 'notreadableerror' ||
+            msg.includes('notreadableerror') ||
+            msg.includes('could not be read') ||
+            msg.includes('permission problems')
+        ) {
+            return tf(
+                'errFileUnreadable',
+                null,
+                'Could not read this file. Please choose it again and compress without leaving the page.'
+            );
+        }
         if (msg.includes('too large') || msg.includes('size')) return tf('errTooLarge', null, 'This file is too large. Try a smaller image (under 25 MB).');
         if (msg.includes('decode') || msg.includes('invalid') || msg.includes('format')) return tf('errBadFile', null, "We couldn't read this image. Make sure it's a valid JPEG, PNG, WebP, or AVIF file.");
         if (msg.includes('memory') || msg.includes('oom')) return tf('errMemory', null, 'Your device ran out of memory. Close other browser tabs and try again.');
