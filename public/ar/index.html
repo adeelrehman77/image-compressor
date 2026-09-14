@@ -35,10 +35,11 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <!-- Google Search Console: add verification meta tag from Search Console → Settings → Ownership verification -->
     <title>ضاغط صور مجاني | NexusCompress</title>
+    <!-- locale.js stays sync: sets lang/dir/__NEXUS_LOCALE before paint (critical for /ar/ RTL) -->
     <script src="../js/locale.js?v=20260626.1936"></script>
-    <script src="../js/i18n.js?v=20260626.1936"></script>
-    <script src="../js/tool-meta.js?v=20260626.1936"></script>
-    <script src="../js/tool-routes.js?v=20260626.1936"></script>
+    <script src="../js/i18n.js?v=20260626.1936" defer></script>
+    <script src="../js/tool-meta.js?v=20260626.1936" defer></script>
+    <script src="../js/tool-routes.js?v=20260626.1936" defer></script>
     <!-- SEO: #hash tools share this URL — never add FAQPage JSON-LD here (see scripts/seo-faq-policy.js). -->
     <script type="application/ld+json">
     {
@@ -252,6 +253,7 @@
         </div>
     </header>
 
+    <main class="app-main">
     <div id="tool-panel-compress" class="tool-panel" data-tool-panel="compress" role="tabpanel" aria-labelledby="tab-compress" tabindex="0">
     <div class="compress-workspace max-width-wrap">
         <header class="compress-hero">
@@ -277,18 +279,18 @@
 
         <div class="app-grid compress-app-grid">
             <nav class="workflow-steps workflow-steps--redesign compress-workflow-strip" aria-label="How it works">
-                <div class="workflow-steps__list" role="list">
-                    <div class="workflow-steps__item is-active" data-step="upload" role="listitem">
+                <div class="workflow-steps__list">
+                    <div class="workflow-steps__item is-active" data-step="upload">
                         <span class="workflow-steps__num" aria-hidden="true">1</span>
                         <span class="workflow-steps__label"><strong data-i18n="stepAdd">إضافة ملفات</strong></span>
                     </div>
                     <span class="workflow-steps__arrow" aria-hidden="true">→</span>
-                    <div class="workflow-steps__item" data-step="settings" role="listitem">
+                    <div class="workflow-steps__item" data-step="settings">
                         <span class="workflow-steps__num" aria-hidden="true">2</span>
                         <span class="workflow-steps__label"><strong data-i18n="stepConfigure">الإعدادات</strong></span>
                     </div>
                     <span class="workflow-steps__arrow" aria-hidden="true">→</span>
-                    <div class="workflow-steps__item" data-step="download" role="listitem">
+                    <div class="workflow-steps__item" data-step="download">
                         <span class="workflow-steps__num" aria-hidden="true">3</span>
                         <span class="workflow-steps__label"><strong data-i18n="stepReview">مراجعة وتصدير</strong></span>
                     </div>
@@ -2068,7 +2070,7 @@
     <div class="below-app max-width-wrap">
         <aside class="ad-slot ad-slot--primary glass-panel" data-nexus-ad="primary" aria-label="Advertisement"></aside>
 
-        <footer class="marketing-footer" role="contentinfo">
+        <footer class="marketing-footer">
         <section class="seo-marketing" aria-labelledby="seo-heading">
             <header class="marketing-footer__hero">
                 <h2 id="seo-heading" class="seo-heading">NexusCompress — ضاغط صور مجاني على الإنترنت</h2>
@@ -2192,6 +2194,7 @@
             </details>
         </section>
     </div>
+    </main>
 
     <footer class="site-footer site-compliance-footer max-width-wrap" id="site-compliance-footer">
         <p class="gov-disclaimer" data-i18n-html="govDisclaimerHtml">NexusCompress أداة مستقلة من <strong>Fun Adventure Media Studio</strong>. <strong>ليست تابعة لأي جهة حكومية</strong> ولا معتمدة منها. إعدادات البوابات مبنية على حدود منشورة علناً — تحقق من المتطلبات على: <a href="https://www.ica.gov.ae/" rel="noopener noreferrer" target="_blank">ICA (ica.gov.ae)</a>، <a href="https://www.mohre.gov.ae/" rel="noopener noreferrer" target="_blank">MOHRE (mohre.gov.ae)</a>، <a href="https://u.ae/" rel="noopener noreferrer" target="_blank">بوابة الإمارات (u.ae)</a>.</p>
@@ -2284,11 +2287,10 @@
     <script src="../js/tools-shared.js?v=20260626.1936" defer></script>
     <script src="../js/tools-router.js?v=20260626.1936" defer></script>
     <script src="../js/pwa-install.js?v=20260626.1936" defer></script>
-    <script src="../js/ads-config.js?v=20260626.1936"></script>
+    <script src="../js/ads-config.js?v=20260626.1936" defer></script>
     <script src="../js/ads.js?v=20260626.1936" defer></script>
     <script src="../js/locale-ui.js?v=20260626.1936" defer></script>
     <script src="../js/clipboard-paste.js?v=20260626.1936" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js" crossorigin="anonymous"></script>
     <script src="../js/compare-slider.js?v=20260626.1936" defer></script>
     <!-- Print frame: hidden normally, shown during window.print() via @media print -->
     <div id="print-frame"></div>
@@ -2304,5 +2306,8 @@
 
     <script src="../js/app.js?v=20260626.1936" defer></script>
     <script src="../js/goal-picker.js?v=20260626.1936" defer></script>
+    <!-- Cloudflare Web Analytics -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "800771c81f974e78b57544eda79e882c"}'></script>
+    <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

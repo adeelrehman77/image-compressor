@@ -131,16 +131,20 @@ function patchToolSchema(html, toolId, locale) {
 
 function injectBootstrap(html, toolId) {
     const snippet = `<script>window.__NEXUS_INITIAL_TOOL=${JSON.stringify(toolId)};</script>`;
-    if (/<script src="[^"]*tool-routes\.js/.test(html)) {
-        return html.replace(/(<script src="[^"]*tool-routes\.js[^"]*"><\/script>)/i, `$1\n    ${snippet}`);
-    }
-    if (/<script src="[^"]*tool-meta\.js/.test(html)) {
+    // Allow attributes after src (e.g. defer) — `"><\/script>` alone misses `defer></script>`
+    if (/<script\b[^>]*\bsrc="[^"]*tool-routes\.js[^"]*"[^>]*>\s*<\/script>/i.test(html)) {
         return html.replace(
-            /(<script src="[^"]*tool-meta\.js[^"]*"><\/script>)/i,
-            `$1\n    <script src="/js/tool-routes.js"></script>\n    ${snippet}`
+            /(<script\b[^>]*\bsrc="[^"]*tool-routes\.js[^"]*"[^>]*>\s*<\/script>)/i,
+            `$1\n    ${snippet}`
         );
     }
-    return html.replace('</head>', `    <script src="/js/tool-routes.js"></script>\n    ${snippet}\n</head>`);
+    if (/<script\b[^>]*\bsrc="[^"]*tool-meta\.js[^"]*"[^>]*>\s*<\/script>/i.test(html)) {
+        return html.replace(
+            /(<script\b[^>]*\bsrc="[^"]*tool-meta\.js[^"]*"[^>]*>\s*<\/script>)/i,
+            `$1\n    <script src="/js/tool-routes.js" defer></script>\n    ${snippet}`
+        );
+    }
+    return html.replace('</head>', `    <script src="/js/tool-routes.js" defer></script>\n    ${snippet}\n</head>`);
 }
 
 function patchSeoToolChips(html) {

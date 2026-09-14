@@ -61,6 +61,37 @@ function bumpSwCache(buildId) {
     fs.writeFileSync(swPath, sw);
 }
 
+function minifyDistScripts(dir) {
+    const esbuild = require('esbuild');
+    const skip = (name) => name.endsWith('.min.js') || name.endsWith('.min.mjs');
+    const walk = (d) => {
+        for (const name of fs.readdirSync(d)) {
+            const p = path.join(d, name);
+            if (fs.statSync(p).isDirectory()) {
+                if (name === 'vendor') continue;
+                walk(p);
+                continue;
+            }
+            if (!/\.(js|mjs)$/.test(name) || skip(name)) continue;
+            const result = esbuild.buildSync({
+                entryPoints: [p],
+                outfile: p,
+                allowOverwrite: true,
+                minify: true,
+                // Keep Arabic / non-ASCII as UTF-8 (default \u escapes balloon i18n.js)
+                charset: 'utf8',
+                target: ['es2018'],
+                logLevel: 'silent',
+            });
+            if (result.errors?.length) {
+                throw new Error(`minifyDistScripts failed for ${p}: ${result.errors[0].text}`);
+            }
+        }
+    };
+    walk(path.join(dir, 'js'));
+    console.log('Minified first-party JS → dist/js/');
+}
+
 const { buildArIndex } = require('./generate-ar-index');
 
 console.log('Building NexusCompress…');
@@ -106,6 +137,8 @@ syncPublicAssets();
 console.log('Copied font files → dist/css/files/ and public/css/files/');
 
 require('./patch-html').patchHtmlFiles(distDir);
+
+minifyDistScripts(distDir);
 
 require('./generate-tool-pages').generate({
     srcIndex: path.join(distDir, 'index.html'),

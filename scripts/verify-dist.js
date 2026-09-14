@@ -30,6 +30,27 @@ function assertFile(rel, needles) {
 }
 
 const enHtmlRaw = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8');
+const arHtmlRaw = fs.readFileSync(path.join(distDir, 'ar/index.html'), 'utf8');
+
+function assertNoEagerOnnx(html, label) {
+    if (/onnxruntime-web[^"']*ort\.min\.js/i.test(html) || /cdn\.jsdelivr\.net\/npm\/onnxruntime-web/i.test(html)) {
+        throw new Error(
+            `verify-dist: ${label} still eager-loads onnxruntime-web — remove the script tag (AI Upscaler lazy-loads it)`
+        );
+    }
+}
+assertNoEagerOnnx(enHtmlRaw, 'dist/index.html');
+assertNoEagerOnnx(arHtmlRaw, 'dist/ar/index.html');
+
+if (!enHtmlRaw.includes('<main class="app-main">')) {
+    throw new Error('verify-dist: dist/index.html missing <main class="app-main"> landmark');
+}
+if (!arHtmlRaw.includes('<main class="app-main">')) {
+    throw new Error('verify-dist: dist/ar/index.html missing <main class="app-main"> landmark');
+}
+if (!/lang="ar"/i.test(arHtmlRaw)) {
+    throw new Error('verify-dist: dist/ar/index.html missing Arabic lang');
+}
 
 // Guard: tokens.css must be linked (Phase 2 design tokens)
 if (!enHtmlRaw.includes('tokens.css')) throw new Error('verify-dist: dist/index.html missing tokens.css link');

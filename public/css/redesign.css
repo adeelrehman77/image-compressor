@@ -25,7 +25,7 @@ html.dark {
     --surface: #1e221f;
     --surface-border: rgba(255, 255, 255, 0.07);
     --text: #e8ede9;
-    --text-muted: #8a9489;
+    --text-muted: #a3aea1;
     --accent-dim: rgba(61, 255, 143, 0.12);
     --accent-dim2: rgba(61, 255, 143, 0.06);
     --uae: #f5a623;
@@ -1098,7 +1098,7 @@ html:not(.dark) {
     --surface: #ffffff;
     --surface-border: rgba(15, 23, 42, 0.1);
     --text: #1a1f2e;
-    --text-muted: #5c6578;
+    --text-muted: #4a5568;
     --text3: #8a9389;
     --accent-dim: rgba(10, 158, 85, 0.1);
     --accent-dim2: rgba(10, 158, 85, 0.05);

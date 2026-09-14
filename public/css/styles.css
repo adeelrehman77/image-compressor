@@ -4,7 +4,7 @@
     --surface: #ffffff;
     --surface-border: rgba(15, 23, 42, 0.1);
     --text: #1a1f2e;
-    --text-muted: #5c6578;
+    --text-muted: #4a5568;
     --accent: #0a9e55;
     --accent-soft: #12b86a;
     --cyan: #2a7a8c;
@@ -24,7 +24,7 @@ html.dark {
     --surface: #161922;
     --surface-border: rgba(255, 255, 255, 0.08);
     --text: #e8ecf4;
-    --text-muted: #8b95a8;
+    --text-muted: #a0aabf;
     --accent: #3dff8f;
     --accent-soft: #3dff8f;
     --cyan: #6eb4c4;

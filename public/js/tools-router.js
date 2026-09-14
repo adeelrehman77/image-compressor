@@ -107,34 +107,13 @@
         }
     }
 
-    function isLikelyBot() {
-        const ua = navigator.userAgent || '';
-        return /Googlebot|Google-InspectionTool|bingbot|BingPreview|DuckDuckBot|Baiduspider|YandexBot|facebookexternalhit|Slackbot|Twitterbot|LinkedInBot|Applebot|SemrushBot|AhrefsBot|PetalBot|Bytespider/i.test(
-            ua
-        );
-    }
-
     function shouldPreloadToolsIdle() {
-        if (isLikelyBot()) return false;
-        if (window.matchMedia('(max-width: 780px)').matches) return false;
-        const conn = navigator.connection;
-        if (conn?.saveData) return false;
-        if (conn?.effectiveType && /(^2g$)|slow-2g/.test(conn.effectiveType)) return false;
-        return true;
+        // Disabled: idle-preloading tool scripts caused multi-second desktop TBT in Lighthouse.
+        return false;
     }
 
     function preloadToolsIdle() {
         if (!shouldPreloadToolsIdle()) return;
-        const run = () => {
-            ['images-to-pdf', 'pdf-suite', 'svg', 'heic-converter', 'format-converter', 'image-cropper', 'collage-maker'].forEach((tool) => {
-                window.NexusTools?.ensureTool?.(tool).catch(() => {});
-            });
-        };
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(run, { timeout: 5000 });
-        } else {
-            setTimeout(run, 2000);
-        }
     }
 
     function bindHeaderHeight() {
