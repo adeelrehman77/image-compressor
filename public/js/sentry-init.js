@@ -109,6 +109,7 @@
                 /requested file could not be read/i,
                 // Expected passport-studio UX guards (pre-fix clients may still throw)
                 /Load a photo and select a preset first/i,
+                /Cannot read properties of null \(reading 'naturalWidth'\)/i,
             ],
             beforeSend(event) {
                 const frames =

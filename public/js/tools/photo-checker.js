@@ -60,6 +60,8 @@
     let previewUrl = null;
     let imageEl = null;
     let analysisCanvas = null;
+    /** Bumped on reset/new photo so in-flight runCheck() exits cleanly. */
+    let checkGen = 0;
 
     function tf(key, vars, fallback) {
         const s = window.__NEXUS_TF ? window.__NEXUS_TF(key, vars) : '';
@@ -178,6 +180,7 @@
     };
 
     function releasePreview() {
+        checkGen += 1;
         if (previewUrl) {
             URL.revokeObjectURL(previewUrl);
             previewUrl = null;
@@ -246,8 +249,10 @@
     }
 
     function drawAnalysisCanvas(img) {
+        if (!img) return null;
         const w = img.naturalWidth || img.width;
         const h = img.naturalHeight || img.height;
+        if (!w || !h) return null;
         if (!analysisCanvas) analysisCanvas = document.createElement('canvas');
         analysisCanvas.width = w;
         analysisCanvas.height = h;
@@ -319,6 +324,7 @@
     }
 
     function buildChecks(file, img, portalId, detection) {
+        if (!file || !img) return [];
         const portal = PORTALS[portalId] || PORTALS['emirates-ica'];
         const portalLabel = portalName(portalId);
         const w = img.naturalWidth || img.width;
@@ -438,8 +444,8 @@
                 );
             }
 
-            const { ctx } = drawAnalysisCanvas(img);
-            if (glassesLikely(ctx, lm, w, h)) {
+            const analysis = drawAnalysisCanvas(img);
+            if (analysis && glassesLikely(analysis.ctx, lm, w, h)) {
                 push(
                     'glasses',
                     'warn',
@@ -449,8 +455,10 @@
                         'Glasses may be present — ICA and Emirates ID photos require no glasses'
                     )
                 );
-            } else {
+            } else if (analysis) {
                 push('glasses', 'pass', tf('pcPassGlasses', null, 'No glasses detected (approximate)'));
+            } else {
+                push('glasses', 'warn', tf('pcWarnSkipped', null, 'Could not verify — no face detected'));
             }
         }
 
@@ -522,8 +530,11 @@
         }
 
         if (detection && detection.length === 1) {
-            const { ctx } = drawAnalysisCanvas(img);
-            const bright = sampleBackgroundBrightness(ctx, w, h, detection[0].detection.box);
+            const analysis = drawAnalysisCanvas(img);
+            if (!analysis) {
+                push('background', 'warn', tf('pcWarnSkipped', null, 'Could not verify background — no face detected'));
+            } else {
+            const bright = sampleBackgroundBrightness(analysis.ctx, w, h, detection[0].detection.box);
             if (bright > 200) {
                 push('background', 'pass', tf('pcPassBackground', null, 'Background appears white or light'));
             } else if (bright >= 150) {
@@ -546,6 +557,7 @@
                         'Background appears dark or coloured — use a plain white background'
                     )
                 );
+            }
             }
         } else {
             push('background', 'warn', tf('pcWarnSkipped', null, 'Could not verify background — no face detected'));
@@ -763,6 +775,10 @@
             return;
         }
 
+        const file = currentFile;
+        const img = imageEl;
+        const gen = ++checkGen;
+
         const runBtn = document.getElementById('pc-run-btn');
         const statusEl = document.getElementById('pc-status');
         runBtn.disabled = true;
@@ -770,34 +786,58 @@
 
         const portalId = document.getElementById('pc-portal-select')?.value || 'emirates-ica';
 
-        if (imageEl.decode) {
+        const stillValid = () =>
+            gen === checkGen && imageEl === img && currentFile === file && !!img && !!(img.naturalWidth || img.width);
+
+        if (img.decode) {
             try {
-                await imageEl.decode();
+                await img.decode();
             } catch {
                 /* fall through */
             }
-        } else if (!imageEl.complete) {
+        } else if (!img.complete) {
             await new Promise((r) => {
                 const done = () => r();
-                imageEl.addEventListener('load', done, { once: true });
+                img.addEventListener('load', done, { once: true });
             });
+        }
+
+        if (!stillValid()) {
+            if (runBtn) runBtn.disabled = false;
+            return;
         }
 
         setScanActive(true);
         let detection = null;
         const modelsOk = modelsReady || (await loadModels());
+        if (!stillValid()) {
+            setScanActive(false);
+            if (runBtn) runBtn.disabled = false;
+            return;
+        }
         if (modelsOk) {
             try {
-                detection = await detectFaces(imageEl);
+                detection = await detectFaces(img);
             } catch (err) {
                 window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'detect' });
                 toast(tf('pcDetectError', null, 'Face detection failed. Try another photo.'), 'error');
             }
         }
         setScanActive(false);
-        updatePreviewGuide(detection, imageEl);
 
-        const checks = buildChecks(currentFile, imageEl, portalId, detection);
+        if (!stillValid()) {
+            if (runBtn) runBtn.disabled = false;
+            return;
+        }
+
+        updatePreviewGuide(detection, img);
+
+        const checks = buildChecks(file, img, portalId, detection);
+        if (!checks.length) {
+            toast(tf('pcNeedPhoto', null, 'Choose a photo first.'), 'warn');
+            if (runBtn) runBtn.disabled = false;
+            return;
+        }
         const passed = checks.filter((c) => c.status === 'pass').length;
         animateResults(checks, passed, checks.length);
 
