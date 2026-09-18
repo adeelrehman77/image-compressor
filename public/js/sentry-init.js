@@ -181,6 +181,8 @@
     };
 
     function scheduleLoad() {
+        const host = location.hostname || '';
+        if (host === 'localhost' || host === '127.0.0.1') return;
         const run = () => loadBundle().catch(() => {});
         if ('requestIdleCallback' in window) {
             requestIdleCallback(run, { timeout: 5000 });

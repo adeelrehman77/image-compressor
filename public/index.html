@@ -2307,8 +2307,18 @@
 
     <script src="js/app.js?v=20260626.1936" defer></script>
     <script src="js/goal-picker.js?v=20260626.1936" defer></script>
-    <!-- Cloudflare Web Analytics -->
-    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "800771c81f974e78b57544eda79e882c"}'></script>
+    <!-- Cloudflare Web Analytics (production only — skip localhost / CI) -->
+    <script>
+    (function () {
+        var h = location.hostname || '';
+        if (h === 'localhost' || h === '127.0.0.1') return;
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        s.setAttribute('data-cf-beacon', '{"token":"800771c81f974e78b57544eda79e882c"}');
+        document.body.appendChild(s);
+    })();
+    </script>
     <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

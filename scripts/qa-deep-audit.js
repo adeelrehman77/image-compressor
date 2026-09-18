@@ -8,6 +8,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { createQaFixtures } = require('./test-fixtures');
+const { isIgnoredExternal } = require('./test-ignore-external');
 
 const PORT = process.env.TEST_PORT || 3098;
 const DIST = path.join(__dirname, '..', 'dist');
@@ -76,12 +77,16 @@ async function main() {
     page.on('console', (msg) => {
         if (msg.type() === 'error') {
             const t = msg.text();
-            if (t.includes('.woff') || (t.includes('Failed to load resource') && t.includes('ads'))) return;
+            if (isIgnoredExternal(t)) return;
             if (t.includes('ERR_FILE_NOT_FOUND')) return;
             consoleErrors.push(t);
         }
     });
-    page.on('pageerror', (err) => consoleErrors.push(String(err)));
+    page.on('pageerror', (err) => {
+        const t = String(err);
+        if (isIgnoredExternal(t)) return;
+        consoleErrors.push(t);
+    });
 
     try {
         // ── Tool switch race (first click, no reload) ──

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { writeTestImage } = require('./scripts/test-fixtures');
+const { isIgnoredExternal } = require('./scripts/test-ignore-external');
 
 const PORT = process.env.TEST_PORT || 3099;
 const DIST = path.join(__dirname, 'dist');
@@ -38,21 +39,27 @@ createTestImage().then(() => {
                 args: ['--no-sandbox', '--disable-setuid-sandbox'],
             });
             const page = await browser.newPage();
-            let hasErrors = false;
+            const testErrors = [];
 
             page.on('console', (msg) => {
                 if (msg.type() !== 'error') return;
                 const text = msg.text();
-                if (text.includes('Failed to load resource')) return;
+                if (isIgnoredExternal(text)) return;
                 console.error('Browser Error:', text);
-                hasErrors = true;
+                testErrors.push(text);
             });
             page.on('pageerror', (err) => {
+                const text = String(err);
+                if (isIgnoredExternal(text)) return;
                 console.error('Page Error:', err);
-                hasErrors = true;
+                testErrors.push(text);
             });
             page.on('requestfailed', (req) => {
-                console.error('Request Failed:', req.url(), req.failure()?.errorText);
+                const url = req.url();
+                if (isIgnoredExternal(url)) return;
+                const detail = `Request failed: ${url} (${req.failure()?.errorText || 'unknown'})`;
+                console.error(detail);
+                testErrors.push(detail);
             });
 
             await page.goto(`http://localhost:${PORT}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -198,8 +205,10 @@ createTestImage().then(() => {
                 process.exit(1);
             }
 
-            if (hasErrors) {
-                console.error('Test completed with console errors.');
+            if (testErrors.length > 0) {
+                console.error(
+                    `Test completed with application errors:\n${testErrors.join('\n')}`
+                );
                 process.exit(1);
             }
 

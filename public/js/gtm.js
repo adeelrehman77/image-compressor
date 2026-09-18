@@ -4,6 +4,9 @@
     function bootstrap() {
         if (window.__gtmBootstrapped) return;
 
+        const host = location.hostname || '';
+        if (host === 'localhost' || host === '127.0.0.1') return;
+
         const id = window.GTM_CONTAINER_ID || FALLBACK_ID;
         if (typeof id !== 'string' || !id.startsWith('GTM-')) return;
 
