@@ -172,10 +172,22 @@
         return best;
     }
 
-    async function renderDigitalExport() {
-        const preset = getPreset();
-        if (!preset || !state.bitmap) throw new Error('Load a photo and select a preset first.');
+    function ensureExportReady() {
+        if (getPreset() && state.bitmap) return true;
+        const msg = tf(
+            'passportNeedPhotoAndPreset',
+            null,
+            'Load a photo and select a preset first.'
+        );
+        setStatus(msg);
+        window.NexusTools?.toast?.(msg, 'warn');
+        return false;
+    }
 
+    async function renderDigitalExport() {
+        if (!ensureExportReady()) return null;
+
+        const preset = getPreset();
         const { w, h, mime, maxBytes } = preset.export;
         let canvas = null;
         try {
@@ -203,7 +215,9 @@
     }
 
     async function refreshCroppedPortrait() {
-        state.croppedPortrait = await renderDigitalExport();
+        const blob = await renderDigitalExport();
+        if (!blob) return null;
+        state.croppedPortrait = blob;
         return state.croppedPortrait;
     }
 
@@ -212,10 +226,11 @@
     }
 
     async function generatePrintSheet() {
-        const preset = getPreset();
-        if (!preset || !state.bitmap) throw new Error('Load a photo and select a preset first.');
+        if (!ensureExportReady()) return;
 
+        const preset = getPreset();
         const portrait = state.croppedPortrait || (await refreshCroppedPortrait());
+        if (!portrait) return;
         const portraitBitmap = await createImageBitmap(portrait);
         const { photoW, photoH, cols, rows } = preset.print;
 
@@ -264,14 +279,15 @@
     }
 
     async function printPhotoSheet() {
-        const preset = getPreset();
-        if (!preset || !state.bitmap) throw new Error('Load a photo and select a preset first.');
+        if (!ensureExportReady()) return;
 
+        const preset = getPreset();
         const layoutKey = document.getElementById('passport-print-layout')?.value || '4x6-4';
         const showCropMarks = document.getElementById('passport-crop-marks')?.checked || false;
         const layout = PRINT_LAYOUTS[layoutKey] || PRINT_LAYOUTS['4x6-4'];
 
         const portrait = state.croppedPortrait || (await refreshCroppedPortrait());
+        if (!portrait) return;
         const portraitBitmap = await createImageBitmap(portrait);
         const { photoW, photoH } = preset.print;
         const { sheetW, sheetH, cols, rows } = layout;
@@ -601,6 +617,7 @@
             els.exportBtn.disabled = true;
             try {
                 const blob = await refreshCroppedPortrait();
+                if (!blob) return;
                 const ext = blob.type === 'image/jpeg' ? 'jpg' : 'png';
                 const kb = (blob.size / 1024).toFixed(1);
                 downloadBlob(blob, `passport-digital-${state.presetId}.${ext}`);
