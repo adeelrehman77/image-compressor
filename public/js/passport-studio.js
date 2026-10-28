@@ -231,7 +231,7 @@
         const preset = getPreset();
         const portrait = state.croppedPortrait || (await refreshCroppedPortrait());
         if (!portrait) return;
-        const portraitBitmap = await createImageBitmap(portrait);
+        const portraitBitmap = await decodeBitmap(portrait);
         const { photoW, photoH, cols, rows } = preset.print;
 
         const gridW = cols * photoW;
@@ -288,7 +288,7 @@
 
         const portrait = state.croppedPortrait || (await refreshCroppedPortrait());
         if (!portrait) return;
-        const portraitBitmap = await createImageBitmap(portrait);
+        const portraitBitmap = await decodeBitmap(portrait);
         const { photoW, photoH } = preset.print;
         const { sheetW, sheetH, cols, rows } = layout;
 
@@ -361,7 +361,21 @@
                         </div>`
                     ).join('')}
                 </div>`;
-            window.print();
+            try {
+                window.print();
+            } catch (printErr) {
+                if (isPrintUnsupportedError(printErr)) {
+                    const msg = tf(
+                        'passportPrintUnavailable',
+                        null,
+                        'Printing isn’t available in this browser. Download the sheet instead, then print from Photos or Files.'
+                    );
+                    setStatus(msg);
+                    window.NexusTools?.toast?.(msg, 'warn');
+                    return;
+                }
+                throw printErr;
+            }
             setTimeout(() => { frame.innerHTML = ''; }, 500);
 
             setStatus(
@@ -408,6 +422,41 @@
         if (els.zoom) els.zoom.value = '1';
     }
 
+    function isDecodeError(err) {
+        const name = err?.name || '';
+        const msg = String(err?.message || err || '');
+        return (
+            name === 'InvalidStateError' ||
+            name === 'EncodingError' ||
+            /could not be decoded|decode|EncodingError|InvalidStateError/i.test(msg)
+        );
+    }
+
+    function isPrintUnsupportedError(err) {
+        const msg = String(err?.message || err || '');
+        return /webkit\.messageHandlers\.print|print\.postMessage|printing is not available/i.test(msg);
+    }
+
+    async function decodeBitmap(source) {
+        try {
+            return await createImageBitmap(source);
+        } catch (primary) {
+            if (!(source instanceof Blob)) throw primary;
+            const url = URL.createObjectURL(source);
+            try {
+                const img = await new Promise((resolve, reject) => {
+                    const el = new Image();
+                    el.onload = () => resolve(el);
+                    el.onerror = () => reject(primary);
+                    el.src = url;
+                });
+                return await createImageBitmap(img);
+            } finally {
+                URL.revokeObjectURL(url);
+            }
+        }
+    }
+
     async function onPhotoSelected(file) {
         if (!file) return;
         if (!state.presetId) {
@@ -417,7 +466,22 @@
 
         clearBitmap();
         state.objectUrl = URL.createObjectURL(file);
-        state.bitmap = await createImageBitmap(file);
+        try {
+            state.bitmap = await decodeBitmap(file);
+        } catch (err) {
+            clearBitmap();
+            const msg = tf(
+                'passportDecodeFailed',
+                null,
+                'This photo could not be decoded. Try a JPEG or PNG export from your camera roll.'
+            );
+            setStatus(msg);
+            window.NexusTools?.toast?.(msg, 'error');
+            if (!isDecodeError(err)) {
+                window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'decode' });
+            }
+            return;
+        }
         resetTransform();
         showEditor(true);
         setStatus(tf('passportStatusLoaded', { name: file.name }, `${file.name} loaded — align face within the circle, then export.`));
@@ -647,8 +711,19 @@
             try {
                 await printPhotoSheet();
             } catch (err) {
-                setStatus(err.message || 'Print sheet failed.');
-                window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'print-window' });
+                const msg = isPrintUnsupportedError(err)
+                    ? tf(
+                          'passportPrintUnavailable',
+                          null,
+                          'Printing isn’t available in this browser. Download the sheet instead, then print from Photos or Files.'
+                      )
+                    : err.message || 'Print sheet failed.';
+                setStatus(msg);
+                if (isPrintUnsupportedError(err)) {
+                    window.NexusTools?.toast?.(msg, 'warn');
+                } else {
+                    window.NexusSentry?.captureException?.(err, { tool: 'passport-studio', action: 'print-window' });
+                }
             } finally {
                 els.printSheetBtn.disabled = false;
             }

@@ -110,6 +110,16 @@
                 // Expected passport-studio UX guards (pre-fix clients may still throw)
                 /Load a photo and select a preset first/i,
                 /Cannot read properties of null \(reading 'naturalWidth'\)/i,
+                // Unreadable/corrupt user uploads — handled in UI
+                /source image could not be decoded/i,
+                /InvalidStateError.*decoded/i,
+                // iOS Google app / WKWebView print bridge
+                /webkit\.messageHandlers\.print/i,
+                // face-api / tfjs on devices without WebGL
+                /WebGL is not supported/i,
+                // Browser extension / host-bridge noise (not app code)
+                /Object Not Found Matching Id/i,
+                /Non-Error promise rejection captured with value: Object Not Found/i,
             ],
             beforeSend(event) {
                 const frames =

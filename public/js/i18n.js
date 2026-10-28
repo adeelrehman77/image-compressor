@@ -84,6 +84,8 @@ window.__NEXUS_I18N = {
         pcStatusChecking: 'Running compliance checks…',
         pcStatusDone: 'Check complete.',
         pcDetectError: 'Face detection failed. Try another photo.',
+        pcWebglUnsupported:
+            'Face detection needs WebGL on this device. Use the manual checklist, or open ID Photo Studio.',
         pcStudioUnavailable: 'Could not open ID Photo Studio.',
         pcWarnSkipped: 'Could not verify',
         pcManualTitle: 'Manual checklist (if AI unavailable)',
@@ -780,6 +782,10 @@ window.__NEXUS_I18N = {
         passportAriaReady: 'Upload passport portrait',
         passportStatusSelectFirst: 'Select a preset first, then choose your photo.',
         passportNeedPhotoAndPreset: 'Load a photo and select a preset first.',
+        passportDecodeFailed:
+            'This photo could not be decoded. Try a JPEG or PNG export from your camera roll.',
+        passportPrintUnavailable:
+            'Printing isn’t available in this browser. Download the sheet instead, then print from Photos or Files.',
         passportStatusLoaded: '{name} loaded — align face within the circle, then export.',
         passportStatusCleared: 'Photo cleared. Choose another portrait when ready.',
         passportStatusDropFormat: 'Drop a JPEG, PNG, or WebP portrait photo.',
@@ -1009,6 +1015,8 @@ window.__NEXUS_I18N = {
         pcStatusChecking: 'جاري فحوصات الامتثال…',
         pcStatusDone: 'اكتمل الفحص.',
         pcDetectError: 'فشل اكتشاف الوجه. جرّب صورة أخرى.',
+        pcWebglUnsupported:
+            'اكتشاف الوجه يحتاج WebGL على هذا الجهاز. استخدم القائمة اليدوية أو افتح استوديو صور الهوية.',
         pcStudioUnavailable: 'تعذّر فتح استوديو صور الهوية.',
         pcWarnSkipped: 'تعذّر التحقق',
         pcManualTitle: 'قائمة يدوية (إذا تعذّر الذكاء الاصطناعي)',
@@ -1706,6 +1714,9 @@ window.__NEXUS_I18N = {
         passportAriaReady: 'رفع صورة جواز',
         passportStatusSelectFirst: 'اختر إعداداً أولاً، ثم اختر صورتك.',
         passportNeedPhotoAndPreset: 'حمّل صورة واختر إعداداً أولاً.',
+        passportDecodeFailed: 'تعذّر فك تشفير هذه الصورة. جرّب تصدير JPEG أو PNG من ألبوم الصور.',
+        passportPrintUnavailable:
+            'الطباعة غير متاحة في هذا المتصفح. حمّل الورقة ثم اطبعها من الصور أو الملفات.',
         passportStatusLoaded: 'تم تحميل {name} — محاذاة الوجه داخل الدائرة ثم التصدير.',
         passportStatusCleared: 'تم مسح الصورة. اختر صورة أخرى عندما تكون جاهزاً.',
         passportStatusDropFormat: 'اسحب صورة JPEG أو PNG أو WebP.',

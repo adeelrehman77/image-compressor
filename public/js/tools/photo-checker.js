@@ -152,6 +152,12 @@
 
         modelsPromise = (async () => {
             try {
+                const canvas = document.createElement('canvas');
+                const gl =
+                    canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) {
+                    throw new Error('WebGL is not supported on this device');
+                }
                 await loadFaceApiScript();
                 setLoadStep('pc', 2);
                 await Promise.all([
@@ -163,7 +169,10 @@
                 return true;
             } catch (err) {
                 modelsFailed = true;
-                window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'load-models' });
+                const msg = String(err?.message || err || '');
+                if (!/WebGL is not supported/i.test(msg)) {
+                    window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'load-models' });
+                }
                 document.getElementById('pc-models-error')?.classList.remove('is-hidden');
                 document.getElementById('pc-manual-checklist')?.classList.remove('is-hidden');
                 return false;
@@ -819,8 +828,24 @@
             try {
                 detection = await detectFaces(img);
             } catch (err) {
-                window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'detect' });
-                toast(tf('pcDetectError', null, 'Face detection failed. Try another photo.'), 'error');
+                const msg = String(err?.message || err || '');
+                const webglFail = /WebGL is not supported|webgl/i.test(msg);
+                if (webglFail) {
+                    modelsFailed = true;
+                    document.getElementById('pc-models-error')?.classList.remove('is-hidden');
+                    document.getElementById('pc-manual-checklist')?.classList.remove('is-hidden');
+                    toast(
+                        tf(
+                            'pcWebglUnsupported',
+                            null,
+                            'Face detection needs WebGL on this device. Use the manual checklist, or open ID Photo Studio.'
+                        ),
+                        'warn'
+                    );
+                } else {
+                    window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'detect' });
+                    toast(tf('pcDetectError', null, 'Face detection failed. Try another photo.'), 'error');
+                }
             }
         }
         setScanActive(false);
@@ -856,8 +881,25 @@
                 toast(tf('pcStudioUnavailable', null, 'ID Photo Studio is not ready. Refresh and try again.'), 'error');
             }
         } catch (err) {
-            window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'send-studio' });
-            toast(tf('pcStudioUnavailable', null, 'Could not open ID Photo Studio.'), 'error');
+            const name = err?.name || '';
+            const msg = String(err?.message || err || '');
+            const decodeFail =
+                name === 'InvalidStateError' ||
+                name === 'EncodingError' ||
+                /could not be decoded|decode|InvalidStateError/i.test(msg);
+            if (!decodeFail) {
+                window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'send-studio' });
+            }
+            toast(
+                decodeFail
+                    ? tf(
+                          'passportDecodeFailed',
+                          null,
+                          'This photo could not be decoded. Try a JPEG or PNG export from your camera roll.'
+                      )
+                    : tf('pcStudioUnavailable', null, 'Could not open ID Photo Studio.'),
+                'error'
+            );
         }
     }
 
