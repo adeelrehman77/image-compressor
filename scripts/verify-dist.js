@@ -139,6 +139,18 @@ const photoChecker = path.join(distDir, 'js/tools/photo-checker.js');
 if (!fs.existsSync(photoChecker)) {
     throw new Error('verify-dist: missing js/tools/photo-checker.js');
 }
+const faceApiVendor = path.join(distDir, 'vendor/face-api.min.js');
+const faceApiModels = path.join(distDir, 'models/face-api/tiny_face_detector_model-shard1');
+if (!fs.existsSync(faceApiVendor) || fs.statSync(faceApiVendor).size < 100_000) {
+    throw new Error('verify-dist: missing vendor/face-api.min.js — run npm install / scripts/vendor-face-api.js');
+}
+if (!fs.existsSync(faceApiModels) || fs.statSync(faceApiModels).size < 50_000) {
+    throw new Error('verify-dist: missing models/face-api weights — run scripts/vendor-face-api.js');
+}
+const photoCheckerSrc = fs.readFileSync(photoChecker, 'utf8');
+if (/cdn\.jsdelivr\.net\/npm\/face-api\.js/i.test(photoCheckerSrc)) {
+    throw new Error('verify-dist: photo-checker still loads face-api from jsDelivr — use vendor/face-api.min.js');
+}
 
 const redactor = path.join(distDir, 'js/tools/document-redactor.js');
 if (!fs.existsSync(redactor)) {

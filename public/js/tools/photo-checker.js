@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    const { toast, formatBytes, bindDropZone, runWhenReady, loadExternalScript } = window.NexusTools;
+    const { toast, formatBytes, bindDropZone, runWhenReady, loadScript } = window.NexusTools;
 
-    const FACE_API_JS =
-        'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js';
-    const MODEL_BASE = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+    /** Self-hosted — avoids jsDelivr CDN failures in production (Sentry NEXUS-COMPRESS-FRONTEND-6). */
+    const FACE_API_JS = 'vendor/face-api.min.js';
+    const MODEL_BASE = '/models/face-api';
 
     const PORTALS = {
         'emirates-ica': { limitKb: 200, nameKey: 'pcPortalEmirates' },
@@ -128,7 +128,7 @@
 
     async function loadFaceApiScript() {
         if (typeof faceapi !== 'undefined') return;
-        await loadExternalScript(FACE_API_JS);
+        await loadScript(FACE_API_JS);
     }
 
     function setLoadStep(prefix, step) {
@@ -170,7 +170,11 @@
             } catch (err) {
                 modelsFailed = true;
                 const msg = String(err?.message || err || '');
-                if (!/WebGL is not supported/i.test(msg)) {
+                const expected =
+                    /WebGL is not supported/i.test(msg) ||
+                    /Failed to load /i.test(msg) ||
+                    /NetworkError|Load failed|fetch/i.test(msg);
+                if (!expected) {
                     window.NexusSentry?.captureException?.(err, { tool: 'photo-checker', action: 'load-models' });
                 }
                 document.getElementById('pc-models-error')?.classList.remove('is-hidden');

@@ -117,6 +117,9 @@
                 /webkit\.messageHandlers\.print/i,
                 // face-api / tfjs on devices without WebGL
                 /WebGL is not supported/i,
+                // CDN / network script failures (handled in UI)
+                /Failed to load https?:\/\//i,
+                /Failed to load vendor\//i,
                 // Browser extension / host-bridge noise (not app code)
                 /Object Not Found Matching Id/i,
                 /Non-Error promise rejection captured with value: Object Not Found/i,

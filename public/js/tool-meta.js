@@ -149,7 +149,7 @@ window.__NEXUS_TOOL_META = {
                 'ICA, Emirates ID, and MOHRE portals reject photos that fail strict biometric rules. Run 10 automated checks on your portrait before submitting — face size, centreing, eyes open, white background, file size, and more.',
             title2: 'Powered by local face AI',
             intro2:
-                'face-api.js runs entirely in your browser. Models load only when you open this tab (~0.5 MB once for detector + landmarks), then stay cached. Your passport photo never touches a server.',
+                'face-api.js runs entirely in your browser from self-hosted assets. Models load only when you open this tab (~0.3 MB once for detector + landmarks), then stay cached. Your passport photo never touches a server.',
             title3: 'Fix issues in one click',
             intro3:
                 'Failed checks link straight to ID Photo Studio with your photo loaded — crop to 35×45 mm, align your face, and export a portal-ready JPEG under 200 KB.',

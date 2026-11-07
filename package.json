@@ -22,7 +22,7 @@
     "compress": "node cli.js",
     "predeploy": "rm -rf dist && npm run build:release && node scripts/verify-dist.js",
     "deploy": "wrangler deploy",
-    "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/vendor-heic-to.js && node scripts/vendor-background-removal.js && node scripts/generate-icons.js && node scripts/generate-og.js"
+    "postinstall": "node scripts/vendor-jszip.js && node scripts/vendor-pdf-lib.js && node scripts/vendor-sentry.js && node scripts/vendor-heic-to.js && node scripts/vendor-face-api.js && node scripts/vendor-background-removal.js && node scripts/generate-icons.js && node scripts/generate-og.js"
   },
   "keywords": [
     "image",
