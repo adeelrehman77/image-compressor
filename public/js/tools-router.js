@@ -239,7 +239,9 @@
         window.__NEXUS_NAVIGATE_TOOL = navigateToTool;
         window.addEventListener('hashchange', () => {
             if (internalNav) return;
-            navigateToTool(parseTool());
+            navigateToTool(parseTool()).catch((err) => {
+                window.NexusSentry?.captureException?.(err, { tool: 'router', action: 'hashchange' });
+            });
         });
     }
 

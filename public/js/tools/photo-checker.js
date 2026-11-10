@@ -189,7 +189,20 @@
     }
 
     window.__NEXUS_PHOTO_CHECKER_ACTIVATE = async function activatePhotoChecker() {
-        if (!modelsReady && !modelsFailed) await loadModels();
+        try {
+            if (!modelsReady && !modelsFailed) await loadModels();
+        } catch (err) {
+            modelsFailed = true;
+            const msg = String(err?.message || err || '');
+            if (msg && !/WebGL is not supported|Failed to load /i.test(msg)) {
+                window.NexusSentry?.captureException?.(err, {
+                    tool: 'photo-checker',
+                    action: 'activate',
+                });
+            }
+            document.getElementById('pc-models-error')?.classList.remove('is-hidden');
+            document.getElementById('pc-manual-checklist')?.classList.remove('is-hidden');
+        }
     };
 
     function releasePreview() {
@@ -331,9 +344,20 @@
     }
 
     async function detectFaces(img) {
-        const opts = new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 });
-        const all = await faceapi.detectAllFaces(img, opts).withFaceLandmarks(true);
-        return all.filter((d) => d.detection.score >= 0.7);
+        try {
+            const opts = new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 });
+            const all = await faceapi.detectAllFaces(img, opts).withFaceLandmarks(true);
+            return (all || []).filter((d) => d.detection.score >= 0.7);
+        } catch (err) {
+            // Mobile Safari / tfjs sometimes rejects with an empty reason.
+            if (err != null) {
+                window.NexusSentry?.captureException?.(err, {
+                    tool: 'photo-checker',
+                    action: 'detect-faces',
+                });
+            }
+            return [];
+        }
     }
 
     function buildChecks(file, img, portalId, detection) {
@@ -932,9 +956,22 @@
             fileInput.value = '';
         });
 
-        document.getElementById('pc-run-btn')?.addEventListener('click', () => runCheck());
+        document.getElementById('pc-run-btn')?.addEventListener('click', () => {
+            runCheck().catch((err) => {
+                if (err != null) {
+                    window.NexusSentry?.captureException?.(err, {
+                        tool: 'photo-checker',
+                        action: 'run-check',
+                    });
+                }
+                document.getElementById('pc-run-btn') && (document.getElementById('pc-run-btn').disabled = false);
+                setScanActive(false);
+            });
+        });
         document.getElementById('pc-reset-btn')?.addEventListener('click', resetAll);
-        document.getElementById('pc-cta-btn')?.addEventListener('click', sendToPassportStudio);
+        document.getElementById('pc-cta-btn')?.addEventListener('click', () => {
+            sendToPassportStudio().catch(() => {});
+        });
 
         document.addEventListener('click', () => {
             document.querySelectorAll('.pc-check-tip-wrap.is-open').forEach((el) => el.classList.remove('is-open'));

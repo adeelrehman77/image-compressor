@@ -8,6 +8,14 @@
     const BUNDLE_SRC = 'vendor/sentry.bundle.min.js';
     const queue = [];
 
+    // Mobile Safari / third-party often reject with an empty reason; that becomes
+    // "Non-Error promise rejection captured with value: undefined" in Sentry.
+    window.addEventListener('unhandledrejection', (event) => {
+        if (event.reason == null) {
+            event.preventDefault();
+        }
+    });
+
     function bundleUrl() {
         const path = location.pathname || '/';
         if (path.includes('/tools/')) return `/${BUNDLE_SRC}`;
@@ -24,6 +32,17 @@
         const host = location.hostname;
         if (host === 'localhost' || host === '127.0.0.1') return 'development';
         return 'production';
+    }
+
+    function isEmptyRejectionMessage(msg) {
+        const s = String(msg || '').trim();
+        return (
+            !s ||
+            s === 'undefined' ||
+            s === 'null' ||
+            /Non-Error promise rejection captured with value:\s*(undefined|null)?\s*$/i.test(s) ||
+            /Non-Error promise rejection captured with keys:\s*\[\s*\]/i.test(s)
+        );
     }
 
     function attachHelpers() {
@@ -123,13 +142,23 @@
                 // Browser extension / host-bridge noise (not app code)
                 /Object Not Found Matching Id/i,
                 /Non-Error promise rejection captured with value: Object Not Found/i,
+                // Empty promise rejections (common on Mobile Safari / embedded browsers)
+                /Non-Error promise rejection captured with value: undefined/i,
+                /Non-Error promise rejection captured with value: null/i,
+                /Non-Error promise rejection captured with keys: \[\]/i,
             ],
             beforeSend(event) {
-                const frames =
-                    event.exception?.values?.flatMap((v) => v.stacktrace?.frames || []) || [];
+                const values = event.exception?.values || [];
+                const msg = values[0]?.value || '';
+                if (isEmptyRejectionMessage(msg)) {
+                    return null;
+                }
+                const frames = values.flatMap((v) => v.stacktrace?.frames || []) || [];
                 if (
                     frames.some((f) =>
-                        /beacon\.min\.js|cloudflareinsights|cdn-cgi\/rum/i.test(f.filename || '')
+                        /beacon\.min\.js|cloudflareinsights|cdn-cgi\/rum|face-api\.min\.js/i.test(
+                            f.filename || ''
+                        )
                     )
                 ) {
                     return null;
@@ -142,7 +171,6 @@
                     /Googlebot|Google-InspectionTool|bingbot|BingPreview|DuckDuckBot|Baiduspider|YandexBot|facebookexternalhit|Slackbot|Twitterbot|LinkedInBot|Applebot|SemrushBot|AhrefsBot|PetalBot|Bytespider/i.test(
                         ua
                     );
-                const msg = event.exception?.values?.[0]?.value || '';
                 if (
                     isBot &&
                     (/Failed to load /i.test(msg) || /Could not load PDF library/i.test(msg))
